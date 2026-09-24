@@ -14,7 +14,7 @@ TITLE = "تطور تكنولوجيا المعلومات والتحول الاج�
 head = head.replace("<title>الدرس 3-1 — البنية العامة لتطبيقات الويب</title>", f"<title>الدرس 1-1 — {TITLE}</title>")
 head = head.replace("الدرس 3-1 (الشرح)", "الدرس 1-1 (الشرح + بنك الأسئلة)")
 
-START, TOTAL = 2, 94
+START, TOTAL = 2, 93      # ترقيم الوحدة الأولى: 1-1 ص2–26 · 1-2 ص27–47 · 1-3 ص48–71 · 1-4 ص72–93
 
 FX = '<span class="fx">للفهم</span>'
 FXA = '<span class="fx abs">للفهم</span>'
@@ -248,6 +248,10 @@ def selfdrive_svg():
       f'<text x="160" y="24" direction="rtl" font-size="10.4" fill="#22375c" {F} font-weight="800">سيارة ذاتية القيادة — قرار في الحال</text>'
       '</svg>')
 
+def recall(items):
+    return ('<div class="rcl keep"><span class="rl">ثبّت الصفحة في 10 ثواني</span><div class="rc">'
+            + '<i>·</i>'.join(f'<span>{t}</span>' for t in items) + '</div></div>')
+
 # ============================ الشرح ============================
 E = []
 A = E.append
@@ -375,7 +379,6 @@ A(stage("1", "المرحلة الأولى: الحواسيب الإلكتروني
   + '<div class="ph2 eq"><figure><img src="assets/u1/eniac.jpg" alt=""><figcaption><b>ENIAC</b> اختصار لـ <bdi>Electronic Numerical Integrator and Computer</bdi></figcaption></figure>'
   + '<figure><img src="assets/u1/early_computer.jpg" alt=""><figcaption class="icap">كانت الحواسب الأولى تملأ غرفة بأكملها.</figcaption></figure></div>'))
 # المرحلة 2 (صفحة جديدة)
-A('<div class="pb"></div>')
 A(stage("2", "المرحلة الثانية: الحواسيب الشخصية", "السبعينيات – الثمانينيات",
   '<p class="sp">انتشرت في هذه المرحلة الحواسب الشخصية <bdi>(PCs)</bdi>، وبدأ الأفراد يستخدمون الحاسب بعد أن كان مقصورًا على المؤسسات الكبيرة.</p>' +
   f'<div class="pnl">{FXA}<h5>طب إيه اللي ساعد على ده؟</h5>'
@@ -387,18 +390,17 @@ A(stage("2", "المرحلة الثانية: الحواسيب الشخصية", "
 BA = (f'<div class="ba"><div class="br"><span class="bl0">قبل الإنترنت</span>'
       + f'<div class="bi"><span>{ic("file")}</span>ملف على جهاز</div><i>{ARR}</i><div class="bi"><span>{ic("usb")}</span>تنقل وسيط التخزين بنفسك</div><i>{ARR}</i><div class="bi"><span>{ic("monitor")}</span>جهاز تاني</div></div>'
       + f'<div class="br af"><span class="bl0">بعد الإنترنت</span><div class="bi"><span>{ic("monitor")}</span>جهازك</div><i>{ARR}</i><div class="bi"><span>{ic("net")}</span>الشبكة بتنقل البيانات</div><i>{ARR}</i><div class="bi"><span>{ic("monitor")}</span>جهاز بعيد</div></div></div>')
-A('<div class="pb"></div>')
 A(stage("3", "المرحلة الثالثة: الإنترنت والويب", "التسعينيات",
   '<p class="sp">أُتيح الإنترنت في هذه المرحلة للاستخدام التجاري وظهر الويب، فانتشر الوصول العالمي إلى المعلومات والبريد الإلكتروني.</p>' +
   f'<div class="pnl">{FXA}<h5>إيه اللي اتغيّر فعليًا؟</h5>{BA}'
   + '<p class="pf">بدل ما إنت تتحرك بالملف، <b>البيانات نفسها</b> بقت تقدر تتحرك عبر الشبكة.</p></div>'))
+A(f'<div class="simply">{FXA}<span class="lab">{BULB}ببساطة</span><p><b>متلخبطش: الإنترنت ≠ الويب.</b> <b>الإنترنت</b> هو <b>البنية التحتية</b> اللي بتربط الأجهزة والشبكات ببعضها — الكابلات اللي تحت الأرض وتحت البحر، والأجهزة، والقواعد اللي بتخلّي أي جهازين في الدنيا يبعتوا لبعض بيانات. أما <b>الويب</b> فهو <b>خدمة واحدة</b> من كذا خدمة شغّالة فوقه، بتتكوّن من صفحات ومواقع مترابطة. يعني الإنترنت هو <b>الطريق</b>، والويب <b>عربية ماشية عليه</b> — والإيميل عربية تانية على نفس الطريق. عشان كده الكتاب ذكر الاتنين مع بعض في سطر واحد: دول مش اسمين لحاجة واحدة.</p></div>')
 A(f'''<div class="pnl new90 keep">{FXA}<h4>طب إيه الجديد في التسعينيات؟</h4><p class="ps">الشبكات ونقل الملفات كانوا موجودين قبلها — الجديد <b>حاجتين</b>:</p>
   <div class="two9"><div class="t9"><h6><span class="cn">1</span>الإنترنت بقى متاح للاستخدام التجاري</h6>{chain([("net", "الإنترنت"), ("building", "شركات ومؤسسات"), ("people", "استخدام أوسع")], "sm")}</div>
   <div class="t9"><h6><span class="cn">2</span>ظهور الويب</h6>{chain([("net", "الإنترنت"), ("web", "الويب"), ("link", "صفحات وروابط")], "sm")}</div></div>
   <p class="pf">الويب خلّى الوصول للمعلومات <b>أسهل وأكتر انتشارًا</b> بين الناس — بدل ما تحفظ أوامر، بقيت تدوس على كلمة توصّلك للصفحة.</p>
   <div class="lk3"><div class="lk2"><div class="links"><div class="lw"><b>صفحة</b>{win(True)}</div><div class="la"><span>{ic("link", "#e29433")}</span><i>{ARR}</i><small>رابط</small></div><div class="lw"><b>صفحة</b>{win(False, 96)}</div><div class="la"><span>{ic("link", "#e29433")}</span><i>{ARR}</i><small>رابط</small></div><div class="lw"><b>صفحة</b>{win(False, 84)}</div></div>
   <div class="lcap">الويب = صفحات مرتبطة ببعض باستخدام الروابط.</div></div><figure class="stp"><img src="assets/u1/tl3.jpg" alt=""></figure></div></div>''')
-A(f'<div class="simply">{FXA}<span class="lab">{BULB}ببساطة</span><p><b>متلخبطش: الإنترنت ≠ الويب.</b> <b>الإنترنت</b> هو <b>البنية التحتية</b> اللي بتربط الأجهزة والشبكات ببعضها — الكابلات اللي تحت الأرض وتحت البحر، والأجهزة، والقواعد اللي بتخلّي أي جهازين في الدنيا يبعتوا لبعض بيانات. أما <b>الويب</b> فهو <b>خدمة واحدة</b> من كذا خدمة شغّالة فوقه، بتتكوّن من صفحات ومواقع مترابطة. يعني الإنترنت هو <b>الطريق</b>، والويب <b>عربية ماشية عليه</b> — والإيميل عربية تانية على نفس الطريق. عشان كده الكتاب ذكر الاتنين مع بعض في سطر واحد: دول مش اسمين لحاجة واحدة.</p></div>')
 def phone_big():
     tiles = [("food", "#e29433"), ("card", "#2e4a78"), ("bus", "#4a6fa5"), ("wifi", "#1f7a8c")]
     pos = [(30, 50), (66, 50), (30, 88), (66, 88)]
@@ -423,24 +425,23 @@ SVC4 = [("food", "طلب أكل", "تطلب أكل وإنت في الشارع", 
         ("wifi", "اتصال بالإنترنت في أي مكان", "في الأتوبيس وفي الطابور", "l2")]
 POCKET = ('<div class="pk">' + FXA + '<div class="pkh"><b>الإنترنت بقى معاك في جيبك</b></div><div class="pkg">'
   + "".join(f'<div class="pkc {c}"><span class="ci">{ic(i, "#22375c")}</span><span class="ct"><b>{t}</b><small>{d}</small></span></div>' for i, t, d, c in SVC4)
-  + '<div class="pkp">' + phone_big() + '</div></div>'
-  + '<div class="cmp4"><div class="cb"><span class="cl">قبل الهاتف الذكي</span><p>لازم تكون <b>قدام جهاز ثابت</b>.</p></div>'
+  + '<div class="pkp">' + phone_big() + '</div></div></div>')
+POCKET2 = ('<div class="pk">' + FXA + '<div class="cmp4"><div class="cb"><span class="cl">قبل الهاتف الذكي</span><p>لازم تكون <b>قدام جهاز ثابت</b>.</p></div>'
   + '<div class="ca">←</div>'
   + '<div class="cb af"><span class="cl">بعد الهاتف الذكي</span><p>الاتصال والخدمات <b>بقوا معاك أثناء الحركة</b>.</p></div></div>'
   + '<div class="save4"><span class="sl">احفظها</span><div class="sc"><span><bdi>Smartphone</bdi></span><i>←</i><span>إنترنت محمول واسع الانتشار</span><i>←</i><span>خدمات رقمية أسهل وأكثر عملية</span></div></div>'
   + '</div>')
 # المرحلة 4 (صفحة جديدة)
-A('<div class="pb"></div>')
 A(stage("4", "المرحلة الرابعة: الهواتف الذكية", "العقد الأول من الألفية",
   '<p class="sp">ظهرت في هذه المرحلة الهواتف الذكية (آيفون وغيره)، فانتشر الإنترنت بسرعة وعلى نطاق واسع عبر الهواتف المحمولة.</p>' +
   f'<div class="pnl">{FXA}<h5>طب إيه اللي اتغيّر لما الاتصال بقى معاك طول الوقت؟</h5>'
   + f'<div class="dp"><div class="bi"><span>{ic("monitor")}</span>جهاز على المكتب — تستنّى ترجع البيت</div><i>{ARR}</i><div class="bi on"><span>{ic("phone")}</span>جهاز في جيبك — معاك في الأتوبيس وفي الطابور</div></div>'
   + '<div class="pr4"><p class="pf"><b>انتشرت خدمات جديدة بقوة</b>، و<b>بقت خدمات موجودة أصلًا أسهل وأكتر عملية</b>.</p>'
-  + '</div></div>'
-  + POCKET))
+  + '</div></div>'))
+A('<div class="stg keep cont">' + POCKET + '</div>')
+A('<div class="stg keep cont">' + POCKET2 + '</div>')
 A(f'<div class="bridge">{FX}وصلنا لسنة {num("2010")} تقريبًا — والمرحلة اللي جاية عن <b>السحابة</b>، وبعدها هنتكلم عن <b>الحدود اللي بدأت تقف قدّام التصغير</b>.</div>')
 # المرحلة 5 (صفحة جديدة)
-A('<div class="pb"></div>')
 A(stage("5", "المرحلة الخامسة: الحوسبة السحابية", "من العقد الثاني من الألفية فصاعدًا",
   '<p class="sp">انتشرت في هذه المرحلة الحوسبة السحابية، وأصبحت موارد تكنولوجيا المعلومات تُقدَّم في صورة خدمات عبر الإنترنت، مع انتشار تحليل البيانات الضخمة والذكاء الاصطناعي.</p>' +
   f'<div class="pnl">{FXA}<h5>تمتلك وتشغّل… ولا تستخدم كخدمة؟</h5>'
@@ -456,7 +457,6 @@ A(f'<div class="strip keep">{FXA}<div class="sr">' + f'<i>{ARR}</i>'.join(f'<div
   + '</div><div class="sc">في كل مرحلة الجهاز بيصغر ويقرّب منك أكتر.</div></div>')
 
 # ---- قانون مور (صفحة جديدة دايمًا)
-A('<div class="pb"></div>')
 A('<h2 class="sec"><span class="num">3</span><span class="dot">·</span> قانون مور</h2>')
 A(f'<span class="chip">قانون مور {nw("(Moore’s Law)")}</span>')
 A('<div class="banner kwn">يصف <b>اتجاهًا تاريخيًا</b> لازدياد عدد الترانزستورات في الدوائر المتكاملة بمعدل يقارب <b>الضعف كل عامين</b>، وهو <b>ليس قانونًا فيزيائيًا ثابتًا</b>.</div>')
@@ -488,6 +488,7 @@ def soc_row(k, i, t, e, d, x):
     return (f'<div class="sc"><span class="si">{ic(i, "#22375c", 1.7)}</span><div class="st"><h4><span class="cn">{k + 1}</span>{t}<small>{nw(e)}</small><em class="fl">{SOC_LBL[k]}</em></h4><p>{d}</p>{f"<p class=ex>{x}</p>" if x else ""}</div></div>')
 A('<div class="fig soc split">' + "".join(soc_row(k, *SOC[k]) for k in range(4))
   + '<div class="sl">' + soc_row(4, *SOC[4]) + '<div class="cap">خمسة تحولات مجتمعية أحدثتها تكنولوجيا المعلومات.</div></div></div>')
+A(recall(["تواصل", "تجارة", "عمل عن بُعد", "تعلّم", "دفع"]))
 
 # ---- الجزء الثالث
 A('<div class="part p3"><span>الجزء الثالث</span></div>\n<hr class="rule">')
@@ -551,6 +552,10 @@ A(f'''<div class="fig arvr keep"><div class="av2">
   <div class="avp"><div class="avh"><b>AR</b>الواقع المعزز</div>{AR_SVG}<p class="avd">تقنية <b>تضيف</b> عناصر أو معلومات رقمية <b>إلى مشهد من العالم الحقيقي</b>.</p></div>
   <div class="avp v"><div class="avh"><b>VR</b>الواقع الافتراضي</div>{VR_SVG}<p class="avd">تقنية <b>تضع المستخدم داخل</b> بيئة افتراضية مولَّدة حاسوبيًا.</p></div></div>
   <div class="cap">يضيف الواقع المعزز عناصر رقمية إلى العالم الحقيقي، بينما يضع الواقع الافتراضي المستخدم داخل بيئة رقمية كاملة.</div></div>''')
+A(f'<div class="avq keep">{FXA}<div class="aq">السؤال اللي بيفرّق بينهم: <b>العالم الحقيقي لسه قدّامك؟</b></div><div class="aa">'
+  + '<div><b>AR</b>أيوه — والتقنية <b>بتضيف</b> عليه عناصر أو معلومات رقمية.</div>'
+  + '<div class="v"><b>VR</b>لأ — إنت <b>جوّه</b> بيئة افتراضية مولَّدة حاسوبيًا.</div></div></div>')
+A(recall(["حوسبة طرفية ← على الجهاز", "AR ← يضيف", "VR ← يدخّلك جوّه"]))
 ANAL = [("ar", "الواقع المعزّز", "AR", "زي <b>طبقة شفّافة</b> اتحطّت فوق الشارع — الشارع زي ما هو، والتكنولوجيا بترسم عليه."),
         ("vr", "الواقع الافتراضي", "VR", "زي <b>باب بينقلك أوضة تانية</b> — الشارع اتشال من قدّامك، وإنت جوّه عالم مبني بالحاسب."),
         ("atom", "الحوسبة الكمومية", "Quantum Computing", "زي <b>عملة بتلفّ</b> — مش مستقرّة على وش وهي بتحسب.")]
@@ -566,6 +571,7 @@ A(f'''<div class="fig qbf keep"><div class="qdef"><b>الحوسبة الكموم
 A(f'<div class="simply">{FXA}<span class="lab">{BULB}ببساطة</span><p><b>طب التراكب ده بيفيد في إيه؟</b> في <b>خوارزميات كمومية معيّنة</b> بتستغلّ خصائص زي التراكب والتداخل عشان تحلّ <b>فئات محدّدة</b> من المسائل — زي البحث جوّه احتمالات هائلة أو محاكاة الجزيئات. <b>بس خلّي بالك:</b> التراكب <b>مش</b> معناه إننا نقدر نقرا كل الإجابات الممكنة مرة واحدة. في جمع فاتورة أو تشغيل فيديو <b>مش هتفرق معاك في حاجة</b>.<br><b>خلّي بالك في الامتحان:</b> «الحوسبة الكمومية تسرّع <b>جميع</b> أنواع الحسابات» عبارة <b>خاطئة</b>.</p></div>')
 
 A(f'<div class="anl3 keep">{FXA}' + "".join(f'<div><span class="ai">{ic(i, "#22375c", 1.7)}</span><h5>{t} <small>{nw(e)}</small></h5><span class="tg">تشبيه للفهم</span><p>{d}</p></div>' for i, t, e, d in ANAL) + '</div>')
+A(recall(["بت ← 0 أو 1", "كيوبت ← تراكب", "فئات محددة بس"]))
 A('<div class="kidea keep"><div class="kh">الفكرة الرئيسة</div><p>في كل مرحلة أضافت تكنولوجيا المعلومات <b>جهازًا جديدًا</b>، وغيّرت معه <b>طريقة تواصل المجتمع وعمله وتجارته</b>.</p></div>')
 A('<div class="big">سؤال على نمط الامتحان — ونموذج إجابته</div>\n<hr class="rule">')
 A(f'''<div class="exam keep">
@@ -601,6 +607,17 @@ A('''<div class="terms keep">
     <div><b>شبكات التواصل الاجتماعي</b> – تربط المستخدمين لنشر المعلومات ومشاركتها.</div>
     <div><b>الدفع غير النقدي</b> – الدفع دون استخدام النقد (نقود إلكترونية، رموز <bdi>QR</bdi>).</div>
   </div>
+</div>''')
+A('''<div class="box cream keep">
+  <h3>خلي بالك من العبارات دي</h3>
+  <ul>
+    <li>قانون مور <b>«اتجاه تاريخي»</b> – <b>«ليس قانونًا فيزيائيًا ثابتًا»</b>.</li>
+    <li>الحوسبة الكمومية قد توفر تفوقًا في <b>«فئات محددة»</b> من المسائل – <b>«لا يسرّع جميع أنواع الحسابات»</b>، و<b>«ليست بديلًا عامًا»</b> للحواسيب التقليدية.</li>
+    <li>القيادة الذاتية تستخدم الذكاء الاصطناعي <b>«للمساعدة على»</b> قيادة المركبة – والتدخل البشري <b>«يتفاوت بحسب مستوى الأتمتة»</b>.</li>
+    <li><b>«تُعالج بعض البيانات محليًا»</b> بالحوسبة الطرفية – «بعض» مش «كل».</li>
+    <li><b>الإنترنت ≠ الويب</b> – الكتاب ذكرهم مع بعض، بس الويب خدمة شغّالة فوق الإنترنت.</li>
+    <li>الحوسبة السحابية: موارد تكنولوجيا المعلومات <b>«تُقدَّم في صورة خدمات عبر الإنترنت»</b>.</li>
+  </ul>
 </div>''')
 A(f'''<div class="dark keep">
   <h3>الخلاصة في دقيقة</h3>
@@ -1128,6 +1145,19 @@ table.hist .sn{display:inline-flex;align-items:center;justify-content:center;wid
 .strip .sr .g b{color:var(--gold2)}
 .strip .sr i{font-style:normal;font-size:14pt}
 .strip .sc{margin-top:5pt;padding-top:4pt;border-top:.75pt dashed #dde5ef;text-align:center;font-weight:800;font-size:9.6pt;color:var(--navy)}
+.avq{position:relative;border:.75pt solid #dde5ef;border-radius:9pt;background:#fbfcfe;padding:11pt 12pt 10pt 12pt;margin:0 0 10pt 0}
+.avq .aq{text-align:center;color:var(--navy);font-size:10.4pt;line-height:16pt;margin-bottom:7pt}
+.avq .aq b{font-weight:800}
+.avq .aa{display:grid;grid-template-columns:1fr 1fr;gap:12pt}
+.avq .aa>div{background:#fff;border:.75pt solid #dde5ef;border-radius:8pt;padding:6pt 10pt;font-size:9.8pt;line-height:15.6pt;color:var(--text)}
+.avq .aa>div>b:first-child{display:inline-block;background:#e29433;color:#17263f;border-radius:5pt;padding:0 6pt;margin-left:7pt;font-size:8.8pt;line-height:14pt}
+.avq .aa .v{background:#1d4163;border-color:#1d4163;color:#fff}
+.avq .aa .v b{color:#f1c88b}
+.rcl{display:flex;align-items:center;gap:10pt;background:#22375c;border-radius:10pt;padding:7pt 12pt;margin:0 0 10pt 0}
+.rcl .rl{flex:none;background:#e29433;color:#17263f;font-weight:800;font-size:9.6pt;line-height:18pt;padding:0 11pt;border-radius:8pt}
+.rcl .rc{flex:1;display:flex;align-items:center;justify-content:center;gap:8pt;flex-wrap:wrap}
+.rcl .rc span{background:#2e4a78;border:.75pt solid #4a6fa5;border-radius:8pt;padding:1pt 12pt;color:#fff;font-weight:800;font-size:10.2pt;line-height:17pt}
+.rcl .rc i{font-style:normal;color:#f1c88b;font-weight:800}
 /* قانون مور */
 .mw{position:relative;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:8pt;padding:7pt 10pt 8pt 10pt;margin:9pt 0 8pt 0}
 .mw h5{margin:0 0 5pt 0;font-weight:800;font-size:10.2pt;color:var(--navy);line-height:1.45}
@@ -1205,7 +1235,7 @@ table.hist .sn{display:inline-flex;align-items:center;justify-content:center;wid
 .edge .ex14>b{display:block;color:#f1c88b;font-weight:800;font-size:8.8pt;margin-bottom:2pt}
 .edge .ex14 .r{margin-top:3pt;padding-top:3pt;border-top:.75pt solid rgba(255,255,255,.25)}
 .edge .ex14 .r b{color:#ffd08a}
-.arvr .av2{display:grid;grid-template-columns:1fr 1fr;gap:10pt;width:80%;margin:0 auto}
+.arvr .av2{display:grid;grid-template-columns:1fr 1fr;gap:12pt;width:100%;margin:0 auto}
 .arvr .avp{border:.75pt solid #dde5ef;border-radius:8pt;overflow:hidden}
 .arvr .avh{background:#22375c;color:#fff;font-weight:800;font-size:9.6pt;line-height:17pt;padding:0 9pt}
 .arvr .avh b{display:inline-block;background:#e29433;color:#17263f;border-radius:5pt;padding:0 5pt;line-height:13pt;margin-left:6pt;font-size:8.4pt}
