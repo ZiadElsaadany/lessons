@@ -1,0 +1,1228 @@
+<!doctype html>
+<!--
+  أكواد مع زياد — مذكرة تانية ثانوي — الدرس 1-4 (الشرح + بنك الأسئلة) — مصدر HTML قابل للتعديل
+  - كل المحتوى جوه <main class="flow"> بالترتيب. عند فتح الملف بيتوزع تلقائيًا على صفحات A4
+    (أي حاجة مش داخلة بتنزل للصفحة اللي بعدها)، والهيدر والفوتر والعلامة المائية والترقيم بيتضافوا لوحدهم.
+  - عشان تبدأ صفحة جديدة إجباري: <div class="pb"></div>
+  - العناوين (.part / .rule / h2.sec / .big / h3.sub / .chip / أي عنصر عليه class="kwn") بتفضل لازقة في اللي بعدها.
+  - اسم الدرس ورقم أول صفحة وإجمالي صفحات الوحدة في <body data-lesson data-start data-total>.
+  - الطباعة لـPDF من المتصفح: Cmd+P → الهوامش None → تفعيل Background graphics.
+  - الستايل كله جوه <style> في نفس الملف. الخطوط في fonts/ والصور في assets/ — لازم يفضلوا جنب الملف.
+  - لو المتصفح مفعّل «أقل حجم للخط»، الصفحة بتعرف لوحدها وبتحمي التصميم (السكريبت immunize).
+-->
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>الدرس 1-4 — القضايا الأخلاقية المتعلقة بالذكاء الاصطناعي</title>
+<style>
+/* ===== أكواد مع زياد — مذكرة تانية ثانوي — ستايل الشرح (إعادة بناء HTML) ===== */
+
+@font-face{font-family:'Baloo Bhaijaan 2';font-weight:400 800;src:url(fonts/BalooBhaijaan2.ttf) format('truetype')}
+@font-face{font-family:'DejaVuArr';font-weight:700;src:url(fonts/DejaVuSans-Bold.ttf) format('truetype');unicode-range:U+2190-21FF}
+
+:root{
+  --navy:#17263f; --navy2:#22375c; --blue:#2e4a78; --gold:#e29433; --gold2:#a9670f; --gold3:#dd860f;
+  --text:#33445f; --text2:#1c2a44; --muted:#4e5f7c; --muted2:#6e7f9c;
+  --line:#dce5f1; --line2:#d7e4f5; --bg:#eef4fc; --bg2:#f1f6fc;
+  --cream:#fbf4de; --cream2:#fdf3e2; --creamb:#eee0b8; --creamb2:#efce9c;
+  --green:#22375c; --green2:#3fa97c; --greenb:#bfe0d1; --greenbg:#eaf6f0;
+  --red:#c0453a; --teal:#3e9ccb;
+}
+
+@page{ size:210mm 297mm; margin:0 }
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:'Baloo Bhaijaan 2';font-weight:500;font-size:9.9pt;line-height:1.5;color:var(--text);direction:rtl;text-align:right;background:#e6eaf0;padding:18pt 0}
+b,strong{font-weight:700;color:var(--navy2)}
+p{margin:0}
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+.num{direction:ltr;unicode-bidi:isolate}
+
+/* ---------- الصفحة A4 (sheet) ---------- */
+.page{position:relative;width:210mm;height:297mm;margin:0 auto 18pt auto;background:#fff;overflow:hidden;box-shadow:0 2pt 14pt rgba(23,38,63,.18)}
+.sheet{position:absolute;left:0;top:0;width:210mm;height:297mm;background:#fff;overflow:hidden;transform-origin:0 0}
+.sheet .content{position:absolute;top:31.5pt;left:31.6pt;right:31.6pt;bottom:36.4pt}
+.sheet .hdr{position:absolute;top:0;left:0;right:0;height:31.5pt;font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:7.2pt;line-height:1}
+.sheet .hdr .r{position:absolute;right:25.4pt;top:17.6pt;color:var(--navy);white-space:nowrap}
+.sheet .hdr .l{position:absolute;left:39.7pt;top:17.6pt;color:var(--gold2);white-space:nowrap}
+.sheet .hdr::after{content:'';position:absolute;left:0;right:0;top:27.8pt;height:.7pt;background:var(--gold)}
+.sheet .ftr{position:absolute;bottom:0;left:0;right:0;height:36.4pt;font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:7.39pt;line-height:1;color:var(--muted)}
+.sheet .ftr img{position:absolute;right:28.2pt;top:10.7pt;width:10.5pt;height:10.5pt;border-radius:50%}
+.sheet .ftr .r{position:absolute;right:43.2pt;top:11.9pt;white-space:nowrap}
+.sheet .ftr .r b{color:var(--navy);font-weight:700}
+.sheet .ftr .sep{margin:0 5pt;color:#9aa8bd}
+.sheet .ftr .pn{position:absolute;left:45pt;top:11.5pt;font-family:'Baloo Bhaijaan 2';font-weight:600;font-size:7.39pt;color:var(--navy);direction:ltr}
+/* العلامة المائية */
+.sheet .wm{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:5}
+.sheet .wm .big{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-30deg);font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:62pt;white-space:nowrap;color:transparent;-webkit-text-stroke:.9pt rgba(23,38,63,.10);line-height:1}
+.sheet .wm .tile{position:absolute;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:19pt;white-space:nowrap;color:transparent;-webkit-text-stroke:.6pt rgba(23,38,63,.085);transform:rotate(-30deg);line-height:1}
+@media print{
+  body{background:#fff;padding:0}
+  .page{margin:0;box-shadow:none;break-after:page;page-break-after:always}
+  .page:last-of-type{break-after:auto;page-break-after:auto}
+}
+
+/* ---------- شريط رأس الدرس ---------- */
+.band{background:var(--navy);border-right:3pt solid var(--gold);border-radius:8pt;height:62.5pt;display:flex;align-items:center;padding:0 12pt 0 14pt;position:relative;margin-bottom:10pt}
+.band .badge{width:41.5pt;height:39pt;border-radius:6pt;background:rgba(255,255,255,.09);border:1pt solid rgba(255,255,255,.18);display:flex;flex-direction:column;align-items:center;justify-content:center;flex:none}
+.band .badge .l{font-family:'Baloo Bhaijaan 2';font-weight:600;font-size:7.4pt;color:#a9bdd8;line-height:1}
+.band .badge .n{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:15pt;color:var(--gold);line-height:1.1;direction:ltr}
+.band h1{flex:1;margin:0;text-align:center;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:15.4pt;color:#fff;letter-spacing:.2pt}
+.band .who{display:flex;align-items:center;gap:9pt;flex:none}
+.band .who .t{display:flex;flex-direction:column;justify-content:center;gap:1pt}
+.band .who .u{font-family:'Baloo Bhaijaan 2';font-weight:600;font-size:8pt;color:#a9bdd8;line-height:1.3}
+.band .who .k{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:8.6pt;color:#fff;line-height:1.3}
+.band .who img{width:42.75pt;height:42.75pt;border-radius:7pt;border:1pt solid rgba(255,255,255,.25);display:block}
+
+/* ---------- صندوقا المقدمة وأهداف التعلم ---------- */
+.two{display:flex;gap:11.6pt;align-items:stretch;margin-bottom:6.5pt}
+.two .intro{flex:0 0 297pt;background:#fff;border:.75pt solid var(--line);border-radius:8pt;padding:12pt 11.6pt 11pt 11.6pt;position:relative}
+.two .goals{flex:1;background:#fff;border:.75pt solid var(--line);border-right:2.5pt solid var(--gold);border-radius:8pt;padding:9pt 11pt 8pt 12pt}
+.intro h3{margin:0 0 4pt 0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11.8pt;line-height:1.45;color:var(--gold)}
+.intro .body{font-size:9.49pt;line-height:15.4pt;color:var(--text2)}
+.intro .body p{margin:0}
+.intro .body p+p{margin-top:0}
+.intro .body ul{margin:0;padding:0 12pt 0 0;list-style:none}
+.intro .body li{position:relative}
+.intro .body li::before{content:'';position:absolute;right:-9pt;top:5.6pt;width:3.6pt;height:3.6pt;border-radius:50%;background:var(--gold)}
+.intro .body b{color:var(--navy2)}
+.intro .robot{float:left;width:35.3pt;height:46.2pt;margin:2pt 0 3pt 12pt}
+.intro .robot svg{width:100%;height:100%;display:block}
+.intro .foot{display:flex;justify-content:flex-start;margin-top:8pt}
+.pill-dark{display:inline-flex;align-items:center;gap:6pt;background:var(--navy);color:#fff;border-radius:9pt;padding:0 9pt 0 12pt;height:18pt;font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:8.6pt;line-height:1}
+.pill-dark::before{content:'';width:6.5pt;height:6.5pt;border-radius:50%;background:var(--gold);flex:none}
+.goals h3{margin:0 0 7pt 0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.6pt;color:var(--gold);line-height:1.5}
+.goals .g{display:flex;align-items:center;gap:8pt;padding:9pt 0 9.5pt 0}
+.goals .g+.g{border-top:.75pt dashed var(--line)}
+.goals .g .tag{flex:none;width:41.3pt;height:16.5pt;border-radius:8.5pt;background:var(--cream2);border:.75pt solid var(--creamb2);display:flex;align-items:center;justify-content:center;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:8.8pt;color:var(--gold2);line-height:1}
+.goals .g .x{flex:1;font-size:9.19pt;line-height:15pt;color:var(--text);text-align:right}
+
+/* ---------- ملاحظة «للفهم» بخلفية ---------- */
+.note-box{position:relative;background:var(--bg);border:.75pt dashed var(--line2);border-radius:6pt;padding:6pt 11pt 5pt 12pt;font-size:9.3pt;line-height:14.7pt;color:var(--text);margin-bottom:6pt}
+.note-box .tag,.note-line .tag{position:absolute;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:7.6pt;color:var(--blue);background:#fff;border:.75pt solid var(--blue);border-radius:7pt;height:13.5pt;line-height:12pt;padding:0 6pt;display:inline-block}
+.note-box .tag{position:static;display:inline-block;margin-left:5pt;vertical-align:1pt}
+/* ملاحظة «للفهم» بخط منقّط علوي والشارة على الشمال */
+.note-line{position:relative;border-top:.75pt dashed var(--line);padding:5pt 0 0 0;margin-top:9pt;font-size:9.8pt;line-height:15.4pt;color:var(--text)}
+.note-line .tag{left:0;top:-6.7pt}
+.note-line .lead{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.8pt;color:var(--gold);margin-left:4pt}
+.note-line b{color:var(--navy2)}
+
+/* ---------- الشبكة الرباعية (الكروت بتكبر على قد محتواها) ---------- */
+.map{display:grid;grid-template-columns:1fr 132pt 1fr;grid-template-rows:auto auto;column-gap:20pt;row-gap:7pt;background:#fff;border:.75pt solid var(--line);border-radius:8pt;padding:7pt 8.5pt;margin-bottom:9pt}
+.map .cell{background:#fff;border:.75pt solid var(--line);border-radius:6pt;border-top-width:3pt;padding:4pt 8pt 5pt 8pt}
+.map .cell h4{margin:0 0 1pt 0;font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:9.9pt;line-height:1.5}
+.map .cell ul{margin:0;padding:0 9pt 0 0;list-style:none;font-size:8.9pt;line-height:14pt;color:var(--text)}
+.map .cell li{position:relative;margin-bottom:1.5pt}
+.map .cell li::before{content:'•';position:absolute;right:-9pt;top:0;color:var(--text)}
+.map .cell .en{direction:ltr;unicode-bidi:isolate;font-weight:600;color:var(--muted)}
+.map .c1{grid-column:1;grid-row:1;border-top-color:var(--navy2)} .map .c1 h4{color:var(--navy2)}
+.map .c2{grid-column:1;grid-row:2;border-top-color:var(--navy2)} .map .c2 h4{color:var(--navy2)}
+.map .c3{grid-column:3;grid-row:1;border-top-color:var(--navy2)} .map .c3 h4{color:var(--navy2)}
+.map .c4{grid-column:3;grid-row:2;border-top-color:var(--gold)} .map .c4 h4{color:var(--gold2)}
+.map .hub{grid-column:2;grid-row:1 / 3;align-self:center;position:relative;min-height:48.7pt;background:var(--navy);border-radius:8pt;color:#fff;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11pt;line-height:1.35;display:flex;align-items:center;justify-content:center;text-align:center;padding:6pt 8pt}
+.map .hub .lk{position:absolute;width:20pt;height:16pt}
+.map .hub .lk.r1{left:100%;top:-6pt} .map .hub .lk.r2{left:100%;bottom:-6pt}
+.map .hub .lk.l1{right:100%;top:-6pt} .map .hub .lk.l2{right:100%;bottom:-6pt}
+.arr{font-family:'DejaVuArr','Baloo Bhaijaan 2'}
+
+/* ---------- الفكرة الأساسية + السؤال الرئيسي ---------- */
+.iq{display:flex;gap:10pt;align-items:stretch;margin-bottom:6pt}
+.iq .q{flex:0 0 261.7pt;border-top:.75pt solid var(--line2);border-bottom:.75pt solid var(--line2);padding:8pt 8pt 8pt 4pt;text-align:center}
+.iq .q .lab{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:9.2pt;color:var(--gold2);line-height:1.5}
+.iq .q .qq{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:10.6pt;color:var(--navy);line-height:1.45;margin-top:1pt}
+.iq .idea{flex:1;position:relative;background:var(--cream);border:.75pt solid var(--creamb);border-radius:6pt;padding:7pt 12pt 7pt 30pt;font-size:10pt;line-height:15.5pt;color:var(--text2)}
+.iq .idea b{color:var(--navy2)}
+.qmark{position:absolute;left:7pt;top:-4pt;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:30pt;color:var(--creamb);line-height:1}
+
+/* ---------- عناوين ---------- */
+.big{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:15pt;color:var(--navy);text-align:center;line-height:1.4;margin:4pt 0 2pt 0}
+.content>.big{padding:4pt 14pt;background:#eef2f8;border-radius:9pt;border-right:3pt solid #e29433;margin:4pt 0 6pt 0}
+.content>.big+hr.rule{display:none}
+.part{display:flex;justify-content:center;margin:4pt 0 0 0}
+.part span{display:inline-block;border-radius:7pt;padding:0 8pt;height:14.2pt;line-height:13pt;font-weight:700;font-size:8.8pt}
+.part.p1 span{background:var(--bg);border:.75pt solid var(--line2);color:var(--blue)}
+.part.p2 span{background:var(--bg);border:.75pt solid var(--line2);color:var(--blue)}
+.part.p3 span{background:var(--bg);border:.75pt solid var(--line2);color:var(--blue)}
+.rule{border:0;border-top:.75pt solid var(--line);margin:9pt 0 0 0}
+h2.sec{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:13.4pt;color:var(--navy);line-height:1.35;margin:9pt 0 8pt 0;padding:6pt 14pt;background:#eef2f8;border-radius:9pt;border-right:3pt solid var(--gold);break-after:avoid}
+h2.sec.g,h2.sec.t{border-right-color:var(--gold)}
+h2.sec .dot{color:var(--navy);margin:0 3pt}
+
+/* ---------- اقتباس الكتاب ---------- */
+.quote{position:relative;background:var(--cream);border-left:.75pt solid var(--creamb);border-radius:6pt;padding:7.5pt 12pt 7.5pt 34pt;font-size:10.5pt;line-height:16.5pt;color:var(--text);margin-bottom:9pt}
+.quote b{color:var(--navy2)}
+
+/* ---------- شارة عنوان صغيرة + بانر التعريف ---------- */
+.chip{display:inline-block;background:var(--bg2);border-radius:6pt;padding:0 12pt;height:21pt;line-height:20pt;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:10.4pt;color:var(--navy);margin-bottom:5pt}
+.banner{background:var(--navy);color:#fff;padding:9pt 16pt 8pt 22pt;margin:0 0 0 68pt;font-size:9.9pt;line-height:15.3pt;clip-path:polygon(0.3% 6%,3% 2%,12% 0,30% 3%,52% 0,70% 2%,88% 0,100% 4%,99.6% 60%,100% 100%,80% 97%,62% 100%,40% 96%,20% 100%,6% 97%,0 100%,1% 40%)}
+.banner b{color:#ffd08a}
+
+/* ---------- الأعمدة الثلاثة بالأيقونات ---------- */
+.cols3{display:flex;gap:16pt;align-items:flex-start;margin:6pt 0 12pt 0}
+.cols3 .c{flex:1;text-align:center}
+.cols3 .ic{height:95pt;display:flex;align-items:center;justify-content:center}
+.cols3 .ic svg{height:92pt;width:auto}
+.cols3 h4{margin:6pt 0 0 0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:12.6pt;color:var(--navy);line-height:1.45}
+.cols3 .en{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:7.6pt;color:var(--gold2);letter-spacing:1.4pt;line-height:1.3;direction:ltr}
+.cols3 .bar{width:31.5pt;height:2.3pt;border-radius:2pt;background:var(--gold);margin:7pt auto 8pt auto}
+.cols3 .d{font-size:9.7pt;line-height:15.7pt;color:var(--text);text-align:center;padding:0 2pt}
+.cols3 .d b{color:var(--navy2)}
+.tagp{display:inline-block;background:var(--bg);border:.75pt solid var(--line2);border-radius:7pt;padding:0 8pt;height:14.2pt;line-height:13pt;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:7.8pt;color:var(--blue);margin-top:5pt}
+
+/* ---------- الطبقات الثلاث: كروت + جدول (تصميم زياد 24 سبتمبر) ---------- */
+.l3{position:relative;overflow:hidden;padding:6pt 0 2pt 0;margin-bottom:6pt;--or:#e29433;--orl:#f5f7fb;--orb:#dde5ef;--orp:#eef2f8;--bl:#2e4a78;--bll:#f5f7fb;--blb:#dde5ef;--blp:#eef2f8}
+.l3 .dec{position:absolute;pointer-events:none;z-index:0}
+.l3 .d1{left:-60pt;top:-50pt;width:150pt;height:150pt;border-radius:50%;background:#eef4fb}
+.l3 .d2{right:-40pt;top:-58pt;width:110pt;height:110pt;border-radius:50%;background:#f1f6fc;border:.8pt solid #f3c98d;border-color:transparent transparent #f3c98d #f3c98d;transform:rotate(-20deg)}
+.l3 .d3{right:78pt;top:14pt;width:12pt;height:12pt;border-radius:50%;background:#fbe3c2}
+.l3 .dots{left:14pt;top:12pt;width:34pt;height:20pt;background-image:radial-gradient(#c9d6e6 .9pt,transparent 1pt);background-size:6.5pt 6.5pt}
+.l3>*:not(.dec){position:relative;z-index:1}
+.l3-title{display:flex;align-items:center;justify-content:center;gap:10pt;margin:0 0 10pt 0}
+.l3-title h3{margin:0;background:#eef2f8;border-radius:14pt;padding:3pt 20pt 4pt 20pt;font-weight:800;font-size:15pt;line-height:1.35;color:var(--navy);position:relative}
+.l3-title h3::after{content:'';position:absolute;left:50%;transform:translateX(-50%);bottom:-4pt;width:48pt;height:3.2pt;border-radius:2pt;background:#e29433}
+.l3-title .spk{width:12pt;height:16pt;position:relative}
+.l3-title .spk::before,.l3-title .spk::after{content:'';position:absolute;height:2.2pt;border-radius:1pt;background:#e29433}
+.l3-title .spk.r::before{width:7pt;right:1pt;top:3pt;transform:rotate(-50deg)} .l3-title .spk.r::after{width:7pt;right:3pt;top:11pt}
+.l3-title .spk.l::before{width:7pt;left:1pt;top:3pt;transform:rotate(50deg)} .l3-title .spk.l::after{width:7pt;left:3pt;top:11pt}
+.l3-cards{display:flex;gap:8pt;margin-bottom:8pt}
+.l3c{flex:1;border-radius:10pt;border:.75pt solid;padding:8pt 9pt 9pt 9pt;text-align:center;display:flex;flex-direction:column;align-items:center}
+.l3c.warm{background:var(--orl);border-color:var(--orb)} .l3c.cool{background:var(--bll);border-color:var(--blb)}
+.l3c .halo{position:relative;width:62pt;height:62pt;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:4pt}
+.l3c.warm .halo{background:#eef2f8} .l3c.cool .halo{background:#eef2f8}
+.l3c .halo>svg:not(.sp){width:40pt;height:auto}
+.l3c .halo .sp{position:absolute;left:-18pt;top:6pt;width:98pt;height:40pt}
+.l3c h4{margin:0;font-weight:800;font-size:12pt;line-height:1.35;color:var(--navy)}
+.l3c .bar{width:26pt;height:2.4pt;border-radius:2pt;background:#e29433;margin:4pt 0 6pt 0}
+.l3c p{flex:1;font-size:9.8pt;line-height:15.2pt;color:var(--text2);margin:0 0 7pt 0}
+.l3c p b{color:var(--navy2)}
+.l3c .pill{display:inline-flex;align-items:center;gap:5pt;border-radius:11pt;padding:0 12pt;height:21pt;font-weight:700;font-size:9.4pt;line-height:1}
+.l3c.warm .pill{background:var(--orp);color:#a9670f} .l3c.cool .pill{background:var(--blp);color:#2e4a78}
+.l3c .pill svg{width:11pt;height:11pt;flex:none}
+table.l3t{width:100%;border-collapse:separate;border-spacing:0;border:.75pt solid var(--blb);border-radius:9pt;overflow:hidden;font-size:9.6pt;line-height:14.8pt;color:var(--text2)}
+table.l3t th{background:#f5f7fb;font-weight:700;font-size:10pt;color:var(--navy);text-align:center;padding:5pt 8pt 4pt 8pt;border-bottom:.75pt solid var(--blb)}
+table.l3t th+th,table.l3t td+td{border-right:.75pt solid #dde5ef}
+table.l3t td{padding:6pt 10pt;vertical-align:middle;border-top:.75pt solid #dde5ef}
+table.l3t tr:first-child td{border-top:0}
+table.l3t tr.warm td{background:#f5f7fb} table.l3t tr.cool td{background:#f5f7fb}
+table.l3t td.k{font-weight:800;font-size:11pt;color:var(--navy);white-space:nowrap}
+table.l3t td.k .ic{display:inline-flex;align-items:center;justify-content:center;width:32pt;height:32pt;border-radius:50%;margin-left:8pt;vertical-align:middle}
+table.l3t tr.warm td.k .ic{background:#eef2f8} table.l3t tr.cool td.k .ic{background:#eef2f8}
+table.l3t td.k .ic svg{width:20pt;height:auto}
+table.l3t td b{color:var(--navy2)}
+table.l3t ul{margin:0;padding:0 11pt 0 0;list-style:none}
+table.l3t li{position:relative;line-height:15pt}
+table.l3t li::before{content:'';position:absolute;right:-10pt;top:5.6pt;width:4.2pt;height:4.2pt;border-radius:50%}
+table.l3t tr.warm li::before{background:#e29433} table.l3t tr.cool li::before{background:#2e4a78}
+
+/* ---------- الجداول ---------- */
+table.t{width:100%;border-collapse:separate;border-spacing:0;border:.75pt solid var(--line);border-radius:8pt;overflow:hidden;font-size:9.9pt;line-height:14.3pt;color:var(--text);margin-bottom:8pt}
+table.t th{background:var(--bg);font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:9.6pt;color:var(--navy);text-align:right;padding:5pt 10pt 4pt 10pt;border-bottom:.75pt solid var(--line2);box-shadow:0 .75pt 0 var(--line);line-height:1.5;vertical-align:middle}
+table.t th .sub{display:block;font-size:8.8pt;color:var(--muted2);font-weight:700;line-height:1.3}
+table.t td{padding:6.5pt 10pt 5.5pt 10pt;vertical-align:top;border-top:.75pt solid var(--line)}
+table.t tr:first-child td{border-top:0}
+table.t tbody tr:nth-child(even) td{background:var(--bg)}
+table.t td b{color:var(--navy2)}
+table.t td.k{font-weight:700;color:var(--navy2);white-space:nowrap}
+table.t.t4 td.k{white-space:normal}
+table.t.t4 th,table.t.t4 td{text-align:right}
+
+/* ---------- الأشكال ---------- */
+.fig{background:#fff;border:.75pt solid var(--line);border-radius:8pt;padding:12pt 9.5pt 6pt 9.5pt;margin-bottom:8pt}
+.fig .cap{border-top:.75pt dashed var(--line);margin-top:8pt;padding-top:5pt;text-align:center;font-family:'Baloo Bhaijaan 2';font-weight:600;font-size:8.8pt;color:var(--text);line-height:1.5}
+/* الشكل 3.1.1 */
+.layers .lay{border:.75pt solid #c9d9ee;background:#e8f0fb;border-radius:10pt;height:52pt;display:flex;align-items:center;padding:0 18pt 0 24pt;gap:14pt}
+.layers .lay.mid{background:var(--cream2);border-color:var(--creamb2)}
+.layers .lay .n{flex:0 0 118pt;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:12.8pt;color:var(--navy);line-height:1.2;text-align:center}
+.layers .lay .n small{display:block;font-size:9.2pt;font-weight:700;color:var(--gold2);letter-spacing:1pt;direction:ltr;margin-top:1pt}
+.layers .lay .n.g{color:var(--gold2)}
+.layers .lay .d{flex:1;text-align:center;font-size:11pt;line-height:1.35;color:var(--text)}
+.layers .lay .d em{display:block;font-style:normal;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11pt;color:var(--gold2);margin-top:1pt}
+.layers .arrows{height:24pt;position:relative}
+.layers .arrows .a{position:absolute;top:2pt;width:14pt;height:20pt}
+.layers .arrows .down{right:75pt} .layers .arrows .up{left:118pt}
+/* الشكل 3.1.2 */
+.seq{position:relative;height:238pt}
+.seq .hd{position:absolute;top:3pt;height:37pt;border-radius:9pt;display:flex;align-items:center;justify-content:center;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11.5pt;color:var(--navy);background:#e8f0fb;border:.75pt solid #c9d9ee}
+.seq .hd.mid{background:var(--cream2);border-color:var(--creamb2);color:var(--gold2)}
+.seq .h1{right:6pt;width:128pt} .seq .h2{left:196pt;width:126pt} .seq .h3{left:6pt;width:126pt}
+.seq svg{position:absolute;left:0;top:0;width:100%;height:100%}
+.seq .st{position:absolute;font-size:10.1pt;color:var(--text);line-height:1.3;white-space:nowrap}
+.seq .st.g{color:var(--gold2)} .seq .st.b{color:var(--blue)}
+.seq .no{position:absolute;right:20pt;width:18.4pt;height:18.4pt;border-radius:50%;background:var(--gold3);color:#fff;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.6pt;display:flex;align-items:center;justify-content:center;line-height:1}
+
+/* ---------- الخطوات الست ---------- */
+.steps{position:relative;padding-right:22pt;margin:0 0 6pt 0}
+.steps::before{content:'';position:absolute;right:6pt;top:8pt;bottom:14pt;width:1.5pt;background:var(--gold);border-radius:1pt}
+.steps .s{position:relative;padding:0 0 12.5pt 0}
+.steps .s .n{position:absolute;right:-22.7pt;top:3pt;width:13.5pt;height:13.5pt;border-radius:50%;background:var(--gold);color:#fff;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:8.2pt;display:flex;align-items:center;justify-content:center;line-height:1}
+.steps .s h4{margin:0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:10.6pt;color:var(--navy);line-height:1.5}
+.steps .s p{font-size:9.9pt;line-height:14.5pt;color:var(--text)}
+
+/* ---------- صناديق ملوّنة ---------- */
+.box{border-radius:8pt;padding:8pt 12pt 8pt 12pt;margin-bottom:8pt;border:.75pt solid}
+.box h3{margin:0 0 3pt 0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.9pt;line-height:1.5}
+.box.cream{background:var(--cream);border-color:var(--creamb)} .box.cream h3{color:var(--gold2)}
+.box.green{background:var(--greenbg);border-color:var(--greenb)} .box.green h3{color:var(--green);font-size:10pt}
+.box.white{background:#fff;border-color:var(--greenb)} .box.white h3{color:var(--green);font-size:10.5pt}
+.box p,.box li{font-size:10.5pt;line-height:16.5pt;color:var(--text)}
+.box p+p{margin-top:3pt}
+.box ul{margin:0;padding:0 14pt 0 0;list-style:none}
+.box ul li{position:relative}
+.box ul li::before{content:'•';position:absolute;right:-12pt;top:0;color:var(--gold2)}
+.box ol{margin:0;padding:0 16pt 0 0;list-style:none;counter-reset:n}
+.box ol li{position:relative;counter-increment:n;margin-bottom:3pt}
+.box ol li::before{content:counter(n) '.';position:absolute;right:-16pt;top:0;color:var(--text)}
+.tip{background:var(--cream2);border:.75pt solid #f2dcbb;border-right:3pt solid var(--gold);border-radius:6pt;padding:6pt 12pt 6pt 12pt;margin:6pt 0 2pt 0;font-size:9.4pt;line-height:15pt;color:var(--text2)}
+.tip .l{font-weight:700;color:var(--gold2)}
+
+/* ---------- سؤال على نمط الامتحان ---------- */
+.exam{background:var(--cream);border:.75pt solid var(--creamb);border-radius:8pt;padding:7pt 11pt 9pt 11pt;margin-bottom:8pt}
+.exam .hd{display:flex;align-items:center;gap:7pt;margin-bottom:4pt}
+.exam .hd .n{width:18.8pt;height:16.5pt;border-radius:4pt;background:var(--navy);color:#fff;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.4pt;display:flex;align-items:center;justify-content:center;line-height:1}
+.exam .hd .t{flex:1;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:10.4pt;color:var(--navy);line-height:1.5}
+.exam .hd .m{background:#fff;border-radius:7pt;padding:0 7pt;height:14.2pt;line-height:13.5pt;font-weight:700;font-size:8.4pt;color:var(--gold2)}
+.exam .qt{font-weight:700;font-size:10.5pt;line-height:16pt;color:var(--navy2);margin:2pt 0 6pt 0}
+.exam .hint{background:var(--bg);border:.75pt solid var(--line2);border-radius:5pt;padding:3pt 9pt;font-size:9.4pt;line-height:15pt;color:var(--text)}
+.exam .hint b{color:var(--navy2)}
+h3.sub{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11.2pt;color:var(--navy);margin:8pt 0 6pt 0;line-height:1.4;padding:5pt 14pt;background:#eef2f8;border-radius:9pt;border-right:3pt solid var(--gold);break-after:avoid}
+
+
+/* ---------- إجابة السؤال الرئيسي ---------- */
+.mq{border-top:.75pt solid var(--line2);border-bottom:.75pt solid var(--line2);text-align:center;padding:6pt 0 7pt 0;margin:0 0 8pt 0}
+.mq .lab{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:9.2pt;color:var(--gold2);line-height:1.5}
+.mq .qq{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:13pt;color:var(--navy);line-height:1.45}
+
+/* ---------- الخلاصة في دقيقة ---------- */
+.dark{background:var(--navy);border-radius:8pt;padding:8pt 12pt 6pt 12pt;color:#fff;margin-bottom:8pt}
+.dark h3{margin:0 0 4pt 0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.8pt;color:#f1c88b;line-height:1.5}
+.dark .g2{display:flex;gap:18pt}
+.dark ul{flex:1;margin:0;padding:0 12pt 0 0;list-style:none;font-size:9pt;line-height:14.2pt;color:#fff}
+.dark li{position:relative;margin-bottom:3.5pt}
+.dark li::before{content:'•';position:absolute;right:-11pt;top:0;color:#fff}
+.dark b{color:#ffd9a0}
+
+/* ---------- اتأكد إنك قادر على ---------- */
+.check{background:#fff;border:.75pt solid var(--line);border-radius:8pt;padding:8pt 13pt 6pt 13pt;margin-bottom:6pt}
+.check h3{margin:0;padding-bottom:5pt;border-bottom:.75pt solid var(--line);font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.8pt;color:var(--navy);line-height:1.5}
+.check .g2{display:flex;gap:16pt;margin-top:6pt}
+.check ul{flex:1;margin:0;padding:0;list-style:none}
+.check li{display:flex;gap:7pt;align-items:flex-start;font-size:9pt;line-height:14.2pt;color:var(--text);margin-bottom:5pt}
+.check li::before{content:'';flex:none;width:12pt;height:12pt;border-radius:3pt;background:#fffbf4;border:.75pt solid var(--gold);margin-top:.5pt}
+.check b{color:var(--navy2)}
+.endline{border-top:.75pt solid var(--line);margin-top:0;padding-top:3pt;text-align:center;font-size:8.6pt;color:var(--muted2);line-height:1.5}
+
+/* ---------- صفحة التلخيص ---------- */
+.instr{background:var(--bg);border:.75pt solid var(--line2);border-radius:6pt;padding:5pt 12pt;font-size:9.2pt;line-height:15.4pt;color:var(--text);margin-bottom:18pt}
+.instr b{color:var(--navy2)}
+.lines div{height:26.6pt;border-bottom:.75pt solid var(--line)}
+
+
+/* ===================================================================
+   توزيع تلقائي: المحتوى بيتكتب في .flow والسكريبت بيوزّعه على .sheet
+   =================================================================== */
+.flow{width:532.7pt;margin:0 auto;background:#fff}
+.pb{display:none}
+
+/* ===================================================================
+   تصميمات زياد (24 سبتمبر) — القسم 3 (رحلة الطلب) · التعاون التسلسلي · القسم 4 · القسم 5
+   =================================================================== */
+.ctitle{text-align:center;margin:4pt 0 8pt 0;padding:6pt 14pt;background:#eef2f8;border-radius:9pt;border-right:3pt solid #e29433}
+.ctitle h2{margin:0;font-weight:800;font-size:16pt;color:var(--navy);line-height:1.3}
+.ctitle .st{font-weight:500;font-size:10.5pt;color:var(--muted2);line-height:1.35}
+.quote.q2{border:.75pt solid #dde5ef;border-radius:9pt;background:#fbf6e8;font-size:10.4pt;line-height:16pt}
+.quote.q2 .exl{color:#a9670f;font-weight:700;text-decoration:underline;text-underline-offset:2pt}
+.panel{border-radius:11pt;background:#f5f7fb;padding:0 6pt 6pt 6pt;margin-bottom:8pt}
+.panel .ph{font-weight:700;font-size:11pt;color:var(--navy);padding:5pt 7pt 4pt 7pt;line-height:1.4}
+.panel .pbody{background:#fff;border-radius:9pt;padding:7pt}
+/* المسار العام */
+.path{display:flex;align-items:center;justify-content:space-between}
+.path .pc{width:61pt;height:68pt;border-radius:8pt;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:3pt 2pt}
+.path .pc svg{width:23pt;height:23pt;margin-bottom:4pt}
+.path .pc b{font-weight:800;font-size:8.4pt;color:var(--navy);line-height:1.2}
+.path .pc small{font-weight:500;font-size:7.6pt;color:var(--muted);line-height:1.3;margin-top:1pt}
+.path .pc.b{background:#f5f7fb} .path .pc.o{background:#f5f7fb} .path .pc.p{background:#f5f7fb} .path .pc.g{background:#f5f7fb}
+.path .ar{flex:none;color:#e29433;font-family:'DejaVuArr';font-weight:700;font-size:10.5pt;line-height:1}
+/* الخطوات بالتفصيل */
+.steps2 .stp{display:flex;align-items:center;gap:10pt;border-radius:9pt;padding:5pt 10pt;margin-bottom:5pt;min-height:43pt}
+.steps2 .stp:last-child{margin-bottom:0}
+.steps2 .stp.cool{background:#f5f7fb} .steps2 .stp.warm{background:#f5f7fb}
+.steps2 .stp .n{flex:none;width:21pt;height:21pt;border-radius:50%;background:#e29433;color:#fff;font-weight:800;font-size:11.5pt;display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 0 0 2.2pt #fff}
+.steps2 .stp .tx{flex:1}
+.steps2 .stp h4{margin:0;font-weight:700;font-size:10.8pt;color:var(--navy);line-height:1.35}
+.steps2 .stp p{font-size:9.7pt;line-height:15pt;color:var(--text2)}
+.steps2 .stp .ic{flex:none;width:46pt;display:flex;justify-content:center;align-items:center}
+.steps2 .stp .ic>svg{width:40pt;height:auto}
+.steps2 .stp .dbret{display:flex;align-items:center;gap:2pt}
+.steps2 .stp .dbret svg:first-child{width:13pt;height:8pt} .steps2 .stp .dbret svg:last-child{width:26pt;height:28pt}
+/* شرائط المعلومة */
+.info{display:flex;align-items:center;gap:12pt;border-radius:9pt;border:.75pt solid;padding:7pt 14pt;margin-bottom:8pt}
+.info .lab{flex:none;display:flex;align-items:center;gap:5pt;font-weight:800;font-size:12pt;line-height:1;padding-left:12pt;border-left:1pt solid}
+.info .lab svg{width:21pt;height:21pt}
+.info p{flex:1;font-size:9.8pt;line-height:14.5pt;color:var(--text2)}
+.info.green{background:#f5f7fb;border-color:#dde5ef} .info.green .lab{color:#a9670f;border-color:#dde5ef}
+.info.gray{background:#f5f7fb;border-color:#dde5ef} .info.gray .lab{color:var(--navy);font-size:14pt;padding:0 14pt 0 16pt;border-color:#dde5ef}
+.info.blue{background:#f5f7fb;border-color:#dde5ef} .info.blue .lab{color:#2e4a78;border-color:transparent;padding-left:4pt}
+
+/* ---------- كيفية تعاون الطبقات الثلاث (رسم تسلسلي) ---------- */
+.sqsub{display:flex;align-items:center;justify-content:space-between;margin:0 2pt 8pt 2pt}
+.sqsub .st{font-size:11pt;color:var(--text);font-weight:600;line-height:1.4}
+.sqsub .legend{display:flex;gap:12pt;font-size:9pt;color:var(--text);font-weight:600}
+.sqsub .legend span{display:inline-flex;align-items:center;gap:4pt}
+.sqsub .legend svg{width:26pt;height:8pt}
+.sqh{display:flex;align-items:flex-end;justify-content:space-between;margin:4pt 0 8pt 0}
+.sqh h3{margin:0;font-weight:800;font-size:19pt;color:var(--navy);line-height:1.3}
+.sqh .st{font-size:11pt;color:var(--text);font-weight:500;line-height:1.4}
+.sqh .legend{display:flex;gap:12pt;font-size:9pt;color:var(--text);font-weight:600;padding-bottom:3pt}
+.sqh .legend span{display:inline-flex;align-items:center;gap:4pt}
+.sqh .legend svg{width:26pt;height:8pt}
+.sq{position:relative;width:532pt;height:264pt;margin-bottom:8pt}
+.sq .hd{position:absolute;top:0;width:110pt;height:26pt;border-radius:5pt;border:.75pt solid #dde5ef;background:#f5f7fb;color:var(--navy);font-weight:700;font-size:10pt;display:flex;align-items:center;justify-content:center;line-height:1;z-index:2}
+.sq .hd.u{background:#2e4a78;border-color:#2e4a78;color:#fff}
+.sq svg.lines{position:absolute;left:0;top:0;width:532pt;height:264pt}
+.sq .lb{position:absolute;transform:translateX(-50%);font-size:9pt;line-height:11pt;color:var(--text2);text-align:center;white-space:nowrap;font-weight:500}
+.sq .nb{position:absolute;width:14pt;height:14pt;border-radius:50%;color:#fff;font-weight:800;font-size:8.4pt;display:flex;align-items:center;justify-content:center;line-height:1;transform:translate(-50%,-50%)}
+.sq .nb.r{background:#2e4a78} .sq .nb.o{background:#e29433}
+
+/* ---------- القسم 4: الخدمات ---------- */
+.tbar{background:#eef2f8;border-radius:9pt;border-right:3pt solid #e29433;padding:6pt 14pt;margin:4pt 0 8pt 0}
+.tbar h2{margin:0;font-weight:800;font-size:13.4pt;color:var(--navy);line-height:1.35}
+.warn{display:flex;align-items:center;gap:10pt;background:#fbf6e8;border:.75pt solid #dde5ef;border-radius:9pt;padding:6pt 12pt;margin-bottom:8pt;font-size:10pt;line-height:14.5pt;color:var(--text2)}
+.warn .ex{flex:none;width:20pt;height:20pt;border-radius:50%;background:#e29433;color:#fff;font-weight:800;font-size:12pt;display:flex;align-items:center;justify-content:center;line-height:1}
+.svc{display:grid;grid-template-columns:88pt 1fr 1fr 1fr;border:.75pt solid #dde5ef;border-radius:10pt;overflow:hidden;margin-bottom:6pt;background:#fff}
+.svc .nm{background:#f5f7fb;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8pt 6pt;gap:6pt}
+.svc .nm .ci{width:42pt;height:42pt;border-radius:50%;background:#eef2f8;display:flex;align-items:center;justify-content:center}
+.svc .nm .ci svg{width:25pt;height:25pt}
+.svc .nm h4{margin:0;font-weight:700;font-size:10.8pt;color:var(--navy);line-height:1.25}
+.svc .col{padding:5pt 7pt 4pt 7pt;border-right:.75pt solid #dde5ef}
+.svc .ch{display:flex;align-items:center;gap:6pt;border-radius:7pt;padding:3pt 7pt;margin-bottom:4pt}
+.svc .ch svg{width:20pt;height:20pt;flex:none}
+.svc .ch b{display:block;font-weight:800;font-size:10pt;line-height:1.25;color:var(--navy)}
+.svc .ch small{display:block;font-weight:700;font-size:8.2pt;color:#8795ab;line-height:1.25}
+.svc .col.f .ch{background:#f5f7fb} .svc .col.b .ch{background:#f5f7fb} .svc .col.b .ch b{color:#a9670f} .svc .col.d .ch{background:#f5f7fb}
+.svc ul{margin:0;padding:0 11pt 0 0;list-style:none;font-size:9.2pt;line-height:14.6pt;color:var(--text2)}
+.svc li{position:relative;margin-bottom:2.5pt}
+.svc li::before{content:'';position:absolute;right:-10pt;top:4.7pt;width:4.2pt;height:4.2pt;border-radius:50%}
+.svc .col.f li::before{background:#2e4a78} .svc .col.b li::before{background:#e29433} .svc .col.d li::before{background:#98a4b5}
+.simply{display:flex;align-items:stretch;background:#fbf6e8;border:.75pt solid #dde5ef;border-radius:9pt;overflow:hidden;margin-bottom:8pt}
+.simply .lab{flex:none;display:flex;align-items:center;gap:5pt;background:#eef2f8;color:#a9670f;font-weight:800;font-size:11pt;padding:0 14pt}
+.simply .lab svg{width:18pt;height:18pt}
+.simply p{flex:1;padding:6pt 12pt;font-size:9.8pt;line-height:14.5pt;color:var(--text2)}
+
+/* ---------- القسم 5: نفس النموذج في خدمات مختلفة ---------- */
+.ntitle{margin:4pt 0 7pt 0}
+.ntitle h2{margin:0;font-weight:800;font-size:18pt;color:var(--navy);line-height:1.35}
+.ntitle h2 .n5{color:#e29433;margin-left:7pt}
+.ntitle .st{font-size:10pt;color:var(--muted);line-height:1.5;font-weight:500}
+.exw{background:#f5f7fb;border:.75pt solid #f1e0b0;border-radius:11pt;padding:7pt 9.2pt 4pt 9.2pt;margin-bottom:8pt}
+.exw .eh{display:flex;align-items:center;gap:9pt;margin-bottom:6pt}
+.exw .eh .tag{display:inline-flex;align-items:center;gap:6pt;background:#eef2f8;border-radius:12pt;padding:1pt 12pt 1pt 5pt;font-weight:800;font-size:12.5pt;color:#a9670f;line-height:1.4}
+.exw .eh .tag svg{width:20pt;height:18pt}
+.exw .eh .sub{font-size:9.6pt;color:var(--text2);font-weight:600}
+.exg{display:grid;grid-template-columns:92pt 16pt 110pt 16pt 136pt 16pt 1fr;align-items:stretch}
+.exg .arrs{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12pt}
+.exg .arrs svg{width:16pt;height:9pt}
+.ecard{background:#fff;border:.75pt solid #dde5ef;border-radius:9pt;overflow:hidden;display:flex;flex-direction:column}
+.ecard .eh2{display:flex;align-items:center;gap:5pt;padding:4pt 7pt;font-weight:800;font-size:10.2pt;line-height:1.3}
+.ecard .eh2 svg{width:17pt;height:17pt;flex:none}
+.ecard.f .eh2{background:#f5f7fb;color:var(--navy)} .ecard.b .eh2{background:#eef2f8;color:#a9670f} .ecard.d .eh2{background:#f5f7fb;color:#2e4a78}
+.ecard.b{border-color:#dde5ef} .ecard.d{border-color:#dde5ef}
+.ecard .eb{padding:6pt 6pt 6pt 6pt;font-size:8.5pt;line-height:13.2pt;color:var(--text2);flex:1}
+.ecard ul{margin:0;padding:0 9pt 0 0;list-style:none}
+.ecard li{position:relative;margin-bottom:2pt}
+.ecard ul.dots li::before{content:'';position:absolute;right:-8pt;top:4.4pt;width:3.6pt;height:3.6pt;border-radius:50%;background:#2e4a78}
+.ecard .mock{background:#f5f7fb;border-radius:6pt;padding:5pt;margin-bottom:6pt}
+.msearch{display:flex;align-items:center;height:17pt;background:#fff;border:.75pt solid #dde5ef;border-radius:5pt;overflow:hidden}
+.msearch .q{flex:1;padding:0 6pt;font-weight:600;font-size:8.4pt;color:var(--navy)}
+.msearch .go{width:18pt;height:100%;background:#2e4a78;display:flex;align-items:center;justify-content:center}
+.msearch .go svg{width:10pt;height:10pt}
+.ecard .mock .ghost{height:4pt;border-radius:2pt;background:#dde4ee;margin-top:5pt;width:70%}
+.ecard .chk{display:flex;gap:4pt;align-items:center;background:#f5f7fb;border-radius:6pt;padding:4pt 5pt;margin-bottom:5pt}
+.ecard .chk ul{flex:1;padding:0}
+.ecard .chk li{display:flex;align-items:center;gap:4pt;margin-bottom:2.5pt}
+.ecard .chk li svg{width:9pt;height:9pt;flex:none}
+.ecard .chk .gr svg{width:21pt;height:21pt}
+.ecard .rules{border:.9pt dashed #dde5ef;border-radius:6pt;padding:4pt 5pt}
+.ecard .rules b{display:block;font-weight:800;font-size:8.6pt;color:var(--navy);margin-bottom:1pt}
+.ecard .rules li::before{content:'';position:absolute;right:-8pt;top:4.4pt;width:3.6pt;height:3.6pt;border-radius:50%;background:#2e4a78}
+.ecard .dr{display:flex;align-items:center;gap:6pt;background:#f5f7fb;border-radius:6pt;padding:4pt 5pt;margin-bottom:4pt}
+.ecard .dr:last-child{margin-bottom:0}
+.ecard .dr svg{width:15pt;height:15pt;flex:none}
+.ecard .dr b{display:block;font-weight:800;font-size:8.6pt;color:var(--navy);line-height:1.25}
+.ecard .dr small{display:block;font-size:7.4pt;color:var(--muted);line-height:1.3}
+.phonecol{display:flex;flex-direction:column;gap:5pt}
+.ucard{background:#f5f7fb;border-radius:8pt;padding:5pt 6pt;display:flex;gap:5pt;align-items:flex-start}
+.ucard .n1{width:15pt;height:15pt;border-radius:50%;background:#2e4a78;color:#fff;font-weight:800;font-size:8.6pt;display:flex;align-items:center;justify-content:center;flex:none;line-height:1}
+.ucard b{display:block;font-weight:800;font-size:10pt;color:#2e4a78;line-height:1.25}
+.ucard small{display:block;font-size:7.8pt;color:var(--text2);line-height:1.35}
+.phone{flex:1;background:#22375c;border-radius:13pt;padding:5pt 4pt}
+.phone .scr{background:#fff;border-radius:9pt;height:100%;padding:5pt 5pt;font-size:6.8pt;color:var(--text2);line-height:1.3}
+.phone .loc{display:flex;align-items:center;gap:2pt;font-weight:700;color:var(--navy);margin-bottom:4pt}
+.phone .loc svg{width:8pt;height:8pt} .phone .loc .dd{font-size:6pt;color:var(--muted)}
+.phone .ms{display:flex;align-items:center;height:14pt;border:.6pt solid #dde5ef;border-radius:5pt;overflow:hidden;margin-bottom:4pt}
+.phone .ms .q{flex:1;padding:0 4pt;font-weight:700;color:var(--navy)}
+.phone .ms .go{width:15pt;height:100%;background:#22375c;display:flex;align-items:center;justify-content:center}
+.phone .ms .go svg{width:8pt;height:8pt}
+.phone .chips{display:flex;gap:2pt;margin-bottom:4pt}
+.phone .chips span{border-radius:5pt;background:#eef2f7;padding:0 3.5pt;font-size:6pt;line-height:9pt}
+.phone .chips span.on{background:#6b7486;color:#fff}
+.phone .ri{display:flex;align-items:center;gap:4pt;background:#fff;border:.5pt solid #eef1f5;border-radius:5pt;padding:2.5pt;margin-bottom:3pt;box-shadow:0 .6pt 1.5pt rgba(23,38,63,.08)}
+.phone .ri .th svg{width:20pt;height:20pt;display:block}
+.phone .ri .rn b{display:block;font-weight:800;font-size:7pt;color:var(--navy)}
+.phone .ri .rn i{font-style:normal;font-weight:700;font-size:6.6pt;color:var(--text)} .phone .ri .rn em{font-style:normal;color:#e29433}
+.ret{position:relative;height:28pt}
+.ret svg{position:absolute;left:0;top:0;width:512.7pt;height:30pt}
+.ret .rl{position:absolute;left:280pt;top:4.5pt;transform:translateX(-50%);background:#2e4a78;color:#fff;border-radius:6pt;padding:0 9pt;font-weight:700;font-size:8.2pt;line-height:15pt;white-space:nowrap}
+.probs{background:#fdf2f2;border:.75pt solid #f3d3d3;border-radius:11pt;padding:6pt 10pt 8pt 10pt;margin-bottom:8pt}
+.probs .ph2{display:flex;align-items:center;gap:6pt;font-weight:800;font-size:13pt;color:#b3261e;margin-bottom:5pt;line-height:1.3}
+.probs .ph2 svg{width:20pt;height:18pt}
+.probs .pg{display:grid;grid-template-columns:1.3fr 1fr;gap:8pt}
+.pcard{background:#fff;border:.75pt solid #f3d9d9;border-radius:9pt;padding:6pt 9pt;display:flex;gap:8pt;align-items:center}
+.pcard>div{flex:1}
+.pcard>svg{width:30pt;height:30pt;flex:none}
+.pcard h5{margin:0 0 2pt 0;font-weight:800;font-size:10.4pt;color:#b3261e;line-height:1.35}
+.pcard ul{margin:0;padding:0 10pt 0 0;list-style:none;font-size:9pt;line-height:14.2pt;color:var(--text2)}
+.pcard li{position:relative} .pcard li::before{content:'•';position:absolute;right:-9pt;color:#b3261e}
+.others{background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:11pt;padding:6pt 10pt 8pt 10pt;margin-bottom:8pt}
+.others .ph2{font-weight:800;font-size:13pt;color:var(--navy);margin-bottom:5pt;line-height:1.3}
+.others .og{display:grid;grid-template-columns:repeat(3,1fr);gap:7pt}
+.ocard{background:#fff;border:.75pt solid #dde5ef;border-radius:9pt;padding:6pt 7pt;display:flex;gap:5pt;align-items:center}
+.ocard .ot{flex:1}
+.ocard h5{display:flex;align-items:center;gap:4pt;margin:0 0 2pt 0;font-weight:800;font-size:10.2pt;color:var(--navy);line-height:1.3}
+.ocard h5 svg{width:15pt;height:15pt}
+.ocard ul{margin:0;padding:0 9pt 0 0;list-style:none;font-size:8.4pt;line-height:13.2pt;color:var(--text2)}
+.ocard li{position:relative} .ocard li::before{content:'•';position:absolute;right:-8pt;color:var(--muted)}
+.ocard .mk{flex:none;width:46pt}
+.mk i{display:block;height:3pt;border-radius:2pt;background:#dde4ee;margin-top:3pt}
+.bankm .ph3{background:#22375c;border-radius:7pt;padding:3pt}
+.bankm .ph3 small,.bankm .ph3 b{display:block;background:#fff;text-align:center;line-height:1.3}
+.bankm .ph3 small{font-size:5.6pt;color:var(--muted);border-radius:5pt 5pt 0 0;padding-top:3pt}
+.bankm .ph3 b{font-size:6.6pt;font-weight:800;color:var(--navy);padding-bottom:3pt}
+.bankm .ph3 i{background:#3a4458}
+.vidm .pl{background:#22375c;border-radius:4pt;overflow:hidden;line-height:0}
+.vidm .pl svg{width:100%;height:auto;display:block}
+.shopm{text-align:center}
+.shopm .pr{background:#f5f7fb;border-radius:5pt;padding:4pt 0;line-height:0}
+.shopm .pr svg{width:22pt;height:20pt}
+.shopm .btn{display:block;margin-top:3pt;background:#e29433;color:#fff;border-radius:3pt;font-weight:700;font-size:5.6pt;line-height:9pt}
+
+/* ---------- مثال من حياتنا تحت الرسم التسلسلي (الصورة 3) ---------- */
+.ex3{position:relative;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:11pt;padding:0 9pt 8pt 9pt;margin-bottom:8pt;overflow:hidden}
+.ex3 .fk{position:absolute;left:12pt;top:6pt;width:24pt;height:32pt}
+.ex3 .fk svg{width:100%;height:100%}
+.ex3 .e3h{display:flex;justify-content:flex-start;margin:0 -9pt 0 0}
+.ex3 .e3h h3{margin:0;background:#eef2f8;border-radius:0 0 0 18pt;padding:3pt 14pt 4pt 22pt;font-weight:800;font-size:12pt;color:#2e4a78;line-height:1.35}
+.ex3 .e3s{font-size:9.6pt;color:var(--text2);font-weight:500;margin:4pt 2pt 7pt 0}
+.e3g{display:grid;grid-template-columns:98pt 18pt 1fr 18pt 1fr 18pt 1fr;align-items:stretch}
+.e3g .garr{display:flex;align-items:center;justify-content:center}
+.e3g .garr svg{width:15pt;height:10pt}
+.e3c{background:#fff;border:.75pt solid #dde5ef;border-radius:8pt;padding:6pt 6pt 7pt 6pt;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.e3c h5{margin:0 0 5pt 0;font-weight:800;font-size:10.4pt;color:var(--navy);line-height:1.3}
+.e3c .ico{height:36pt;display:flex;align-items:center;justify-content:center;margin-bottom:6pt}
+.e3c .ico svg{height:34pt;width:auto}
+.e3c p{font-size:8.8pt;line-height:13.8pt;color:var(--text2)}
+.p3col{display:flex;flex-direction:column;align-items:center;gap:5pt}
+.phone.p3{width:78pt;flex:none;border-radius:12pt;padding:4pt 3.5pt;background:#22375c}
+.phone.p3 .scr{padding:0 0 4pt 0;overflow:hidden;border-radius:9pt}
+.phone.p3 .hero{height:34pt;background:#eef2f8;display:flex;align-items:center;justify-content:center;margin-bottom:-6pt}
+.phone.p3 .hero svg{width:40pt;height:40pt;margin-top:8pt}
+.phone.p3 .ms{position:relative;margin:0 4pt 4pt 4pt;background:#fff;border-color:#dde5ef;box-shadow:0 .8pt 2pt rgba(23,38,63,.15);height:13pt}
+.phone.p3 .ms .go{width:13pt;background:transparent}
+.phone.p3 .ms .q{font-size:6.6pt}
+.phone.p3 .ri{margin:0 4pt 3pt 4pt;padding:2pt}
+.phone.p3 .ri .th svg{width:17pt;height:17pt}
+.phone.p3 .ri .bars{flex:1}
+.phone.p3 .ri .bars i{display:block;height:2.8pt;border-radius:2pt;background:#dde4ee;margin:2pt 0}
+.phone.p3 .ri .bars i+i{width:60%}
+.ucard2{display:flex;align-items:center;gap:5pt;background:#fff;border:.75pt solid #dde5ef;border-radius:7pt;padding:4pt 7pt}
+.ucard2 .n1{width:14pt;height:14pt;border-radius:50%;background:#2e4a78;color:#fff;font-weight:800;font-size:8.4pt;display:flex;align-items:center;justify-content:center;flex:none;line-height:1}
+.ucard2 b{font-weight:800;font-size:8.8pt;color:var(--navy);line-height:1.3}
+.e3r{position:relative;height:31pt;margin-bottom:5pt}
+.e3r svg.rp{position:absolute;left:0;top:0;width:100%;height:24pt}
+.e3r .rl{position:absolute;left:199pt;transform:translateX(-50%);top:13pt;display:inline-flex;align-items:center;gap:5pt;background:#fff;border:.75pt solid #dde5ef;border-radius:11pt;padding:2pt 11pt;font-weight:600;font-size:9pt;color:var(--text2);line-height:1.3;white-space:nowrap}
+.e3r .rl svg{width:11pt;height:11pt}
+.e3p{display:flex;align-items:center;gap:14pt;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:9pt;padding:6pt 14pt;margin-bottom:6pt}
+.e3p .pt{flex:none;display:flex;align-items:center;gap:6pt}
+.e3p .pt svg{width:24pt;height:22pt}
+.e3p .pt b{font-weight:800;font-size:12pt;color:#a9670f}
+.e3p ul{flex:1;margin:0;padding:0 11pt 0 0;list-style:none;font-size:9.4pt;line-height:14pt;color:var(--text2)}
+.e3p li{position:relative} .e3p li::before{content:'';position:absolute;right:-10pt;top:5pt;width:4.2pt;height:4.2pt;border-radius:50%;background:#e29433}
+.e3t{display:flex;align-items:center;gap:8pt;background:#f5f7fb;border-radius:9pt;padding:5pt 12pt}
+.e3t svg{width:18pt;height:18pt;flex:none}
+.e3t p{font-size:9.4pt;line-height:13.5pt;color:var(--text2)}
+
+/* المسار العام على 3 سطور (طلب · معالجة · نتيجة) */
+.path3{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;justify-items:center;column-gap:7pt;row-gap:2pt}
+.path3 .pc{width:100%;min-height:38pt;border-radius:8pt;background:#f5f7fb;border:.75pt solid #dde5ef;display:flex;flex-direction:row;align-items:center;gap:8pt;padding:5pt 10pt;text-align:right}
+.path3 .pc svg{width:22pt;height:22pt;flex:none}
+.path3 .pc .tt{display:flex;flex-direction:column}
+.path3 .pc b{font-weight:700;font-size:9.8pt;color:var(--navy);line-height:1.3}
+.path3 .pc small{font-weight:500;font-size:8.8pt;color:var(--muted);line-height:1.35}
+.path3 .ar{flex:none;color:#e29433;font-family:'DejaVuArr';font-weight:700;font-size:11pt;line-height:1}
+.path3 .pdown{color:#e29433;font-family:'DejaVuArr';font-weight:700;font-size:11pt;line-height:1.2}
+
+/* ---------- علامة «للفهم» (أي حاجة مش من الكتاب) ---------- */
+.fx{display:inline-block;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:7.6pt;color:var(--blue);background:#fff;border:.75pt solid var(--blue);border-radius:7pt;line-height:12pt;padding:0 6pt;margin-right:7pt;vertical-align:2pt;white-space:nowrap}
+.fx.abs{position:absolute;top:-7pt;left:12pt;margin:0;z-index:3}
+.fx.fl{float:left;margin:1pt 8pt 2pt 0;vertical-align:0}
+.map,.info,.simply{position:relative}
+.simply{overflow:visible}
+.simply .lab{border-radius:0 9pt 9pt 0}
+.dark h3 .fx{background:#fff}
+/* ---------- توقّف وفكّر (من الكتاب) ---------- */
+.stop{background:#fbf6e8;border:.75pt solid #eee0b8;border-right:3pt solid #e29433;border-radius:9pt;padding:6pt 12pt 7pt 12pt;margin-bottom:6pt}
+.stop .sh{display:flex;align-items:center;gap:5pt;margin-bottom:2pt}
+.stop .sh svg{width:17pt;height:17pt}
+.stop .sh b{font-weight:800;font-size:11pt;color:var(--gold2)}
+.stop p{font-size:10pt;line-height:15.5pt;color:var(--text2);font-weight:600}
+
+/* ===================== بنك الأسئلة ===================== */
+.qstats{display:grid;grid-template-columns:repeat(8,1fr);border:.75pt solid #dde5ef;border-radius:9pt;overflow:hidden;margin-bottom:12pt;background:#fff}
+.qstats>div{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6pt 2pt 5pt 2pt;border-left:.75pt solid #eef2f8}
+.qstats>div:last-child{border-left:0}
+.qstats b{font-weight:800;font-size:14pt;color:var(--navy);line-height:1.2}
+.qstats span{font-weight:600;font-size:8.6pt;color:var(--muted);line-height:1.3}
+h2.cat{display:flex;align-items:center;gap:6pt;font-weight:800;font-size:13.4pt;color:var(--navy);line-height:1.4;margin:10pt 0 7pt 0;padding:5pt 14pt;border-right:3pt solid #e29433;background:#eef2f8;border-radius:9pt}
+h2.cat .cnt{margin-right:auto;font-weight:700;font-size:8.6pt;color:var(--gold2);background:#fbf6e8;border:.75pt solid #eee0b8;border-radius:7pt;line-height:13pt;padding:0 7pt}
+h2.cat .fx{vertical-align:0}
+.qcard{background:#fff;border:.75pt solid #dde5ef;border-right:3pt solid #e29433;border-radius:9pt;padding:7pt 11pt 8pt 11pt;margin-bottom:8pt}
+.qcard.cont{border-top-right-radius:0}
+.qcard h4{display:flex;align-items:center;margin:0 0 4pt 0;font-weight:800;font-size:10.8pt;color:var(--gold2);line-height:1.4}
+.qcard h4 .n{direction:ltr;unicode-bidi:isolate;margin-left:3pt}
+.qcard h4 .mk{margin-right:auto;font-weight:700;font-size:8.4pt;color:var(--navy2);background:#fff;border:.75pt solid #dde5ef;border-radius:7pt;padding:0 7pt;line-height:14pt}
+.qi,.qs,.para{font-size:9.8pt;line-height:15.6pt;color:var(--text2);margin:0 0 5pt 0}
+.qs b,.qi b,.para b{color:var(--navy2)}
+.para{line-height:20pt}
+.bl{display:inline-block;border-bottom:1pt dotted #8a9ab3;height:11pt;vertical-align:-1pt;margin:0 3pt}
+.ab{display:inline-block;flex:none;width:26pt;height:14pt;border:1pt solid #b9c6d8;border-radius:4pt;background:#fff;margin-right:6pt}
+.ab.w{width:62pt}
+.qq{display:flex;gap:7pt;align-items:flex-start;margin:4pt 0 4pt 0}
+.qq .k,.cl .k,.sa .k,.frow .k,.tfb .k{flex:none;display:inline-flex;align-items:center;justify-content:center;width:16pt;height:16pt;border-radius:50%;background:#fbf6e8;border:.75pt solid #eee0b8;font-weight:800;font-size:8.6pt;color:var(--gold2);line-height:1}
+.qq p{flex:1;font-size:9.8pt;line-height:15pt;color:var(--text2)}
+.qq p b{color:var(--navy2)}
+ul.op{margin:2pt 0 6pt 0;padding:0 17pt 0 0;list-style:none;display:grid;gap:1pt 14pt}
+ul.op.c1{grid-template-columns:1fr} ul.op.c2{grid-template-columns:1fr 1fr} ul.op.c3{grid-template-columns:repeat(3,1fr)}
+ul.op li{font-size:9.4pt;line-height:14.2pt;color:var(--text2)}
+ul.op li{display:flex;align-items:flex-start;gap:6pt}
+ul.op li b{display:inline-flex;flex:none;align-items:center;justify-content:center;width:15pt;height:15pt;padding-bottom:1pt;margin-top:-.3pt;border-radius:50%;background:#eef2f8;border:.75pt solid #dde5ef;font-weight:800;font-size:8.2pt;color:var(--navy2);line-height:1}
+ul.tf{margin:2pt 0 0 0;padding:0;list-style:none}
+ul.tf li,ul.tfb li{display:flex;align-items:center;gap:8pt;padding:3.5pt 4pt;border-top:.75pt solid #eef2f8;font-size:9.6pt;line-height:14.4pt;color:var(--text2)}
+ul.tf li:first-child{border-top:0}
+ul.tf li b{display:inline-flex;flex:none;align-items:center;justify-content:center;width:15pt;height:15pt;padding-bottom:1pt;border-radius:50%;background:#eef2f8;border:.75pt solid #dde5ef;font-weight:800;font-size:8.2pt;color:var(--navy2);line-height:1}
+ul.tf .t,ul.tfb .t{flex:1}
+.pr{flex:none;font-weight:600;color:#8a9ab3;letter-spacing:1pt}
+ul.tfb{margin:0 0 7pt 0;padding:0;list-style:none;background:#fff;border:.75pt solid #dde5ef;border-radius:8pt;overflow:hidden}
+ul.tfb li{border-top:0;border-bottom:.75pt solid #e3e9f1;padding:6pt 10pt}
+ul.tfb li:last-child{border-bottom:0}
+ul.tfb li:nth-child(even){background:#f8fafc}
+.match{display:grid;grid-template-columns:1.35fr 1fr;gap:10pt;margin-top:3pt}
+.match .mb{border:.75pt solid #dde5ef;border-radius:8pt;padding:6pt 10pt 7pt 10pt;background:#fbfcfe}
+.match h5{margin:0 0 3pt 0;font-weight:800;font-size:10pt;color:var(--navy);line-height:1.4}
+.match ol{margin:0;padding:0 14pt 0 0;font-size:9.4pt;line-height:14.5pt;color:var(--text2)}
+.match ol li{margin-bottom:3pt}
+.match ol li span{margin-left:6pt}
+.match ol li .ab{vertical-align:-3pt;margin-right:0}
+.sa{display:grid;grid-template-columns:1fr 1fr;gap:7pt}
+.sa>div{border:.75pt solid #e3e9f1;border-radius:7pt;padding:5pt 8pt;background:#fbfcfe}
+.sa>div,.frow>div{display:flex;gap:7pt;align-items:flex-start}
+.sa p,.frow p{flex:1;font-size:9.6pt;line-height:17pt;color:var(--text2)}
+ul.cl{margin:3pt 0 5pt 0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:0 18pt}
+ul.cl li{display:flex;align-items:center;gap:7pt;padding:5pt 0;border-bottom:.75pt solid #e3e9f1;font-size:9.6pt;line-height:14pt;color:var(--text2)}
+ul.cl li .t{flex:1}
+.mrow{display:grid;grid-template-columns:1fr 1fr;gap:7pt;margin-bottom:7pt}
+.mq{border:.75pt solid #dde5ef;border-radius:8pt;background:#fff;padding:5pt 9pt 5pt 9pt}
+.mq .qq{margin:0 0 4pt 0}
+.mq ul.op{margin:0;padding:4pt 0 0 0;border-top:.75pt dashed #e3e9f1;gap:3pt 10pt}
+.mrow .mq ul.op{margin-bottom:2pt}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:7pt;margin-bottom:7pt}
+.frow>div{border:.75pt solid #dde5ef;border-radius:8pt;background:#fff;padding:6pt 9pt}
+.hint{background:#fbf6e8;border:.75pt solid #eee0b8;border-radius:7pt;padding:4pt 10pt;font-size:9pt;line-height:14pt;color:var(--text2);margin:2pt 0 4pt 0}
+.hint>b:first-child{font-weight:800;color:var(--gold2);margin-left:5pt}
+.hint b{color:var(--navy2)}
+.wl i{display:block;height:17pt;border-bottom:.75pt dotted #b9c6d8}
+.why{border:.75pt solid #dde5ef;border-radius:8pt;background:#fff;padding:6pt 10pt 7pt 10pt;margin-bottom:7pt}
+.why .wl{margin-right:23pt}
+table.cmp{width:100%;border-collapse:separate;border-spacing:0;border:.75pt solid #dde5ef;border-radius:8pt;overflow:hidden;margin:4pt 0 8pt 0;font-size:9.6pt;line-height:14pt}
+table.cmp th{background:#eef2f8;font-weight:800;color:var(--navy);text-align:right;padding:4pt 10pt;border-bottom:.75pt solid #dde5ef}
+table.cmp td{height:22pt;padding:3pt 10pt;border-top:.75pt solid #eef2f8;border-left:.75pt solid #eef2f8}
+table.cmp th+th{border-right:.75pt solid #dde5ef}
+table.cmp td.k{width:118pt;font-weight:700;color:var(--navy2);background:#fbfcfe}
+table.cmp.tall td{height:38pt}
+.qcard table.cmp{margin-bottom:2pt}
+.chx{display:flex;flex-wrap:wrap;gap:4pt 18pt;font-size:9.4pt;line-height:14pt;color:var(--text2);margin:2pt 0 2pt 0}
+.drawbox{height:150pt;margin:4pt 0 0 23pt;border:1pt dashed #b9c6d8;border-radius:8pt;background:#fbfcfe}
+.why.cont{border-top-right-radius:0;border-top-left-radius:0;padding-top:2pt}
+/* ---------- علامة «تقييمات» ---------- */
+.mq,.why,.qcard{position:relative}
+.tq{position:absolute;top:-6.5pt;left:10pt;z-index:3;display:inline-block;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:7.6pt;color:#17263f;background:#e29433;border-radius:7pt;line-height:12pt;padding:0 6pt;white-space:nowrap}
+.qstats .tq{position:static;margin-top:2pt;font-size:8pt;line-height:13pt}
+.content>.tqtop{margin-top:9pt}
+.tqin .tq{top:-3.2pt}
+/* ===== صناديق الكتاب الجانبية: الفكرة الرئيسة · مصطلحات أساسية · تذكّر · الحل · تعليق الصورة ===== */
+.kidea{background:#22375c;border-right:3pt solid #e29433;border-radius:9pt;padding:8pt 14pt 9pt 14pt;margin:12pt 0 9pt 0}
+.kidea .kh{font-weight:800;font-size:9.8pt;line-height:15pt;color:#f1c88b;margin-bottom:2pt}
+.kidea p{font-size:10.4pt;line-height:17pt;color:#fff;margin:0}
+.kidea p b{color:#ffd08a}
+.terms{background:#fff;border:.75pt solid #dde5ef;border-radius:8pt;padding:6pt 12pt 7pt 12pt;margin:0 0 8pt 0}
+.terms .th{display:flex;align-items:center;gap:10pt;margin:0 0 5pt 0;padding-bottom:4pt;border-bottom:.75pt solid #dde5ef}
+.terms h3{flex:none;margin:0;font-weight:800;font-size:9.8pt;line-height:1.5;color:var(--navy)}
+.terms .t3{flex:1;display:flex;gap:6pt}
+.terms .t3 span{flex:1;background:#f5f7fb;border-radius:6pt;padding:1pt 6pt;text-align:center;font-size:9.2pt;line-height:14pt;white-space:nowrap;color:var(--text)}
+.terms .t2{display:grid;grid-template-columns:1fr 1fr;gap:5pt 6pt}
+.terms .t2 div{background:#f5f7fb;border-radius:6pt;padding:3pt 9pt;font-size:9.3pt;line-height:14.5pt;color:var(--text)}
+.terms b{color:#a9670f;font-weight:800}
+.dark .rem{font-size:9.3pt;line-height:14.5pt;color:#fff;margin:0 0 5pt 0;padding-bottom:5pt;border-bottom:.75pt solid rgba(255,255,255,.2)}
+.dark .rem b{color:#f1c88b}
+.qcard.sol .ck{display:inline-flex;align-items:center;justify-content:center;width:14pt;height:14pt;border-radius:50%;background:#e29433;color:#fff;font-size:9pt;margin-left:3pt}
+.qcard.sol .sg{display:grid;grid-template-columns:1.5fr 1fr;gap:14pt}
+.qcard.sol .sp{font-weight:800;color:var(--navy2);font-size:9.6pt;line-height:15pt;margin-bottom:2pt}
+.qcard.sol .sr{display:flex;gap:6pt;font-size:9.6pt;line-height:15pt;color:var(--text);margin-bottom:2pt}
+.qcard.sol .sr b{flex:none;min-width:12pt;color:#a9670f;font-weight:800}
+.qcard.sol .sr i{font-style:normal;font-weight:800;color:#a9670f}
+.terms .t2+.t2{margin-top:5pt}
+.terms .t2.c3{grid-template-columns:1fr 1fr 1fr}
+.terms .t2 .full{grid-column:1/-1}
+.icap{margin:5pt 0 8pt 0;padding-top:4pt;border-top:.75pt dashed #dde5ef;text-align:center;font-size:8.8pt;line-height:13pt;color:var(--muted)}
+
+/* ---------- إضافات الدرس 1-4 ---------- */
+.banner,.quote,.box p,.box li,.note-line,.pnl p,p.lead,.qcard .qs,.qq p,.why p,.terms .t2 div,.rule0 p,.simply p{text-wrap:pretty}
+.intro .body p+p{margin-top:4pt}
+.map .cell li{text-wrap:pretty}
+.map.m2 .cell h4{display:flex;align-items:flex-start;gap:5pt;line-height:1.4;margin-bottom:2pt}
+.map.m2 .cell h4 .mn{flex:none;display:inline-flex;align-items:center;justify-content:center;width:13pt;height:13pt;border-radius:50%;background:var(--navy2);color:#fff;font-size:7.8pt;font-weight:800;margin-top:1.5pt}
+.map.m2 .cell li b{color:var(--navy2);font-weight:700}
+.map.m2{grid-template-columns:1fr 104pt 1fr;column-gap:15pt}
+.map.m2 .hub{font-size:10pt;padding:6pt 5pt;text-align:center}
+.nw{white-space:nowrap}
+.fig{position:relative}
+.arr{font-family:'DejaVuArr','Baloo Bhaijaan 2';font-weight:700;color:#e29433}
+.bridge{position:relative;background:#eef2f8;border-radius:9pt;padding:5pt 12pt;margin:0 0 9pt 0;text-align:center;font-size:9.6pt;line-height:15pt;color:var(--text2)}
+.bridge .fx{margin:0 0 0 7pt;vertical-align:1pt}
+.banner .bx{display:block;margin-top:2pt;font-style:italic;font-weight:600;opacity:.92}
+.box.plain{background:#f5f7fb;border-color:#dde5ef} .box.plain h3{color:var(--navy)}
+.cmpw{position:relative}
+i.la{font-style:normal;flex:none;align-self:center;font-family:'DejaVuArr';font-weight:700;color:#e29433;font-size:14pt}
+.sf{display:grid;grid-template-columns:1fr 196pt;gap:12pt;align-items:center;margin:0 0 9pt 0}
+.im{background:#fff;border:.75pt solid #dde5ef;border-radius:9pt;padding:5pt 5pt 0 5pt}
+.im img{display:block;width:100%;height:auto;border-radius:6pt}
+.im .icap{margin:4pt 2pt 4pt 2pt;text-wrap:pretty}
+figure.bimg{margin:0 auto 9pt auto;width:72%;background:#fff;border:.75pt solid #dde5ef;border-radius:9pt;padding:5pt 5pt 0 5pt}
+figure.bimg img{display:block;width:100%;height:auto;border-radius:6pt}
+figure.bimg .icap{margin:4pt 2pt 5pt 2pt;text-align:center}
+/* مصادر التحيز */
+.src4{padding:12pt 11pt 6pt 11pt}
+.s4{display:flex;align-items:center;gap:8pt}
+.s4 .sl{flex:0 0 170pt;display:flex;flex-direction:column;gap:5pt}
+.s4 .sl>div{display:flex;align-items:center;gap:7pt;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:8pt;padding:5pt 10pt}
+.s4 .sl span svg{width:17pt;height:17pt;display:block}
+.s4 .sl b{font-weight:800;font-size:10pt;color:var(--navy)}
+.s4 .sb{flex:1;background:#22375c;border-radius:10pt;padding:14pt 8pt;text-align:center;display:flex;flex-direction:column}
+.s4 .sb b{color:#fff;font-weight:800;font-size:13pt;line-height:1.35} .s4 .sb b.g{color:#f1c88b}
+.s4 .sr{flex:none;display:flex;flex-direction:column;align-items:center}
+.s4 .sr small{font-size:8.4pt;font-weight:700;color:#a33a30}
+.s4 .se{flex:0 0 118pt;background:#fbeceb;border:1pt solid #efc6c1;border-radius:10pt;padding:12pt 8pt;text-align:center}
+.s4 .se b{color:#a33a30;font-weight:800;font-size:11pt;line-height:1.45}
+/* أسباب التحيز */
+.cz{padding:12pt 11pt 6pt 11pt}
+.cz .c2{display:grid;grid-template-columns:1fr 1fr;gap:10pt}
+.cz .c2>div{border-radius:9pt;padding:7pt 12pt 8pt 12pt}
+.cz .cc0{background:#f5f7fb;border:.75pt solid #dde5ef} .cz .cc1{background:#fbf6e8;border:.75pt solid #eee0b8}
+.cz h5{display:flex;align-items:center;gap:6pt;margin:0 0 5pt 0;font-weight:800;font-size:10.8pt;color:var(--navy)}
+.cz .cc1 h5{color:#a9670f}
+.cz h5 span svg{width:17pt;height:17pt;display:block}
+.cz ul{margin:0;padding:0 16pt 0 0}
+.cz li{font-size:9.8pt;line-height:15.4pt;color:var(--text2);margin-bottom:2pt}
+/* الخصوصية */
+.sf.pv{grid-template-columns:1fr 160pt}
+.pv2{display:flex;flex-direction:column;gap:8pt}
+.pc{position:relative;background:#f5f7fb;border:.75pt solid #dde5ef;border-right:3pt solid #e29433;border-radius:9pt;padding:8pt 12pt 8pt 12pt;display:grid;grid-template-columns:30pt 1fr;column-gap:9pt;align-items:center}
+.pc .pn{position:absolute;top:-6pt;right:-6pt;width:15pt;height:15pt;border-radius:50%;background:#e29433;color:#fff;font-weight:800;font-size:8.4pt;display:flex;align-items:center;justify-content:center;line-height:1}
+.pc .pi{grid-row:1/3;width:30pt;height:30pt;border-radius:50%;background:#fff;border:.75pt solid #dde5ef;display:flex;align-items:center;justify-content:center}
+.pc .pi svg{width:17pt;height:17pt}
+.pc h4{margin:0;font-weight:800;font-size:10.8pt;color:var(--navy);line-height:1.4}
+.pc p{font-size:9.6pt;line-height:14.6pt;color:var(--text2)}
+.simply p .fx{vertical-align:1pt}
+/* الأطراف التلاتة */
+.p3f{padding:12pt 11pt 6pt 11pt}
+.p3r{display:flex;align-items:stretch;gap:6pt}
+.p3r>div{flex:1;display:flex;flex-direction:column;align-items:center;gap:2pt;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:9pt;padding:7pt 6pt;text-align:center}
+.p3r span svg{width:22pt;height:22pt;display:block}
+.p3r b{font-weight:800;font-size:10.6pt;color:var(--navy)}
+.p3r small{font-size:8.8pt;color:var(--muted)}
+/* ليه · إيه · مين */
+.wh{padding:12pt 11pt 6pt 11pt}
+.wh3{display:grid;grid-template-columns:repeat(3,1fr);gap:9pt}
+.wh3>div{border-radius:10pt;padding:9pt 10pt 10pt 10pt;text-align:center;display:flex;flex-direction:column;align-items:center;gap:2pt}
+.wh3 small{font-size:8.8pt;font-weight:700}
+.wh3>div>b{font-size:20pt;font-weight:800;line-height:1.3}
+.wh3 p b{color:var(--navy2)}
+.wh3 p{font-size:9.2pt;line-height:14pt;color:var(--text2)}
+.wh3 .w1{background:#eef4fc;border:1pt solid #c9d8ec} .wh3 .w1>b,.wh3 .w1 small{color:#2e4a78}
+.wh3 .w2{background:#f5f7fb;border:1pt solid #dde5ef} .wh3 .w2>b,.wh3 .w2 small{color:var(--navy)}
+.wh3 .w3{background:#fbf6e8;border:1pt solid #eee0b8} .wh3 .w3>b,.wh3 .w3 small{color:#a9670f}
+.rule0{display:flex;gap:14pt;align-items:center;background:#fbf6e8;border:.75pt solid #eee0b8;border-right:4pt solid #e29433;border-radius:10pt;padding:10pt 16pt;margin:0 0 9pt 0}
+.rule0 .rb{flex:none;width:44pt;height:44pt;border-radius:50%;background:#fff;border:.75pt solid #eee0b8;display:flex;align-items:center;justify-content:center}
+.rule0 .rb svg{width:26pt;height:26pt}
+.rule0 h3{margin:0 0 3pt 0;font-weight:800;font-size:12pt;color:#a9670f}
+.rule0 p{font-size:9.9pt;line-height:15.6pt;color:var(--text2)}
+.rule0 p+p{margin-top:3pt}
+/* المبادئ */
+table.prt td{vertical-align:middle;font-size:10pt;line-height:15pt}
+table.prt td.k{font-weight:800;color:var(--navy);white-space:nowrap}
+.p4{padding:9pt 11pt 6pt 11pt}
+.p4h{text-align:center;font-weight:800;font-size:11pt;color:var(--navy);margin-bottom:8pt}
+.p4g{display:grid;grid-template-columns:repeat(4,1fr);gap:8pt}
+.p4g>div{display:flex;flex-direction:column;align-items:center;text-align:center;gap:3pt;background:#fff;border:.75pt solid #dde5ef;border-radius:10pt;padding:9pt 7pt 9pt 7pt}
+.p4g .pi{width:36pt;height:36pt;border-radius:50%;background:#eef2f8;display:flex;align-items:center;justify-content:center}
+.p4g .pi svg{width:20pt;height:20pt}
+.p4g h4{margin:0;font-weight:800;font-size:10.6pt;color:var(--navy)}
+.p4g p{flex:1;font-size:8.9pt;line-height:13.4pt;color:var(--muted);text-wrap:pretty}
+.p4g .pq{display:inline-flex;align-items:center;gap:4pt;background:#fbf6e8;border:.75pt solid #eee0b8;border-radius:8pt;padding:0 7pt;font-weight:700;font-size:8.2pt;line-height:15pt;color:#a9670f;white-space:nowrap;padding:0 5pt}
+.p4g .pq .fx{font-size:6.8pt;height:11pt;line-height:10pt;padding:0 4pt}
+.content>.fig.src4:first-child,.content>.fig.cz:first-child,.content>.fig.wh:first-child,.content>.fig.p3f:first-child{margin-top:7pt}
+/* البنك */
+.qcard.sol .sg{grid-template-columns:1.25fr 1fr}
+.check{padding:7pt 13pt 5pt 13pt}
+.check .g2{margin-top:5pt}
+.check li{margin-bottom:4pt}
+.dark li{margin-bottom:2.5pt}
+.terms .t2 div{padding:2pt 9pt;line-height:14pt}
+</style>
+<script>
+// ===== 1) توزيع المحتوى على صفحات A4 =====
+function paginate(){
+  const flow = document.querySelector('.flow');
+  const blocks = [...flow.children];
+  let content;
+  // كل صفحة = .page بمقاس A4، وجواها .sheet مرسومة ×3 ومتصغّرة ÷3
+  // (عشان إعداد «أقل حجم للخط» في المتصفح مايكبّرش الخطوط الصغيرة ويبوّظ التصميم)
+  const newSheet = () => {
+    const p = document.createElement('section'); p.className = 'page';
+    const s = document.createElement('div'); s.className = 'sheet';
+    content = document.createElement('div'); content.className = 'content';
+    s.appendChild(content); p.appendChild(s); flow.before(p);
+  };
+  const KWN = el => el.matches('.part, hr.rule, h2.sec, .big, h3.sub, .chip, .kwn');
+  const over = () => { const last = content.lastElementChild; if (!last) return false;
+    return last.getBoundingClientRect().bottom > content.getBoundingClientRect().bottom + 0.5; };
+  // كارت أطول من المساحة الفاضية: نسيب أوله هنا ونكمّل الباقي في الصفحة الجاية (عند حدود أجزائه)
+  // سؤال (نصه + مكان إجابته أو اختياراته) ما يتقسمش على صفحتين: التقسيم في كروت الأسئلة
+  // (.why و.qcard) مسموح بس قبل بداية سؤال جديد (.qq / .qi / .qs). لو مفيش نقطة زي كده، الكارت كله ينزل.
+  const QSTART = x => x && x.matches('.qq, .qi, .qs');
+  const trySplit = (el, loose) => {
+    const cont = el.cloneNode(false); cont.classList.add('cont');
+    const keep = (el.firstElementChild && /^H[34]$/.test(el.firstElementChild.tagName)) || el.classList.contains('why') ? 2 : 1;
+    const mv = () => cont.insertBefore(el.lastElementChild, cont.firstChild);
+    const back = () => { while (cont.firstChild) el.appendChild(cont.firstChild); return false; };
+    while (over() && el.children.length > keep) mv();
+    const strict = !loose && el.matches('.why, .qcard');
+    if (strict) {
+      for (let ch = true; ch; ) { ch = false;
+        while (el.children.length > keep && cont.children.length && !QSTART(cont.firstElementChild)) { mv(); ch = true; }
+        while (el.children.length > 1 && cont.children.length && QSTART(el.lastElementChild)) { mv(); ch = true; }
+      }
+      if (cont.children.length && !QSTART(cont.firstElementChild)) return back();
+    } else {
+      // نص السؤال ما يفضلش لوحده في آخر الصفحة: ينزل مع اختياراته
+      while (el.children.length > 1 && cont.children.length && el.lastElementChild.matches('.qq, .qi, .qs')) mv();
+    }
+    if (el.children.length < keep) return back();
+    if (over() || !cont.children.length) return back();
+    newSheet(); content.appendChild(cont);
+    if (over()) trySplit(cont) || trySplit(cont, true);
+    return true;
+  };
+  newSheet();
+  for (let i = 0; i < blocks.length; ) {
+    const el = blocks[i];
+    if (el.classList.contains('pb')) { if (content.children.length) newSheet(); i++; continue; }
+    const group = [el]; let j = i;
+    while (KWN(blocks[j]) && j + 1 < blocks.length && !blocks[j + 1].classList.contains('pb')) { j++; group.push(blocks[j]); }
+    // عنوان قسم في البنك (زي «علّل») مايفضلش في آخر الصفحة ومعاه سؤال واحد بس: بياخد معاه السؤال اللي بعده
+    if (group[0].matches('h2.cat') && group[group.length - 1].matches('.why') && j + 1 < blocks.length && blocks[j + 1].matches('.why')) { j++; group.push(blocks[j]); }
+    const wasEmpty = content.children.length === 0;
+    group.forEach(g => content.appendChild(g));
+    const last = group[group.length - 1];
+    if (over()) {
+      if (last.classList.contains('split') && trySplit(last)) { /* اتقسم */ }
+      else if (!wasEmpty) { newSheet(); group.forEach(g => content.appendChild(g)); if (over() && last.classList.contains('split')) trySplit(last) || trySplit(last, true); }
+    }
+    i = j + 1;
+  }
+  flow.remove();
+}
+// ===== 2) الإطار: هيدر + فوتر + علامة مائية + ترقيم =====
+// علامة «تقييمات» فوق أول سؤال في الصفحة بتلمس خط الهيدر: ننزّل السؤال سنة بعد الترقيم.
+// لو الصفحة مليانة، ناخد المسافة من الفراغات اللي بين الأسئلة في نفس الصفحة (أقل من 1pt لكل فراغ).
+function tqTop(){
+  const k = (typeof K === 'number' && K > 0) ? K : 1;
+  const overBy = c => c.lastElementChild.getBoundingClientRect().bottom - c.getBoundingClientRect().bottom;
+  document.querySelectorAll('.content').forEach(c => {
+    const f = c.firstElementChild; if (!f || !f.querySelector('.tq')) return;
+    f.classList.add('tqtop');
+    let d = overBy(c); if (d <= 0) return;
+    const kids = [...c.children].slice(0, -1);
+    const per = (d + 1) * k / kids.length;
+    kids.forEach(e => { e.dataset.mb = e.style.marginBottom; e.style.marginBottom = Math.max(0, parseFloat(getComputedStyle(e).marginBottom) - per) + 'px'; });
+    if (overBy(c) > 0.5) { kids.forEach(e => { e.style.marginBottom = e.dataset.mb; }); f.classList.remove('tqtop'); f.classList.add('tqin'); }
+    kids.forEach(e => delete e.dataset.mb);
+  });
+}
+function frame(){
+  const B = document.body.dataset, START = +B.start || 1, TOTAL = B.total;
+  const LESSON = B.lesson.replace(/(\d+-\d+)/g, '<span class="num">$1</span>');
+  const tiles = [];
+  for (let r = 0; r < 7; r++) for (let c = 0; c < 3; c++) {
+    const x = -20 + c * 215 + (r % 2) * 60, y = -30 + r * 135;
+    tiles.push(`<span class="tile" style="left:${x * K}pt;top:${y * K}pt">زياد السعدني</span>`);
+  }
+  document.querySelectorAll('.sheet').forEach((s, k) => {
+    s.dataset.page = START + k;
+    s.insertAdjacentHTML('afterbegin', `<div class="hdr"><span class="r">${LESSON}</span><span class="l">أكواد مع زياد</span></div>`);
+    s.insertAdjacentHTML('beforeend', `<div class="ftr"><img src="assets/badge.png" alt=""><span class="r"><b>أكواد مع زياد</b><span class="sep">|</span>أ/ زياد السعدني<span class="sep">|</span><span class="num">fb.com/61592749346697</span><span class="sep">|</span>واتساب <span class="num">01124840835</span></span><span class="pn">${START + k} / ${TOTAL}</span></div><div class="wm">${tiles.join('')}<span class="big">زياد السعدني</span></div>`);
+  });
+}
+// ===== 0) لو المتصفح مفعّل «أقل حجم للخط» (Minimum font size) بيكبّر الخطوط الصغيرة ويبوّظ التصميم.
+// الحل: نكبّر كل المقاسات ×K ونصغّر الصفحة ÷K بـ transform (الـtransform مابيتأثرش بالإعداد ده).
+let K = 1;
+function immunize(){
+  const t = document.createElement('span'); t.style.fontSize = '1px'; t.textContent = 'x';
+  document.body.appendChild(t); const mc = parseFloat(getComputedStyle(t).fontSize); t.remove();
+  const wid = px => { const s = document.createElement('span');
+    s.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;font-family:sans-serif;font-size:' + px + 'px';
+    s.textContent = 'abcdefghij'; document.body.appendChild(s); const w = s.getBoundingClientRect().width; s.remove(); return w; };
+  const mr = 4 * wid(4) / (wid(40) / 10);   // الحجم الفعلي اللي اترسم بيه نص طالب 4px
+  // بدون الإعداد: نص الـ4px بيترسم ≈4px (ممكن يزيد شوية من التقريب) — فمانعتبرهوش مفعّل غير لو أكبر من 6px
+  const m = Math.max(mc, mr > 6 ? mr : 0);
+  if (!(m > 1.5)) return;
+  K = Math.max(2, Math.ceil(m / 7));
+  const sc = v => v.replace(/(-?\d*\.?\d+)(pt|px|mm)\b/g, (_, n, u) => (parseFloat(n) * K).toFixed(3) + u);
+  const walk = rules => { for (const r of rules) {
+    if (r instanceof CSSMediaRule) { walk(r.cssRules); continue; }
+    if (!(r instanceof CSSStyleRule)) continue;
+    if (/^(html|body|\.page|html,\s*body)$/.test(r.selectorText.trim())) continue;
+    for (let i = 0; i < r.style.length; i++) { const p = r.style[i], v = r.style.getPropertyValue(p);
+      if (/\d(pt|px|mm)/.test(v)) r.style.setProperty(p, sc(v), r.style.getPropertyPriority(p)); }
+  } };
+  for (const s of document.styleSheets) { try { walk(s.cssRules); } catch (e) {} }
+  document.querySelectorAll('.flow [style]').forEach(el => { el.style.cssText = sc(el.style.cssText); });
+  // الطريقة 1 (Chrome): zoom = 1/K — الصفحة بتفضل بمقاسها الحقيقي فالطباعة سليمة.
+  // الطريقة 2 (احتياطي): transform: scale(1/K) — لو المتصفح بيطبّق الحد الأدنى بعد الـzoom.
+  const probe = css => { const w = document.createElement('div'); w.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;' + css;
+    const s = document.createElement('span'); s.style.fontSize = (6 * K) + 'px'; s.textContent = 'abcdefghij';
+    w.appendChild(s); document.body.appendChild(w); const r = s.getBoundingClientRect().width; w.remove(); return r; };
+  const big = probe(''), zoomed = probe('zoom:' + (1 / K));
+  const zoomOK = Math.abs(zoomed - big / K) < 1.5;
+  const st = document.createElement('style');
+  st.textContent = zoomOK ? `.sheet{zoom:${1 / K}}` : `.sheet{transform:scale(${1 / K})}`;
+  document.head.appendChild(st); document.body.dataset.mode = zoomOK ? 'zoom' : 'transform';
+}
+window.addEventListener('load', async () => {
+  const F = "'Baloo Bhaijaan 2'";
+  await Promise.all([500, 600, 700, 800].map(w => document.fonts.load(`${w} 10pt ${F}`, 'أبجد')));
+  await document.fonts.ready;
+  immunize(); paginate(); tqTop(); frame();
+  document.body.dataset.ready = '1'; document.body.dataset.k = K;
+});
+</script>
+</head>
+<body data-lesson="الدرس 1-4 — القضايا الأخلاقية المتعلقة بالذكاء الاصطناعي" data-start="2" data-total="99">
+<main class="flow">
+<div class="band">
+  <div class="badge"><span class="l">الدرس</span><span class="n">1-4</span></div>
+  <h1>القضايا الأخلاقية المتعلقة بالذكاء الاصطناعي</h1>
+  <div class="who">
+    <div class="t"><span class="u">الوحدة الأولى</span><span class="k">الشرح والمراجعة</span></div>
+    <img src="assets/avatar.png" alt="">
+  </div>
+</div>
+<div class="two">
+  <div class="intro">
+    <h3>لما الكمبيوتر ياخد قرار يخص إنسان…</h3>
+    <div class="body">
+      <img class="robot" src="assets/robot.svg" alt="">
+      <p>تخيّل نظام بيفرز طلبات التوظيف. اتقدّمت لشغلانة، ورفضك. تسأل: <b>ليه؟</b> — ومحدش يقدر يجاوب. وتسأل: <b>مين المسؤول؟</b> — ومحدش عارف.</p>
+      <p>الدرس بيركّز على <b>أثر قرارات أنظمة الذكاء الاصطناعي على الأشخاص</b>، وعلى أربع مبادئ بيقول الكتاب إنها المفروض توجّه أي استخدام مسؤول.</p>
+      <p>خُد بالك من الفرق بين <b>المساءلة</b> و<b>الشفافية</b> و<b>القابلية للتفسير</b>: المصطلحات قريبة من بعضها، ولكل مصطلح معنى مختلف هنوضحه بالأمثلة.</p>
+    </div>
+    <div class="foot"><span class="pill-dark">نبدأ من التحيز</span></div>
+  </div>
+  <div class="goals">
+    <h3>أهداف التعلم</h3>
+    <div class="g"><span class="tag">شرح</span><span class="x">ماهية التحيز الخوارزمي ووصف أسبابه الرئيسية.</span></div>
+    <div class="g"><span class="tag">ربط</span><span class="x">المبادئ الأساسية لأخلاقيات الذكاء الاصطناعي (العدالة، والشفافية، وحماية الخصوصية، والمساءلة) بمواقف محددة.</span></div>
+    <div class="g"><span class="tag">قيّم</span><span class="x">موقفًا أخلاقيًا يتعلق بالذكاء الاصطناعي، وبرّر قاعدة للاستخدام المسؤول وحدد الأطراف ذات المسؤولية.</span></div>
+  </div>
+</div>
+<div class="note-box"><span class="tag">للفهم</span>أي جزء عليه علامة «للفهم» هو شرح أو رسم إضافي للتوضيح، ومش مطلوب حفظه كنص من الكتاب.</div>
+<div class="map m2">
+  <div class="cell c1"><h4><span class="mn">1</span>التحيز الخوارزمي</h4><ul>
+    <li>نمط قد يؤدي إلى نتائج غير عادلة أو ضارة.</li>
+    <li>ينشأ من: البيانات · تصميم النظام · طريقة الاستخدام · السياق البشري والاجتماعي.</li>
+    <li><b>بيانات التدريب:</b> كلما قلّ تمثيلها للواقع زاد احتمال تحيّز المخرجات.</li></ul></div>
+  <div class="cell c3"><h4><span class="mn">2</span>قضايا الخصوصية</h4><ul>
+    <li>المراقبة عبر تقنية التعرف على الوجه.</li>
+    <li>الجمع الجماعي للبيانات الشخصية.</li></ul></div>
+  <div class="hub">القضايا الأخلاقية<br>المتعلقة بالذكاء<br>الاصطناعي
+    <svg class="lk r1" viewBox="0 0 20 16"><path d="M0 14 C7 14 10 3 17 3" fill="none" stroke="#22375c" stroke-width="1.55" stroke-linecap="round"/><circle cx="17.5" cy="3" r="2" fill="#22375c"/></svg>
+    <svg class="lk r2" viewBox="0 0 20 16"><path d="M0 2 C7 2 10 13 17 13" fill="none" stroke="#e29433" stroke-width="1.55" stroke-linecap="round"/><circle cx="17.5" cy="13" r="2" fill="#e29433"/></svg>
+    <svg class="lk l1" viewBox="0 0 20 16"><path d="M20 14 C13 14 10 3 3 3" fill="none" stroke="#2e4a78" stroke-width="1.55" stroke-linecap="round"/><circle cx="2.5" cy="3" r="2" fill="#2e4a78"/></svg>
+    <svg class="lk l2" viewBox="0 0 20 16"><path d="M20 2 C13 2 10 13 3 13" fill="none" stroke="#a9670f" stroke-width="1.55" stroke-linecap="round"/><circle cx="2.5" cy="13" r="2" fill="#a9670f"/></svg>
+  </div>
+  <div class="cell c2"><h4><span class="mn">3</span>الشرح والمسؤولية</h4><ul>
+    <li><b><bdi class="nw">XAI</bdi>:</b> يساعد البشر على فهم العوامل التي أسهمت في المخرج.</li>
+    <li><b>المسؤولية:</b> أدوار وواجبات المطوّر والجهة المشغّلة والمستخدم.</li>
+    <li><b>المساءلة:</b> تحديد من يُحاسَب على النتيجة.</li></ul></div>
+  <div class="cell c4"><h4><span class="mn">4</span>المبادئ الأربعة</h4><ul>
+    <li><b>العدالة</b> – عدم التمييز ظلمًا.</li>
+    <li><b>الشفافية</b> – معلومات واضحة عن النظام والقرار وحدوده.</li>
+    <li><b>حماية الخصوصية</b> – تعامل مناسب مع المعلومات الشخصية.</li>
+    <li><b>المساءلة</b> – تحديد الجهات المسؤولة وإمكان محاسبتها.</li></ul></div>
+</div>
+<div class="iq">
+  <div class="q">
+    <div class="lab">السؤال الرئيسي — الدرس كله بيجاوب عليه</div>
+    <div class="qq">ما القضايا الأخلاقية التي تنشأ مع انتشار الذكاء الاصطناعي، وما المبادئ التي ينبغي أن توجه كيفية استخدامنا له؟</div>
+  </div>
+  <div class="idea"><span class="qmark">”</span><b>الفكرة الأساسية:</b> إذا كانت <b>بيانات التدريب متحيزة</b>، يمكن للذكاء الاصطناعي أن <b>يكرر هذا التحيز في أحكامه</b>؛ واستخدام الذكاء الاصطناعي <b>بمسؤولية</b> يعني التحقق من التحيز، والقدرة على شرح القرارات، ومعرفة من هو المسؤول.</div>
+</div>
+<div class="part p1"><span>الجزء الأول</span></div>
+<hr class="rule">
+<h2 class="sec"><span class="num">1</span><span class="dot">·</span> التحيز الخوارزمي</h2>
+<div class="quote kwn"><span class="qmark">”</span>يساعد الذكاء الاصطناعي اليوم في <b>قرارات تؤثر في الأشخاص</b>، مثل فرز طلبات التوظيف والتعرف على الأفراد وتحليل البيانات الشخصية. وقد تنتج عنه <b>نتائج غير عادلة</b> إذا كانت البيانات أو طريقة تصميم النظام أو استخدامه منحازة، وقد يصعب تفسير الأساس الذي بُني عليه بعض مخرجاته أو قراراته. لذلك يثير انتشار الذكاء الاصطناعي أسئلة عن <b>العدالة والشفافية والخصوصية والمساءلة</b>، وعن مسؤولية كل طرف عن النتائج.</div>
+<span class="chip">التحيز في أنظمة الذكاء الاصطناعي</span>
+<div class="banner kwn"><b>انحراف أو نمط</b> قد يؤدي إلى <b>نتائج غير عادلة أو ضارة</b>، ويمكن أن ينشأ من <b>البيانات</b> أو <b>تصميم النظام</b> أو <b>طريقة استخدامه</b> أو <b>السياق البشري والاجتماعي</b>. <span class="bx">مثال: نظام توظيف يفضّل فئة بصورة غير عادلة، أو نظام تعرف على الوجه تقل دقته مع فئات معينة.</span></div>
+<div class="note-line"><span class="tag">للفهم</span><span class="lead">ببساطة</span>خُد بالك: التحيز مش سببه <b>البيانات</b> بس. الكتاب ذكر <b>أربعة</b> مصادر مش واحد: <b>البيانات · التصميم · الاستخدام · السياق</b>. والسؤال في التمارين بيتبني على ده.</div>
+<div class="fig src4 keep"><span class="fx abs">للفهم</span>
+  <div class="s4">
+    <div class="sl"><div><span><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.8"/><path d="M4.5 5.5v13c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8v-13M4.5 12c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8"/></svg></span><b>البيانات</b></div><div><span><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="6.8"/><path d="M12 2.6v2.6M12 18.8v2.6M2.6 12h2.6M18.8 12h2.6M5.4 5.4l1.8 1.8M16.8 16.8l1.8 1.8M5.4 18.6l1.8-1.8M16.8 7.2l1.8-1.8"/></svg></span><b>تصميم النظام</b></div><div><span><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11V5.5a1.5 1.5 0 0 1 3 0V11M10 10V4a1.5 1.5 0 0 1 3 0v6M13 10V5a1.5 1.5 0 0 1 3 0v7M16 11V8a1.5 1.5 0 0 1 3 0v6c0 4-3 7-7 7s-6-2-7.5-4.5L3 13a1.5 1.5 0 0 1 2.5-1.5L7 13.5"/></svg></span><b>طريقة الاستخدام</b></div><div><span><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3.5 19c.5-3.2 2.7-5 5.5-5s5 1.8 5.5 5"/><circle cx="17" cy="9" r="2.3"/><path d="M15.8 14.2c2.6-.3 4.4 1.2 4.9 4"/></svg></span><b>السياق البشري والاجتماعي</b></div></div>
+    <i class="la"><span class="arr">←</span></i>
+    <div class="sb"><b>التحيز</b><b class="g">الخوارزمي</b></div>
+    <div class="sr"><small>قد يؤدي إلى</small><i class="la"><span class="arr">←</span></i></div>
+    <div class="se"><b>نتائج غير عادلة<br>أو ضارة</b></div>
+  </div>
+  <div class="cap">مصادر قد ينشأ منها التحيز، وقد يؤدي إلى نتائج غير عادلة أو ضارة.</div>
+</div>
+<div class="note-line"><span class="tag">للفهم</span><span class="lead">خُد بالك</span>الكتاب قال <b>«قد يؤدي»</b> مش «يؤدي دايمًا». والمثالين اللي في التعريف (<b>نظام توظيف</b> · <b>نظام تعرف على الوجه</b>) هما اللي بيتسأل عليهم في «اختر مثالًا على التحيز».</div>
+<div class="pb"></div>
+<h2 class="sec"><span class="num">2</span><span class="dot">·</span> الأسباب الرئيسية للتحيز</h2>
+<span class="chip">بيانات التدريب</span>
+<div class="banner kwn">الأمثلة التي يتعلم منها نظام الذكاء الاصطناعي أنماطه قبل استخدامه؛ وكلما <b>قلّ تمثيلها للواقع</b> زاد احتمال <b>تحيّز مخرجاته</b>.</div>
+<div class="quote"><span class="qmark">”</span><b>بيانات التدريب متحيزة</b> (مثل: <b>بيانات غير كافية عن سمات معينة</b>؛ <b>انعكاس نزعات تمييزية سابقة في البيانات</b>). يمكن أن يدخل التحيز أيضًا من خلال <b>طريقة بناء النظام</b> – على سبيل المثال، <b>اختيار غير مناسب للمتغيرات</b>، أو <b>متغير بديل يمثل بشكل غير مباشر سمة محمية</b>، أو <b>تصميم النموذج نفسه</b>.</div>
+<div class="fig cz keep"><span class="fx abs">للفهم</span><div class="c2"><div class="cc0"><h5><span><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.8"/><path d="M4.5 5.5v13c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8v-13M4.5 12c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8"/></svg></span>من البيانات</h5><ul><li>بيانات غير كافية عن سمات معينة</li><li>انعكاس نزعات تمييزية سابقة في البيانات</li></ul></div><div class="cc1"><h5><span><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="6.8"/><path d="M12 2.6v2.6M12 18.8v2.6M2.6 12h2.6M18.8 12h2.6M5.4 5.4l1.8 1.8M16.8 16.8l1.8 1.8M5.4 18.6l1.8-1.8M16.8 7.2l1.8-1.8"/></svg></span>من طريقة بناء النظام</h5><ul><li>اختيار غير مناسب للمتغيرات</li><li>متغير بديل يمثل بشكل غير مباشر سمة محمية</li><li>تصميم النموذج نفسه</li></ul></div></div><div class="cap">الأسباب الرئيسية زي ما الكتاب رتّبها — والسؤال بيطلب منك تصنّف أي سبب: من البيانات ولا من البناء.</div></div>
+<div class="note-line"><span class="tag">للفهم</span><span class="lead">ببساطة</span><b>«متغير بديل يمثل بشكل غير مباشر سمة محمية»</b> — المقصود إن النظام ممكن يستخدم معلومة مرتبطة بالسمة المحمية، بدل ما يستخدم السمة نفسها مباشرة. فحذف السمة وحده مش كفاية لو فضل متغير مرتبط بيها بيؤثر في النتيجة.</div>
+<figure class="bimg keep"><img src="assets/u1/l14_bias.jpg" alt=""><figcaption class="icap">قد تسهم بيانات التدريب غير الممثلة أو المتحيزة في نتائج غير عادلة.</figcaption></figure>
+<div class="bridge"><span class="fx">للفهم</span>عرفنا التحيز جاي منين. الجزء اللي جاي: <b>الخصوصية</b>، و<b>مين يشرح</b> القرار، و<b>مين يتحاسب</b> عليه.</div>
+<div class="pb"></div>
+<div class="part p2"><span>الجزء الثاني</span></div>
+<hr class="rule">
+<h2 class="sec"><span class="num">3</span><span class="dot">·</span> قضايا الخصوصية</h2>
+<div class="quote kwn"><span class="qmark">”</span>أدى تطور تقنية الذكاء الاصطناعي إلى ظهور قضايا جديدة تتعلق <b>بالخصوصية</b>.</div>
+<div class="sf pv"><div class="pv2"><div class="pc"><span class="pn">1</span><span class="pi"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6.5" width="19" height="13" rx="2"/><path d="M8 6.5 9.5 4h5L16 6.5"/><circle cx="12" cy="13" r="3.5"/></svg></span><h4>المراقبة عبر تقنية التعرف على الوجه</h4><p>يمكن للكاميرات في الأماكن العامة <b>التعرف على الأفراد وتتبعهم</b>.</p></div><div class="pc"><span class="pn">2</span><span class="pi"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9M12 3c-2.6 2.6-3.8 5.6-3.8 9s1.2 6.4 3.8 9"/></svg></span><h4>الجمع الجماعي للبيانات الشخصية</h4><p>تُجمع وتُحلَّل <b>كميات كبيرة من بيانات السلوك عبر الإنترنت</b>.</p></div></div><div class="im"><img src="assets/u1/l14_privacy.jpg" alt=""><div class="icap">الخصوصية: التحكم في البيانات الشخصية التي تتم مشاركتها.</div></div></div>
+<div class="simply"><span class="fx abs">للفهم</span><span class="lab"><svg viewBox="0 0 24 24" fill="none" stroke="#e29433" stroke-width="1.7" stroke-linecap="round"><path d="M8.2 14.5a5.6 5.6 0 1 1 7.6 0c-.9.8-1.3 1.6-1.3 2.6h-5c0-1-.4-1.8-1.3-2.6z" fill="#fde2b8"/><line x1="9.6" y1="19.6" x2="14.4" y2="19.6"/><line x1="10.4" y1="22" x2="13.6" y2="22"/><line x1="12" y1="1" x2="12" y2="2.6"/><line x1="3.2" y1="4.6" x2="4.4" y2="5.8"/><line x1="20.8" y1="4.6" x2="19.6" y2="5.8"/><line x1="1" y1="11" x2="2.6" y2="11"/><line x1="21.4" y1="11" x2="23" y2="11"/></svg>ببساطة</span><p><b>الخصوصية</b> في الكتاب: <b>التحكم في البيانات الشخصية التي تتم مشاركتها</b> · و<b>التعامل المناسب مع البيانات الشخصية وحمايتها</b>. يعني السؤال مش بس «بياناتي اتجمعت؟» — لكن كمان: <b>مين شايفها؟ وبتتستخدم في إيه؟</b></p></div>
+<div class="note-line"><span class="tag">للفهم</span><span class="lead">خُد بالك</span>القضيتين دول <b>بس</b> اللي الكتاب ذكرهم. فلو جالك اختيار زي «الذكاء الاصطناعي ينشئ أعمالًا إبداعية» أو «تتحسن سرعة الحوسبة» — دول <b>مش</b> قضايا خصوصية.</div>
+<div class="pb"></div>
+<h2 class="sec"><span class="num">4</span><span class="dot">·</span> الذكاء الاصطناعي القابل للتفسير <bdi class="nw">(XAI)</bdi> والمسؤولية</h2>
+<figure class="bimg keep"><img src="assets/u1/l14_xai.jpg" alt=""><figcaption class="icap">يساعد الذكاء الاصطناعي القابل للتفسير على توضيح العوامل التي أسهمت في المخرج.</figcaption></figure>
+<span class="chip">الذكاء الاصطناعي القابل للتفسير <bdi class="nw">(Explainable AI - XAI)</bdi></span>
+<div class="banner kwn"><b>أساليب تساعد البشر على فهم العوامل التي أسهمت في وصول النظام إلى مخرج أو قرار معين.</b> وعندما تكون <b>آلية الوصول إلى النتيجة غير واضحة</b>، يصعب <b>تقييمها واكتشاف الأخطاء أو التحيز</b>.</div>
+<div class="note-line"><span class="tag">للفهم</span><span class="lead">طب ليه؟</span>في الدرس اللي فات عرفنا <b>مشكلة الصندوق الأسود</b>. وهنا بنشوف إزاي أساليب <b>XAI</b> بتساعد البشر يفهموا العوامل اللي أسهمت في وصول النظام للنتيجة.</div>
+<span class="chip" style="margin-top:8pt">المسؤولية <bdi class="nw">(Responsibility)</bdi></span>
+<div class="banner kwn">تحديد <b>أدوار وواجبات الأطراف</b> المرتبطة بتطوير النظام وتشغيله واستخدامه، مثل <b>المطوّر</b> و<b>الجهة المشغِّلة</b> و<b>المستخدم</b>. و<b>لا يوجد توزيع واحد للمسؤولية يصلح لكل السياقات</b>؛ إذ يختلف باختلاف النظام والاستخدام والقواعد المعمول بها.</div>
+<div class="fig p3f keep"><span class="fx abs">للفهم</span><div class="p3r"><div><span><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 4.5l-3 15"/></svg></span><b>المطوّر</b><small>بيبني النظام</small></div><i class="la"><span class="arr">←</span></i><div><span><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V5l8-2.5V21M12 8.5l8 2.5v10M2.5 21h19M7 8h2M7 12h2M7 16h2M15 13h2M15 17h2"/></svg></span><b>الجهة المشغِّلة</b><small>بتشغّله وتستخدمه في شغلها</small></div><i class="la"><span class="arr">←</span></i><div><span><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c.8-4 3.6-6.3 7-6.3s6.2 2.3 7 6.3"/></svg></span><b>المستخدم</b><small>بيتعامل مع النظام ونتايجه</small></div></div><div class="cap">الأطراف التلاتة اللي الكتاب ذكرها — وتوزيع المسؤولية بينهم <b>بيختلف حسب السياق</b>.</div></div>
+<div class="pb"></div>
+<span class="chip">المساءلة <bdi class="nw">(Accountability)</bdi></span>
+<div class="banner kwn">تحديد <b>الجهات المسؤولة عن النظام وقراراته وآثاره</b>، و<b>إمكان محاسبتها وفق أدوارها</b>. <b>ملاحظة:</b> المساءلة <b>ليست القدرة على شرح القرار</b> – تلك وظيفة الذكاء الاصطناعي القابل للتفسير <bdi>(XAI)</bdi> – <b>بل تحديد من يُحاسَب على النتيجة</b>.</div>
+<span class="chip" style="margin-top:8pt">الشفافية <bdi class="nw">(Transparency)</bdi></span>
+<div class="banner kwn"><b>إتاحة معلومات واضحة ومناسبة</b> عن النظام واستخدامه وعملية اتخاذ القرار <b>وحدوده</b>.</div>
+<div class="fig wh keep"><span class="fx abs">للفهم</span>
+  <div class="wh3">
+    <div class="w1"><small>الذكاء الاصطناعي القابل للتفسير <bdi>(XAI)</bdi></small><b>ليه؟</b><p>يوضّح العوامل اللي أدّت للمخرج — وظيفة <b>شرح</b></p></div>
+    <div class="w2"><small>الشفافية</small><b>إيه؟</b><p>معلومات واضحة عن النظام والقرار <b>وحدوده</b></p></div>
+    <div class="w3"><small>المساءلة</small><b>مين؟</b><p>تحديد الجهات المسؤولة وإمكان محاسبتها — <b>مش شرح</b></p></div>
+  </div>
+  <div class="cap">التلاتة اللي بيتلخبطوا — كل واحد بيجاوب على سؤال مختلف</div>
+</div>
+<div class="rule0 keep"><span class="rb"><svg viewBox="0 0 24 24" fill="none" stroke="#e29433" stroke-width="1.7" stroke-linecap="round"><path d="M8.2 14.5a5.6 5.6 0 1 1 7.6 0c-.9.8-1.3 1.6-1.3 2.6h-5c0-1-.4-1.8-1.3-2.6z" fill="#fde2b8"/><line x1="9.6" y1="19.6" x2="14.4" y2="19.6"/><line x1="10.4" y1="22" x2="13.6" y2="22"/><line x1="12" y1="1" x2="12" y2="2.6"/><line x1="3.2" y1="4.6" x2="4.4" y2="5.8"/><line x1="20.8" y1="4.6" x2="19.6" y2="5.8"/><line x1="1" y1="11" x2="2.6" y2="11"/><line x1="21.4" y1="11" x2="23" y2="11"/></svg></span><div>
+  <h3>التلاتة اللي بيتلخبطوا</h3>
+  <p><b>القابلية للتفسير</b> = <b>ليه</b> النظام قال كده (شرح العوامل) · <b>الشفافية</b> = <b>إيه</b> اللي بيحصل أصلًا (معلومات واضحة عن النظام والقرار وحدوده) · <b>المساءلة</b> = <b>مين</b> يتحاسب على النتيجة.</p>
+  <p>والكتاب نفسه واقف يقول: <b>«المساءلة ليست القدرة على شرح القرار»</b> — خُد بالك من الفرق ده وإنت بتحل الأسئلة.</p>
+</div></div>
+<div class="note-line"><span class="tag">للفهم</span><span class="lead">خُد بالك</span>الشفافية بتشمل <b>عملية اتخاذ القرار</b> <b>و</b> <b>حدود النظام</b> مع بعض — كلمة <b>«وحدوده»</b> بتسقط من إجابات كتير.</div>
+<div class="pb"></div>
+<div class="part p3"><span>الجزء الثالث</span></div>
+<hr class="rule">
+<h2 class="sec"><span class="num">5</span><span class="dot">·</span> المبادئ الأساسية لأخلاقيات الذكاء الاصطناعي</h2>
+<div class="quote kwn"><span class="qmark">”</span>يركز هذا الدرس على <b>أربعة مبادئ مهمة</b> للاستخدام المسؤول للذكاء الاصطناعي، <b>من بين مبادئ أخرى</b>.</div>
+<table class="t prt keep"><thead><tr><th style="width:130pt">المبدأ</th><th>الوصف</th></tr></thead><tbody><tr><td class="k">العدالة</td><td>عدم التمييز ظلمًا ضد أي شخص أو مجموعة بعينها</td></tr><tr><td class="k">الشفافية</td><td>إتاحة معلومات واضحة ومناسبة عن النظام واستخدامه وعملية اتخاذ القرار وحدوده</td></tr><tr><td class="k">حماية الخصوصية</td><td>التعامل مع المعلومات الشخصية بشكل مناسب وحماية الخصوصية</td></tr><tr><td class="k">المساءلة</td><td>تحديد الجهات المسؤولة عن النظام وقراراته وآثاره، وإمكان محاسبتها وفق أدوارها</td></tr></tbody></table>
+<div class="fig p4 keep"><div class="p4h">المبادئ الأربعة لأخلاقيات الذكاء الاصطناعي</div><div class="p4g"><div><span class="pi"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v17M6 20.5h12M4.5 7.5h15"/><path d="M4.5 7.5 2 13.5a3 3 0 0 0 5 0zM19.5 7.5 17 13.5a3 3 0 0 0 5 0z"/></svg></span><h4>العدالة</h4><p>عدم التمييز ظلمًا ضد أي شخص أو مجموعة</p><span class="pq"><span class="fx">للفهم</span>حد اتظلم؟</span></div><div><span class="pi"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg></span><h4>الشفافية</h4><p>إظهار عملية اتخاذ القرار وآليات العمل بوضوح</p><span class="pq"><span class="fx">للفهم</span>واضح إزاي؟</span></div><div><span class="pi"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8 19.5 6v5.5c0 4.6-3.2 8.3-7.5 9.7-4.3-1.4-7.5-5.1-7.5-9.7V6z"/><rect x="9" y="10.5" width="6" height="5" rx="1"/><path d="M10.2 10.5V9a1.8 1.8 0 0 1 3.6 0v1.5"/></svg></span><h4>حماية الخصوصية</h4><p>التعامل المناسب مع المعلومات الشخصية</p><span class="pq"><span class="fx">للفهم</span>بياناتي راحت فين؟</span></div><div><span class="pi"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 5h17v11H10l-4.5 3.5V16h-2z"/><path d="M8.5 10.5l2.3 2.3 4.7-4.6"/></svg></span><h4>المساءلة</h4><p>تحديد الجهات المسؤولة وإمكان محاسبتها</p><span class="pq"><span class="fx">للفهم</span>مين يتحاسب؟</span></div></div><div class="cap">أربعة مبادئ أساسية يركز عليها هذا الدرس.</div></div>
+<div class="simply"><span class="fx abs">للفهم</span><span class="lab"><svg viewBox="0 0 24 24" fill="none" stroke="#e29433" stroke-width="1.7" stroke-linecap="round"><path d="M8.2 14.5a5.6 5.6 0 1 1 7.6 0c-.9.8-1.3 1.6-1.3 2.6h-5c0-1-.4-1.8-1.3-2.6z" fill="#fde2b8"/><line x1="9.6" y1="19.6" x2="14.4" y2="19.6"/><line x1="10.4" y1="22" x2="13.6" y2="22"/><line x1="12" y1="1" x2="12" y2="2.6"/><line x1="3.2" y1="4.6" x2="4.4" y2="5.8"/><line x1="20.8" y1="4.6" x2="19.6" y2="5.8"/><line x1="1" y1="11" x2="2.6" y2="11"/><line x1="21.4" y1="11" x2="23" y2="11"/></svg>ببساطة</span><p>أربع أسئلة تساعدك تفتكر معنى المبادئ: <b>هل في حد اتظلم؟</b> دي العدالة. <b>هل فيه معلومات واضحة عن النظام واستخدامه وحدوده؟</b> دي الشفافية. <b>إزاي البيانات الشخصية بتتستخدم وبتتحمى؟</b> دي حماية الخصوصية. <b>ومين يمكن محاسبته وفق دوره؟</b> دي المساءلة. اربط كل سؤال بتعريف المبدأ، وبعدها طبّقه على الموقف.</p></div>
+<div class="kidea keep"><div class="kh">الفكرة الرئيسة</div><p>إذا كانت <b>بيانات التدريب متحيزة</b>، يمكن لنظام الذكاء الاصطناعي أن <b>يكرر هذا التحيز في أحكامه</b>؛ لذا فإن استخدام الذكاء الاصطناعي بمسؤولية يعني <b>التحقق من التحيز</b>، و<b>القدرة على شرح قراراته</b>، و<b>معرفة من هو المسؤول</b>.</p></div>
+<div class="box cream keep">
+  <h3>خلي بالك من العبارات دي</h3>
+  <ul>
+    <li>التحيز <b>«قد يؤدي»</b> إلى نتائج غير عادلة أو ضارة – «قد» مش «دايمًا».</li>
+    <li>الدرس بيركّز على أربعة مبادئ <b>«من بين مبادئ أخرى»</b> – مش هما الوحيدين.</li>
+    <li><b>«لا يوجد توزيع واحد للمسؤولية يصلح لكل السياقات»</b>.</li>
+    <li><b>«المساءلة ليست القدرة على شرح القرار»</b>.</li>
+    <li>الشفافية معلومات عن النظام واستخدامه وعملية اتخاذ القرار <b>«وحدوده»</b> – كلمة «وحدوده» بتسقط من إجابات كتير.</li>
+    <li>بيانات التدريب: <b>«كلما قلّ تمثيلها للواقع زاد احتمال تحيّز مخرجاته»</b>.</li>
+  </ul>
+</div>
+<div class="box plain keep">
+  <h3>مثال من حياتنا<span class="fx">للفهم</span></h3>
+  <p>مدرسة حطّت كاميرات تعرف على الوجه على البوابة عشان تسجّل الحضور تلقائيًا. الفايدة: <b>بيقلّل وقت التسجيل وبعض صور التلاعب</b> — لكنه <b>ما بيلغيش الأخطاء</b>. بس بص للأسئلة دي: <b>حد اتظلم؟</b> — لو دقة النظام أقل مع فئة معيّنة، الطلبة دول هيتحسبوا غايبين ظلمًا. <b>بياناتي راحت فين؟</b> — دي <b>مراقبة</b> وبيانات شخصية.</p>
+  <p><b>وأصعب سؤال:</b> لو الكاميرا غلطت وحسبت طالب غايب — <b>مين المسؤول؟</b> المدرسة اللي استخدمت النظام، ولا الشركة اللي طوّرته؟ الكتاب بيقول إن <b>ما فيش توزيع واحد</b> يصلح لكل السياقات — عشان كده، لما تحدد الطرف المسؤول في المثال، وضّح دوره واذكر سبب اختيارك.</p>
+</div>
+<div class="big">سؤال على نمط الامتحان — ونموذج إجابته</div>
+<hr class="rule">
+<div class="exam keep">
+  <div class="hd"><span class="n">1</span><span class="t">سؤال على نمط الامتحان</span><span class="m">[<span class="num">6</span> درجات]</span></div>
+  <div class="qt">حلّل كيف يمكن أن ينشأ التحيز الخوارزمي في نظام ذكاء اصطناعي، وكيف يمكن تقليله.</div>
+  <div class="hint"><b>في إجابتك:</b> أشِر إلى سبب التحيز (بيانات تدريب متحيزة أو غير كافية) وإلى كيفية مساعدة مبدأي العدالة والشفافية في معالجته.</div>
+</div>
+<h3 class="sub">سؤال على نمط الامتحان — إجابة نموذجية</h3>
+<div class="box white split"><h3>نموذج إجابة مقترح لسؤال الـ<span class="num">6</span> درجات<span class="fx">للفهم</span></h3><ol style="counter-reset:n 0"><li><b>ما هو التحيز:</b> نمط في مخرجات النظام <b>قد يؤدي إلى نتائج غير عادلة أو ضارة</b>.</li></ol><ol style="counter-reset:n 1"><li><b>سبب نشوئه من البيانات:</b> <b>بيانات تدريب متحيزة</b> – مثل بيانات <b>غير كافية عن سمات معينة</b>، أو <b>انعكاس نزعات تمييزية سابقة</b> في البيانات؛ فكلما قلّ تمثيل البيانات للواقع زاد احتمال تحيّز المخرجات.</li></ol><ol style="counter-reset:n 2"><li><b>سبب نشوئه من بناء النظام:</b> <b>اختيار غير مناسب للمتغيرات</b>، أو <b>متغير بديل يمثل بشكل غير مباشر سمة محمية</b>، أو <b>تصميم النموذج نفسه</b>. وقد ينشأ أيضًا من <b>طريقة الاستخدام</b> أو <b>السياق البشري والاجتماعي</b>.</li></ol><ol style="counter-reset:n 3"><li><b>دور العدالة في تقليله:</b> مبدأ <b>عدم التمييز ظلمًا</b> ضد أي شخص أو مجموعة يوجّه إلى <b>فحص تمثيل البيانات</b> و<b>اختبار النتائج عبر فئات مختلفة</b>.</li></ol><ol style="counter-reset:n 4"><li><b>دور الشفافية في تقليله:</b> <b>إتاحة معلومات واضحة</b> عن النظام وعملية اتخاذ القرار <b>وحدوده</b> تجعل من الممكن <b>تقييم المخرجات واكتشاف الأخطاء أو التحيز</b> – وهنا يساعد <b>الذكاء الاصطناعي القابل للتفسير</b>.</li></ol><div class="tip"><span class="l">ركّز:</span> السؤال طلب <b>سبب التحيز</b> و<b>كيفية تقليله عبر مبدأي العدالة والشفافية</b>. خلّي الاتنين ظاهرين بوضوح، وربط الشفافية بـ<b>XAI</b> يوضّح إنك فاهم العلاقة.</div></div>
+<h2 class="sec"><span class="num"></span>إجابة السؤال الرئيسي</h2>
+<div class="mq kwn">
+  <div class="lab">السؤال</div>
+  <div class="qq">ما القضايا الأخلاقية التي تنشأ مع انتشار الذكاء الاصطناعي، وما المبادئ التي ينبغي أن توجه كيفية استخدامنا له؟</div>
+</div>
+<div class="quote"><span class="qmark">”</span>تناول السؤال الرئيسي القضايا الأخلاقية المرتبطة باستخدام الذكاء الاصطناعي. قد تنشأ <b>النتائج غير العادلة</b> من <b>البيانات أو تصميم النظام أو طريقة استخدامه</b>، وقد يؤدي <b>جمع البيانات وتحليلها</b> إلى <b>مخاطر تتعلق بالخصوصية</b>. كما قد <b>يصعب تفسير بعض المخرجات أو تحديد المسؤولية عنها</b>. لذلك يركز الدرس على <b>العدالة والشفافية وحماية الخصوصية والمساءلة</b> بوصفها مبادئ مهمة <b>ضمن إطار أوسع</b> للاستخدام المسؤول للذكاء الاصطناعي.</div>
+<div class="note-line"><span class="tag">للفهم</span><span class="lead">طب ليه؟</span><b>لو السؤال ده جالك في الامتحان</b> جاوب على جزئين: <b>(1) القضايا</b> — نتائج غير عادلة (تحيز) · خصوصية · صعوبة التفسير وتحديد المسؤولية، <b>(2) المبادئ</b> — العدالة · الشفافية · حماية الخصوصية · المساءلة، واقفل بإنها <b>ضمن إطار أوسع</b>.</div>
+<div class="terms keep">
+  <div class="th"><h3>مصطلحات أساسية</h3></div>
+  <div class="t2">
+    <div><b>التحيز الخوارزمي</b> – نمط في مخرجات الذكاء الاصطناعي قد يؤدي إلى نتائج غير عادلة أو ضارة، وقد ينشأ من البيانات أو تصميم النظام أو طريقة استخدامه أو السياق البشري والاجتماعي.</div>
+    <div><b>بيانات التدريب</b> – الأمثلة التي يتعلم منها نظام الذكاء الاصطناعي أنماطه قبل استخدامه؛ وكلما قلّ تمثيلها للواقع زاد احتمال تحيّز مخرجاته.</div>
+    <div><b>الذكاء الاصطناعي القابل للتفسير <bdi>(XAI)</bdi></b> – تقنية تتيح للبشر فهم سبب اتخاذ الذكاء الاصطناعي حكمًا معينًا.</div>
+    <div><b>الخصوصية</b> – التعامل المناسب مع البيانات الشخصية وحمايتها.</div>
+    <div><b>المسؤولية</b> – من يجيب عندما يكون حكم الذكاء الاصطناعي خاطئًا.</div>
+    <div><b>العدالة</b> – عدم التمييز ظلمًا ضد شخص أو مجموعة.</div>
+    <div><b>المساءلة</b> – تحديد الجهات المسؤولة عن النظام وقراراته وآثاره وإمكان محاسبتها وفق أدوارها.</div>
+    <div><b>الشفافية</b> – إظهار عملية اتخاذ القرار في الذكاء الاصطناعي بوضوح.</div>
+    <div class="full"><b>حماية الخصوصية</b> – التعامل مع المعلومات الشخصية بشكل مناسب.</div>
+  </div>
+</div>
+<div class="dark keep">
+  <h3>الخلاصة في دقيقة</h3>
+  <p class="rem"><b>تذكّر:</b> إذا كانت بيانات التدريب متحيزة، يمكن للذكاء الاصطناعي أن يكرر هذا التحيز؛ واستخدام الذكاء الاصطناعي بمسؤولية يعني التحقق من التحيز، والقدرة على شرح القرارات، ومعرفة من هو المسؤول – مسترشدًا بالعدالة، والشفافية، وحماية الخصوصية، والمساءلة.</p>
+  <div class="g2">
+    <ul>
+      <li><b>التحيز الخوارزمي:</b> نمط قد يؤدي إلى نتائج غير عادلة أو ضارة – من البيانات · التصميم · الاستخدام · السياق.</li>
+      <li><b>الخصوصية:</b> المراقبة عبر التعرف على الوجه · الجمع الجماعي للبيانات الشخصية.</li>
+      <li><b>المبادئ الأربعة:</b> العدالة · الشفافية · حماية الخصوصية · المساءلة – <b>من بين مبادئ أخرى</b>.</li>
+    </ul>
+    <ul>
+      <li><b>من أسباب التحيز:</b> في البيانات – بيانات غير كافية عن سمات معينة، أو انعكاس نزعات تمييزية سابقة. وفي بناء النظام – متغيرات غير مناسبة، أو متغير بديل لسمة محمية، أو تصميم النموذج.</li>
+      <li><b>ليه · إيه · مين:</b> <bdi>XAI</bdi> يشرح <b>ليه</b> · الشفافية تبيّن <b>إيه</b> · المساءلة تحدد <b>مين</b> يُحاسَب.</li>
+    </ul>
+  </div>
+</div>
+<div class="check keep kwn">
+  <h3>اتأكد إنك قادر على</h3>
+  <div class="g2">
+    <ul>
+      <li><span>أعرف تعريف <b>التحيز الخوارزمي</b> و<b>الأربع مصادر</b> اللي بينشأ منها.</span></li>
+      <li><span>أعرف <b>قضيتي الخصوصية</b> اللي في الدرس.</span></li>
+      <li><span>أعرف <b>المبادئ الأربعة</b> بوصف كل واحد، وأقدر أطابقها بمواقف.</span></li>
+    </ul>
+    <ul>
+      <li><span>أقدر أذكر <b>أسباب</b> تحيز بيانات التدريب وأسباب التحيز من <b>بناء النظام</b>.</span></li>
+      <li><span>أفرّق بين <b>XAI</b> و<b>الشفافية</b> و<b>المساءلة</b> بسؤال واحد لكل واحد.</span></li>
+      <li><span>أعرف إن <b>توزيع المسؤولية يختلف باختلاف السياق</b>، وأقدر أبرّر رأيي.</span></li>
+    </ul>
+  </div>
+</div>
+<div class="endline">أكواد مع زياد — أ/ زياد السعدني · مذكرة البرمجة والذكاء الاصطناعي — تانية ثانوي <span class="num">2026/2027</span> · الوحدة الأولى — الدرس <span class="num">1-4</span></div>
+<div class="pb"></div>
+<div class="band" style="height:55pt;padding-right:12pt">
+  <div class="badge"><span class="n">1-4</span></div>
+  <h1 style="text-align:right;margin-right:12pt;font-size:14pt">لخّص الدرس بأسلوبك</h1>
+</div>
+<div class="instr"><span class="fx fl">للفهم</span>اقفل المذكرة وحاول تلخّص الدرس من غير ما تبصّ: اكتب أهم <b>المصطلحات</b>، و<b>الفكرة الأساسية</b>، و<b>النقطة اللي لسه محتاجة مراجعة</b>. بعد كده افتح المذكرة وقارن اللي كتبته.</div>
+<div class="lines"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+
+<!-- ===================== بنك الأسئلة ===================== -->
+<div class="pb"></div>
+<div class="band">
+  <div class="badge"><span class="l">الدرس</span><span class="n">1-4</span></div>
+  <h1>القضايا الأخلاقية المتعلقة بالذكاء الاصطناعي</h1>
+  <div class="who"><div class="t"><span class="u">الوحدة الأولى</span><span class="k">بنك الأسئلة</span></div><img src="assets/avatar.png" alt=""></div>
+</div>
+<div class="qstats"><div><b class="num">12</b><span>أسئلة الكتاب</span></div><div><b class="num">26</b><span>اختر</span></div><div><b class="num">12</b><span>أكمل</span></div><div><b class="num">12</b><span>صح وخطأ</span></div><div><b class="num">9</b><span>تصنيف وقارن</span></div><div><b class="num">9</b><span>علّل</span></div><div><b class="num">17</b><span>مقالي وأنشطة</span></div><div><b class="num">28</b><span class="tq">تقييمات</span></div></div>
+<h2 class="cat kwn">أسئلة الكتاب<span class="cnt">12</span></h2>
+<div class="qcard split "><h4><span class="n">01</span> · المثال المحلول — الجزء الأول</h4><p class="qi">ضع علامة ○ إذا كانت العبارة صحيحة أو × إذا كانت خاطئة لكل من (أ - د).</p><ul class="tf"><li><b>أ</b><span class="t">التحيز الخوارزمي نمط في مخرجات الذكاء الاصطناعي قد ينشأ من البيانات أو تصميم النظام أو طريقة استخدامه، وقد يؤدي إلى نتائج غير عادلة.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><b>ب</b><span class="t">حتى لو كانت عملية اتخاذ القرار في الذكاء الاصطناعي غير واضحة، لا توجد مشكلة طالما أن النتيجة صحيحة.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><b>ج</b><span class="t">الذكاء الاصطناعي القابل للتفسير <bdi>(XAI)</bdi> هو تقنية تتيح للبشر فهم منطق الذكاء الاصطناعي.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><b>د</b><span class="t">عندما يتخذ الذكاء الاصطناعي حكمًا خاطئًا، فإن من هو المسؤول قد تم تحديده بوضوح بالفعل.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li></ul></div>
+<div class="qcard split "><h4><span class="n">02</span> · المثال المحلول — الجزء الثاني</h4><p class="qi">طابق كل وصف (1 - 4) مع أنسب مبدأ أساسي من مبادئ أخلاقيات الذكاء الاصطناعي من الخيارات أدناه (أ - د).</p><div class="match"><div class="mb"><h5>الأوصاف</h5><ol><li><span>عدم التمييز ظلمًا ضد أي شخص أو مجموعة بعينها</span><span class="ab"></span></li><li><span>إتاحة معلومات واضحة ومناسبة عن النظام واستخدامه وعملية اتخاذ القرار وحدوده</span><span class="ab"></span></li><li><span>التعامل مع المعلومات الشخصية بشكل مناسب وحماية الخصوصية</span><span class="ab"></span></li><li><span>تحديد الجهات المسؤولة عن نتائج الذكاء الاصطناعي وإمكان محاسبتها</span><span class="ab"></span></li></ol></div><div class="mb"><h5>الخيارات</h5><ul class="op c1"><li><b>أ‌</b><span>العدالة</span></li><li><b>ب‌</b><span>الشفافية</span></li><li><b>ج‌</b><span>حماية الخصوصية</span></li><li><b>د‌</b><span>المساءلة</span></li></ul></div></div></div>
+<div class="qcard sol keep"><h4><span class="ck">✓</span> الحل — المثال المحلول</h4><div class="sg"><div><div class="sp">(1)</div><div class="sr"><b>أ</b><span>تعريف صحيح للتحيز الخوارزمي. لذلك، ○.</span></div><div class="sr"><b>ب</b><span>عندما تكون عملية اتخاذ القرار في الذكاء الاصطناعي غير واضحة، يصعب التحقق مما إذا كانت النتيجة صحيحة. لذلك، ×.</span></div><div class="sr"><b>ج</b><span>وصف صحيح للذكاء الاصطناعي القابل للتفسير <bdi>(XAI)</bdi>. لذلك، ○.</span></div><div class="sr"><b>د</b><span>تختلف الآراء حول المسؤولية عندما يتخذ الذكاء الاصطناعي حكمًا خاطئًا باختلاف ما إذا كان الشخص هو المطوّر، أو المستخدم، أو المشغّل، ولم تُحدَّد بعد بوضوح. لذلك، ×.</span></div></div><div><div class="sp">(2)</div><div class="sr"><b>1:</b><span>عدم التمييز هو العدالة. <i>أ</i></span></div><div class="sr"><b>2:</b><span>إظهار عملية اتخاذ القرار هو الشفافية. <i>ب</i></span></div><div class="sr"><b>3:</b><span>حماية الخصوصية هي حماية الخصوصية. <i>ج</i></span></div><div class="sr"><b>4:</b><span>تحديد المسؤولين وإمكان محاسبتهم هو المساءلة. <i>د</i></span></div></div></div></div>
+<div class="qcard split "><h4><span class="n">03</span> · تدرّب — أجب عن الأسئلة التالية</h4><div class="sa"><div><span class="k">1</span><p>ما المصطلح الذي يصف نمطًا في نظام ذكاء اصطناعي قد يؤدي إلى نتائج غير عادلة أو ضارة؟ <span class="bl" style="width:90pt"></span></p></div><div><span class="k">2</span><p>ما هو المصطلح الخاص بالتقنية التي تتيح للبشر فهم سبب اتخاذ الذكاء الاصطناعي حكمًا معينًا؟ واذكر أيضًا اختصارها المكون من ثلاثة أحرف. <span class="bl" style="width:90pt"></span></p></div><div><span class="k">3</span><p>من بين المبادئ الأساسية لأخلاقيات الذكاء الاصطناعي، ما هو المصطلح الخاص بالمبدأ الذي يقتضي عدم التمييز ظلمًا ضد أي شخص أو مجموعة بعينها؟ <span class="bl" style="width:90pt"></span></p></div><div><span class="k">4</span><p>من بين المبادئ الأساسية لأخلاقيات الذكاء الاصطناعي، ما هو المصطلح الخاص بالمبدأ الذي يقتضي التعامل مع المعلومات الشخصية بشكل مناسب؟ <span class="bl" style="width:90pt"></span></p></div></div></div>
+<div class="qcard split "><h4><span class="n">04</span> · تدرّب — اختيار<span class="tq">تقييمات</span></h4><div class="qq"><span class="k">1</span><p>من الخيارات التالية (أ - د)، اختر الخيار الذي <b>ليس سببًا مناسبًا</b> للتحيز الخوارزمي.</p></div><ul class="op c2"><li><b>أ‌</b><span>بيانات التدريب متحيزة.</span></li><li><b>ب‌</b><span>انعكاس نزعات تمييزية سابقة في البيانات.</span></li><li><b>ج‌</b><span>سرعة معالجة الحاسوب بطيئة.</span></li><li><b>د‌</b><span>هناك بيانات غير كافية عن سمات معينة.</span></li></ul><div class="qq"><span class="k">2</span><p>من الخيارات التالية (أ - د)، اختر <b>كل</b> ما يمثل قضايا خصوصية مرتبطة بالذكاء الاصطناعي.</p></div><ul class="op c1"><li><b>أ‌</b><span>يتم التعرف على الأفراد وتتبعهم من خلال تقنية التعرف على الوجه.</span></li><li><b>ب‌</b><span>تُجمع بيانات السلوك عبر الإنترنت وتُحلَّل بكميات كبيرة.</span></li><li><b>ج‌</b><span>الذكاء الاصطناعي ينشئ أعمالًا إبداعية.</span></li><li><b>د‌</b><span>تتحسن سرعة حوسبة الذكاء الاصطناعي.</span></li></ul></div>
+<div class="qcard split "><h4><span class="n">05</span> · سؤال على نمط الامتحان<span class="mk">[<span class="num">6</span> درجات]</span><span class="tq">تقييمات</span></h4><p class="qs">حلّل كيف يمكن أن ينشأ التحيز الخوارزمي في نظام ذكاء اصطناعي، وكيف يمكن تقليله.</p><div class="hint"><b>عناصر الإجابة</b> <b>في إجابتك:</b> أشِر إلى سبب التحيز (بيانات تدريب متحيزة أو غير كافية) وإلى كيفية مساعدة مبدأي العدالة والشفافية في معالجته.</div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="qcard split "><h4><span class="n">06</span> · تمارين — اقرأ الفقرة التالية وأجب عن كل سؤال</h4><div class="qq"><span class="k">1</span><p>املأ الفراغات (1) - (3).</p></div><p class="para">مع انتشار أنظمة الذكاء الاصطناعي، برزت قضايا أخلاقية متعددة. قد يظهر (<b>1</b>) <span class="bl" style="width:80pt"></span> عندما تؤدي البيانات أو طريقة تصميم النظام أو استخدامه إلى نتائج غير عادلة. ولمعالجة مشكلة «الصندوق الأسود» تُطوَّر أساليب تسمى (<b>2</b>) <span class="bl" style="width:80pt"></span> تساعد على فهم العوامل المؤثرة في المخرجات. وعندما ينتج النظام قرارًا خاطئًا أو ضارًا تُطرح مسألة (<b>3</b>) <span class="bl" style="width:80pt"></span>؛ ولا يوجد معيار واحد يوزعها بالطريقة نفسها في جميع السياقات، إذ تختلف أدوار المطورين والجهات المشغلة والمستخدمين.</p></div>
+<div class="qcard split "><h4><span class="n">07</span> · تمارين — تصنيف واختيار</h4><div class="qq"><span class="k">1</span><p>لكل من 1 - 4، حدد أي مبدأ أساسي من مبادئ أخلاقيات الذكاء الاصطناعي يرتبط ارتباطًا وثيقًا به: <b>أ</b> العدالة، <b>ب</b> الشفافية، <b>ج</b> حماية الخصوصية، <b>د</b> المساءلة.</p></div><ul class="cl"><li><span class="k">1</span><span class="t">ضمان أن يقيّم ذكاء اصطناعي للتوظيف بعدالة بغض النظر عن الجنس.</span><span class="ab"></span></li><li><span class="k">2</span><span class="t">الإفصاح عن عملية اتخاذ القرار في الذكاء الاصطناعي للمستخدمين بطريقة سهلة الفهم.</span><span class="ab"></span></li><li><span class="k">3</span><span class="t">عدم استخدام البيانات الشخصية المجمّعة لأغراض غير الغرض الأصلي منها.</span><span class="ab"></span></li><li><span class="k">4</span><span class="t">القدرة على شرح سبب التوصل إلى نتيجة تشخيصية معينة من قبل الذكاء الاصطناعي.</span><span class="ab"></span></li></ul><div class="qq"><span class="k">2</span><p>من الخيارات التالية (أ - د)، اختر الخيار الذي يصف بشكل أنسب القضايا الأخلاقية المتعلقة بالذكاء الاصطناعي.</p></div><ul class="op c1"><li><b>أ‌</b><span>لا توجد قضايا أخلاقية متعلقة بالذكاء الاصطناعي.</span></li><li><b>ب‌</b><span>التحيز الخوارزمي ناتج عن سرعة معالجة الذكاء الاصطناعي.</span></li><li><b>ج‌</b><span>يمكن أن يتسبب التحيز في بيانات التدريب في تحيز تمييزي في أحكام الذكاء الاصطناعي.</span></li><li><b>د‌</b><span>حتى لو كانت عملية اتخاذ القرار في الذكاء الاصطناعي غير واضحة، لا توجد مشكلة بالنسبة للمستخدمين.</span></li></ul></div>
+<h2 class="cat kwn">اختر الإجابة الصحيحة<span class="cnt">26</span></h2>
+<div class="mrow kwn"><div class="mq"><div class="qq"><span class="k">1</span><span class="tq">تقييمات</span><p>«نمط في مخرجات الذكاء الاصطناعي قد يؤدي إلى نتائج غير عادلة أو ضارة» تعريف لـ:</p></div><ul class="op c2"><li><b>أ‌</b><span>التحيز الخوارزمي</span></li><li><b>ب‌</b><span>المساءلة</span></li><li><b>ج‌</b><span>الشفافية</span></li><li><b>د‌</b><span>الخصوصية</span></li></ul></div><div class="mq"><div class="qq"><span class="k">2</span><p>حسب تعريف الكتاب، يمكن أن ينشأ التحيز الخوارزمي من:</p></div><ul class="op c1"><li><b>أ‌</b><span>البيانات فقط دون أي عامل آخر يتعلق بتصميم النظام أو استخدامه</span></li><li><b>ب‌</b><span>نوع لغة البرمجة المكتوب بها النظام</span></li><li><b>ج‌</b><span>سرعة المعالجة وحجم الذاكرة المستخدمة</span></li><li><b>د‌</b><span>البيانات أو تصميم النظام أو طريقة استخدامه أو السياق البشري والاجتماعي</span></li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">3</span><span class="tq">تقييمات</span><p>من أمثلة التحيز التي يذكرها الكتاب:</p></div><ul class="op c1"><li><b>أ‌</b><span>مساعد صوتي لا يستجيب عند انقطاع الاتصال بالإنترنت</span></li><li><b>ب‌</b><span>نظام ترجمة يعمل ببطء عند ترجمة النصوص الطويلة</span></li><li><b>ج‌</b><span>نظام توظيف يفضّل فئة بصورة غير عادلة</span></li><li><b>د‌</b><span>نظام توصية يعرض إعلانات كثيرة في الصفحة الرئيسية</span></li></ul></div><div class="mq"><div class="qq"><span class="k">4</span><span class="tq">تقييمات</span><p>«الأمثلة التي يتعلم منها نظام الذكاء الاصطناعي أنماطه قبل استخدامه» هي:</p></div><ul class="op c2"><li><b>أ‌</b><span>بيانات التدريب</span></li><li><b>ب‌</b><span>المخرجات</span></li><li><b>ج‌</b><span>الخوارزمية</span></li><li><b>د‌</b><span>الشفافية</span></li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">5</span><p>حسب الكتاب، كلما قلّ تمثيل بيانات التدريب للواقع:</p></div><ul class="op c1"><li><b>أ‌</b><span>قلّ احتمال تحيّز المخرجات</span></li><li><b>ب‌</b><span>زاد احتمال تحيّز المخرجات</span></li><li><b>ج‌</b><span>زادت سرعة النظام في المعالجة</span></li><li><b>د‌</b><span>لم يتغير شيء في مخرجات النظام</span></li></ul></div><div class="mq"><div class="qq"><span class="k">6</span><p>«متغير بديل يمثل بشكل غير مباشر سمة محمية» يذكره الكتاب ضمن:</p></div><ul class="op c1"><li><b>أ‌</b><span>المبادئ الأربعة الأساسية لأخلاقيات الذكاء الاصطناعي</span></li><li><b>ب‌</b><span>الطرق التي قد يدخل منها التحيز أثناء بناء النظام</span></li><li><b>ج‌</b><span>قضايا الخصوصية المرتبطة بالجمع الجماعي لبيانات المستخدمين</span></li><li><b>د‌</b><span>وظائف الذكاء الاصطناعي القابل للتفسير في شرح القرار للمستخدم</span></li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">7</span><p>«يمكن للكاميرات في الأماكن العامة التعرف على الأفراد وتتبعهم» — هذه القضية اسمها:</p></div><ul class="op c1"><li><b>أ‌</b><span>الجمع الجماعي للبيانات</span></li><li><b>ب‌</b><span>الشفافية</span></li><li><b>ج‌</b><span>المساءلة</span></li><li><b>د‌</b><span>المراقبة عبر تقنية التعرف على الوجه</span></li></ul></div><div class="mq"><div class="qq"><span class="k">8</span><p>«تُجمع وتُحلَّل كميات كبيرة من بيانات السلوك عبر الإنترنت» — هذه القضية اسمها:</p></div><ul class="op c1"><li><b>أ‌</b><span>المراقبة عبر التعرف على الوجه</span></li><li><b>ب‌</b><span>الجمع الجماعي للبيانات الشخصية</span></li><li><b>ج‌</b><span>التحيز الخوارزمي</span></li><li><b>د‌</b><span>المسؤولية</span></li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">9</span><span class="tq">تقييمات</span><p>«أساليب تساعد البشر على فهم العوامل التي أسهمت في وصول النظام إلى مخرج أو قرار معين» هي:</p></div><ul class="op c1"><li><b>أ‌</b><span>المساءلة</span></li><li><b>ب‌</b><span>بيانات التدريب</span></li><li><b>ج‌</b><span>الذكاء الاصطناعي القابل للتفسير</span></li><li><b>د‌</b><span>العدالة</span></li></ul></div><div class="mq"><div class="qq"><span class="k">10</span><p>الاختصار الإنجليزي للذكاء الاصطناعي القابل للتفسير هو:</p></div><ul class="op c2"><li><b>أ‌</b><span><bdi class="nw">ML</bdi></span></li><li><b>ب‌</b><span><bdi class="nw">XAI</bdi></span></li><li><b>ج‌</b><span><bdi class="nw">API</bdi></span></li><li><b>د‌</b><span><bdi class="nw">ANN</bdi></span></li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">11</span><p>عندما تكون آلية وصول النظام إلى النتيجة غير واضحة، فإنه:</p></div><ul class="op c1"><li><b>أ‌</b><span>يصعب تقييمها واكتشاف الأخطاء أو التحيز</span></li><li><b>ب‌</b><span>يسهل التحقق منها ومراجعتها من قِبل المستخدمين</span></li><li><b>ج‌</b><span>تكون النتيجة خاطئة دائمًا ولا يمكن الاعتماد عليها</span></li><li><b>د‌</b><span>تصبح النتيجة أدق من المعتاد لأن النظام أكثر تعقيدًا</span></li></ul></div><div class="mq"><div class="qq"><span class="k">12</span><span class="tq">تقييمات</span><p>«تحديد أدوار وواجبات الأطراف المرتبطة بتطوير النظام وتشغيله واستخدامه» هي:</p></div><ul class="op c2"><li><b>أ‌</b><span>العدالة</span></li><li><b>ب‌</b><span>المساءلة</span></li><li><b>ج‌</b><span>الشفافية</span></li><li><b>د‌</b><span>المسؤولية</span></li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">13</span><p>الأطراف التي يذكرها الكتاب عند الحديث عن المسؤولية هي:</p></div><ul class="op c1"><li><b>أ‌</b><span>المطوّر والجهة المشغِّلة والمستخدم</span></li><li><b>ب‌</b><span>الحكومة وحدها دون أي طرف آخر مشارك</span></li><li><b>ج‌</b><span>المبرمج الذي كتب الكود وحده فقط</span></li><li><b>د‌</b><span>شركة الإنترنت ومزوّد الخدمة السحابية</span></li></ul></div><div class="mq"><div class="qq"><span class="k">14</span><p>حسب الكتاب، توزيع المسؤولية:</p></div><ul class="op c1"><li><b>أ‌</b><span>واحد ثابت ويصلح لكل السياقات والأنظمة والاستخدامات المختلفة</span></li><li><b>ب‌</b><span>يختلف باختلاف النظام والاستخدام والقواعد المعمول بها</span></li><li><b>ج‌</b><span>يحدده المستخدم دائمًا بعد ظهور النتيجة ومعرفة أثرها عليه</span></li><li><b>د‌</b><span>يقع على المطوّر وحده دائمًا في جميع الأحوال</span></li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">15</span><span class="tq">تقييمات</span><p>«تحديد الجهات المسؤولة عن النظام وقراراته وآثاره، وإمكان محاسبتها وفق أدوارها» هي:</p></div><ul class="op c2"><li><b>أ‌</b><span>الشفافية</span></li><li><b>ب‌</b><span>المسؤولية</span></li><li><b>ج‌</b><span>الخصوصية</span></li><li><b>د‌</b><span>المساءلة</span></li></ul></div><div class="mq"><div class="qq"><span class="k">16</span><p>يقول الكتاب صراحةً إن المساءلة:</p></div><ul class="op c1"><li><b>أ‌</b><span>هي القدرة على شرح سبب وصول النظام إلى قراره</span></li><li><b>ب‌</b><span>ليست القدرة على شرح القرار، بل تحديد من يُحاسَب على النتيجة</span></li><li><b>ج‌</b><span>هي نفسها الشفافية وإتاحة المعلومات عن حدود النظام</span></li><li><b>د‌</b><span>هي نفسها حماية الخصوصية والتعامل المناسب مع البيانات</span></li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">17</span><p>شرح العوامل التي أسهمت في وصول النظام إلى مخرج معين هو وظيفة:</p></div><ul class="op c1"><li><b>أ‌</b><span>المساءلة</span></li><li><b>ب‌</b><span>العدالة</span></li><li><b>ج‌</b><span>المسؤولية</span></li><li><b>د‌</b><span>الذكاء الاصطناعي القابل للتفسير <bdi>(XAI)</bdi></span></li></ul></div><div class="mq"><div class="qq"><span class="k">18</span><span class="tq">تقييمات</span><p>«إتاحة معلومات واضحة ومناسبة عن النظام واستخدامه وعملية اتخاذ القرار وحدوده» هي:</p></div><ul class="op c2"><li><b>أ‌</b><span>العدالة</span></li><li><b>ب‌</b><span>المساءلة</span></li><li><b>ج‌</b><span>الشفافية</span></li><li><b>د‌</b><span>بيانات التدريب</span></li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">19</span><span class="tq">تقييمات</span><p>«عدم التمييز ظلمًا ضد أي شخص أو مجموعة بعينها» هو مبدأ:</p></div><ul class="op c2"><li><b>أ‌</b><span>العدالة</span></li><li><b>ب‌</b><span>الشفافية</span></li><li><b>ج‌</b><span>المساءلة</span></li><li><b>د‌</b><span>حماية الخصوصية</span></li></ul></div><div class="mq"><div class="qq"><span class="k">20</span><span class="tq">تقييمات</span><p>«التعامل مع المعلومات الشخصية بشكل مناسب وحماية الخصوصية» هو مبدأ:</p></div><ul class="op c2"><li><b>أ‌</b><span>العدالة</span></li><li><b>ب‌</b><span>حماية الخصوصية</span></li><li><b>ج‌</b><span>الشفافية</span></li><li><b>د‌</b><span>المساءلة</span></li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">21</span><p>المبادئ الأربعة التي يركز عليها الدرس هي:</p></div><ul class="op c1"><li><b>أ‌</b><span>الدقة والسرعة وانخفاض التكلفة والأمان الكامل</span></li><li><b>ب‌</b><span>العدالة والدقة وسرعة المعالجة والمساءلة</span></li><li><b>ج‌</b><span>البيانات والنموذج والتدريب والاختبار قبل التشغيل</span></li><li><b>د‌</b><span>العدالة والشفافية وحماية الخصوصية والمساءلة</span></li></ul></div><div class="mq"><div class="qq"><span class="k">22</span><p>يذكر الكتاب أن هذه المبادئ الأربعة:</p></div><ul class="op c1"><li><b>أ‌</b><span>مهمة للاستخدام المسؤول، من بين مبادئ أخرى</span></li><li><b>ب‌</b><span>هي كل مبادئ أخلاقيات الذكاء الاصطناعي ولا يوجد غيرها</span></li><li><b>ج‌</b><span>تخص المطوّرين فقط ولا تهم المستخدمين</span></li><li><b>د‌</b><span>تنطبق على أنظمة التعرف على الوجه فقط</span></li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">23</span><p>الفكرة الرئيسة في الدرس تقول إن بيانات التدريب المتحيزة قد تجعل النظام:</p></div><ul class="op c1"><li><b>أ‌</b><span>يصحّح التحيز تلقائيًا أثناء التدريب دون تدخل</span></li><li><b>ب‌</b><span>يتوقف عن العمل حتى يتم تغيير البيانات</span></li><li><b>ج‌</b><span>يكرر هذا التحيز في أحكامه</span></li><li><b>د‌</b><span>أسرع في المعالجة وأقل استهلاكًا للطاقة</span></li></ul></div><div class="mq"><div class="qq"><span class="k">24</span><p>حسب الفكرة الرئيسة، استخدام الذكاء الاصطناعي بمسؤولية يعني:</p></div><ul class="op c1"><li><b>أ‌</b><span>جمع أكبر كمية ممكنة من البيانات الشخصية عن المستخدمين لتحسين دقة النتائج</span></li><li><b>ب‌</b><span>زيادة سرعة المعالجة وتقليل تكلفة تشغيل النظام</span></li><li><b>ج‌</b><span>التحقق من التحيز، والقدرة على شرح القرارات، ومعرفة من هو المسؤول</span></li><li><b>د‌</b><span>الاعتماد الكامل على النظام دون أي مراجعة بشرية للنتائج أو القرارات</span></li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">25</span><span class="tq">تقييمات</span><p>ما الفرق الأساسي بين «المسؤولية» و«المساءلة» كما تم توضيحه في الدرس؟</p></div><ul class="op c1"><li><b>أ‌</b><span>المسؤولية تتعلق بتحديد أدوار وواجبات الأطراف، بينما تعني المساءلة تحديد الجهات التي يمكن محاسبتها وفق أدوارها</span></li><li><b>ب‌</b><span>المسؤولية تعني إظهار عملية اتخاذ القرار بينما المساءلة تعني سرعة المعالجة</span></li><li><b>ج‌</b><span>المساءلة هي التقنية التي تفهم منطق الذكاء الاصطناعي بينما المسؤولية هي جمع البيانات</span></li><li><b>د‌</b><span>لا يوجد أي فرق بينهما فهما مصطلحان مترادفان تمامًا</span></li></ul></div><div class="mq"><div class="qq"><span class="k">26</span><span class="tq">تقييمات</span><p>نظام أو تقنية تجمع كميات كبيرة من بيانات السلوك عبر الإنترنت وتسمح بتتبع الأفراد في الأماكن العامة تثير قضايا تتعلق بـ:</p></div><ul class="op c2"><li><b>أ‌</b><span>سرعة المعالجة الحاسوبية</span></li><li><b>ب‌</b><span>كفاءة الذاكرة المركزية</span></li><li><b>ج‌</b><span>حماية الخصوصية</span></li><li><b>د‌</b><span>قانون مور</span></li></ul></div></div>
+<h2 class="cat kwn">أكمل<span class="cnt">12</span></h2>
+<div class="frow"><div><span class="k">1</span><p>نمط في مخرجات الذكاء الاصطناعي قد يؤدي إلى نتائج غير عادلة أو ضارة يُسمى <span class="bl" style="width:70pt"></span></p></div><div><span class="k">2</span><p>الأمثلة التي يتعلم منها نظام الذكاء الاصطناعي أنماطه قبل استخدامه تُسمى <span class="bl" style="width:70pt"></span></p></div></div>
+<div class="frow"><div><span class="k">3</span><p>التقنية التي تتيح للبشر فهم سبب اتخاذ الذكاء الاصطناعي حكمًا معينًا هي <span class="bl" style="width:70pt"></span></p></div><div><span class="k">4</span><p>تحديد أدوار وواجبات الأطراف المرتبطة بتطوير النظام وتشغيله واستخدامه هو <span class="bl" style="width:70pt"></span></p></div></div>
+<div class="frow"><div><span class="k">5</span><p>تحديد الجهات المسؤولة عن النظام وقراراته وآثاره وإمكان محاسبتها وفق أدوارها هو <span class="bl" style="width:70pt"></span></p></div><div><span class="k">6</span><p>الشفافية هي إتاحة معلومات واضحة ومناسبة عن النظام واستخدامه وعملية اتخاذ القرار و<span class="bl" style="width:62pt"></span></p></div></div>
+<div class="frow"><div><span class="k">7</span><p>المبدأ الذي يقتضي عدم التمييز ظلمًا ضد أي شخص أو مجموعة بعينها هو <span class="bl" style="width:70pt"></span></p></div><div><span class="k">8</span><p>المبدأ الذي يقتضي التعامل مع المعلومات الشخصية بشكل مناسب هو <span class="bl" style="width:70pt"></span></p></div></div>
+<div class="frow"><div><span class="k">9</span><p>الخصوصية هي <span class="bl" style="width:62pt"></span> في البيانات الشخصية التي تتم مشاركتها</p></div><div><span class="k">10</span><p>قضيّتا الخصوصية في الدرس هما المراقبة عبر التعرف على الوجه و<span class="bl" style="width:62pt"></span></p></div></div>
+<div class="frow"><div><span class="k">11</span><p>من المصادر الأربعة للتحيز: البيانات · <span class="bl" style="width:62pt"></span> · طريقة الاستخدام · السياق البشري والاجتماعي</p></div><div><span class="k">12</span><p>متغير <span class="bl" style="width:62pt"></span> يمثل بشكل غير مباشر سمة محمية</p></div></div>
+<h2 class="cat kwn">صح وخطأ<span class="cnt">12</span></h2>
+<ul class="tfb"><li><span class="k">1</span><span class="t">بطء سرعة معالجة الحاسوب من الأسباب الرئيسية للتحيز الخوارزمي.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">2</span><span class="t">بيانات التدريب هي الأمثلة التي يتعلم منها نظام الذكاء الاصطناعي أنماطه قبل استخدامه.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">3</span><span class="t">المساءلة هي القدرة على شرح سبب وصول النظام إلى قراره.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li></ul>
+<ul class="tfb"><li><span class="k">4</span><span class="t">لا يوجد توزيع واحد للمسؤولية يصلح لكل السياقات.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">5</span><span class="t">إنشاء الذكاء الاصطناعي أعمالًا إبداعية من قضايا الخصوصية التي يذكرها الدرس.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">6</span><span class="t">يمكن أن يدخل التحيز من خلال متغير بديل يمثل بشكل غير مباشر سمة محمية.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li></ul>
+<ul class="tfb"><li><span class="k">7</span><span class="t">المبادئ الأربعة في الدرس هي كل مبادئ أخلاقيات الذكاء الاصطناعي.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">8</span><span class="t">كلما قلّ تمثيل بيانات التدريب للواقع زاد احتمال تحيّز المخرجات.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">9</span><span class="t">تشمل الشفافية إتاحة معلومات عن حدود النظام، لا عن عملية اتخاذ القرار فقط.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li></ul>
+<ul class="tfb"><li><span class="k">10</span><span class="t">الجمع الجماعي للبيانات الشخصية من أسباب التحيز الخوارزمي التي يذكرها الكتاب.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">11</span><span class="t">التحيز الخوارزمي يؤدي دائمًا إلى نتائج غير عادلة أو ضارة.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">12</span><span class="t">الخصوصية هي التحكم في البيانات الشخصية التي تتم مشاركتها.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li></ul>
+<h2 class="cat kwn">تصنيف وقارن<span class="cnt">9</span></h2>
+<div class="qcard split "><h4><span class="n">01</span> · التحيز دخل منين؟</h4><p class="qi">اكتب <b>ب</b> لو السبب من <b>بيانات التدريب</b>، أو <b>ن</b> لو من <b>طريقة بناء النظام</b>.</p><ul class="cl"><li><span class="k">1</span><span class="t">بيانات غير كافية عن سمات معينة</span><span class="ab"></span></li><li><span class="k">2</span><span class="t">اختيار غير مناسب للمتغيرات</span><span class="ab"></span></li><li><span class="k">3</span><span class="t">انعكاس نزعات تمييزية سابقة في البيانات</span><span class="ab"></span></li><li><span class="k">4</span><span class="t">متغير بديل يمثل بشكل غير مباشر سمة محمية</span><span class="ab"></span></li><li><span class="k">5</span><span class="t">تصميم النموذج نفسه</span><span class="ab"></span></li><li><span class="k">6</span><span class="t">عيّنة لا تمثّل الواقع تمثيلًا كافيًا</span><span class="ab"></span></li></ul></div>
+<div class="qcard split "><h4><span class="n">02</span> · المسؤولية ولا المساءلة ولا الشفافية؟</h4><p class="qi">اكتب المصطلح المناسب أمام كل عبارة. التلاتة دول أكتر حاجة بتتلخبط في الدرس.</p><ul class="cl"><li><span class="k">1</span><span class="t">تحديد أدوار وواجبات الأطراف المرتبطة بالنظام</span><span class="ab w"></span></li><li><span class="k">2</span><span class="t">تحديد من يُحاسَب على نتيجة النظام</span><span class="ab w"></span></li><li><span class="k">3</span><span class="t">إتاحة معلومات واضحة عن حدود النظام</span><span class="ab w"></span></li><li><span class="k">4</span><span class="t">لا يوجد توزيع واحد يصلح لكل السياقات</span><span class="ab w"></span></li><li><span class="k">5</span><span class="t">إمكان محاسبة الجهات وفق أدوارها</span><span class="ab w"></span></li><li><span class="k">6</span><span class="t">توضيح عملية اتخاذ القرار للمستخدم</span><span class="ab w"></span></li></ul></div>
+<div class="qcard split "><h4><span class="n">03</span> · طابق كل موقف بمبدئه</h4><div class="match"><div class="mb"><h5>المواقف</h5><ol><li><span>حذف البيانات الشخصية بعد انتهاء الغرض من جمعها</span><span class="ab"></span></li><li><span>تحديد الجهة التي تُحاسَب إذا أضرّ القرار بشخص</span><span class="ab"></span></li><li><span>مراجعة نتائج نظام قبول للتأكد أنه لا يميّز ضد فئة</span><span class="ab"></span></li><li><span>نشر وثيقة توضّح كيف يتخذ النظام قراره وما حدوده</span><span class="ab"></span></li></ol></div><div class="mb"><h5>المبادئ</h5><ul class="op c1"><li><b>أ‌</b><span>العدالة</span></li><li><b>ب‌</b><span>الشفافية</span></li><li><b>ج‌</b><span>حماية الخصوصية</span></li><li><b>د‌</b><span>المساءلة</span></li></ul></div></div></div>
+<div class="qcard split "><h4><span class="n">04</span> · أي مبدأ ناقص في الموقف؟</h4><p class="qi">اكتب المبدأ الأقرب للموقف: العدالة · الشفافية · حماية الخصوصية · المساءلة.</p><ul class="cl"><li><span class="k">1</span><span class="t">نظام يرفض طلب توظيف ولا أحد يوضّح العوامل التي بُني عليها الرفض</span><span class="ab w"></span></li><li><span class="k">2</span><span class="t">نظام تعرّف على الوجه تقلّ دقته بوضوح مع فئة معينة من الناس</span><span class="ab w"></span></li><li><span class="k">3</span><span class="t">تُجمع بيانات سلوك المستخدمين وتُستخدم لغير الغرض الذي جُمعت له</span><span class="ab w"></span></li><li><span class="k">4</span><span class="t">يضرّ قرار النظام بشخص، ولا أحد يعرف من الجهة التي تُحاسَب</span><span class="ab w"></span></li></ul></div>
+<div class="qcard split "><h4><span class="n">05</span> · ليه · إيه · مين — وصّل من الشرح</h4><p class="qi">وصّل كل مصطلح بالسؤال اللي بيجاوب عليه.</p><div class="match"><div class="mb"><h5>المصطلح</h5><ol><li><span>الذكاء الاصطناعي القابل للتفسير</span><span class="ab"></span></li><li><span>الشفافية</span><span class="ab"></span></li><li><span>المساءلة</span><span class="ab"></span></li></ol></div><div class="mb"><h5>السؤال</h5><ul class="op c1"><li><b>أ‌</b><span>مين يُحاسَب على النتيجة؟</span></li><li><b>ب‌</b><span>ليه النظام وصل للمخرج ده؟</span></li><li><b>ج‌</b><span>إيه المعلومات المتاحة عن النظام وقراره وحدوده؟</span></li></ul></div></div></div>
+<div class="qcard split "><h4><span class="n">06</span> · قارن بين المسؤولية والمساءلة<span class="tq">تقييمات</span></h4><table class="cmp tall"><thead><tr><th>وجه المقارنة</th><th>المسؤولية</th><th>المساءلة</th></tr></thead><tbody><tr><td class="k">المعنى</td><td></td><td></td></tr><tr><td class="k">ملاحظة الكتاب</td><td></td><td></td></tr></tbody></table></div>
+<div class="qcard split "><h4><span class="n">07</span> · قارن بين الشفافية والذكاء الاصطناعي القابل للتفسير</h4><table class="cmp tall"><thead><tr><th>وجه المقارنة</th><th>الشفافية</th><th>الذكاء الاصطناعي القابل للتفسير</th></tr></thead><tbody><tr><td class="k">السؤال الذي يجيب عنه</td><td></td><td></td></tr><tr><td class="k">النوع (مبدأ / أساليب)</td><td></td><td></td></tr></tbody></table></div>
+<div class="qcard split "><h4><span class="n">08</span> · قارن بين المراقبة عبر التعرف على الوجه والجمع الجماعي للبيانات<span class="tq">تقييمات</span></h4><table class="cmp tall"><thead><tr><th>وجه المقارنة</th><th>المراقبة عبر التعرف على الوجه</th><th>الجمع الجماعي للبيانات</th></tr></thead><tbody><tr><td class="k">أين تحدث</td><td></td><td></td></tr><tr><td class="k">ما الذي يُجمع</td><td></td><td></td></tr></tbody></table></div>
+<div class="qcard split "><h4><span class="n">09</span> · قارن بين تحيز من بيانات التدريب وتحيز من بناء النظام</h4><table class="cmp tall"><thead><tr><th>وجه المقارنة</th><th>تحيز من بيانات التدريب</th><th>تحيز من بناء النظام</th></tr></thead><tbody><tr><td class="k">مثال من الكتاب</td><td></td><td></td></tr><tr><td class="k">أين تبحث عنه</td><td></td><td></td></tr></tbody></table></div>
+<h2 class="cat kwn">علّل<span class="cnt">9</span></h2>
+<div class="why split"><div class="qq"><span class="k">1</span><p>لا يكفي القول إن التحيز الخوارزمي سببه بيانات التدريب وحدها.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">2</span><p>قد يظل التحيز موجودًا حتى بعد حذف السمة المحمية نفسها من البيانات.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">3</span><p>عدم وضوح آلية وصول النظام إلى النتيجة يمثل مشكلة حتى لو بدت النتيجة صحيحة.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">4</span><p>المساءلة ليست هي القدرة على شرح القرار.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">5</span><span class="tq">تقييمات</span><p>لا يوجد توزيع واحد للمسؤولية يصلح لكل السياقات.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">6</span><span class="tq">تقييمات</span><p>تُشكّل بيانات التدريب غير الممثلة خطرًا على عدالة مخرجات النظام.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">7</span><p>لا يكفي أن يعرف المستخدم كيف يتخذ النظام قراره دون أن يعرف حدوده.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">8</span><span class="tq">تقييمات</span><p>تُطوَّر أساليب الذكاء الاصطناعي القابل للتفسير أصلًا لمعالجة مشكلة «الصندوق الأسود».</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">9</span><p>لا يكفي اختبار الدقة الإجمالية لنظام توظيف قبل الاعتماد عليه.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="qcard split "><h4><span class="n">01</span> · طبّق ما تعلمته — كاميرات بوابة المدرسة</h4><p class="qs">ترغب مدرسة في استخدام كاميرات التعرف على الوجه عند بوابتها لتسجيل الحضور تلقائيًا. حدد فائدة عملية واحدة للمدرسة ومصدر قلق واحد يتعلق بالخصوصية. ثم، إذا أخطأت الكاميرا في التعرف على طالب، من ينبغي أن يكون مسؤولًا – المدرسة، أم الشركة التي صنعت الذكاء الاصطناعي؟ اذكر سببًا.</p><div class="hint"><b>عناصر الإجابة</b> <b>فائدة واحدة</b> · <b>قلق خصوصية واحد</b> بالتحديد · <b>موقف واضح من المسؤولية مع سبب</b> — السؤال طلب «اذكر سببًا»، يعني التبرير هو المطلوب.</div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="qcard split "><h4><span class="n">02</span> · فكّر كمهندس — ابحث ثم قرر<span class="tq">تقييمات</span></h4><p class="qs">بناءً على حالة الذكاء الاصطناعي للتوظيف في ملاحظة «توقّف وفكّر»، استقصِ مثالًا حقيقيًا وقرّر قاعدة.</p><p class="qs"><b>(1) استقصِ.</b> ابحث عن حالة موثقة اتُّهم فيها نظام ذكاء اصطناعي بإنتاج نتائج غير عادلة أو متحيزة، وسجل المصدر الذي استخدمته. ما الفئة التي تأثرت؟ وما العوامل في البيانات أو تصميم النظام أو استخدامه التي قد تكون أسهمت في النتيجة؟</p><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><p class="qs"><b>(2) اعتبر المسؤولية.</b> عندما يتخذ الذكاء الاصطناعي قرارًا غير عادل، من المسؤول – المطوّر، أم الشركة التي تستخدمه، أم المشغّل؟ دوّن المسؤولية التي يتحملها كل منهم.</p><table class="cmp"><thead><tr><th>الطرف</th><th>المسؤولية التي يتحملها</th></tr></thead><tbody><tr><td class="k">المطوّر</td><td></td></tr><tr><td class="k">الشركة التي تستخدمه</td><td></td></tr><tr><td class="k">المشغّل</td><td></td></tr></tbody></table></div>
+<div class="qcard split cont"><p class="qs"><b>(3) قرّر.</b> قبل أن تستخدم شركة ذكاءً اصطناعيًا للتوظيف، ما القاعدة الواحدة التي ينبغي أن تتبعها لجعل النظام أكثر عدالة؟ برّر قاعدتك باستخدام مبادئ أخلاقيات الذكاء الاصطناعي.</p><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="hint"><b>تلميح الكتاب:</b> افحص مدى تمثيل البيانات، ثم اختبر النتائج عبر فئات مختلفة، وراجع طريقة تصميم النظام والسياق الذي سيُستخدم فيه.</div></div>
+<div class="why ess split"><div class="qq"><span class="k">3</span><span class="tq">تقييمات</span><p>وضّح الفرق بين <b>المسؤولية</b> و<b>المساءلة</b> و<b>الشفافية</b> كما وردت في الدرس، مع مثال قصير لكل واحدة.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why ess split"><div class="qq"><span class="k">4</span><p>اشرح كيف يمكن أن يظهر التحيز في نظام للتعرف على الوجه، وأي مبدأ من المبادئ الأربعة يُنتهك أولًا في هذه الحالة، ولماذا.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why ess split"><div class="qq"><span class="k">5</span><span class="tq">تقييمات</span><p>«استخدام الذكاء الاصطناعي بمسؤولية يعني التحقق من التحيز، والقدرة على شرح القرارات، ومعرفة من هو المسؤول.» اشرح العبارة في ثلاث فقرات قصيرة، واربط كل فقرة بمبدأ من المبادئ الأربعة.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">6</span><span class="tq">تقييمات</span><p>ما المقصود بمصطلح «التحيز الخوارزمي» في أنظمة الذكاء الاصطناعي، وما هي أبرز أشكاله أو أمثلته؟</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">7</span><span class="tq">تقييمات</span><p>ناقش أسباب التحيز الخوارزمي، وكيف يمكن أن ينشأ من الاختيار غير المناسب للمتغيرات، أو استخدام متغير بديل يمثل بشكل غير مباشر سمة محمية؟</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">8</span><span class="tq">تقييمات</span><p>ما المقصود بمصطلح «بيانات التدريب» في أنظمة الذكاء الاصطناعي، وكيف يؤثر نقص تمثيلها على المخرجات؟</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">9</span><span class="tq">تقييمات</span><p>اشرح كيف أدى تطور تقنية الذكاء الاصطناعي إلى ظهور قضايا جديدة تتعلق بالخصوصية والمراقبة في الأماكن العامة.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">10</span><span class="tq">تقييمات</span><p>ما المقصود بمصطلح «الذكاء الاصطناعي القابل للتفسير <bdi>(XAI)</bdi>»، ولماذا يُعد أسلوبًا أساسيًا للتغلب على مشكلة الصندوق الأسود؟</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">11</span><span class="tq">تقييمات</span><p>وضّح الأبعاد المختلفة لمسؤولية الأطراف المتعددة (المطور، الشركة المشغلة، المستخدم) عند اتخاذ نظام الذكاء الاصطناعي حكمًا خاطئًا أو غير عادل.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">12</span><span class="tq">تقييمات</span><p>اذكر المبادئ الأربعة الأساسية لأخلاقيات الذكاء الاصطناعي واشرح باختصار المقصود بكل من «العدالة»، «الشفافية»، «حماية الخصوصية»، و«المساءلة».</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">13</span><p><b>توقّف وفكّر:</b> عند استخدام تقنية التعرف على الوجه في الأماكن العامة، قد تتحسن السلامة والراحة، لكن تنشأ أيضًا مخاوف بشأن الخصوصية. اشرح كيف ينبغي الموازنة بين الراحة، والسلامة، وحماية الخصوصية، واذكر أي مبدأ أساسي من مبادئ أخلاقيات الذكاء الاصطناعي يرتبط ارتباطًا وثيقًا برأيك.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">14</span><p><b>توقّف وفكّر:</b> إذا لم يستطع أحد شرح سبب رفض الذكاء الاصطناعي لطلب توظيف شخص ما، فهل هذا عادل؟ أي مبدأ من مبادئ أخلاقيات الذكاء الاصطناعي مفقود؟</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">15</span><p><b>استكشف (في ثنائيات):</b> مع زميل، انظرا إلى هذا الموقف: ذكاء اصطناعي للتعرف على الوجه أكثر عرضة لإساءة التعرف على أشخاص من بعض المجموعات العرقية مقارنة بغيرها. قبل أن تكملا القراءة، توقّعا من قد يتضرر من هذا وكيف. اذكرا سببًا.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">16</span><p><b>فكّر وتحدَّ – تأمّل:</b> هل غيّر هذا الدرس مدى ثقتك في قرار يتخذه الذكاء الاصطناعي بشأنك؟ أي من المبادئ الأربعة تعتقد أنه الأصعب ضمانًا، ولماذا؟ · <b>وتحدَّ:</b> اختر مكانًا واحدًا يُستخدم فيه الذكاء الاصطناعي (التوظيف، أو التعرف على الوجه، أو التوصيات). اقترح قاعدة واحدة مبنية على مبادئ أخلاقيات الذكاء الاصطناعي من شأنها أن تجعله أكثر جدارة بالثقة.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">17</span><p><b>اختبر فهمك:</b> أجب عن أسئلة هذا البنك <b>دون الرجوع</b> إلى الشرح، ثم راجع إجاباتك.</p></div><div class="wl"><i></i></div></div>
+</main>
+</body>
+</html>
