@@ -217,9 +217,11 @@ A(f'<h2 class="sec"><span class="num">4</span><span class="dot">·</span> الذ
 A('<figure class="bimg keep"><img src="assets/u1/l14_xai.jpg" alt=""><figcaption class="icap">يساعد الذكاء الاصطناعي القابل للتفسير على توضيح العوامل التي أسهمت في المخرج.</figcaption></figure>')
 A(f'<span class="chip">الذكاء الاصطناعي القابل للتفسير {nw("(Explainable AI - XAI)")}</span>')
 A('<div class="banner kwn"><b>أساليب تساعد البشر على فهم العوامل التي أسهمت في وصول النظام إلى مخرج أو قرار معين.</b> وعندما تكون <b>آلية الوصول إلى النتيجة غير واضحة</b>، يصعب <b>تقييمها واكتشاف الأخطاء أو التحيز</b>.</div>')
+A(f'<div class="exs">{FXA}<span class="eh">مثال للتبسيط:</span>نظام بيحلّل أشعة الصدر في مستشفى: بدل ما يقول «في التهاب» وبس، <b>بيعلّم على الجزء من الأشعة</b> اللي خلّاه يقول كده — فالدكتور يفهم السبب ويراجعه.</div>')
 A('<div class="note-line"><span class="tag">للفهم</span><span class="lead">طب ليه؟</span>في الدرس اللي فات عرفنا <b>مشكلة الصندوق الأسود</b>. وهنا بنشوف إزاي أساليب <b>XAI</b> بتساعد البشر يفهموا العوامل اللي أسهمت في وصول النظام للنتيجة.</div>')
 A(f'<span class="chip" style="margin-top:8pt">المسؤولية {nw("(Responsibility)")}</span>')
 A('<div class="banner kwn">تحديد <b>أدوار وواجبات الأطراف</b> المرتبطة بتطوير النظام وتشغيله واستخدامه، مثل <b>المطوّر</b> و<b>الجهة المشغِّلة</b> و<b>المستخدم</b>. و<b>لا يوجد توزيع واحد للمسؤولية يصلح لكل السياقات</b>؛ إذ يختلف باختلاف النظام والاستخدام والقواعد المعمول بها.</div>')
+A(f'<div class="exs">{FXA}<span class="eh">مثال للتبسيط:</span>نفس نظام الأشعة: <b>الشركة المطوّرة</b> تختبره كويس · <b>المستشفى</b> تستخدمه في الحالات المناسبة · <b>الدكتور</b> يراجع النتيجة قبل القرار.</div>')
 PART3 = [("code", "المطوّر", "بيبني النظام"), ("building", "الجهة المشغِّلة", "بتشغّله وتستخدمه في شغلها"), ("user", "المستخدم", "بيتعامل مع النظام ونتايجه")]
 A(f'<div class="fig p3f keep">{FXA}<div class="p3r">' + f'<i class="la">{ARR}</i>'.join(
     f'<div><span>{ic(i, "#22375c", 1.7)}</span><b>{t}</b><small>{d}</small></div>' for i, t, d in PART3)
@@ -228,8 +230,10 @@ A(f'<div class="fig p3f keep">{FXA}<div class="p3r">' + f'<i class="la">{ARR}</i
 # المساءلة والشفافية
 A(f'<span class="chip">المساءلة {nw("(Accountability)")}</span>')
 A('<div class="banner kwn">تحديد <b>الجهات المسؤولة عن النظام وقراراته وآثاره</b>، و<b>إمكان محاسبتها وفق أدوارها</b>. <b>ملاحظة:</b> المساءلة <b>ليست القدرة على شرح القرار</b> – تلك وظيفة الذكاء الاصطناعي القابل للتفسير <bdi>(XAI)</bdi> – <b>بل تحديد من يُحاسَب على النتيجة</b>.</div>')
+A(f'<div class="exs">{FXA}<span class="eh">مثال للتبسيط:</span>لو مريض اتأذى من تشخيص غلط، <b>يتحدد مين المسؤول</b> — الشركة ولا المستشفى ولا الدكتور — <b>ويتحاسب حسب دوره</b>.</div>')
 A(f'<span class="chip" style="margin-top:8pt">الشفافية {nw("(Transparency)")}</span>')
 A('<div class="banner kwn"><b>إتاحة معلومات واضحة ومناسبة</b> عن النظام واستخدامه وعملية اتخاذ القرار <b>وحدوده</b>.</div>')
+A(f'<div class="exs">{FXA}<span class="eh">مثال للتبسيط:</span>المستشفى <b>تعرّف المرضى</b> إن في نظام بيساعد في قراءة الأشعة، وبيشارك في القرار إزاي، <b>وإيه حدوده</b> (نتيجته لازم دكتور يراجعها).</div>')
 A(f'''<div class="fig wh keep">{FXA}
   <div class="wh3">
     <div class="w1"><small>الذكاء الاصطناعي القابل للتفسير <bdi>(XAI)</bdi></small><b>ليه؟</b><p>يوضّح العوامل اللي أدّت للمخرج — وظيفة <b>شرح</b></p></div>
@@ -718,18 +722,21 @@ figure.bimg .icap{margin:4pt 2pt 5pt 2pt;text-align:center}
 table.prt td{vertical-align:middle;font-size:10pt;line-height:15pt}
 table.prt td.k{font-weight:800;color:var(--navy);white-space:nowrap}
 .p4{padding:9pt 11pt 6pt 11pt}
-.p4h{text-align:center;font-weight:800;font-size:11pt;color:var(--navy);margin-bottom:8pt}
+.p4h{text-align:center;font-weight:800;font-size:11pt;color:var(--navy);margin-bottom:5pt}
 .p4g{display:grid;grid-template-columns:repeat(4,1fr);gap:8pt}
-.p4g>div{display:flex;flex-direction:column;align-items:center;text-align:center;gap:3pt;background:#fff;border:.75pt solid #dde5ef;border-radius:10pt;padding:9pt 7pt 9pt 7pt}
+.p4g>div{display:flex;flex-direction:column;align-items:center;text-align:center;gap:3pt;background:#fff;border:.75pt solid #dde5ef;border-radius:10pt;padding:7pt 7pt 6pt 7pt}
 .p4g .pi{width:36pt;height:36pt;border-radius:50%;background:#eef2f8;display:flex;align-items:center;justify-content:center}
 .p4g .pi svg{width:20pt;height:20pt}
 .p4g h4{margin:0;font-weight:800;font-size:10.6pt;color:var(--navy)}
 .p4g p{flex:1;font-size:8.9pt;line-height:13.4pt;color:var(--muted);text-wrap:pretty}
 .p4g .pq{display:inline-flex;align-items:center;gap:4pt;background:#fbf6e8;border:.75pt solid #eee0b8;border-radius:8pt;padding:0 7pt;font-weight:700;font-size:8.2pt;line-height:15pt;color:#a9670f;white-space:nowrap;padding:0 5pt}
 .p4g .pq .fx{font-size:6.8pt;height:11pt;line-height:10pt;padding:0 4pt}
-.p4s{text-align:center;font-size:9.4pt;line-height:14pt;color:var(--text2);margin:-3pt 0 8pt 0}
+.exs{position:relative;background:#fbfcfe;border:.75pt dashed #e2c48f;border-radius:9pt;padding:5pt 12pt;margin:5pt 0 7pt 0;font-size:9.6pt;line-height:15pt;color:var(--text);text-wrap:pretty}
+.exs .eh{font-weight:800;color:#a9670f;margin-left:5pt}
+.exs b{color:var(--navy)}
+.p4s{text-align:center;font-size:9.4pt;line-height:14pt;color:var(--text2);margin:-2pt 0 6pt 0}
 .p4s em,.p4g .px em{font-style:normal;font-weight:800;color:#a9670f}
-.p4g .px{align-self:stretch;min-height:46pt;box-sizing:content-box;margin-top:5pt;padding-top:5pt;border-top:.75pt dashed #dde5ef;font-size:8.9pt;line-height:13.4pt;color:var(--text);text-wrap:pretty}
+.p4g .px{align-self:stretch;min-height:41pt;box-sizing:content-box;margin-top:3pt;padding-top:4pt;border-top:.75pt dashed #dde5ef;font-size:8.9pt;line-height:13.4pt;color:var(--text);text-wrap:pretty}
 .content>.fig.src4:first-child,.content>.fig.cz:first-child,.content>.fig.wh:first-child,.content>.fig.p3f:first-child{margin-top:7pt}
 
 /* ثبّت الصفحة + رسومات الموقف (1-4) */
