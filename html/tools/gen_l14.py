@@ -154,14 +154,16 @@ A('<div class="quote kwn"><span class="qmark">”</span>يساعد الذكاء 
 A('<span class="chip">التحيز في أنظمة الذكاء الاصطناعي</span>')
 A('<div class="banner kwn"><b>انحراف أو نمط</b> قد يؤدي إلى <b>نتائج غير عادلة أو ضارة</b>، ويمكن أن ينشأ من <b>البيانات</b> أو <b>تصميم النظام</b> أو <b>طريقة استخدامه</b> أو <b>السياق البشري والاجتماعي</b>. <span class="bx">مثال: نظام توظيف يفضّل فئة بصورة غير عادلة، أو نظام تعرف على الوجه تقل دقته مع فئات معينة.</span></div>')
 A('<div class="note-line"><span class="tag">للفهم</span><span class="lead">ببساطة</span>خُد بالك: التحيز مش سببه <b>البيانات</b> بس. الكتاب ذكر <b>أربعة</b> مصادر مش واحد: <b>البيانات · التصميم · الاستخدام · السياق</b>. والسؤال في التمارين بيتبني على ده.</div>')
-SRC4 = [("db", "البيانات"), ("gear", "تصميم النظام"), ("hand", "طريقة الاستخدام"), ("people", "السياق البشري والاجتماعي")]
+SRC4 = [("db", "البيانات", "صور وشوش أغلبها لفئة واحدة ← دقة التعرف تقل مع باقي الفئات."),
+        ("gear", "تصميم النظام", "المصمم اختار «منطقة السكن» كمتغير ← النظام بيحكم على الناس بمكانهم مش بكفاءتهم."),
+        ("hand", "طريقة الاستخدام", "نظام معمول للفرز المبدئي اتاخد قراره كأنه نهائي من غير مراجعة بشرية."),
+        ("people", "السياق البشري والاجتماعي", "نظام اتعمل لمدارس الإنترنت فيها قوي، واتطبّق على مدارس الإنترنت فيها ضعيف.")]
 A(f'''<div class="fig src4 keep">{FXA}
-  <div class="s4">
-    <div class="sl">{"".join(f'<div><span>{ic(i)}</span><b>{t}</b></div>' for i, t in SRC4)}</div>
-    <i class="la">{ARR}</i>
-    <div class="sb"><b>التحيز</b><b class="g">الخوارزمي</b></div>
+  <div class="sl">{"".join(f'<div><span>{ic(i)}</span><p><b>{t}</b><small><em>مثال للتبسيط:</em> {x}</small></p></div>' for i, t, x in SRC4)}</div>
+  <div class="s4"><i class="dn">↓</i>
+    <div class="sb"><b>التحيز</b> <b class="g">الخوارزمي</b></div>
     <div class="sr"><small>قد يؤدي إلى</small><i class="la">{ARR}</i></div>
-    <div class="se"><b>نتائج غير عادلة<br>أو ضارة</b></div>
+    <div class="se"><b>نتائج غير عادلة أو ضارة</b></div>
   </div>
   <div class="cap">مصادر قد ينشأ منها التحيز، وقد يؤدي إلى نتائج غير عادلة أو ضارة.</div>
 </div>''')
@@ -192,10 +194,12 @@ A(f'<div class="bridge">{FX}عرفنا التحيز جاي منين. الجزء 
 A('<div class="part p2"><span>الجزء الثاني</span></div>\n<hr class="rule">')
 A('<h2 class="sec"><span class="num">3</span><span class="dot">·</span> قضايا الخصوصية</h2>')
 A('<div class="quote kwn"><span class="qmark">”</span>أدى تطور تقنية الذكاء الاصطناعي إلى ظهور قضايا جديدة تتعلق <b>بالخصوصية</b>.</div>')
-PRV = [("camera", "المراقبة عبر تقنية التعرف على الوجه", "يمكن للكاميرات في الأماكن العامة <b>التعرف على الأفراد وتتبعهم</b>."),
-       ("web", "الجمع الجماعي للبيانات الشخصية", "تُجمع وتُحلَّل <b>كميات كبيرة من بيانات السلوك عبر الإنترنت</b>.")]
+PRV = [("camera", "المراقبة عبر تقنية التعرف على الوجه", "يمكن للكاميرات في الأماكن العامة <b>التعرف على الأفراد وتتبعهم</b>.",
+        "كاميرا في مول بتتعرف على وشّك وتسجّل دخلت إمتى ورُحت فين — وإنت مش واخد بالك."),
+       ("web", "الجمع الجماعي للبيانات الشخصية", "تُجمع وتُحلَّل <b>كميات كبيرة من بيانات السلوك عبر الإنترنت</b>.",
+        "كل بحث بتعمله وكل فيديو بتتفرج عليه والوقت اللي بتقضيه في كل صفحة بيتسجّل ويتحلّل عشان يعرفوا اهتماماتك.")]
 A('<div class="sf pv"><div class="pv2">' + "".join(
-    f'<div class="pc"><span class="pn">{k + 1}</span><span class="pi">{ic(i, "#22375c", 1.7)}</span><h4>{t}</h4><p>{d}</p></div>' for k, (i, t, d) in enumerate(PRV))
+    f'<div class="pc"><span class="pn">{k + 1}</span><span class="pi">{ic(i, "#22375c", 1.7)}</span><h4>{t}</h4><p>{d}</p><p class="px"><em>مثال للتبسيط:</em> {x}</p></div>' for k, (i, t, d, x) in enumerate(PRV))
   + '</div><div class="im"><img src="assets/u1/l14_privacy.jpg" alt=""><div class="icap">الخصوصية: التحكم في البيانات الشخصية التي تتم مشاركتها.</div></div></div>')
 A('''<div class="simply"><span class="fx abs">للفهم</span><span class="lab">''' + BULB + '''ببساطة</span><p><b>الخصوصية</b> في الكتاب: <b>التحكم في البيانات الشخصية التي تتم مشاركتها</b> · و<b>التعامل المناسب مع البيانات الشخصية وحمايتها</b>. يعني السؤال مش بس «بياناتي اتجمعت؟» — لكن كمان: <b>مين شايفها؟ وبتتستخدم في إيه؟</b></p></div>''')
 A('<div class="note-line"><span class="tag">للفهم</span><span class="lead">خُد بالك</span>القضيتين دول <b>بس</b> اللي الكتاب ذكرهم. فلو جالك اختيار زي «الذكاء الاصطناعي ينشئ أعمالًا إبداعية» أو «تتحسن سرعة الحوسبة» — دول <b>مش</b> قضايا خصوصية.</div>')
@@ -644,17 +648,23 @@ figure.bimg img{display:block;width:100%;height:auto;border-radius:6pt}
 figure.bimg .icap{margin:4pt 2pt 5pt 2pt;text-align:center}
 /* مصادر التحيز */
 .src4{padding:12pt 11pt 6pt 11pt}
-.s4{display:flex;align-items:center;gap:8pt}
-.s4 .sl{flex:0 0 170pt;display:flex;flex-direction:column;gap:5pt}
-.s4 .sl>div{display:flex;align-items:center;gap:7pt;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:8pt;padding:5pt 10pt}
-.s4 .sl span svg{width:17pt;height:17pt;display:block}
-.s4 .sl b{font-weight:800;font-size:10pt;color:var(--navy)}
-.s4 .sb{flex:1;background:#22375c;border-radius:10pt;padding:14pt 8pt;text-align:center;display:flex;flex-direction:column}
-.s4 .sb b{color:#fff;font-weight:800;font-size:13pt;line-height:1.35} .s4 .sb b.g{color:#f1c88b}
+.src4 .sl{display:grid;grid-template-columns:1fr 1fr;gap:6pt}
+.src4 .sl>div{display:flex;align-items:flex-start;gap:7pt;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:8pt;padding:6pt 10pt}
+.src4 .sl span svg{width:18pt;height:18pt;display:block;margin-top:2pt}
+.src4 .sl p{margin:0}
+.src4 .sl b{display:block;font-weight:800;font-size:10.4pt;color:var(--navy);line-height:1.4}
+.src4 .sl small{display:block;font-size:9pt;line-height:13.6pt;color:var(--text2);text-wrap:pretty}
+.src4 .sl small em{font-style:normal;font-weight:800;color:#a9670f}
+.s4{display:flex;align-items:center;justify-content:center;gap:10pt;margin-top:6pt}
+.s4 .dn{font-style:normal;color:#e29433;font-weight:800;font-size:17pt;line-height:1}
+.s4 .sb{background:#22375c;border-radius:10pt;padding:6pt 22pt;text-align:center}
+.s4 .sb b{color:#fff;font-weight:800;font-size:12.5pt;line-height:1.35} .s4 .sb b.g{color:#f1c88b}
 .s4 .sr{flex:none;display:flex;flex-direction:column;align-items:center}
 .s4 .sr small{font-size:8.4pt;font-weight:700;color:#a33a30}
-.s4 .se{flex:0 0 118pt;background:#fbeceb;border:1pt solid #efc6c1;border-radius:10pt;padding:12pt 8pt;text-align:center}
+.s4 .se{background:#fbeceb;border:1pt solid #efc6c1;border-radius:10pt;padding:6pt 16pt;text-align:center}
 .s4 .se b{color:#a33a30;font-weight:800;font-size:11pt;line-height:1.45}
+.pv .pc .px{grid-column:2;margin-top:4pt;padding-top:4pt;border-top:.75pt dashed #dde5ef;font-size:9.2pt;line-height:14pt;color:var(--text2)}
+.pv .pc .px em{font-style:normal;font-weight:800;color:#a9670f}
 /* أسباب التحيز */
 .cz{padding:12pt 11pt 6pt 11pt}
 .cz .c2{display:grid;grid-template-columns:1fr 1fr;gap:10pt}
