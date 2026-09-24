@@ -14,7 +14,7 @@ TITLE = "تطور تكنولوجيا المعلومات والتحول الاج�
 head = head.replace("<title>الدرس 3-1 — البنية العامة لتطبيقات الويب</title>", f"<title>الدرس 1-1 — {TITLE}</title>")
 head = head.replace("الدرس 3-1 (الشرح)", "الدرس 1-1 (الشرح + بنك الأسئلة)")
 
-START, TOTAL = 2, 27
+START, TOTAL = 2, 94
 
 FX = '<span class="fx">للفهم</span>'
 FXA = '<span class="fx abs">للفهم</span>'
