@@ -142,7 +142,7 @@ def gen_svg():
 
 # شكل الكتاب (مربعات متداخلة) — العنوان «علاقة مبسطة بين المفاهيم» بطلب زياد بدل «تسلسل تقنيات الذكاء الاصطناعي»
 NEST = ('<div class="fig nest keep"><div class="nh">علاقة مبسطة بين المفاهيم</div>'
-        '<div class="n1"><div class="nl"><b>الذكاء الاصطناعي</b><small>إعادة إنتاج السلوك الذكي البشري</small></div>'
+        '<div class="n1"><div class="nl"><b>الذكاء الاصطناعي</b><small>مجال واسع يضم أنظمة تؤدي مهام ذكية</small></div>'
         '<div class="n2"><div class="nl"><b>التعلّم الآلي</b><small>تعلم الأنماط من البيانات</small></div>'
         '<div class="n3"><div class="nl"><b>التعلم العميق</b><small>استخدام الشبكات العصبية</small></div>'
         '<div class="n4"><div class="nl"><b>الذكاء الاصطناعي التوليدي</b><small>توليد الصور، <bdi>ChatGPT</bdi> مثلاً</small></div></div>'
