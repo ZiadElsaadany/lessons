@@ -65,6 +65,8 @@ IC = {
     "box": '<rect x="3.5" y="3.5" width="17" height="17" rx="2"/><path d="M8.5 10a3.5 3.5 0 1 1 5 3.2c-.9.4-1.5 1.1-1.5 2v.3M12 18h.01"/>',
     "copy": '<circle cx="12" cy="12" r="9"/><path d="M15 9.5a4 4 0 1 0 0 5"/>',
     "check": '<path d="M5 12.5 10 17 19 7"/>',
+    "chat": '<path d="M3.5 5h17v11H10l-4.5 3.5V16h-2z"/><path d="M12 8v3.5M12 13.6h.01"/>',
+    "doc": '<path d="M6 2.5h8l4 4v15H6z"/><path d="M14 2.5v4h4M9 12h6M9 15.5h6"/>',
     "x": '<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>',
     "shield": '<path d="M12 2.8 19.5 6v5.5c0 4.6-3.2 8.3-7.5 9.7-4.3-1.4-7.5-5.1-7.5-9.7V6z"/><circle cx="12" cy="10" r="2.3"/><path d="M8.3 16c.8-1.8 2.1-2.7 3.7-2.7s2.9.9 3.7 2.7"/>',
 }
@@ -191,11 +193,29 @@ A('''<div class="iq">
 </div>''')
 
 # ---- الجزء الأول
+FXR = '<span class="fx abs">للفهم · للتذكّر فقط</span>'
+def recall(items):
+    return ('<div class="rcl keep"><span class="rl">ثبّت الصفحة في 10 ثواني</span><div class="rc">'
+            + '<i>·</i>'.join(f'<span>{t}</span>' for t in items) + '</div></div>')
 A('<div class="part p1"><span>الجزء الأول</span></div>\n<hr class="rule">')
 A('<h2 class="sec"><span class="num">1</span><span class="dot">·</span> استخدام الذكاء الاصطناعي في الحياة اليومية</h2>')
 A('<div class="quote kwn"><span class="qmark">”</span>أصبح الذكاء الاصطناعي <b>جزءًا من خدمات يومية كثيرة</b>؛ فقد تقترح منصة فيديو مقاطع تناسب اهتماماتك، ويجيب مساعد صوتي عن أسئلتك، وتترجم أداة نصًا إلى لغة أخرى. وفي الصناعة، يمكن استخدامه لتحليل الصور الطبية، والتنبؤ بأعطال الآلات، وتحسين مسارات التوصيل. <b>يجيد الذكاء الاصطناعي اكتشاف الأنماط في البيانات، لكنه قد يخطئ أو ينتج نتائج متحيزة</b>؛ لذلك يجب التحقق من مخرجاته، <b>خصوصًا في الاستخدامات التي تؤثر في حياة الأشخاص وحقوقهم</b>.</div>')
-A('<div class="sf rc"><div><div class="quote"><span class="qmark">”</span>(1) العديد من تقنيات الذكاء الاصطناعي <b>مستخدمة بالفعل من حولنا</b>.</div>'
-  f'<span class="chip">نظام التوصية</span><div class="banner">نظام <b>يتنبأ بالتفضيلات</b> من <b>بيانات السلوك السابق</b> ويعرض <b>التوصيات</b>.</div>'
+A('<div class="quote kwn"><span class="qmark">”</span>(1) العديد من تقنيات الذكاء الاصطناعي <b>مستخدمة بالفعل من حولنا</b>.</div>')
+
+# الجدول + شكل الكتاب «خدمات الذكاء الاصطناعي اليومية»
+SVC = [("video", "أنظمة التوصية", "تقترح محتوى", "التنبؤ بالتفضيلات من بيانات السلوك السابق وعرض التوصيات.", "يوتيوب، أمازون، سبوتيفاي، وغيرها."),
+       ("mic", "المساعدات الصوتية", "يفهم الكلام", "التعرف على الصوت، وفهم الأوامر، وتنفيذها.", f"سيري {nw('(Siri)')}، مساعد جوجل، وغيرهما."),
+       ("tr", "الترجمة الآلية", "بين اللغات", "ترجمة النص تلقائيًا إلى لغات مختلفة.", f"{nw('Google Translate')}، {nw('DeepL')}، وغيرهما."),
+       ("face", "التعرف على الوجه", "يفتح عبر الوجه", "الكشف عن وجوه الأشخاص في الصور والتعرف عليها تلقائيًا.", "فتح الهاتف الذكي، وغيره.")]
+A('<h3 class="sub">أربع خدمات للذكاء الاصطناعي في الحياة اليومية</h3>')
+A('<div class="fig sv4 keep"><div class="svh"><span>الخدمة</span><span>دور الذكاء الاصطناعي</span><span>أمثلة</span></div>'
+  + "".join(f'<div class="svr"><div class="s1"><span class="si">{big_icon(i)}</span><div><b>{t}</b><small>{sub}</small></div></div><p class="s2">{r}</p><p class="s3">{x}</p></div>' for i, t, sub, r, x in SVC)
+  + '<div class="cap">أربع خدمات للذكاء الاصطناعي في الحياة اليومية.</div></div>')
+A('<div class="note-line"><span class="tag">للفهم</span><span class="lead">خُد بالك</span>كل خدمة ليها <b>دور</b> بيتسأل عليه بالنص (يتنبأ · يتعرف ويفهم وينفّذ · يترجم تلقائيًا · يكشف ويتعرف تلقائيًا) و<b>أمثلة</b> بتتسأل عليها بالعكس: «يوتيوب وأمازون مثال على إيه؟».</div>')
+A('<div class="note-line"><span class="tag">للفهم</span><span class="lead">ببساطة</span>كلمة <b>«تلقائيًا»</b> في الترجمة الآلية معناها إن <b>النظام</b> هو اللي بيترجم، مش إنسان بيترجم بإيده. وعشان كده «الترجمة الآلية نظام يترجم فيه البشر يدويًا» عبارة <b>غلط</b>.</div>')
+
+# نظام التوصية (مصطلح الكتاب) + صورته + الحلقة
+A('<div class="sf rc"><div><span class="chip">نظام التوصية</span><div class="banner">نظام <b>يتنبأ بالتفضيلات</b> من <b>بيانات السلوك السابق</b> ويعرض <b>التوصيات</b>.</div>'
   '<div class="note-line"><span class="tag">للفهم</span><span class="lead">ببساطة</span>كل مرة بتتفرّج أو بتشتري أو بتقيّم حاجة، ده <b>سلوك سابق</b> بيتسجّل. النظام بيدوّر فيه على <b>نمط</b>، وبيقترح عليك الحاجة اللي الأغلب تعجبك.</div></div>'
   '<div class="im"><img src="assets/u1/l13_reco.jpg" alt=""><div class="icap">تستخدم أنظمة التوصية بيانات السلوك السابق لتقدير ما قد يهم المستخدم.</div></div></div>')
 A(f'''<div class="fig loop keep">{FXA}
@@ -210,20 +230,20 @@ A(f'''<div class="fig loop keep">{FXA}
   <div class="cap">زي ما في الكتاب: أنظمة التوصية بتستخدم بيانات السلوك السابق عشان تقدّر اللي ممكن يهمّ المستخدم — والناتج هو اللي بيظهر لك على الشاشة. شكل الحلقة من عندنا لتسهيل الفهم.</div>
 </div>''')
 
-# الجدول + شكل الكتاب «خدمات الذكاء الاصطناعي اليومية»
-SVC = [("video", "أنظمة التوصية", "تقترح محتوى", "التنبؤ بالتفضيلات من بيانات السلوك السابق وعرض التوصيات.", "يوتيوب، أمازون، سبوتيفاي، وغيرها."),
-       ("mic", "المساعدات الصوتية", "يفهم الكلام", "التعرف على الصوت، وفهم الأوامر، وتنفيذها.", f"سيري {nw('(Siri)')}، مساعد جوجل، وغيرهما."),
-       ("tr", "الترجمة الآلية", "بين اللغات", "ترجمة النص تلقائيًا إلى لغات مختلفة.", f"{nw('Google Translate')}، {nw('DeepL')}، وغيرهما."),
-       ("face", "التعرف على الوجه", "يفتح عبر الوجه", "الكشف عن وجوه الأشخاص في الصور والتعرف عليها تلقائيًا.", "فتح الهاتف الذكي، وغيره.")]
-A('<h3 class="sub">أربع خدمات للذكاء الاصطناعي في الحياة اليومية</h3>')
-A('<div class="fig sv4 keep"><div class="svh"><span>الخدمة</span><span>دور الذكاء الاصطناعي</span><span>أمثلة</span></div>'
-  + "".join(f'<div class="svr"><div class="s1"><span class="si">{big_icon(i)}</span><div><b>{t}</b><small>{sub}</small></div></div><p class="s2">{r}</p><p class="s3">{x}</p></div>' for i, t, sub, r, x in SVC)
-  + '<div class="cap">أربع خدمات للذكاء الاصطناعي في الحياة اليومية.</div></div>')
-A('<div class="note-line"><span class="tag">للفهم</span><span class="lead">خُد بالك</span>كل خدمة ليها <b>دور</b> بيتسأل عليه بالنص (يتنبأ · يتعرف ويفهم وينفّذ · يترجم تلقائيًا · يكشف ويتعرف تلقائيًا) و<b>أمثلة</b> بتتسأل عليها بالعكس: «يوتيوب وأمازون مثال على إيه؟».</div>')
-A('<div class="note-line"><span class="tag">للفهم</span><span class="lead">ببساطة</span>كلمة <b>«تلقائيًا»</b> في الترجمة الآلية معناها إن <b>النظام</b> هو اللي بيترجم، مش إنسان بيترجم بإيده. وعشان كده «الترجمة الآلية نظام يترجم فيه البشر يدويًا» عبارة <b>غلط</b>.</div>')
+# يومك مع الذكاء الاصطناعي (للفهم)
+DAY = [("face", "الصبح", "فتح الهاتف بالوجه", "صورة وجهك من الكاميرا", "يكشف الوجه ويتعرف عليه تلقائيًا", "الهاتف يتفتح"),
+       ("video", "في الطريق", "مشاهدة محتوى موصى به", "سجل مشاهداتك (سلوك سابق)", "يتنبأ بتفضيلاتك", "فيديوهات مقترحة ليك"),
+       ("mic", "قبل ما تنزل", "استخدام مساعد صوتي", "سؤالك بصوتك: «الجو عامل إيه؟»", "يتعرف على الصوت ويفهم الأمر", "ينفّذ ويعرض حالة الطقس"),
+       ("tr", "في المذاكرة", "ترجمة جملة", "جملة بلغة أجنبية", "يترجم النص تلقائيًا", "الجملة بلغتك")]
+A(f'<div class="fig day keep">{FXA}<div class="dyh">يومك مع الذكاء الاصطناعي</div>'
+  + '<div class="dyc"><span></span><span>المستخدم / البيانات</span><span></span><span>دور الذكاء الاصطناعي</span><span></span><span>النتيجة</span></div>'
+  + "".join(f'<div class="dyr"><div class="d0"><span class="di">{big_icon(i)}</span><div><small>{k + 1} · {w}</small><b>{t}</b></div></div>'
+            f'<div class="d1">{a}</div><i class="la">{ARR}</i><div class="d2">{b}</div><i class="la">{ARR}</i><div class="d3">{c}</div></div>'
+            for k, (i, w, t, a, b, c) in enumerate(DAY))
+  + '<div class="cap">أربع خدمات الكتاب في يوم واحد — نفس الخدمات الأربع، مفيش خدمة جديدة.</div></div>')
+A(recall(["توصية", "صوت", "ترجمة", "وجه"]))
 
-# ---- القسم 2 (صفحة جديدة)
-A('<div class="pb"></div>')
+# ---- القسم 2
 A('<h2 class="sec"><span class="num">2</span><span class="dot">·</span> استخدام الذكاء الاصطناعي في الصناعة</h2>')
 A('<div class="quote kwn"><span class="qmark">”</span>(1) يجري أيضًا <b>إدخال تقنيات الذكاء الاصطناعي في مختلف الصناعات</b>.</div>')
 IND = [("heart", "الرعاية الصحية", "تقرأ الفحوصات", "الذكاء الاصطناعي للتشخيص بالصور (الكشف عن الأمراض من صور الأشعة السينية والتصوير المقطعي)، ودعم اكتشاف الأدوية"),
@@ -237,6 +257,17 @@ A('<div class="indw keep"><div class="fig ind"><div class="ig">'
 A(f'<span class="chip">الذكاء الاصطناعي للتشخيص بالصور</span>')
 A('<div class="note-line"><span class="tag">للفهم</span><span class="lead">ببساطة</span>ده مثال <b>الرعاية الصحية</b> الأساسي في الكتاب: النظام بيحلّل صور <b>الأشعة السينية والتصوير المقطعي</b> وبيساعد في <b>الكشف عن الأمراض</b>، وممكن يلاحظ حاجة تفوت على العين البشرية. <b>بس</b> الكتاب نفسه بيسأل في «توقّف وفكّر»: ليه لازم <b>طبيب بشري</b> يأكّد التشخيص النهائي؟ — الإجابة في الجزء التاني.</div>')
 A('<div class="note-line"><span class="tag">للفهم</span><span class="lead">ببساطة</span><b>«الخدمات اللوجستية»</b> بتشمل نقل البضاعة وتخزينها وتوصيلها، والمثال اللي بيذكره الدرس لاستخدام الذكاء الاصطناعي فيها هو <b>تحسين مسارات التوصيل</b>: يعني المساعدة في اختيار مسار أنسب لتوصيل الطلبات.</div>')
+FLOW4 = [("heart", "الرعاية الصحية", "الأشعة والصور الطبية", "اكتشاف أنماط", "دعم التشخيص"),
+         ("leaf", "الزراعة", "صور وبيانات المحاصيل", "اكتشاف / توقع", "حصاد وآفات"),
+         ("arm", "التصنيع", "بيانات ومستشعرات الآلات", "توقع عطل", "صيانة تنبؤية"),
+         ("pin", "الخدمات اللوجستية", "بيانات الطلبات والطرق", "تحليل المسارات", "تحسين مسارات التوصيل")]
+A(f'<div class="fig if4 keep">{FXA}<div class="dyh">من البيانات للاستخدام — في الصناعات الأربع</div>'
+  + '<div class="dyc"><span></span><span>البيانات</span><span></span><span>دور الذكاء الاصطناعي</span><span></span><span>الاستخدام في الكتاب</span></div>'
+  + "".join(f'<div class="dyr"><div class="d0"><span class="di">{big_icon(i)}</span><div><b>{t}</b></div></div>'
+            f'<div class="d1">{a}</div><i class="la">{ARR}</i><div class="d2">{b}</div><i class="la">{ARR}</i><div class="d3">{c}</div></div>'
+            for i, t, a, b, c in FLOW4)
+  + '<div class="cap">الرسم مكمّل لجدول الكتاب — الاستخدامات في العمود الأخير هي أمثلة الكتاب نفسها.</div></div>')
+A(recall(["صحة", "زراعة", "تصنيع", "لوجستيات"]))
 
 # الصيانة التنبؤية
 A('<h3 class="sub">الصيانة التنبؤية</h3>')
@@ -258,8 +289,7 @@ A(f'''<div class="fig pmf keep">{FXA}
 A('<div class="note-line"><span class="tag">للفهم</span><span class="lead">خُد بالك</span>الصناعات الأربع وأمثلتها بتيجي كتير في «طابق» و«اختر»: <b>الأشعة والأدوية</b> ← الرعاية الصحية · <b>الحصاد والآفات</b> ← الزراعة · <b>فحص الجودة والصيانة التنبؤية</b> ← التصنيع · <b>مسارات التوصيل</b> ← الخدمات اللوجستية.</div>')
 A(f'<div class="bridge">{FX}لحد هنا عرفنا أهم <b>الاستخدامات</b>. دلوقتي هنفرّق بين <b>ما يجيده</b> الذكاء الاصطناعي و<b>الحالات اللي تحتاج حذرًا</b> عند استخدامه.</div>')
 
-# ---- الجزء الثاني (صفحة جديدة)
-A('<div class="pb"></div>')
+# ---- الجزء الثاني
 A('<div class="part p2"><span>الجزء الثاني</span></div>\n<hr class="rule">')
 A('<h2 class="sec"><span class="num">3</span><span class="dot">·</span> خصائص الذكاء الاصطناعي واحتياطات الاستخدام</h2>')
 A(f'''<div class="fig bw keep">{FXA}
@@ -270,6 +300,37 @@ A(f'''<div class="fig bw keep">{FXA}
   <div class="cap">في الأسئلة، اسأل نفسك عن كل بند: <b>هو ده حاجة الذكاء الاصطناعي بيجيدها؟</b> ولا <b>موقف لازم ناخد بالنا فيه قبل ما نعتمد على نتيجته؟</b> — ودي نظرة سريعة، وبنود الحذر السبعة كاملة زي الكتاب جاية بعد شوية.</div>
 </div>''')
 A('<h3 class="sub">(1) ما يبرع فيه الذكاء الاصطناعي</h3>')
+def ex_vis(k):
+    T = lambda x, y, t, c, sz=13, w=800: f'<text x="{x}" y="{y}" direction="rtl" text-anchor="middle" font-size="{sz}" fill="{c}" {F} font-weight="{w}">{t}</text>'
+    if k == 0:   # تصنيف: صور منتجات تتقسم سليم / معيب
+        def sq(x, y, good):
+            c = "#22375c" if good else "#e29433"
+            mark = (f'<path d="M{x+5} {y+11}l4 4 7-8" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>' if good
+                    else f'<path d="M{x+6} {y+6}l10 10M{x+16} {y+6}l-10 10" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>')
+            return f'<rect x="{x}" y="{y}" width="22" height="22" rx="4" fill="{c}"/>' + mark
+        mix = "".join(sq(146 + (j % 3) * 25, 10 + (j // 3) * 25, j not in (1, 5)) for j in range(6))
+        ok = "".join(sq(76 + (j % 2) * 25, 10 + (j // 2) * 25, True) for j in range(4))
+        bad = "".join(sq(6 + j * 25, 22, False) for j in range(2))
+        return ('<svg viewBox="0 0 222 86">' + mix + '<path d="M140 34H128" stroke="#e29433" stroke-width="2.4"/><path d="M132 28l-6 6 6 6" fill="none" stroke="#e29433" stroke-width="2.4"/>'
+                + ok + bad + '<path d="M66 4V62" stroke="#c9d5e5" stroke-dasharray="3 3"/>'
+                + T(170, 80, "صور مختلطة", "#4e5f7c", 12, 700) + T(100, 80, "سليم", "#2e7d5b") + T(30, 80, "معيب", "#a33a30") + '</svg>')
+    if k == 1:   # تعرّف: صورة / صوت / نص
+        icons = ['<rect x="188" y="4" width="26" height="20" rx="3" fill="none" stroke="#22375c" stroke-width="2"/><path d="M191 21l7-7 6 4 7-7" fill="none" stroke="#e29433" stroke-width="2"/>',
+                 "".join(f'<rect x="{188 + j * 5.4}" y="{42 - h / 2}" width="3.2" height="{h}" rx="1.6" fill="#22375c"/>' for j, h in enumerate([7, 14, 20, 11, 17])),
+                 '<path d="M188 63h26M188 69h20M188 75h23" stroke="#22375c" stroke-width="2.2" stroke-linecap="round"/>']
+        outs = ["دي قطة", "قال إيه؟", "بيتكلم عن إيه؟"]
+        g = ""
+        for j, (icn, t) in enumerate(zip(icons, outs)):
+            y = 14 + j * 28
+            g += icn + f'<path d="M180 {y}H148" stroke="#e29433" stroke-width="2"/><path d="M152 {y - 5}l-5 5 5 5" fill="none" stroke="#e29433" stroke-width="2"/>'
+            g += f'<rect x="8" y="{y - 11}" width="134" height="22" rx="11" fill="#eaf5ef"/>' + T(75, y + 5, t, "#2e7d5b")
+        return '<svg viewBox="0 0 222 86">' + g + '</svg>'
+    # تنبؤ احتمالي: قراءات فعلية + امتداد متوقع بمنطقة احتمال
+    return ('<svg viewBox="0 0 222 86"><path d="M6 70H216" stroke="#c9d5e5"/>'
+            '<path d="M214 62 194 60 176 56 158 50 140 44" fill="none" stroke="#22375c" stroke-width="2.8" stroke-linecap="round"/>'
+            '<path d="M140 44 118 34 96 24 76 16 L76 4 96 12 118 24 140 44Z" fill="#fdf1e2"/>'
+            '<path d="M140 44 118 34 96 24 76 16" fill="none" stroke="#e29433" stroke-width="2.6" stroke-dasharray="5 4"/>'
+            + T(180, 82, "قراءات فعلية", "#22375c", 12, 700) + T(40, 34, "احتمال", "#a9670f") + T(40, 50, "مرتفع", "#a9670f") + T(58, 82, "مش يقين", "#a33a30", 12, 800) + '</svg>')
 EXC = [("grid", "إيجاد وتصنيف الأنماط في البيانات المعقدة مثل الصور والنصوص", "يلاقي المتشابه ويفصل المختلف",
         "آلاف صور منتجات خارجة من مصنع – النظام يتعلّم شكل المنتج <b>السليم</b> وشكل <b>المعيب</b>، وبعد كده يصنّف أي صورة جديدة: سليم ولا معيب."),
        ("eye", "التعرف على الصور والأصوات والنصوص، وتوليد بعض أنواع المحتوى", "صورة · صوت · نص",
@@ -278,33 +339,39 @@ EXC = [("grid", "إيجاد وتصنيف الأنماط في البيانات ا
         "حرارة الماكينة زادت والاهتزاز زاد، والنمط ده كان بيسبق العُطل قبل كده ← <b>الأغلب</b> تتعطّل قريب. أو: الطالب بيتفرّج كتير على فيديوهات برمجة ← <b>الأغلب</b> الفيديو الجديد يعجبه.")]
 A('<div class="ex3 keep">' + "".join(
     f'<div class="xc"><div class="xh"><span class="xn">{k + 1}</span><span class="xi">{ic(i, "#2e7d5b", 1.8)}</span></div><h4>{t}</h4><span class="xs">{s}</span>'
-    f'<div class="xe">{FX}<b>مثال</b> {e}</div></div>' for k, (i, t, s, e) in enumerate(EXC)) + '</div>')
-A('<div class="gline">المهام التلاتة دي بتعتمد على <b>الاستفادة من الأنماط الموجودة في البيانات</b>: اكتشافها، والتعرّف عليها، والتنبؤ بناءً عليها.</div>')
+    f'<div class="xv">{ex_vis(k)}</div><div class="xe">{FX}<b>مثال</b> {e}</div></div>' for k, (i, t, s, e) in enumerate(EXC)) + '</div>')
+A(f'<div class="cmn keep">{FXA}<b>القاسم المشترك:</b><span>كلها تعتمد على <em>الاستفادة من الأنماط الموجودة في البيانات</em>.</span></div>')
 A('<div class="note-line"><span class="tag">للفهم</span><span class="lead">ببساطة</span>الذكاء الاصطناعي <b>مش بيشوف المستقبل</b> — بيبصّ على بيانات قديمة ويقول: بناءً على الأنماط اللي اتعلّمها، <b>الأغلب</b> إن ده يحصل. عشان كده اسمه <b>استدلال احتمالي</b>، مش يقين.</div>')
 A('<div class="note-line"><span class="tag">للفهم</span><span class="lead">ببساطة</span>الكلمات المرتبطة بـ<b>إيجاد الأنماط</b> و<b>التعرّف</b> و<b>التنبؤ</b> غالبًا بتشير للمهام اللي بيجيدها الذكاء الاصطناعي.</div>')
 
-# ما يتطلب الحذر (صفحة جديدة)
-A('<div class="pb"></div>')
+# ما يتطلب الحذر
 A('<h3 class="sub">(2) ما يتطلب الحذر عند استخدام الذكاء الاصطناعي</h3>')
 A('<div class="qbar kwn">طالما الذكاء الاصطناعي شاطر في <b>الأنماط والتعرّف والتنبؤ</b>… طب ليه ما نسيبوش يقرّر كل حاجة؟</div>')
-CAU = ["القرارات ذات البعد الأخلاقي التي قد تؤدي إلى تمييز أو تحيز",
-       "التعامل مع المعلومات الشخصية والبيانات الحساسة",
-       "القرارات عالية الأثر وتحديد المسؤولية عن نتائجها",
-       "دقة النتائج عندما تكون بيانات التدريب غير كافية أو غير ممثلة أو متحيزة",
-       "توليد معلومات غير صحيحة أو غير مدعومة تبدو مقنعة (الهلوسة)",
-       "قضايا الحقوق عند استخدام أعمال محمية بحقوق المؤلف كبيانات تدريب",
-       "فقدان الوضوح حول كيفية اتخاذ الحكم (مشكلة الصندوق الأسود)"]
-A('<div class="cau keep"><div class="ch7">ما يتطلب الحذر — البنود السبعة كما في الكتاب</div><ol>' + "".join(f'<li><span class="cn7">{k + 1}</span><span>{t}</span></li>' for k, t in enumerate(CAU)) + '</ol></div>')
-GRP = [("people", "ما يتعلق بالأشخاص", "1 · 2 · 3", "أخلاق · خصوصية · مسؤولية"),
-       ("db", "ما يتعلق بالبيانات", "4 · 6", "جودة التدريب · حقوق المؤلف"),
-       ("screen", "ما يتعلق بالمخرجات", "5 · 7", "هلوسة · صندوق أسود")]
-A(f'<div class="fig tree keep">{FXA}<div class="tr0">ما يتطلب الحذر<small>سبعة بنود مقرّرة</small></div><div class="tr3">'
-  + "".join(f'<div><span class="ti">{ic(i, "#22375c", 1.7)}</span><b>{t}</b><span class="tn">{n}</span><small>{s}</small></div>' for i, t, n, s in GRP)
-  + '</div><div class="cap">السبعة بنود كلهم تحت العنوان ده — والتجميع في تلات فروع <b>للتذكّر بس</b>، والترقيم زي ما هو في الكتاب.</div></div>')
-A('<div class="note-line"><span class="tag">للفهم</span><span class="lead">مش للحفظ</span>التقسيم ده للتذكّر والمراجعة بس، وليس تصنيفًا رسميًا في كتاب المدرسة — <b>البنود السبعة نفسها مقرّرة بترقيمها</b>. في الصفحة الجاية مثال للتثبيت على كل بند.</div>')
+CAU = [("scale", "القرارات ذات البعد الأخلاقي التي قد تؤدي إلى تمييز أو تحيز"),
+       ("lock", "التعامل مع المعلومات الشخصية والبيانات الحساسة"),
+       ("alert", "القرارات عالية الأثر وتحديد المسؤولية عن نتائجها"),
+       ("db", "دقة النتائج عندما تكون بيانات التدريب غير كافية أو غير ممثلة أو متحيزة"),
+       ("chat", "توليد معلومات غير صحيحة أو غير مدعومة تبدو مقنعة (الهلوسة)"),
+       ("copy", "قضايا الحقوق عند استخدام أعمال محمية بحقوق المؤلف كبيانات تدريب"),
+       ("box", "فقدان الوضوح حول كيفية اتخاذ الحكم (مشكلة الصندوق الأسود)")]
+A('<div class="cau keep"><div class="ch7">ما يتطلب الحذر — البنود السبعة كما في الكتاب</div><ol>' + "".join(
+    f'<li><span class="cn7">{k + 1}</span><span class="ci7">{ic(i, "#a33a30", 1.7)}</span><span class="ct7">{t}</span></li>' for k, (i, t) in enumerate(CAU)) + '</ol></div>')
+GRP = [("people", "ما يتعلق بالأشخاص", ["1", "2", "3"], "أخلاق · خصوصية · مسؤولية"),
+       ("db", "ما يتعلق بالبيانات", ["4", "6"], "جودة التدريب · حقوق المؤلف"),
+       ("screen", "ما يتعلق بالمخرجات", ["5", "7"], "هلوسة · صندوق أسود")]
+A(f'<div class="fig tree keep">{FXR}<div class="tr0">ما يتطلب الحذر<small>سبعة بنود مقرّرة</small></div><div class="trl"><i class="h"></i><i class="v0"></i><i class="v1"></i><i class="v2"></i><i class="v3"></i></div><div class="tr3">'
+  + "".join(f'<div><span class="ti">{ic(i, "#22375c", 1.7)}</span><b>{t}</b><span class="tn">' + "".join(f'<em>{n}</em>' for n in ns) + f'</span><small>{s}</small></div>' for i, t, ns, s in GRP)
+  + '</div><div class="cap">السبعة بنود كلهم تحت العنوان ده — والتجميع في تلات فروع <b>للتذكّر بس</b> (مش تصنيف رسمي في الكتاب)، والترقيم زي ما هو في الكتاب.</div></div>')
+A('<div class="note-line"><span class="tag">للفهم</span><span class="lead">مش للحفظ</span>التقسيم ده للتذكّر والمراجعة بس، وليس تصنيفًا رسميًا في كتاب المدرسة — <b>البنود السبعة نفسها مقرّرة بترقيمها</b>. وبعد الشريط اللي جاي، مثال للتثبيت على كل بند.</div>')
 
-# أمثلة التثبيت (صفحة جديدة)
-A('<div class="pb"></div>')
+SYN = [("بيانات غير ممثلة", "نتيجة غير دقيقة", "مراجعة البيانات والنتيجة"),
+       ("هلوسة", "معلومة تبدو مقنعة لكنها خاطئة", "التحقق من المخرجات والمصادر"),
+       ("قرار عالي الأثر", "ضرر كبير إذا كانت النتيجة خاطئة", "إشراف ومراجعة بشرية")]
+A(f'<div class="fig syn keep">{FXA}<div class="syh"><span>المشكلة</span><i class="la">{ARR}</i><span>النتيجة المحتملة</span><i class="la">{ARR}</i><span>دور الإنسان</span></div>'
+  + "".join(f'<div class="syr"><div class="s1">{a}</div><i class="la">{ARR}</i><div class="s2">{b}</div><i class="la">{ARR}</i><div class="s3">{ic("people", "#2e7d5b", 1.8)}{c}</div></div>' for a, b, c in SYN)
+  + '<div class="cap">تلات أمثلة بس من البنود السبعة — وفي كل مرة <b>الإنسان</b> ليه دور بعد نتيجة النظام.</div></div>')
+
+# أمثلة التثبيت
 def grp(icon, title, cnt, items):
     return (f'<div class="gp keep"><div class="gph"><span class="gi">{ic(icon, "#22375c", 1.7)}</span><h4>{title}</h4><span class="gc">{cnt}</span></div>'
             + "".join(f'<div class="gi2"><div class="gt"><span class="cn7">{n}</span><p>{t}</p></div><div class="gx"><b>مثال للتثبيت</b>{FX}<p>{x}</p></div></div>' for n, t, x in items) + '</div>')
@@ -319,49 +386,34 @@ A(grp("screen", "ما يتعلق بالمخرجات", "بندان", [
     ("5", "<b>توليد معلومات غير صحيحة أو غير مدعومة تبدو مقنعة</b> (الهلوسة).", "قد يعطي النظام اسم كتاب أو مرجع يبدو حقيقيًا ومقنعًا، بينما المرجع غير موجود أصلًا. ركّز في كلمة <b>«تبدو مقنعة»</b>."),
     ("7", "<b>فقدان الوضوح</b> حول كيفية اتخاذ الحكم (<b>مشكلة الصندوق الأسود</b>).", "نظام ذكاء اصطناعي يرفض طلب قرض، لكن لا يكون واضحًا بما يكفي لماذا وصل إلى هذا الحكم – <b>مش معناه إن الحكم غلط</b>. المشكلة إن طريقة الوصول إليه غير واضحة.")]))
 A('<div class="note-line"><span class="tag">للفهم</span><span class="lead">خُد بالك</span>بند <b>4</b> معناه إن <b>مصدر</b> المشكلة هو بيانات التدريب نفسها — عشان كده ممكن النتيجة تطلع غير دقيقة <b>حتى لو النظام شغّال بشكل سليم</b>.</div>')
+# ---- القسم 4: الصندوق الأسود
+A('<h2 class="sec"><span class="num">4</span><span class="dot">·</span> مشكلة الصندوق الأسود</h2>')
+A('<span class="chip">مشكلة الصندوق الأسود</span>')
+A('<div class="banner kwn">عندما يكون من <b>غير الواضح كيف توصّل الذكاء الاصطناعي إلى حكمه</b>.</div>')
+A(f'''<div class="fig bbx keep">{FXA}
+  <div class="bbq">ليه النظام وصل للحكم ده؟</div>
+  <div class="bb3"><div class="b1"><span class="bi">{ic("doc", "#22375c", 1.7)}</span><b>بيانات طلب</b><small>مثلًا: بيانات طلب قرض</small></div><i class="la">{ARR}</i>
+  <div class="b2"><span class="qm">؟</span><b>صندوق أسود / AI</b><small>طريقة الوصول غير واضحة</small></div><i class="la">{ARR}</i>
+  <div class="b3"><b>قرار</b><span class="st"><em class="y">مقبول</em><em class="n">مرفوض</em></span><small>مقبول أو مرفوض</small></div></div>
+  <div class="bbn"><b>المشكلة مش بالضرورة إن الحكم غلط…</b><span>المشكلة إن <em>طريقة الوصول إليه غير واضحة</em>.</span></div>
+</div>''')
+A('<div class="note-line"><span class="tag">للفهم</span><span class="lead">طب ليه؟</span>لأن عدم وضوح طريقة الوصول للنتيجة بيصعّب <b>تقييمها</b> و<b>اكتشاف الأخطاء أو التحيز</b>، عشان كده لازم نتعامل معاها <b>بحذر</b> ونراجعها قبل الاعتماد عليها.</div>')
 
-# القاعدة الأساسية + الصندوق الأسود (صفحة جديدة)
-A('<div class="pb"></div>')
+# القاعدة الأساسية + المقياس
 A(f'''<div class="rule0 keep"><span class="rb">{BULB}</span><div>
   <h3>القاعدة الأساسية</h3>
   <p>الكتاب بيقولها في التلميح: <b>«يجيد الذكاء الاصطناعي اكتشاف الأنماط بسرعة، وتزداد الحاجة إلى إشراف بشري كلما ارتفع أثر الخطأ أو خطورة القرار.»</b></p>
   <p>يعني عند تقييم أي استخدام، ماتسألش بس «نستخدمه ولا لأ؟» – قيّم كمان <b>حجم الضرر المتوقّع لو النتيجة طلعت غلط</b>. ضرر توصية ترفيهية غير مناسبة <b>محدود غالبًا</b>، بس بيعتمد على <b>المحتوى والسياق</b>. تشخيص مرض غلط = <b>عواقب جسيمة</b>. ومن هنا بتيجي إجابة أي سؤال «برّر الحاجة إلى الإشراف البشري».</p>
 </div></div>''')
-SCALE = [("اقتراح فيديو", "أثر الخطأ منخفض", "s1"), ("ترجمة نص عادي", "أثر محدود", "s2"), ("فحص جودة منتج", "أثر مرتفع", "s3"), ("تشخيص طبي", "أثر مرتفع جدًا", "s4")]
-A(f'<div class="fig scl keep">{FXA}<div class="sc4">' + "".join(f'<div class="{c}"><b>{t}</b><small>{d}</small></div>' for t, d, c in SCALE) + '</div>'
+SCALE = [("video", "اقتراح فيديو", "أثر الخطأ منخفض", "s1", 1), ("tr", "ترجمة نص عادي", "أثر محدود", "s2", 2), ("arm", "فحص جودة منتج", "أثر مرتفع", "s3", 3), ("heart", "تشخيص طبي", "أثر مرتفع جدًا", "s4", 4)]
+A(f'<div class="fig scl keep">{FXA}<div class="sc4">' + "".join(
+    f'<div class="{c}"><span class="si">{big_icon(i)}</span><b>{t}</b><small>{d}</small><span class="hm">' + "".join(f'<i class="{"on" if j < n else ""}"></i>' for j in range(4)) + '</span><em>مراجعة بشرية</em></div>'
+    for i, t, d, c, n in SCALE) + '</div>'
   + '<div class="sca"><span>يزداد أثر الخطأ</span><i></i><span>تزداد الحاجة إلى المراجعة البشرية</span></div>'
   + '<div class="cap">الترتيب تقريبي للتوضيح.</div></div>')
-A('<h2 class="sec"><span class="num">4</span><span class="dot">·</span> مشكلة الصندوق الأسود</h2>')
-A('<span class="chip">مشكلة الصندوق الأسود</span>')
-A('<div class="banner kwn">عندما يكون من <b>غير الواضح كيف توصّل الذكاء الاصطناعي إلى حكمه</b>.</div>')
-A(f'''<div class="fig bbx keep">{FXA}
-  <div class="bb3"><div class="b1"><b>مدخلات</b><small>بيانات الطلب</small></div><i class="la">{ARR}</i>
-  <div class="b2"><span>{ic("box", "#fff", 1.8)}</span><b>صندوق أسود</b><small>طريقة الوصول غير واضحة</small></div><i class="la">{ARR}</i>
-  <div class="b3"><b>حكم</b><small>مقبول / مرفوض</small></div></div>
-  <div class="bbn">المشكلة <b>مش بالضرورة</b> إن الحكم غلط — المشكلة إن <b>طريقة الوصول إليه غير واضحة</b>.</div>
-</div>''')
-A('<div class="note-line"><span class="tag">للفهم</span><span class="lead">طب ليه؟</span>لأن عدم وضوح طريقة الوصول للنتيجة بيصعّب <b>تقييمها</b> و<b>اكتشاف الأخطاء أو التحيز</b>، عشان كده لازم نتعامل معاها <b>بحذر</b> ونراجعها قبل الاعتماد عليها.</div>')
 
-# الفكرة الرئيسة + خلي بالك (صفحة جديدة)
-A('<div class="pb"></div>')
+# الفكرة الرئيسة + خلي بالك
 A('<div class="kidea keep"><div class="kh">الفكرة الرئيسة</div><p>الذكاء الاصطناعي <b>بارع في إيجاد الأنماط في البيانات</b>، لكن <b>الحكم البشري لا يزال ضروريًا</b> عندما يتعلق الأمر <b>بالأخلاق والخصوصية والمسؤولية</b>.</p></div>')
-A('''<div class="box cream keep">
-  <h3>خلي بالك من العبارات دي</h3>
-  <ul>
-    <li>الذكاء الاصطناعي <b>«قد يخطئ أو ينتج نتائج متحيزة»</b> – «قد» مش «دايمًا».</li>
-    <li>يجب التحقق من مخرجاته <b>«خصوصًا في الاستخدامات التي تؤثر في حياة الأشخاص وحقوقهم»</b>.</li>
-    <li>الحكم البشري <b>«لا يزال ضروريًا»</b> في الأخلاق والخصوصية والمسؤولية.</li>
-    <li>الدقة بتتأثر لما بيانات التدريب <b>«غير كافية أو غير ممثلة أو متحيزة»</b> – تلات حالات مش واحدة.</li>
-    <li>الهلوسة: معلومات <b>غير صحيحة أو غير مدعومة</b>، رغم إن صياغتها قد تبدو مقنعة.</li>
-    <li>الحاجة للإشراف البشري <b>بتزيد كلما ارتفع أثر الخطأ</b> – مش ثابتة.</li>
-  </ul>
-</div>''')
-A(f'''<div class="box plain keep">
-  <h3>مثال من حياتنا{FX}</h3>
-  <p>تطبيق الموسيقى اقترح عليك أغنية مش عاجباك؟ عادي — <b>أثر الخطأ منخفض</b>، هتقلب على اللي بعدها. لكن لو مستشفى استخدم نظام يحلّل صور الأشعة وقال إن المريض سليم وهو مش سليم؟ هنا <b>أثر الخطأ مرتفع جدًا</b>، وعشان كده <b>التشخيص النهائي لازم يأكّده طبيب بشري</b>.</p>
-  <p>نفس التقنية تقريبًا (نظام بيدوّر على أنماط)، بس <b>الحذر</b> بيختلف حسب <b>أثر القرار</b>.</p>
-</div>''')
-
 # ---- سؤال على نمط الامتحان
 A('<div class="big">سؤال على نمط الامتحان — ونموذج إجابته</div>\n<hr class="rule">')
 A(f'''<div class="exam keep">
@@ -395,6 +447,23 @@ A('''<div class="terms keep">
     <div><b>مشكلة الصندوق الأسود</b> – عندما يكون من غير الواضح كيف توصل الذكاء الاصطناعي إلى حكمه.</div>
   </div>
 </div>''')
+A('''<div class="box cream keep">
+  <h3>خلي بالك من العبارات دي</h3>
+  <ul>
+    <li>الذكاء الاصطناعي <b>«قد يخطئ أو ينتج نتائج متحيزة»</b> – «قد» مش «دايمًا».</li>
+    <li>يجب التحقق من مخرجاته <b>«خصوصًا في الاستخدامات التي تؤثر في حياة الأشخاص وحقوقهم»</b>.</li>
+    <li>الحكم البشري <b>«لا يزال ضروريًا»</b> في الأخلاق والخصوصية والمسؤولية.</li>
+    <li>الدقة بتتأثر لما بيانات التدريب <b>«غير كافية أو غير ممثلة أو متحيزة»</b> – تلات حالات مش واحدة.</li>
+    <li>الهلوسة: معلومات <b>غير صحيحة أو غير مدعومة</b>، رغم إن صياغتها قد تبدو مقنعة.</li>
+    <li>الحاجة للإشراف البشري <b>بتزيد كلما ارتفع أثر الخطأ</b> – مش ثابتة.</li>
+  </ul>
+</div>''')
+A(f'''<div class="box plain keep">
+  <h3>مثال من حياتنا{FX}</h3>
+  <p>تطبيق الموسيقى اقترح عليك أغنية مش عاجباك؟ عادي — <b>أثر الخطأ منخفض</b>، هتقلب على اللي بعدها. لكن لو مستشفى استخدم نظام يحلّل صور الأشعة وقال إن المريض سليم وهو مش سليم؟ هنا <b>أثر الخطأ مرتفع جدًا</b>، وعشان كده <b>التشخيص النهائي لازم يأكّده طبيب بشري</b>.</p>
+  <p>نفس التقنية تقريبًا (نظام بيدوّر على أنماط)، بس <b>الحذر</b> بيختلف حسب <b>أثر القرار</b>.</p>
+</div>''')
+
 A(f'''<div class="dark keep">
   <h3>الخلاصة في دقيقة</h3>
   <p class="rem"><b>تذكّر:</b> الذكاء الاصطناعي بارع في إيجاد الأنماط في البيانات وتصنيفها – التوصيات، والصوت، والترجمة، والتعرف على الوجه، والعديد من مهام الصناعة – لكن الحكم البشري لا يزال ضروريًا عندما يتعلق الأمر بالأخلاق والخصوصية والمسؤولية.</p>
@@ -490,7 +559,7 @@ BOOK.append(card("06", "تمارين — أجب عن الأسئلة التالي
        + opts(["الأحكام الأخلاقية", "إيجاد السمات في الصور والنصوص وتصنيفها", "الأحكام التي تشمل المعلومات الشخصية", "الاستدلال الاحتمالي والتنبؤ استنادًا إلى البيانات", "اتخاذ القرار الذي يتحمل مسؤولية النتائج", "التعرف على الصور والصوت والنص وتوليدها"], 2)
        + qq(2, "من الخيارات التالية (أ - د)، اختر الخيار الذي <b>ليس وصفًا مناسبًا</b> للخدمات التي تستخدم الذكاء الاصطناعي.")
        + opts(["نظام التوصية يتنبأ بالتفضيلات من بيانات السلوك السابق ويعرض التوصيات.", "المساعد الصوتي يتعرف على الصوت، ويفهم الأوامر، وينفذها.",
-               "الترجمة الآلية هي نظام يترجم فيه البشر اللغات الأجنبية يدويًا.", "التعرف على الوجه يكتشف وجوه الأشخاص في الصور ويتعرف عليها تلقائيًا."], 1)))
+               "الترجمة الآلية هي نظام يترجم فيه البشر اللغات الأجنبية يدويًا.", "التعرف على الوجه يكتشف وجوه الأشخاص في الصور ويتعرف عليها تلقائيًا."], 1), tag=TQ))
 BOOK.append(card("07", "تمارين — اقرأ الفقرة التالية وأجب عن كل سؤال",
        qq(1, "املأ الفراغات (1) - (3).")
        + f'<p class="para">يُستخدم الذكاء الاصطناعي على نطاق واسع في حياتنا اليومية. على سبيل المثال، توصيات مقاطع الفيديو التي تناسب تفضيلات المرء على موقع فيديو تأتي من نظام (<b>1</b>) {blank(80)}. كذلك، تُستخدم تقنية الذكاء الاصطناعي في (<b>2</b>) {blank(80)}، التي يمكن للمرء من خلالها التحدث إلى هاتف ذكي لتشغيله، وفي (<b>3</b>) {blank(80)}، التي تحوّل نصًا بلغة أجنبية إلى اللغة الأم.</p>'
@@ -512,8 +581,6 @@ MCQ = [
  ("تحسين مسارات التوصيل مثال على استخدام الذكاء الاصطناعي في:", ["الزراعة", "التصنيع", "الخدمات اللوجستية", "الرعاية الصحية"]),
  ("«دعم اكتشاف الأدوية» يذكره الكتاب ضمن صناعة:", ["التصنيع", "الرعاية الصحية", "الزراعة", "الخدمات اللوجستية"]),
  ("استخدام البيانات للتنبؤ بأعطال الآلات قبل وقوعها يُسمى:", ["نظام التوصية", "أتمتة الفحص", "التشخيص بالصور", "الصيانة التنبؤية"]),
- ("أيٌّ مما يلي <b>يبرع فيه</b> الذكاء الاصطناعي؟", ["الأحكام الأخلاقية المتعلقة بالأشخاص", "تحديد المسؤولية عن نتائج القرارات عالية الأثر", "إيجاد وتصنيف الأنماط في البيانات المعقدة", "اتخاذ القرار النهائي في التشخيص الطبي"]),
- ("أيٌّ مما يلي <b>يتطلب الحذر</b> عند استخدام الذكاء الاصطناعي؟", ["التعرف على الصور والأصوات والنصوص المختلفة", "الاستدلال الاحتمالي استنادًا إلى أنماط البيانات", "التنبؤ بموعد الحصاد استنادًا إلى البيانات", "الأحكام التي تشمل المعلومات الشخصية"]),
  ("«الاستدلال الاحتمالي والتنبؤ استنادًا إلى البيانات» يضعه الكتاب ضمن:", ["ما يبرع فيه الذكاء الاصطناعي", "ما يتطلب الحذر عند استخدام الذكاء الاصطناعي", "مشكلة الصندوق الأسود في اتخاذ الحكم", "الهلوسة وتوليد معلومات غير صحيحة"]),
  ("عندما يكون من غير الواضح كيف توصّل الذكاء الاصطناعي إلى حكمه، تُسمى المشكلة:", ["الهلوسة", "التحيز", "الصيانة التنبؤية", "مشكلة الصندوق الأسود"]),
  ("توليد معلومات غير صحيحة أو غير مدعومة تبدو مقنعة يُسمى:", ["الهلوسة", "الصندوق الأسود", "التحيز", "الأتمتة"]),
@@ -529,8 +596,8 @@ MCQ = [
  ("القرارات ذات البعد الأخلاقي التي قد تؤدي إلى تمييز أو تحيز تُعد ضمن:", ["ما يبرع فيه الذكاء الاصطناعي من إيجاد الأنماط", "دور أنظمة التوصية في الخدمات اليومية المختلفة", "المهارات الأساسية التي يتعلمها نموذج التعلم العميق", "ما يتطلب الحذر عند استخدام الذكاء الاصطناعي"]),
  ("يُعرَّف التحيز في أنظمة الذكاء الاصطناعي على أنه:", ["نمط قد يؤدي إلى نتائج غير عادلة", "توليد معلومات غير صحيحة تبدو مقنعة للمستخدم", "التراكب الكمي في الحوسبة الكمومية الحديثة", "الاستدلال الاحتمالي والتنبؤ استنادًا إلى البيانات"]),
 ]
-assert len(MCQ) == 28
-TQ_MCQ = {1, 2, 5, 7, 8, 9, 10, 13, 16, 17, 22, 27, 28}
+assert len(MCQ) == 26
+TQ_MCQ = {1, 2, 5, 7, 8, 9, 10, 14, 15, 20, 25, 26}
 
 # ---- أكمل
 FILL = [
@@ -728,15 +795,17 @@ i.la{font-style:normal;flex:none;align-self:center;font-family:'DejaVuArr';font-
 .svr .s3{font-size:9.2pt;line-height:14pt;color:var(--gold2);font-weight:600}
 .sv4 .cap{border-top:0}
 /* الصناعات */
-.indw{display:grid;grid-template-columns:1fr 150pt;gap:10pt;align-items:center;margin:0 0 9pt 0}
+.indw{display:grid;grid-template-columns:1fr 176pt;gap:10pt;align-items:stretch;margin:0 0 9pt 0}
 .ind{padding:8pt 8pt 4pt 8pt;margin:0}
-.ig{display:grid;grid-template-columns:1fr 1fr;gap:7pt}
-.ic4{display:flex;flex-direction:column;align-items:center;text-align:center;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:9pt;padding:6pt 8pt 7pt 8pt}
-.ic4 .ii svg{width:40pt;height:40pt;display:block}
-.ic4 h4{margin:2pt 0 0 0;font-weight:800;font-size:10.8pt;color:var(--navy);line-height:1.35}
+.ig{display:grid;grid-template-columns:1fr 1fr;gap:9pt}
+.ic4{display:flex;flex-direction:column;align-items:center;text-align:center;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:9pt;padding:10pt 10pt 11pt 10pt}
+.ic4 .ii svg{width:52pt;height:52pt;display:block}
+.ic4 h4{margin:4pt 0 0 0;font-weight:800;font-size:11.4pt;color:var(--navy);line-height:1.35}
 .ic4 small{font-size:8.2pt;color:var(--muted2);font-weight:600}
-.ic4 p{margin-top:3pt;font-size:9pt;line-height:13.6pt;color:var(--text2);text-wrap:pretty}
+.ic4 p{margin-top:5pt;font-size:9.6pt;line-height:14.6pt;color:var(--text2);text-wrap:pretty}
 .indw .im .icap{font-size:8pt;line-height:12pt}
+.indw .im{display:flex;flex-direction:column}
+.indw .im img{flex:1;min-height:0;object-fit:cover}
 /* الصيانة التنبؤية */
 .pmf{padding:12pt 11pt 6pt 11pt}
 .pc3{display:flex;align-items:stretch;gap:6pt;margin-bottom:9pt}
@@ -843,6 +912,87 @@ i.la{font-style:normal;flex:none;align-self:center;font-family:'DejaVuArr';font-
 .bb3 .b2 span svg{width:20pt;height:20pt;display:block}
 .bbn{margin:9pt auto 0 auto;width:fit-content;background:#eef2f8;border-radius:9pt;padding:4pt 16pt;font-size:9.8pt;color:var(--text2)}
 .content>.fig.loop:first-child,.content>.fig.pmf:first-child,.content>.fig.bw:first-child,.content>.fig.tree:first-child,.content>.fig.scl:first-child,.content>.fig.bbx:first-child{margin-top:7pt}
+
+/* ثبّت الصفحة في 10 ثواني */
+.rcl{display:flex;align-items:center;gap:10pt;background:#22375c;border-radius:10pt;padding:7pt 12pt;margin:0 0 10pt 0}
+.rcl .rl{flex:none;background:#e29433;color:#17263f;font-weight:800;font-size:9.6pt;line-height:18pt;padding:0 11pt;border-radius:8pt}
+.rcl .rc{flex:1;display:flex;align-items:center;justify-content:center;gap:8pt}
+.rcl .rc span{background:#2e4a78;border:.75pt solid #4a6fa5;border-radius:8pt;padding:1pt 14pt;color:#fff;font-weight:800;font-size:10.4pt;line-height:17pt}
+.rcl .rc i{font-style:normal;color:#f1c88b;font-weight:800}
+/* يومك مع الذكاء الاصطناعي + الصناعات (نفس الشبكة) */
+.day,.if4{padding:12pt 11pt 6pt 11pt}
+.dyh{font-weight:800;font-size:12pt;color:var(--navy);margin:0 0 7pt 0}
+.dyc,.dyr{display:grid;grid-template-columns:150pt 1fr 16pt 1fr 16pt 1fr;align-items:center;column-gap:4pt}
+.dyc{padding:0 0 4pt 0}
+.dyc span{font-weight:800;font-size:8.8pt;color:var(--muted);text-align:center}
+.dyr{padding:5pt 0;border-top:.75pt dashed #dde5ef}
+.dyr .d0{display:flex;align-items:center;gap:7pt}
+.dyr .di svg{width:36pt;height:36pt;display:block}
+.dyr .d0 small{display:block;font-size:8.2pt;font-weight:700;color:var(--gold2);line-height:1.3}
+.dyr .d0 b{display:block;font-weight:800;font-size:10.2pt;color:var(--navy);line-height:1.35}
+.dyr .d1,.dyr .d2,.dyr .d3{border-radius:8pt;padding:5pt 7pt;text-align:center;font-size:9.2pt;line-height:13.4pt;font-weight:700;min-height:30pt;display:flex;align-items:center;justify-content:center;text-wrap:pretty}
+.dyr .d1{background:#f5f7fb;border:.75pt solid #dde5ef;color:var(--text2)}
+.dyr .d2{background:#22375c;color:#fff}
+.dyr .d3{background:#fbf6e8;border:.75pt solid #eee0b8;color:#a9670f}
+.dyr i.la{font-size:12pt;justify-self:center}
+/* المهام التلاتة: رسم صغير لكل مهمة */
+.xv{margin:6pt 0 0 0;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:8pt;padding:4pt 6pt}
+.xv svg{width:100%;height:auto;display:block}
+.cmn{position:relative;display:flex;align-items:center;gap:12pt;background:#22375c;border-right:4pt solid #e29433;border-radius:10pt;padding:10pt 16pt;margin:4pt 0 9pt 0}
+.cmn b{flex:none;color:#f1c88b;font-weight:800;font-size:12pt}
+.cmn>span:not(.fx){color:#fff;font-weight:700;font-size:11pt;line-height:17pt}
+.cmn em{font-style:normal;color:#f1c88b;font-weight:800}
+/* البنود السبعة بأيقونات */
+.cau li{align-items:center;padding:4pt 0}
+.cau .cn7{width:18pt;height:18pt;font-size:9.4pt}
+.cau .ci7{flex:none;width:26pt;height:26pt;border-radius:50%;background:#fff;border:.75pt solid #efc6c1;display:flex;align-items:center;justify-content:center}
+.cau .ci7 svg{width:15pt;height:15pt}
+.cau .ct7{flex:1}
+/* شجرة التذكّر بخطوط وصل */
+.trl{position:relative;height:16pt;margin:-10pt 0 0 0}
+.trl i{position:absolute;display:block;background:#b9c6d8}
+.trl .v0{left:calc(50% - .75pt);top:0;width:1.5pt;height:8pt}
+.trl .h{top:8pt;left:calc(100% / 6);right:calc(100% / 6);height:1.5pt}
+.trl .v1,.trl .v2,.trl .v3{top:8pt;width:1.5pt;height:8pt}
+.trl .v1{left:calc(100% / 6 - .75pt)} .trl .v2{left:calc(50% - .75pt)} .trl .v3{right:calc(100% / 6 - .75pt)}
+.tr3 .tn{display:flex;gap:4pt;justify-content:center}
+.tr3 .tn em{font-style:normal;width:17pt;height:17pt;border-radius:50%;background:#fff;border:1pt solid #c0453a;color:#a33a30;font-weight:800;font-size:9pt;display:inline-flex;align-items:center;justify-content:center;line-height:1}
+.tr3 .ti svg{width:26pt;height:26pt}
+/* المشكلة ← النتيجة ← دور الإنسان */
+.syn{padding:10pt 11pt 3pt 11pt}
+.syh,.syr{display:grid;grid-template-columns:.8fr 16pt 1.4fr 16pt 1.4fr;align-items:center;column-gap:4pt}
+.syh span{text-align:center;font-weight:800;font-size:10pt;color:var(--navy)}
+.syh{padding-bottom:3pt}
+.syr{padding:3.5pt 0;border-top:.75pt dashed #dde5ef}
+.syr>div{border-radius:8pt;padding:5pt 8pt;text-align:center;font-weight:700;font-size:9.6pt;line-height:14pt;min-height:24pt;display:flex;align-items:center;justify-content:center;gap:5pt}
+.syr .s1{background:#fbeceb;border:.75pt solid #efc6c1;color:#a33a30}
+.syr .s2{background:#fdf1e2;border:.75pt solid #f0d3a8;color:#a9670f}
+.syr .s3{background:#eaf5ef;border:.75pt solid #bfe0cd;color:#2e7d5b}
+.syr .s3 svg{width:15pt;height:15pt;flex:none}
+.syr i.la,.syh i.la{justify-self:center;font-size:12pt}
+/* مقياس أثر الخطأ (مكبّر) */
+.sc4>div{display:flex;flex-direction:column;align-items:center;gap:2pt;padding:8pt 6pt 8pt 6pt}
+.sc4 .si svg{width:40pt;height:40pt;display:block}
+.sc4 .hm{display:flex;gap:3pt;margin-top:4pt}
+.sc4 .hm i{display:block;width:12pt;height:6pt;border-radius:3pt;background:#fff;border:.75pt solid currentColor;opacity:.55}
+.sc4 .hm i.on{background:currentColor;opacity:1}
+.sc4 em{font-style:normal;font-size:7.8pt;font-weight:700;opacity:.9}
+/* الصندوق الأسود (سيناريو) */
+.bbq{margin:0 auto 10pt auto;width:fit-content;background:#fbf6e8;border:1pt solid #eee0b8;border-radius:12pt;padding:4pt 18pt;font-weight:800;font-size:12pt;color:#a9670f;position:relative}
+.bbq::after{content:"";position:absolute;bottom:-6pt;left:calc(50% - 6pt);border-width:6pt 6pt 0 6pt;border-style:solid;border-color:#eee0b8 transparent transparent transparent}
+.bb3{width:94%}
+.bb3 .b1 .bi svg{width:24pt;height:24pt;display:block}
+.bb3 .b2{flex:1.2;padding:10pt 8pt}
+.bb3 .b2 .qm{font-size:34pt;line-height:1.05;font-weight:800;color:#e29433}
+.bb3 .b2 b{color:#fff !important;font-size:11pt !important}
+.bb3 .st{display:flex;gap:5pt;margin:3pt 0}
+.bb3 .st em{font-style:normal;font-weight:800;font-size:9pt;border-radius:6pt;padding:0 8pt;line-height:16pt;border:1pt dashed}
+.bb3 .st .y{color:#2e7d5b;border-color:#2e7d5b} .bb3 .st .n{color:#a33a30;border-color:#a33a30}
+.bbn{display:flex;flex-direction:column;align-items:center;gap:1pt;padding:6pt 18pt !important;border-right:4pt solid #e29433}
+.bbn b{font-weight:800;font-size:11pt;color:var(--navy)}
+.bbn span{font-size:10.6pt;font-weight:700;color:var(--text2)}
+.bbn em{font-style:normal;color:#a9670f;font-weight:800}
+.content>.fig.day:first-child,.content>.fig.if4:first-child,.content>.fig.syn:first-child,.content>.cmn:first-child{margin-top:7pt}
 /* البنك */
 .qcard.sol .sg{grid-template-columns:1fr 1.25fr}
 .check{padding:7pt 13pt 5pt 13pt}
