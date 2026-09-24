@@ -2,6 +2,10 @@
 """يبني html/lesson_1_2.html من قالب lesson_3_1.html (نفس الستايل والسكريبتات) + محتوى الدرس 1-2.
 المصدر: المذكرة القديمة (الوحدة الأولى ص25–46) + كتاب الوزارة (ص13–18 من الـPDF) + «تقييمات الترم الأول» (ص10–16)."""
 import re, sys
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from fxflag import FLAG_CSS, group_html, strip_style
+
 import os
 TOOLS = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, TOOLS)
@@ -10,6 +14,7 @@ import newsec as N
 BASE = os.path.join(os.path.dirname(TOOLS), "")   # فولدر html (أبو فولدر tools)
 tpl = open(BASE + "lesson_3_1.html", encoding="utf-8").read()
 head = tpl[:tpl.index('<body data-lesson=')]
+head = strip_style(head)
 TITLE = "كيف يعمل الذكاء الاصطناعي"
 head = head.replace("<title>الدرس 3-1 — البنية العامة لتطبيقات الويب</title>", f"<title>الدرس 1-2 — {TITLE}</title>")
 head = head.replace("الدرس 3-1 (الشرح)", "الدرس 1-2 (الشرح + بنك الأسئلة)")
@@ -854,55 +859,13 @@ figure.bimg .icap{margin:4pt 2pt 5pt 2pt;text-align:center}
 .wxm i{font-style:normal;color:#e29433;font-weight:800}
 .wxp{margin-top:6pt;font-size:9.3pt;line-height:14.6pt;color:var(--text);text-wrap:pretty}
 .drawbox{height:120pt}
-/* ==== تجربة (زياد): بادج «للفهم» على شكل علم مموّج طالع من الجنب — للرجوع امسح البلوك ده ==== */
-.fx.abs,.fx.fl,.note-line .tag{position:absolute;left:-17pt;right:auto;top:50%;bottom:auto;float:none;transform:translateY(-50%) rotate(180deg);writing-mode:vertical-rl;width:26pt;height:auto;min-height:46pt;box-sizing:border-box;padding:9pt 0;margin:0;display:flex;align-items:center;justify-content:center;border:0;border-radius:0;background:#e29433;color:#17263f;font-size:11pt;line-height:26pt;font-weight:800;z-index:3;-webkit-mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 100' preserveAspectRatio='none'%3E%3Cpath d='M3,0 Q7,5 3,10 T3,20 T3,30 T3,40 T3,50 T3,60 T3,70 T3,80 T3,90 T3,100 L23,100 Q19,95 23,90 T23,80 T23,70 T23,60 T23,50 T23,40 T23,30 T23,20 T23,10 T23,0 Z'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat;mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 100' preserveAspectRatio='none'%3E%3Cpath d='M3,0 Q7,5 3,10 T3,20 T3,30 T3,40 T3,50 T3,60 T3,70 T3,80 T3,90 T3,100 L23,100 Q19,95 23,90 T23,80 T23,70 T23,60 T23,50 T23,40 T23,30 T23,20 T23,10 T23,0 Z'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat}
-.note-line{padding-left:14pt}
-.note-line .tag{left:-12pt;top:-1pt;transform:rotate(180deg);min-height:31pt;padding:2pt 0}
-.fxg{position:relative;padding-left:20pt!important}
-.fxg::before{content:"";position:absolute;left:-6pt;top:4pt;bottom:4pt;width:7pt;border:1.6pt solid #e29433;border-right:0;border-radius:6pt 0 0 6pt}
-.fxg>*{position:relative}
-.fxg>.note-line,.fxg>.bridge{padding-left:0}
-.fxg>.gflag{position:absolute;left:-18pt;min-height:0;height:clamp(44pt,60%,120pt)}
-.garr{position:absolute;left:-26pt;top:50%;width:23pt;height:0;border-top:1.6pt solid #e29433;margin-top:-.8pt;z-index:2;font-style:normal}
-.garr::after{content:"";position:absolute;right:-1pt;top:-4.6pt;border-left:6pt solid #e29433;border-top:3.8pt solid transparent;border-bottom:3.8pt solid transparent}
-.instr:has(>.fx.fl){position:relative;padding-left:24pt}
-*:has(>.fx.abs){padding-left:max(24pt,var(--fpl,0pt))}
 """
 
 
-# ==== تجربة (زياد): حاجتين أو أكتر «للفهم» ورا بعض ← علم واحد عليهم ====
-import re as _re
-NL_TAG = '<span class="tag">للفهم</span>'
-def _fx_kind(x):
-    x = x.lstrip()
-    if x.startswith('<div class="note-line">') and NL_TAG in x: return "nl"
-    if x.startswith('<div class="bridge">' + FX): return "br"
-    m = _re.match(r'<div class="[^"]*">', x)
-    if m and x[m.end():].lstrip().startswith(FXA): return "abs"
-    return None
-def _strip_fx(x, k):
-    if k == "nl": return x.replace(NL_TAG, "", 1)
-    if k == "br": return x.replace(FX, "", 1)
-    return x.replace(FXA, "", 1)
-def group_fx(items):
-    out, run = [], []
-    def flush():
-        if len(run) >= 2:
-            out.append('<div class="fxg keep"><span class="fx abs gflag">للفهم</span>'
-                       + "\n".join(_re.sub(r'^(\s*<div[^>]*>)', r'\1<i class="garr"></i>', _strip_fx(x, k), count=1) for x, k in run) + '</div>')
-        else:
-            out.extend(x for x, _ in run)
-        run.clear()
-    for x in items:
-        k = _fx_kind(x)
-        if k: run.append((x, k))
-        else: flush(); out.append(x)
-    flush()
-    return out
 body = (f'<body data-lesson="الدرس 1-2 — {TITLE}" data-start="{START}" data-total="{TOTAL}">\n<main class="flow">\n'
-        + "\n".join(group_fx(E)) + "\n\n<!-- ===================== بنك الأسئلة ===================== -->\n" + "\n".join(B)
+        + group_html("\n".join(E)) + "\n\n<!-- ===================== بنك الأسئلة ===================== -->\n" + "\n".join(B)
         + "\n</main>\n</body>\n</html>\n")
-out = head.replace("</style>", EXTRA_CSS + "</style>", 1) + body
+out = head.replace("</style>", EXTRA_CSS + FLAG_CSS + "</style>", 1) + body
 out = out.replace("(el.firstElementChild && el.firstElementChild.tagName === 'H4')", "(el.firstElementChild && /^H[34]$/.test(el.firstElementChild.tagName))")
 open(BASE + "lesson_1_2.html", "w", encoding="utf-8").write(out)
 print("written", len(out), "| book", N_BOOK, "| mcq", len(MCQ), "| fill", len(FILL), "| tf", len(TF), "| cls", N_CLS, "| why", len(WHY), "| ess", N_ESS, "| tq", N_TQ)

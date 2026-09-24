@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 """يبني html/lesson_3_3.html من قالب lesson_3_1.html (نفس الستايل والسكريبتات) + محتوى الدرس 3-3."""
 import re, sys
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from fxflag import FLAG_CSS, group_html, strip_style
+
 import os
 TOOLS = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, TOOLS)
@@ -12,6 +16,7 @@ HOUSE = house()
 BASE = os.path.join(os.path.dirname(TOOLS), "")   # فولدر html (أبو فولدر tools)
 tpl = open(BASE + "lesson_3_1.html", encoding="utf-8").read()
 head = tpl[:tpl.index('<body data-lesson=')]
+head = strip_style(head)
 head = head.replace("<title>الدرس 3-1 — البنية العامة لتطبيقات الويب</title>", "<title>الدرس 3-3 — أساسيات تقنية الواجهة الأمامية</title>")
 head = head.replace("الدرس 3-1 (الشرح)", "الدرس 3-3 (الشرح + بنك الأسئلة)")
 
@@ -643,9 +648,9 @@ bdi.tg{font-weight:700}
 """
 
 body = (f'<body data-lesson="الدرس 3-3 — أساسيات تقنية الواجهة الأمامية" data-start="{START}" data-total="{TOTAL}">\n<main class="flow">\n'
-        + "\n".join(E) + "\n\n<!-- ===================== بنك الأسئلة ===================== -->\n" + "\n".join(B)
+        + group_html("\n".join(E)) + "\n\n<!-- ===================== بنك الأسئلة ===================== -->\n" + "\n".join(B)
         + "\n</main>\n</body>\n</html>\n")
-out = head.replace("</style>", EXTRA_CSS + "</style>", 1) + body
+out = head.replace("</style>", EXTRA_CSS + FLAG_CSS + "</style>", 1) + body
 out = out.replace("(el.firstElementChild && el.firstElementChild.tagName === 'H4')", "(el.firstElementChild && /^H[34]$/.test(el.firstElementChild.tagName))")
 open(BASE + "lesson_3_3.html", "w", encoding="utf-8").write(out)
 print("written", len(out), "| mcq", len(MCQ), "| ess", N_ESS, "| tq", N_TQ)

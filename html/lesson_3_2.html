@@ -707,6 +707,21 @@ table.cmp.tall td{height:38pt}
 .box.cont{border-top-left-radius:0;border-top-right-radius:0;padding-top:4pt}
 .intro .body p+p{margin-top:4pt}
 .map .cell li{text-wrap:pretty}
+/* ==== fxflag: بادج «للفهم» علم مموّج طالع من الجنب + علم واحد بقوس وأسهم لكذا حاجة ورا بعض (tools/fxflag.py) ==== */
+.fx.abs,.fx.fl,.note-line .tag{position:absolute;left:-17pt;right:auto;top:50%;bottom:auto;float:none;transform:translateY(-50%) rotate(180deg);writing-mode:vertical-rl;width:26pt;height:auto;min-height:46pt;box-sizing:border-box;padding:9pt 0;margin:0;display:flex;align-items:center;justify-content:center;border:0;border-radius:0;background:#e29433;color:#17263f;font-size:11pt;line-height:26pt;font-weight:800;z-index:3;-webkit-mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 100' preserveAspectRatio='none'%3E%3Cpath d='M3,0 Q7,5 3,10 T3,20 T3,30 T3,40 T3,50 T3,60 T3,70 T3,80 T3,90 T3,100 L23,100 Q19,95 23,90 T23,80 T23,70 T23,60 T23,50 T23,40 T23,30 T23,20 T23,10 T23,0 Z'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat;mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 100' preserveAspectRatio='none'%3E%3Cpath d='M3,0 Q7,5 3,10 T3,20 T3,30 T3,40 T3,50 T3,60 T3,70 T3,80 T3,90 T3,100 L23,100 Q19,95 23,90 T23,80 T23,70 T23,60 T23,50 T23,40 T23,30 T23,20 T23,10 T23,0 Z'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat}
+.note-line{padding-left:14pt}
+.note-line .tag{left:-12pt;top:-1pt;transform:rotate(180deg);min-height:31pt;padding:2pt 0}
+.instr:has(>.fx.fl){position:relative;padding-left:24pt}
+*:has(>.fx.abs:not(.gflag)){padding-left:max(24pt,var(--fpl,0pt))}
+.note-box .tag{background:#e29433;border-color:#e29433;color:#17263f}
+.fxr{position:relative;margin-left:20pt!important}
+.note-line.fxr,.bridge.fxr{padding-left:0}
+.fxr>.gline{position:absolute;left:-26pt;top:-15pt;bottom:-1pt;width:0;border-left:1.6pt solid #e29433;z-index:2}
+.fxr1>.gline{top:4pt;width:7pt;border-top:1.6pt solid #e29433;border-top-left-radius:6pt}
+.fxrN>.gline{bottom:4pt;width:7pt;border-bottom:1.6pt solid #e29433;border-bottom-left-radius:6pt}
+.fxr>.gflag{left:-39pt;min-height:44pt}
+.garr{position:absolute;left:-26pt;top:50%;width:23pt;height:0;border-top:1.6pt solid #e29433;margin-top:-.8pt;z-index:2;font-style:normal}
+.garr::after{content:"";position:absolute;right:-1pt;top:-4.6pt;border-left:6pt solid #e29433;border-top:3.8pt solid transparent;border-bottom:3.8pt solid transparent}
 </style>
 <script>
 // ===== 1) توزيع المحتوى على صفحات A4 =====
@@ -983,8 +998,8 @@ window.addEventListener('load', async () => {
     <li>في إجابة السؤال الرئيسي: <b>«وقد تستخدم التطبيقات وسائل أخرى عند الحاجة»</b>.</li>
   </ul>
 </div>
-<div class="box plain keep">
-  <h3>مثال من حياتنا<span class="fx">للفهم</span></h3>
+<div class="box plain keep"><span class="fx abs">للفهم</span>
+  <h3>مثال من حياتنا</h3>
   <p>بتفتح موقع نتيجة الامتحانات. أول ما تكتب العنوان وتضغط إدخال: المتصفح (العميل) بيبعت طلب بأسلوب <b>GET</b> — «هات لي الصفحة دي». الخادم بيرد <b>باستجابة</b> ومعاها <b>رمز حالة <span class="num">200</span></b> يعني تمام.</p>
   <p>بعدين بتكتب رقم جلوسك في الخانة وتدوس «بحث» — ده برضه طلب <b>GET</b> غالبًا، لأنك <b>بتسترجع نتيجة</b>، زي «استرجاع نتائج البحث» في جدول الكتاب. أما لو بتملى <b>استمارة تسجيل</b> وتدوس «إرسال»، فده <b>POST</b> عادةً، لأنك <b>بتبعت بيانات عشان الخادم يعالجها</b>.</p>
   <p>ولو كتبت عنوان صفحة غلط هيرجّعلك <b><span class="num">404</span></b> — <b>الخادم شغّال</b>، بس <b>الصفحة مش موجودة</b>. ولو الموقع نفسه فيه عطل، هتشوف <b><span class="num">500</span></b>.</p>
@@ -999,7 +1014,7 @@ window.addEventListener('load', async () => {
 </div>
 <h3 class="sub">سؤال على نمط الامتحان — إجابة نموذجية</h3>
 <div class="box white split">
-  <h3>نموذج إجابة مقترح لسؤال الـ<span class="num">6</span> درجات<span class="fx">للفهم</span></h3>
+  <h3>نموذج إجابة مقترح لسؤال الـ<span class="num">6</span> درجات</h3>
   <ol style="counter-reset:n 0"><li><b>العميل:</b> المتصفح هو <b>العميل</b> — <b>الجانب الذي يطلب البيانات أو المعالجة</b>.</li></ol>
   <ol style="counter-reset:n 1"><li><b>الطلب:</b> يرسل المتصفح <b>طلبًا</b> إلى الخادم عبر بروتوكول <b>HTTP</b> (أو <b>HTTPS</b> إذا كان الاتصال عبر <b>TLS</b> آمن).</li></ol>
   <ol style="counter-reset:n 2"><li><b>طريقة الطلب:</b> يتضمن الطلب <b>طريقة طلب HTTP</b> توضح <b>نوع العملية المطلوبة</b> — وهنا <b>GET</b> لأنه <b>يطلب موردًا</b> (صفحة الويب).</li></ol>

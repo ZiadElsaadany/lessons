@@ -820,6 +820,23 @@ window.addEventListener('load', async () => {
   document.body.dataset.ready = '1'; document.body.dataset.k = K;
 });
 </script>
+<style id="fxflag">
+/* ==== fxflag: بادج «للفهم» علم مموّج طالع من الجنب + علم واحد بقوس وأسهم لكذا حاجة ورا بعض (tools/fxflag.py) ==== */
+.fx.abs,.fx.fl,.note-line .tag{position:absolute;left:-17pt;right:auto;top:50%;bottom:auto;float:none;transform:translateY(-50%) rotate(180deg);writing-mode:vertical-rl;width:26pt;height:auto;min-height:46pt;box-sizing:border-box;padding:9pt 0;margin:0;display:flex;align-items:center;justify-content:center;border:0;border-radius:0;background:#e29433;color:#17263f;font-size:11pt;line-height:26pt;font-weight:800;z-index:3;-webkit-mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 100' preserveAspectRatio='none'%3E%3Cpath d='M3,0 Q7,5 3,10 T3,20 T3,30 T3,40 T3,50 T3,60 T3,70 T3,80 T3,90 T3,100 L23,100 Q19,95 23,90 T23,80 T23,70 T23,60 T23,50 T23,40 T23,30 T23,20 T23,10 T23,0 Z'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat;mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 100' preserveAspectRatio='none'%3E%3Cpath d='M3,0 Q7,5 3,10 T3,20 T3,30 T3,40 T3,50 T3,60 T3,70 T3,80 T3,90 T3,100 L23,100 Q19,95 23,90 T23,80 T23,70 T23,60 T23,50 T23,40 T23,30 T23,20 T23,10 T23,0 Z'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat}
+.note-line{padding-left:14pt}
+.note-line .tag{left:-12pt;top:-1pt;transform:rotate(180deg);min-height:31pt;padding:2pt 0}
+.instr:has(>.fx.fl){position:relative;padding-left:24pt}
+*:has(>.fx.abs:not(.gflag)){padding-left:max(24pt,var(--fpl,0pt))}
+.note-box .tag{background:#e29433;border-color:#e29433;color:#17263f}
+.fxr{position:relative;margin-left:20pt!important}
+.note-line.fxr,.bridge.fxr{padding-left:0}
+.fxr>.gline{position:absolute;left:-26pt;top:-15pt;bottom:-1pt;width:0;border-left:1.6pt solid #e29433;z-index:2}
+.fxr1>.gline{top:4pt;width:7pt;border-top:1.6pt solid #e29433;border-top-left-radius:6pt}
+.fxrN>.gline{bottom:4pt;width:7pt;border-bottom:1.6pt solid #e29433;border-bottom-left-radius:6pt}
+.fxr>.gflag{left:-39pt;min-height:44pt}
+.garr{position:absolute;left:-26pt;top:50%;width:23pt;height:0;border-top:1.6pt solid #e29433;margin-top:-.8pt;z-index:2;font-style:normal}
+.garr::after{content:"";position:absolute;right:-1pt;top:-4.6pt;border-left:6pt solid #e29433;border-top:3.8pt solid transparent;border-bottom:3.8pt solid transparent}
+</style>
 </head>
 <body data-lesson="الدرس 3-1 — البنية العامة لتطبيقات الويب" data-start="2" data-total="58">
 <main class="flow">

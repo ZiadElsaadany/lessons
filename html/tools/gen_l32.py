@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 """يبني html/lesson_3_2.html من قالب lesson_3_1.html (نفس الستايل والسكريبتات) + محتوى الدرس 3-2."""
 import re, sys
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from fxflag import FLAG_CSS, group_html, strip_style
+
 import os
 TOOLS = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, TOOLS)
@@ -9,6 +13,7 @@ import newsec as N
 BASE = os.path.join(os.path.dirname(TOOLS), "")   # فولدر html (أبو فولدر tools)
 tpl = open(BASE + "lesson_3_1.html", encoding="utf-8").read()
 head = tpl[:tpl.index('<body data-lesson=')]
+head = strip_style(head)
 head = head.replace("<title>الدرس 3-1 — البنية العامة لتطبيقات الويب</title>", "<title>الدرس 3-2 — طرق اتصال تطبيقات الويب</title>")
 head = head.replace("الدرس 3-1 (الشرح)", "الدرس 3-2 (الشرح + بنك الأسئلة)")
 
@@ -516,9 +521,9 @@ EXTRA_CSS = """
 """
 
 body = ('<body data-lesson="الدرس 3-2 — طرق اتصال تطبيقات الويب" data-start="23" data-total="58">\n<main class="flow">\n'
-        + "\n".join(E) + "\n\n<!-- ===================== بنك الأسئلة ===================== -->\n" + "\n".join(B)
+        + group_html("\n".join(E)) + "\n\n<!-- ===================== بنك الأسئلة ===================== -->\n" + "\n".join(B)
         + "\n</main>\n</body>\n</html>\n")
-out = head.replace("</style>", EXTRA_CSS + "</style>", 1) + body
+out = head.replace("</style>", EXTRA_CSS + FLAG_CSS + "</style>", 1) + body
 out = out.replace("(el.firstElementChild && el.firstElementChild.tagName === 'H4')", "(el.firstElementChild && /^H[34]$/.test(el.firstElementChild.tagName))")
 out = out.replace('<div class="qcard split "><h4><span class="n">03</span> · اقرأ البيانات (JSON)', '<div class="qcard keep"><h4><span class="n">03</span> · اقرأ البيانات (JSON)')
 open(BASE + "lesson_3_2.html", "w", encoding="utf-8").write(out)

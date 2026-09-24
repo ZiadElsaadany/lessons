@@ -9,6 +9,10 @@ import newsec as N
 BASE = os.path.join(os.path.dirname(TOOLS), "")   # فولدر html (أبو فولدر tools)
 tpl = open(BASE + "lesson_3_1.html", encoding="utf-8").read()
 head = tpl[:tpl.index('<body data-lesson=')]
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from fxflag import strip_style
+head = strip_style(head)
 head = head.replace("<title>الدرس 3-1 — البنية العامة لتطبيقات الويب</title>", "<title>الدرس 2-1 — تقنيات التشفير والمصادقة</title>")
 head = head.replace("الدرس 3-1 (الشرح)", "الدرس 2-1 (الشرح + بنك الأسئلة)")
 
