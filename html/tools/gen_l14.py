@@ -73,6 +73,13 @@ def ic(name, c="#22375c", w=1.8):
     return (f'<svg viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="{w}" stroke-linecap="round" stroke-linejoin="round">{IC[name]}</svg>')
 BULB = N.bulb("#e29433")
 
+
+def recall(items):
+    return ('<div class="rcl keep"><span class="rl">ثبّت الصفحة في 10 ثواني</span><div class="rc">'
+            + '<i>·</i>'.join(f'<span>{t}</span>' for t in items) + '</div></div>')
+def flow_steps(steps):
+    return f'<i class="la">{ARR}</i>'.join(f'<div class="{c}"><small>{n}</small><b>{t}</b><span>{d}</span></div>' for n, t, d, c in steps)
+
 # ============================ الشرح ============================
 E = []
 A = E.append
@@ -154,9 +161,15 @@ A(f'''<div class="fig src4 keep">{FXA}
   <div class="cap">مصادر قد ينشأ منها التحيز، وقد يؤدي إلى نتائج غير عادلة أو ضارة.</div>
 </div>''')
 A('<div class="note-line"><span class="tag">للفهم</span><span class="lead">خُد بالك</span>الكتاب قال <b>«قد يؤدي»</b> مش «يؤدي دايمًا». والمثالين اللي في التعريف (<b>نظام توظيف</b> · <b>نظام تعرف على الوجه</b>) هما اللي بيتسأل عليهم في «اختر مثالًا على التحيز».</div>')
+A(f'<div class="fig bsc keep">{FXA}<div class="dyh">مثال الكتاب خطوة بخطوة: نظام توظيف يفضّل فئة بصورة غير عادلة</div><div class="fl3">'
+  + flow_steps([("1 · البيانات", "بيانات توظيف قديمة", "فيها نزعات تمييزية سابقة", "f1"),
+                ("2 · التدريب", "النظام يتعلم النمط", "زي ما هو موجود في البيانات", "f2"),
+                ("3 · النتيجة", "يكرر التحيز في أحكامه", "يفضّل فئة بصورة غير عادلة", "f3")])
+  + '</div><div class="fx3"><b>وإزاي نقلله؟ (من تلميح الكتاب)</b><span>فحص مدى تمثيل البيانات</span><span>اختبار النتائج عبر فئات مختلفة</span><span>مراجعة تصميم النظام والسياق</span></div>'
+  + '<div class="cap">نفس الفكرة الرئيسة للدرس: لو بيانات التدريب متحيزة، النظام ممكن يكرر التحيز ده.</div></div>')
+A(recall(["بيانات", "تصميم", "استخدام", "سياق"]))
 
-# ---- القسم 2 (صفحة جديدة)
-A('<div class="pb"></div>')
+# ---- القسم 2
 A('<h2 class="sec"><span class="num">2</span><span class="dot">·</span> الأسباب الرئيسية للتحيز</h2>')
 A('<span class="chip">بيانات التدريب</span>')
 A('<div class="banner kwn">الأمثلة التي يتعلم منها نظام الذكاء الاصطناعي أنماطه قبل استخدامه؛ وكلما <b>قلّ تمثيلها للواقع</b> زاد احتمال <b>تحيّز مخرجاته</b>.</div>')
@@ -170,8 +183,7 @@ A('<div class="note-line"><span class="tag">للفهم</span><span class="lead">
 A('<figure class="bimg keep"><img src="assets/u1/l14_bias.jpg" alt=""><figcaption class="icap">قد تسهم بيانات التدريب غير الممثلة أو المتحيزة في نتائج غير عادلة.</figcaption></figure>')
 A(f'<div class="bridge">{FX}عرفنا التحيز جاي منين. الجزء اللي جاي: <b>الخصوصية</b>، و<b>مين يشرح</b> القرار، و<b>مين يتحاسب</b> عليه.</div>')
 
-# ---- الجزء الثاني (صفحة جديدة)
-A('<div class="pb"></div>')
+# ---- الجزء الثاني
 A('<div class="part p2"><span>الجزء الثاني</span></div>\n<hr class="rule">')
 A('<h2 class="sec"><span class="num">3</span><span class="dot">·</span> قضايا الخصوصية</h2>')
 A('<div class="quote kwn"><span class="qmark">”</span>أدى تطور تقنية الذكاء الاصطناعي إلى ظهور قضايا جديدة تتعلق <b>بالخصوصية</b>.</div>')
@@ -182,9 +194,16 @@ A('<div class="sf pv"><div class="pv2">' + "".join(
   + '</div><div class="im"><img src="assets/u1/l14_privacy.jpg" alt=""><div class="icap">الخصوصية: التحكم في البيانات الشخصية التي تتم مشاركتها.</div></div></div>')
 A('''<div class="simply"><span class="fx abs">للفهم</span><span class="lab">''' + BULB + '''ببساطة</span><p><b>الخصوصية</b> في الكتاب: <b>التحكم في البيانات الشخصية التي تتم مشاركتها</b> · و<b>التعامل المناسب مع البيانات الشخصية وحمايتها</b>. يعني السؤال مش بس «بياناتي اتجمعت؟» — لكن كمان: <b>مين شايفها؟ وبتتستخدم في إيه؟</b></p></div>''')
 A('<div class="note-line"><span class="tag">للفهم</span><span class="lead">خُد بالك</span>القضيتين دول <b>بس</b> اللي الكتاب ذكرهم. فلو جالك اختيار زي «الذكاء الاصطناعي ينشئ أعمالًا إبداعية» أو «تتحسن سرعة الحوسبة» — دول <b>مش</b> قضايا خصوصية.</div>')
+A(f'<div class="fig pvq keep">{FXA}<div class="dyh">بياناتك في القضيتين — وإيه السؤال اللي لازم يتسأل؟</div>'
+  + '<div class="pvc"><span></span><span>إيه اللي بيتجمع؟</span><span>فين؟</span><span>السؤال المهم</span></div>'
+  + "".join(f'<div class="pvr"><div class="d0"><span class="di">{ic(i, "#22375c", 1.7)}</span><b>{t}</b></div><div class="d1">{a}</div><div class="d1">{w}</div><div class="d3">{q}</div></div>'
+            for i, t, a, w, q in [("camera", "المراقبة عبر التعرف على الوجه", "وجوه الأفراد وتحركاتهم", "كاميرات في الأماكن العامة", "مين بيتعرف علينا ويتتبعنا؟ ولإيه؟"),
+                                  ("web", "الجمع الجماعي للبيانات الشخصية", "كميات كبيرة من بيانات السلوك", "عبر الإنترنت", "مين شايف بياناتي؟ وبتتستخدم في إيه؟")])
+  + '<div class="pvf"><b>المبدأ المرتبط:</b> حماية الخصوصية — التعامل مع المعلومات الشخصية بشكل مناسب.</div>'
+  + '<div class="cap">الأسئلة من شرح «الخصوصية = التحكم في البيانات الشخصية اللي بتتشارك».</div></div>')
+A(recall(["مراقبة بالوجه", "جمع جماعي للبيانات"]))
 
-# ---- القسم 4 (صفحة جديدة)
-A('<div class="pb"></div>')
+# ---- القسم 4
 A(f'<h2 class="sec"><span class="num">4</span><span class="dot">·</span> الذكاء الاصطناعي القابل للتفسير {nw("(XAI)")} والمسؤولية</h2>')
 A('<figure class="bimg keep"><img src="assets/u1/l14_xai.jpg" alt=""><figcaption class="icap">يساعد الذكاء الاصطناعي القابل للتفسير على توضيح العوامل التي أسهمت في المخرج.</figcaption></figure>')
 A(f'<span class="chip">الذكاء الاصطناعي القابل للتفسير {nw("(Explainable AI - XAI)")}</span>')
@@ -197,8 +216,7 @@ A(f'<div class="fig p3f keep">{FXA}<div class="p3r">' + f'<i class="la">{ARR}</i
     f'<div><span>{ic(i, "#22375c", 1.7)}</span><b>{t}</b><small>{d}</small></div>' for i, t, d in PART3)
   + '</div><div class="cap">الأطراف التلاتة اللي الكتاب ذكرها — وتوزيع المسؤولية بينهم <b>بيختلف حسب السياق</b>.</div></div>')
 
-# المساءلة والشفافية (صفحة جديدة)
-A('<div class="pb"></div>')
+# المساءلة والشفافية
 A(f'<span class="chip">المساءلة {nw("(Accountability)")}</span>')
 A('<div class="banner kwn">تحديد <b>الجهات المسؤولة عن النظام وقراراته وآثاره</b>، و<b>إمكان محاسبتها وفق أدوارها</b>. <b>ملاحظة:</b> المساءلة <b>ليست القدرة على شرح القرار</b> – تلك وظيفة الذكاء الاصطناعي القابل للتفسير <bdi>(XAI)</bdi> – <b>بل تحديد من يُحاسَب على النتيجة</b>.</div>')
 A(f'<span class="chip" style="margin-top:8pt">الشفافية {nw("(Transparency)")}</span>')
@@ -217,9 +235,16 @@ A(f'''<div class="rule0 keep"><span class="rb">{BULB}</span><div>
   <p>والكتاب نفسه واقف يقول: <b>«المساءلة ليست القدرة على شرح القرار»</b> — خُد بالك من الفرق ده وإنت بتحل الأسئلة.</p>
 </div></div>''')
 A('<div class="note-line"><span class="tag">للفهم</span><span class="lead">خُد بالك</span>الشفافية بتشمل <b>عملية اتخاذ القرار</b> <b>و</b> <b>حدود النظام</b> مع بعض — كلمة <b>«وحدوده»</b> بتسقط من إجابات كتير.</div>')
+A(f'<div class="fig lim keep">{FXA}<div class="dyh">طبّق التلاتة على موقف واحد: نظام رفض طلب توظيف</div><div class="lm3">'
+  + "".join(f'<div class="{k}"><small>{t}</small><b>{q}</b><p>{d}</p></div>' for k, t, q, d in [
+      ("w1", "الذكاء الاصطناعي القابل للتفسير (XAI)", "ليه اترفض؟", "توضيح العوامل اللي أسهمت في قرار الرفض."),
+      ("w2", "الشفافية", "إيه المعلومات المتاحة؟", "معلومات واضحة عن النظام واستخدامه وعملية القرار <b>وحدوده</b>."),
+      ("w3", "المساءلة", "مين يتحاسب؟", "تحديد الجهة المسؤولة وإمكان محاسبتها لو القرار ظلم المتقدم.")])
+  + '</div><div class="lmf"><span>وبعدهم <b>العدالة</b>: هل النظام ميّز ظلمًا ضد فئة؟</span><span><b>المسؤولية</b>: أدوار المطوّر والجهة المشغِّلة والمستخدم — وبتختلف حسب السياق.</span></div>'
+  + '<div class="cap">الموقف من «توقّف وفكّر» في الكتاب: «إذا لم يستطع أحد شرح سبب رفض طلب توظيف…».</div></div>')
+A(recall(["ليه ← XAI", "إيه ← الشفافية", "مين ← المساءلة"]))
 
-# ---- الجزء الثالث (صفحة جديدة)
-A('<div class="pb"></div>')
+# ---- الجزء الثالث
 A('<div class="part p3"><span>الجزء الثالث</span></div>\n<hr class="rule">')
 A('<h2 class="sec"><span class="num">5</span><span class="dot">·</span> المبادئ الأساسية لأخلاقيات الذكاء الاصطناعي</h2>')
 A('<div class="quote kwn"><span class="qmark">”</span>يركز هذا الدرس على <b>أربعة مبادئ مهمة</b> للاستخدام المسؤول للذكاء الاصطناعي، <b>من بين مبادئ أخرى</b>.</div>')
@@ -237,6 +262,7 @@ A('<div class="fig p4 keep"><div class="p4h">المبادئ الأربعة لأ�
     f'<div><span class="pi">{ic(i, "#22375c", 1.7)}</span><h4>{t}</h4><p>{d}</p><span class="pq">{FX}{q}</span></div>' for i, t, d, q in PFIG)
   + '</div><div class="cap">أربعة مبادئ أساسية يركز عليها هذا الدرس.</div></div>')
 A('<div class="simply"><span class="fx abs">للفهم</span><span class="lab">' + BULB + 'ببساطة</span><p>أربع أسئلة تساعدك تفتكر معنى المبادئ: <b>هل في حد اتظلم؟</b> دي العدالة. <b>هل فيه معلومات واضحة عن النظام واستخدامه وحدوده؟</b> دي الشفافية. <b>إزاي البيانات الشخصية بتتستخدم وبتتحمى؟</b> دي حماية الخصوصية. <b>ومين يمكن محاسبته وفق دوره؟</b> دي المساءلة. اربط كل سؤال بتعريف المبدأ، وبعدها طبّقه على الموقف.</p></div>')
+A(recall(["عدالة", "شفافية", "حماية الخصوصية", "مساءلة"]))
 
 # الفكرة الرئيسة + خلي بالك + مثال
 A('<div class="kidea keep"><div class="kh">الفكرة الرئيسة</div><p>إذا كانت <b>بيانات التدريب متحيزة</b>، يمكن لنظام الذكاء الاصطناعي أن <b>يكرر هذا التحيز في أحكامه</b>؛ لذا فإن استخدام الذكاء الاصطناعي بمسؤولية يعني <b>التحقق من التحيز</b>، و<b>القدرة على شرح قراراته</b>، و<b>معرفة من هو المسؤول</b>.</p></div>')
@@ -682,6 +708,52 @@ table.prt td.k{font-weight:800;color:var(--navy);white-space:nowrap}
 .p4g .pq{display:inline-flex;align-items:center;gap:4pt;background:#fbf6e8;border:.75pt solid #eee0b8;border-radius:8pt;padding:0 7pt;font-weight:700;font-size:8.2pt;line-height:15pt;color:#a9670f;white-space:nowrap;padding:0 5pt}
 .p4g .pq .fx{font-size:6.8pt;height:11pt;line-height:10pt;padding:0 4pt}
 .content>.fig.src4:first-child,.content>.fig.cz:first-child,.content>.fig.wh:first-child,.content>.fig.p3f:first-child{margin-top:7pt}
+
+/* ثبّت الصفحة + رسومات الموقف (1-4) */
+.rcl{display:flex;align-items:center;gap:10pt;background:#22375c;border-radius:10pt;padding:7pt 12pt;margin:0 0 10pt 0}
+.rcl .rl{flex:none;background:#e29433;color:#17263f;font-weight:800;font-size:9.6pt;line-height:18pt;padding:0 11pt;border-radius:8pt}
+.rcl .rc{flex:1;display:flex;align-items:center;justify-content:center;gap:8pt;flex-wrap:wrap}
+.rcl .rc span{background:#2e4a78;border:.75pt solid #4a6fa5;border-radius:8pt;padding:1pt 12pt;color:#fff;font-weight:800;font-size:10.2pt;line-height:17pt}
+.rcl .rc i{font-style:normal;color:#f1c88b;font-weight:800}
+.dyh{font-weight:800;font-size:11.6pt;color:var(--navy);margin:0 0 8pt 0}
+.bsc,.pvq,.lim{padding:12pt 11pt 6pt 11pt}
+.fl3{display:flex;align-items:stretch;gap:6pt}
+.fl3>div{flex:1;border-radius:9pt;padding:8pt 10pt;text-align:center;display:flex;flex-direction:column;gap:2pt}
+.fl3 small{font-size:8.4pt;font-weight:700}
+.fl3 b{font-weight:800;font-size:10.8pt;line-height:1.35}
+.fl3 span{font-size:9.2pt;line-height:13.4pt}
+.fl3 .f1{background:#f5f7fb;border:.75pt solid #dde5ef} .fl3 .f1 small,.fl3 .f1 span{color:var(--muted)} .fl3 .f1 b{color:var(--navy)}
+.fl3 .f2{background:#22375c} .fl3 .f2 small{color:#f1c88b} .fl3 .f2 b{color:#fff} .fl3 .f2 span{color:#c9d6e6}
+.fl3 .f3{background:#fbeceb;border:.75pt solid #efc6c1} .fl3 .f3 small,.fl3 .f3 span{color:#a33a30} .fl3 .f3 b{color:#a33a30}
+.fl3 i.la{align-self:center}
+.fx3{display:grid;grid-template-columns:repeat(3,1fr);gap:6pt 7pt;margin-top:9pt;background:#eaf5ef;border:.75pt solid #bfe0cd;border-radius:9pt;padding:6pt 10pt 8pt 10pt}
+.fx3 b{grid-column:1/-1;color:#2e7d5b;font-weight:800;font-size:9.8pt}
+.fx3 span{text-align:center;background:#fff;border:.75pt solid #bfe0cd;border-radius:8pt;padding:1pt 9pt;font-weight:700;font-size:9.2pt;line-height:15pt;color:#245f46}
+.pvc,.pvr{display:grid;grid-template-columns:150pt 1fr .8fr 1.3fr;column-gap:7pt;align-items:center}
+.pvc span{font-weight:800;font-size:8.8pt;color:var(--muted);text-align:center}
+.pvc{padding-bottom:4pt}
+.pvr{padding:6pt 0;border-top:.75pt dashed #dde5ef}
+.pvr .d0{display:flex;align-items:center;gap:7pt}
+.pvr .di{flex:none;width:32pt;height:32pt;border-radius:50%;background:#eef2f8;display:flex;align-items:center;justify-content:center}
+.pvr .di svg{width:18pt;height:18pt}
+.pvr .d0 b{font-weight:800;font-size:10pt;line-height:1.35;color:var(--navy)}
+.pvr .d1,.pvr .d3{border-radius:8pt;padding:5pt 8pt;text-align:center;font-size:9.4pt;line-height:13.6pt;font-weight:700;min-height:30pt;display:flex;align-items:center;justify-content:center;text-wrap:pretty}
+.pvr .d1{background:#f5f7fb;border:.75pt solid #dde5ef;color:var(--text2)}
+.pvr .d3{background:#fbf6e8;border:.75pt solid #eee0b8;color:#a9670f}
+.pvf{margin-top:7pt;background:#22375c;border-radius:9pt;padding:6pt 12pt;color:#fff;font-size:9.8pt;font-weight:600}
+.pvf b{color:#f1c88b;font-weight:800}
+.lm3{display:grid;grid-template-columns:repeat(3,1fr);gap:9pt}
+.lm3>div{border-radius:10pt;padding:9pt 10pt;text-align:center;display:flex;flex-direction:column;align-items:center;gap:3pt}
+.lm3 small{font-size:8.6pt;font-weight:700}
+.lm3>div>b{font-size:13pt;font-weight:800;line-height:1.35}
+.lm3 p{font-size:9.3pt;line-height:14pt;color:var(--text2)}
+.lm3 p b{color:var(--navy2)}
+.lm3 .w1{background:#eef4fc;border:1pt solid #c9d8ec} .lm3 .w1 small,.lm3 .w1>b{color:#2e4a78}
+.lm3 .w2{background:#f5f7fb;border:1pt solid #dde5ef} .lm3 .w2 small,.lm3 .w2>b{color:var(--navy)}
+.lm3 .w3{background:#fbf6e8;border:1pt solid #eee0b8} .lm3 .w3 small,.lm3 .w3>b{color:#a9670f}
+.lmf{display:grid;grid-template-columns:1fr 1.4fr;gap:8pt;margin-top:8pt}
+.lmf span{background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:8pt;padding:4pt 10pt;font-size:9.3pt;line-height:14pt;color:var(--text2)}
+.content>.fig.bsc:first-child,.content>.fig.pvq:first-child,.content>.fig.lim:first-child{margin-top:7pt}
 /* البنك */
 .qcard.sol .sg{grid-template-columns:1.25fr 1fr}
 .check{padding:7pt 13pt 5pt 13pt}
