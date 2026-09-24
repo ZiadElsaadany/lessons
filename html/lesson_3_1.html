@@ -1,0 +1,1181 @@
+<!doctype html>
+<!--
+  أكواد مع زياد — مذكرة تانية ثانوي — الدرس 3-1 (الشرح) — مصدر HTML قابل للتعديل
+  - كل المحتوى جوه <main class="flow"> بالترتيب. عند فتح الملف بيتوزع تلقائيًا على صفحات A4
+    (أي حاجة مش داخلة بتنزل للصفحة اللي بعدها)، والهيدر والفوتر والعلامة المائية والترقيم بيتضافوا لوحدهم.
+  - عشان تبدأ صفحة جديدة إجباري: <div class="pb"></div>
+  - العناوين (.part / .rule / h2.sec / .big / h3.sub / .chip / أي عنصر عليه class="kwn") بتفضل لازقة في اللي بعدها.
+  - اسم الدرس ورقم أول صفحة وإجمالي صفحات الوحدة في <body data-lesson data-start data-total>.
+  - الطباعة لـPDF من المتصفح: Cmd+P → الهوامش None → تفعيل Background graphics.
+  - الستايل كله جوه <style> في نفس الملف. الخطوط في fonts/ والصور في assets/ — لازم يفضلوا جنب الملف.
+  - لو المتصفح مفعّل «أقل حجم للخط»، الصفحة بتعرف لوحدها وبتحمي التصميم (السكريبت immunize).
+-->
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>الدرس 3-1 — البنية العامة لتطبيقات الويب</title>
+<style>
+/* ===== أكواد مع زياد — مذكرة تانية ثانوي — ستايل الشرح (إعادة بناء HTML) ===== */
+
+@font-face{font-family:'Baloo Bhaijaan 2';font-weight:400 800;src:url(fonts/BalooBhaijaan2.ttf) format('truetype')}
+@font-face{font-family:'DejaVuArr';font-weight:700;src:url(fonts/DejaVuSans-Bold.ttf) format('truetype');unicode-range:U+2190-21FF}
+
+:root{
+  --navy:#17263f; --navy2:#22375c; --blue:#2e4a78; --gold:#e29433; --gold2:#a9670f; --gold3:#dd860f;
+  --text:#33445f; --text2:#1c2a44; --muted:#4e5f7c; --muted2:#6e7f9c;
+  --line:#dce5f1; --line2:#d7e4f5; --bg:#eef4fc; --bg2:#f1f6fc;
+  --cream:#fbf4de; --cream2:#fdf3e2; --creamb:#eee0b8; --creamb2:#efce9c;
+  --green:#22375c; --green2:#3fa97c; --greenb:#bfe0d1; --greenbg:#eaf6f0;
+  --red:#c0453a; --teal:#3e9ccb;
+}
+
+@page{ size:210mm 297mm; margin:0 }
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:'Baloo Bhaijaan 2';font-weight:500;font-size:9.9pt;line-height:1.5;color:var(--text);direction:rtl;text-align:right;background:#e6eaf0;padding:18pt 0}
+b,strong{font-weight:700;color:var(--navy2)}
+p{margin:0}
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+.num{direction:ltr;unicode-bidi:isolate}
+
+/* ---------- الصفحة A4 (sheet) ---------- */
+.page{position:relative;width:210mm;height:297mm;margin:0 auto 18pt auto;background:#fff;overflow:hidden;box-shadow:0 2pt 14pt rgba(23,38,63,.18)}
+.sheet{position:absolute;left:0;top:0;width:210mm;height:297mm;background:#fff;overflow:hidden;transform-origin:0 0}
+.sheet .content{position:absolute;top:31.5pt;left:31.6pt;right:31.6pt;bottom:36.4pt}
+.sheet .hdr{position:absolute;top:0;left:0;right:0;height:31.5pt;font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:7.2pt;line-height:1}
+.sheet .hdr .r{position:absolute;right:25.4pt;top:17.6pt;color:var(--navy);white-space:nowrap}
+.sheet .hdr .l{position:absolute;left:39.7pt;top:17.6pt;color:var(--gold2);white-space:nowrap}
+.sheet .hdr::after{content:'';position:absolute;left:0;right:0;top:27.8pt;height:.7pt;background:var(--gold)}
+.sheet .ftr{position:absolute;bottom:0;left:0;right:0;height:36.4pt;font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:7.39pt;line-height:1;color:var(--muted)}
+.sheet .ftr img{position:absolute;right:28.2pt;top:10.7pt;width:10.5pt;height:10.5pt;border-radius:50%}
+.sheet .ftr .r{position:absolute;right:43.2pt;top:11.9pt;white-space:nowrap}
+.sheet .ftr .r b{color:var(--navy);font-weight:700}
+.sheet .ftr .sep{margin:0 5pt;color:#9aa8bd}
+.sheet .ftr .pn{position:absolute;left:45pt;top:11.5pt;font-family:'Baloo Bhaijaan 2';font-weight:600;font-size:7.39pt;color:var(--navy);direction:ltr}
+/* العلامة المائية */
+.sheet .wm{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:5}
+.sheet .wm .big{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-30deg);font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:62pt;white-space:nowrap;color:transparent;-webkit-text-stroke:.9pt rgba(23,38,63,.10);line-height:1}
+.sheet .wm .tile{position:absolute;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:19pt;white-space:nowrap;color:transparent;-webkit-text-stroke:.6pt rgba(23,38,63,.085);transform:rotate(-30deg);line-height:1}
+@media print{
+  body{background:#fff;padding:0}
+  .page{margin:0;box-shadow:none;break-after:page;page-break-after:always}
+  .page:last-of-type{break-after:auto;page-break-after:auto}
+}
+
+/* ---------- شريط رأس الدرس ---------- */
+.band{background:var(--navy);border-right:3pt solid var(--gold);border-radius:8pt;height:62.5pt;display:flex;align-items:center;padding:0 12pt 0 14pt;position:relative;margin-bottom:10pt}
+.band .badge{width:41.5pt;height:39pt;border-radius:6pt;background:rgba(255,255,255,.09);border:1pt solid rgba(255,255,255,.18);display:flex;flex-direction:column;align-items:center;justify-content:center;flex:none}
+.band .badge .l{font-family:'Baloo Bhaijaan 2';font-weight:600;font-size:7.4pt;color:#a9bdd8;line-height:1}
+.band .badge .n{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:15pt;color:var(--gold);line-height:1.1;direction:ltr}
+.band h1{flex:1;margin:0;text-align:center;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:15.4pt;color:#fff;letter-spacing:.2pt}
+.band .who{display:flex;align-items:center;gap:9pt;flex:none}
+.band .who .t{display:flex;flex-direction:column;justify-content:center;gap:1pt}
+.band .who .u{font-family:'Baloo Bhaijaan 2';font-weight:600;font-size:8pt;color:#a9bdd8;line-height:1.3}
+.band .who .k{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:8.6pt;color:#fff;line-height:1.3}
+.band .who img{width:42.75pt;height:42.75pt;border-radius:7pt;border:1pt solid rgba(255,255,255,.25);display:block}
+
+/* ---------- صندوقا المقدمة وأهداف التعلم ---------- */
+.two{display:flex;gap:11.6pt;align-items:stretch;margin-bottom:6.5pt}
+.two .intro{flex:0 0 297pt;background:#fff;border:.75pt solid var(--line);border-radius:8pt;padding:12pt 11.6pt 11pt 11.6pt;position:relative}
+.two .goals{flex:1;background:#fff;border:.75pt solid var(--line);border-right:2.5pt solid var(--gold);border-radius:8pt;padding:9pt 11pt 8pt 12pt}
+.intro h3{margin:0 0 4pt 0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11.8pt;line-height:1.45;color:var(--gold)}
+.intro .body{font-size:9.49pt;line-height:15.4pt;color:var(--text2)}
+.intro .body p{margin:0}
+.intro .body p+p{margin-top:0}
+.intro .body ul{margin:0;padding:0 12pt 0 0;list-style:none}
+.intro .body li{position:relative}
+.intro .body li::before{content:'';position:absolute;right:-9pt;top:5.6pt;width:3.6pt;height:3.6pt;border-radius:50%;background:var(--gold)}
+.intro .body b{color:var(--navy2)}
+.intro .robot{float:left;width:35.3pt;height:46.2pt;margin:2pt 0 3pt 12pt}
+.intro .robot svg{width:100%;height:100%;display:block}
+.intro .foot{display:flex;justify-content:flex-start;margin-top:8pt}
+.pill-dark{display:inline-flex;align-items:center;gap:6pt;background:var(--navy);color:#fff;border-radius:9pt;padding:0 9pt 0 12pt;height:18pt;font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:8.6pt;line-height:1}
+.pill-dark::before{content:'';width:6.5pt;height:6.5pt;border-radius:50%;background:var(--gold);flex:none}
+.goals h3{margin:0 0 7pt 0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.6pt;color:var(--gold);line-height:1.5}
+.goals .g{display:flex;align-items:center;gap:8pt;padding:9pt 0 9.5pt 0}
+.goals .g+.g{border-top:.75pt dashed var(--line)}
+.goals .g .tag{flex:none;width:41.3pt;height:16.5pt;border-radius:8.5pt;background:var(--cream2);border:.75pt solid var(--creamb2);display:flex;align-items:center;justify-content:center;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:8.8pt;color:var(--gold2);line-height:1}
+.goals .g .x{flex:1;font-size:9.19pt;line-height:15pt;color:var(--text);text-align:right}
+
+/* ---------- ملاحظة «للفهم» بخلفية ---------- */
+.note-box{position:relative;background:var(--bg);border:.75pt dashed var(--line2);border-radius:6pt;padding:6pt 11pt 5pt 12pt;font-size:9.3pt;line-height:14.7pt;color:var(--text);margin-bottom:6pt}
+.note-box .tag,.note-line .tag{position:absolute;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:7.6pt;color:var(--blue);background:#fff;border:.75pt solid var(--blue);border-radius:7pt;height:13.5pt;line-height:12pt;padding:0 6pt;display:inline-block}
+.note-box .tag{position:static;display:inline-block;margin-left:5pt;vertical-align:1pt}
+/* ملاحظة «للفهم» بخط منقّط علوي والشارة على الشمال */
+.note-line{position:relative;border-top:.75pt dashed var(--line);padding:5pt 0 0 0;margin-top:9pt;font-size:9.8pt;line-height:15.4pt;color:var(--text)}
+.note-line .tag{left:0;top:-6.7pt}
+.note-line .lead{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.8pt;color:var(--gold);margin-left:4pt}
+.note-line b{color:var(--navy2)}
+
+/* ---------- الشبكة الرباعية (الكروت بتكبر على قد محتواها) ---------- */
+.map{display:grid;grid-template-columns:1fr 132pt 1fr;grid-template-rows:auto auto;column-gap:20pt;row-gap:7pt;background:#fff;border:.75pt solid var(--line);border-radius:8pt;padding:7pt 8.5pt;margin-bottom:9pt}
+.map .cell{background:#fff;border:.75pt solid var(--line);border-radius:6pt;border-top-width:3pt;padding:4pt 8pt 5pt 8pt}
+.map .cell h4{margin:0 0 1pt 0;font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:9.9pt;line-height:1.5}
+.map .cell ul{margin:0;padding:0 9pt 0 0;list-style:none;font-size:8.9pt;line-height:14pt;color:var(--text)}
+.map .cell li{position:relative;margin-bottom:1.5pt}
+.map .cell li::before{content:'•';position:absolute;right:-9pt;top:0;color:var(--text)}
+.map .cell .en{direction:ltr;unicode-bidi:isolate;font-weight:600;color:var(--muted)}
+.map .c1{grid-column:1;grid-row:1;border-top-color:var(--navy2)} .map .c1 h4{color:var(--navy2)}
+.map .c2{grid-column:1;grid-row:2;border-top-color:var(--navy2)} .map .c2 h4{color:var(--navy2)}
+.map .c3{grid-column:3;grid-row:1;border-top-color:var(--navy2)} .map .c3 h4{color:var(--navy2)}
+.map .c4{grid-column:3;grid-row:2;border-top-color:var(--gold)} .map .c4 h4{color:var(--gold2)}
+.map .hub{grid-column:2;grid-row:1 / 3;align-self:center;position:relative;min-height:48.7pt;background:var(--navy);border-radius:8pt;color:#fff;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11pt;line-height:1.35;display:flex;align-items:center;justify-content:center;text-align:center;padding:6pt 8pt}
+.map .hub .lk{position:absolute;width:20pt;height:16pt}
+.map .hub .lk.r1{left:100%;top:-6pt} .map .hub .lk.r2{left:100%;bottom:-6pt}
+.map .hub .lk.l1{right:100%;top:-6pt} .map .hub .lk.l2{right:100%;bottom:-6pt}
+.arr{font-family:'DejaVuArr','Baloo Bhaijaan 2'}
+
+/* ---------- الفكرة الأساسية + السؤال الرئيسي ---------- */
+.iq{display:flex;gap:10pt;align-items:stretch;margin-bottom:6pt}
+.iq .q{flex:0 0 261.7pt;border-top:.75pt solid var(--line2);border-bottom:.75pt solid var(--line2);padding:8pt 8pt 8pt 4pt;text-align:center}
+.iq .q .lab{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:9.2pt;color:var(--gold2);line-height:1.5}
+.iq .q .qq{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:10.6pt;color:var(--navy);line-height:1.45;margin-top:1pt}
+.iq .idea{flex:1;position:relative;background:var(--cream);border:.75pt solid var(--creamb);border-radius:6pt;padding:7pt 12pt 7pt 30pt;font-size:10pt;line-height:15.5pt;color:var(--text2)}
+.iq .idea b{color:var(--navy2)}
+.qmark{position:absolute;left:7pt;top:-4pt;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:30pt;color:var(--creamb);line-height:1}
+
+/* ---------- عناوين ---------- */
+.big{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:15pt;color:var(--navy);text-align:center;line-height:1.4;margin:4pt 0 2pt 0}
+.content>.big{padding:4pt 14pt;background:#eef2f8;border-radius:9pt;border-right:3pt solid #e29433;margin:4pt 0 6pt 0}
+.content>.big+hr.rule{display:none}
+.part{display:flex;justify-content:center;margin:4pt 0 0 0}
+.part span{display:inline-block;border-radius:7pt;padding:0 8pt;height:14.2pt;line-height:13pt;font-weight:700;font-size:8.8pt}
+.part.p1 span{background:var(--bg);border:.75pt solid var(--line2);color:var(--blue)}
+.part.p2 span{background:var(--bg);border:.75pt solid var(--line2);color:var(--blue)}
+.part.p3 span{background:var(--bg);border:.75pt solid var(--line2);color:var(--blue)}
+.rule{border:0;border-top:.75pt solid var(--line);margin:9pt 0 0 0}
+h2.sec{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:13.4pt;color:var(--navy);line-height:1.35;margin:9pt 0 8pt 0;padding:6pt 14pt;background:#eef2f8;border-radius:9pt;border-right:3pt solid var(--gold);break-after:avoid}
+h2.sec.g,h2.sec.t{border-right-color:var(--gold)}
+h2.sec .dot{color:var(--navy);margin:0 3pt}
+
+/* ---------- اقتباس الكتاب ---------- */
+.quote{position:relative;background:var(--cream);border-left:.75pt solid var(--creamb);border-radius:6pt;padding:7.5pt 12pt 7.5pt 34pt;font-size:10.5pt;line-height:16.5pt;color:var(--text);margin-bottom:9pt}
+.quote b{color:var(--navy2)}
+
+/* ---------- شارة عنوان صغيرة + بانر التعريف ---------- */
+.chip{display:inline-block;background:var(--bg2);border-radius:6pt;padding:0 12pt;height:21pt;line-height:20pt;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:10.4pt;color:var(--navy);margin-bottom:5pt}
+.banner{background:var(--navy);color:#fff;padding:9pt 16pt 8pt 22pt;margin:0 0 0 68pt;font-size:9.9pt;line-height:15.3pt;clip-path:polygon(0.3% 6%,3% 2%,12% 0,30% 3%,52% 0,70% 2%,88% 0,100% 4%,99.6% 60%,100% 100%,80% 97%,62% 100%,40% 96%,20% 100%,6% 97%,0 100%,1% 40%)}
+.banner b{color:#ffd08a}
+
+/* ---------- الأعمدة الثلاثة بالأيقونات ---------- */
+.cols3{display:flex;gap:16pt;align-items:flex-start;margin:6pt 0 12pt 0}
+.cols3 .c{flex:1;text-align:center}
+.cols3 .ic{height:95pt;display:flex;align-items:center;justify-content:center}
+.cols3 .ic svg{height:92pt;width:auto}
+.cols3 h4{margin:6pt 0 0 0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:12.6pt;color:var(--navy);line-height:1.45}
+.cols3 .en{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:7.6pt;color:var(--gold2);letter-spacing:1.4pt;line-height:1.3;direction:ltr}
+.cols3 .bar{width:31.5pt;height:2.3pt;border-radius:2pt;background:var(--gold);margin:7pt auto 8pt auto}
+.cols3 .d{font-size:9.7pt;line-height:15.7pt;color:var(--text);text-align:center;padding:0 2pt}
+.cols3 .d b{color:var(--navy2)}
+.tagp{display:inline-block;background:var(--bg);border:.75pt solid var(--line2);border-radius:7pt;padding:0 8pt;height:14.2pt;line-height:13pt;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:7.8pt;color:var(--blue);margin-top:5pt}
+
+/* ---------- الطبقات الثلاث: كروت + جدول (تصميم زياد 24 سبتمبر) ---------- */
+.l3{position:relative;overflow:hidden;padding:6pt 0 2pt 0;margin-bottom:6pt;--or:#e29433;--orl:#f5f7fb;--orb:#dde5ef;--orp:#eef2f8;--bl:#2e4a78;--bll:#f5f7fb;--blb:#dde5ef;--blp:#eef2f8}
+.l3 .dec{position:absolute;pointer-events:none;z-index:0}
+.l3 .d1{left:-60pt;top:-50pt;width:150pt;height:150pt;border-radius:50%;background:#eef4fb}
+.l3 .d2{right:-40pt;top:-58pt;width:110pt;height:110pt;border-radius:50%;background:#f1f6fc;border:.8pt solid #f3c98d;border-color:transparent transparent #f3c98d #f3c98d;transform:rotate(-20deg)}
+.l3 .d3{right:78pt;top:14pt;width:12pt;height:12pt;border-radius:50%;background:#fbe3c2}
+.l3 .dots{left:14pt;top:12pt;width:34pt;height:20pt;background-image:radial-gradient(#c9d6e6 .9pt,transparent 1pt);background-size:6.5pt 6.5pt}
+.l3>*:not(.dec){position:relative;z-index:1}
+.l3-title{display:flex;align-items:center;justify-content:center;gap:10pt;margin:0 0 10pt 0}
+.l3-title h3{margin:0;background:#eef2f8;border-radius:14pt;padding:3pt 20pt 4pt 20pt;font-weight:800;font-size:15pt;line-height:1.35;color:var(--navy);position:relative}
+.l3-title h3::after{content:'';position:absolute;left:50%;transform:translateX(-50%);bottom:-4pt;width:48pt;height:3.2pt;border-radius:2pt;background:#e29433}
+.l3-title .spk{width:12pt;height:16pt;position:relative}
+.l3-title .spk::before,.l3-title .spk::after{content:'';position:absolute;height:2.2pt;border-radius:1pt;background:#e29433}
+.l3-title .spk.r::before{width:7pt;right:1pt;top:3pt;transform:rotate(-50deg)} .l3-title .spk.r::after{width:7pt;right:3pt;top:11pt}
+.l3-title .spk.l::before{width:7pt;left:1pt;top:3pt;transform:rotate(50deg)} .l3-title .spk.l::after{width:7pt;left:3pt;top:11pt}
+.l3-cards{display:flex;gap:8pt;margin-bottom:8pt}
+.l3c{flex:1;border-radius:10pt;border:.75pt solid;padding:8pt 9pt 9pt 9pt;text-align:center;display:flex;flex-direction:column;align-items:center}
+.l3c.warm{background:var(--orl);border-color:var(--orb)} .l3c.cool{background:var(--bll);border-color:var(--blb)}
+.l3c .halo{position:relative;width:62pt;height:62pt;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:4pt}
+.l3c.warm .halo{background:#eef2f8} .l3c.cool .halo{background:#eef2f8}
+.l3c .halo>svg:not(.sp){width:40pt;height:auto}
+.l3c .halo .sp{position:absolute;left:-18pt;top:6pt;width:98pt;height:40pt}
+.l3c h4{margin:0;font-weight:800;font-size:12pt;line-height:1.35;color:var(--navy)}
+.l3c .bar{width:26pt;height:2.4pt;border-radius:2pt;background:#e29433;margin:4pt 0 6pt 0}
+.l3c p{flex:1;font-size:9.8pt;line-height:15.2pt;color:var(--text2);margin:0 0 7pt 0}
+.l3c p b{color:var(--navy2)}
+.l3c .pill{display:inline-flex;align-items:center;gap:5pt;border-radius:11pt;padding:0 12pt;height:21pt;font-weight:700;font-size:9.4pt;line-height:1}
+.l3c.warm .pill{background:var(--orp);color:#a9670f} .l3c.cool .pill{background:var(--blp);color:#2e4a78}
+.l3c .pill svg{width:11pt;height:11pt;flex:none}
+table.l3t{width:100%;border-collapse:separate;border-spacing:0;border:.75pt solid var(--blb);border-radius:9pt;overflow:hidden;font-size:9.6pt;line-height:14.8pt;color:var(--text2)}
+table.l3t th{background:#f5f7fb;font-weight:700;font-size:10pt;color:var(--navy);text-align:center;padding:5pt 8pt 4pt 8pt;border-bottom:.75pt solid var(--blb)}
+table.l3t th+th,table.l3t td+td{border-right:.75pt solid #dde5ef}
+table.l3t td{padding:6pt 10pt;vertical-align:middle;border-top:.75pt solid #dde5ef}
+table.l3t tr:first-child td{border-top:0}
+table.l3t tr.warm td{background:#f5f7fb} table.l3t tr.cool td{background:#f5f7fb}
+table.l3t td.k{font-weight:800;font-size:11pt;color:var(--navy);white-space:nowrap}
+table.l3t td.k .ic{display:inline-flex;align-items:center;justify-content:center;width:32pt;height:32pt;border-radius:50%;margin-left:8pt;vertical-align:middle}
+table.l3t tr.warm td.k .ic{background:#eef2f8} table.l3t tr.cool td.k .ic{background:#eef2f8}
+table.l3t td.k .ic svg{width:20pt;height:auto}
+table.l3t td b{color:var(--navy2)}
+table.l3t ul{margin:0;padding:0 11pt 0 0;list-style:none}
+table.l3t li{position:relative;line-height:15pt}
+table.l3t li::before{content:'';position:absolute;right:-10pt;top:5.6pt;width:4.2pt;height:4.2pt;border-radius:50%}
+table.l3t tr.warm li::before{background:#e29433} table.l3t tr.cool li::before{background:#2e4a78}
+
+/* ---------- الجداول ---------- */
+table.t{width:100%;border-collapse:separate;border-spacing:0;border:.75pt solid var(--line);border-radius:8pt;overflow:hidden;font-size:9.9pt;line-height:14.3pt;color:var(--text);margin-bottom:8pt}
+table.t th{background:var(--bg);font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:9.6pt;color:var(--navy);text-align:right;padding:5pt 10pt 4pt 10pt;border-bottom:.75pt solid var(--line2);box-shadow:0 .75pt 0 var(--line);line-height:1.5;vertical-align:middle}
+table.t th .sub{display:block;font-size:8.8pt;color:var(--muted2);font-weight:700;line-height:1.3}
+table.t td{padding:6.5pt 10pt 5.5pt 10pt;vertical-align:top;border-top:.75pt solid var(--line)}
+table.t tr:first-child td{border-top:0}
+table.t tbody tr:nth-child(even) td{background:var(--bg)}
+table.t td b{color:var(--navy2)}
+table.t td.k{font-weight:700;color:var(--navy2);white-space:nowrap}
+table.t.t4 td.k{white-space:normal}
+table.t.t4 th,table.t.t4 td{text-align:right}
+
+/* ---------- الأشكال ---------- */
+.fig{background:#fff;border:.75pt solid var(--line);border-radius:8pt;padding:12pt 9.5pt 6pt 9.5pt;margin-bottom:8pt}
+.fig .cap{border-top:.75pt dashed var(--line);margin-top:8pt;padding-top:5pt;text-align:center;font-family:'Baloo Bhaijaan 2';font-weight:600;font-size:8.8pt;color:var(--text);line-height:1.5}
+/* الشكل 3.1.1 */
+.layers .lay{border:.75pt solid #c9d9ee;background:#e8f0fb;border-radius:10pt;height:52pt;display:flex;align-items:center;padding:0 18pt 0 24pt;gap:14pt}
+.layers .lay.mid{background:var(--cream2);border-color:var(--creamb2)}
+.layers .lay .n{flex:0 0 118pt;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:12.8pt;color:var(--navy);line-height:1.2;text-align:center}
+.layers .lay .n small{display:block;font-size:9.2pt;font-weight:700;color:var(--gold2);letter-spacing:1pt;direction:ltr;margin-top:1pt}
+.layers .lay .n.g{color:var(--gold2)}
+.layers .lay .d{flex:1;text-align:center;font-size:11pt;line-height:1.35;color:var(--text)}
+.layers .lay .d em{display:block;font-style:normal;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11pt;color:var(--gold2);margin-top:1pt}
+.layers .arrows{height:24pt;position:relative}
+.layers .arrows .a{position:absolute;top:2pt;width:14pt;height:20pt}
+.layers .arrows .down{right:75pt} .layers .arrows .up{left:118pt}
+/* الشكل 3.1.2 */
+.seq{position:relative;height:238pt}
+.seq .hd{position:absolute;top:3pt;height:37pt;border-radius:9pt;display:flex;align-items:center;justify-content:center;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11.5pt;color:var(--navy);background:#e8f0fb;border:.75pt solid #c9d9ee}
+.seq .hd.mid{background:var(--cream2);border-color:var(--creamb2);color:var(--gold2)}
+.seq .h1{right:6pt;width:128pt} .seq .h2{left:196pt;width:126pt} .seq .h3{left:6pt;width:126pt}
+.seq svg{position:absolute;left:0;top:0;width:100%;height:100%}
+.seq .st{position:absolute;font-size:10.1pt;color:var(--text);line-height:1.3;white-space:nowrap}
+.seq .st.g{color:var(--gold2)} .seq .st.b{color:var(--blue)}
+.seq .no{position:absolute;right:20pt;width:18.4pt;height:18.4pt;border-radius:50%;background:var(--gold3);color:#fff;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.6pt;display:flex;align-items:center;justify-content:center;line-height:1}
+
+/* ---------- الخطوات الست ---------- */
+.steps{position:relative;padding-right:22pt;margin:0 0 6pt 0}
+.steps::before{content:'';position:absolute;right:6pt;top:8pt;bottom:14pt;width:1.5pt;background:var(--gold);border-radius:1pt}
+.steps .s{position:relative;padding:0 0 12.5pt 0}
+.steps .s .n{position:absolute;right:-22.7pt;top:3pt;width:13.5pt;height:13.5pt;border-radius:50%;background:var(--gold);color:#fff;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:8.2pt;display:flex;align-items:center;justify-content:center;line-height:1}
+.steps .s h4{margin:0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:10.6pt;color:var(--navy);line-height:1.5}
+.steps .s p{font-size:9.9pt;line-height:14.5pt;color:var(--text)}
+
+/* ---------- صناديق ملوّنة ---------- */
+.box{border-radius:8pt;padding:8pt 12pt 8pt 12pt;margin-bottom:8pt;border:.75pt solid}
+.box h3{margin:0 0 3pt 0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.9pt;line-height:1.5}
+.box.cream{background:var(--cream);border-color:var(--creamb)} .box.cream h3{color:var(--gold2)}
+.box.green{background:var(--greenbg);border-color:var(--greenb)} .box.green h3{color:var(--green);font-size:10pt}
+.box.white{background:#fff;border-color:var(--greenb)} .box.white h3{color:var(--green);font-size:10.5pt}
+.box p,.box li{font-size:10.5pt;line-height:16.5pt;color:var(--text)}
+.box p+p{margin-top:3pt}
+.box ul{margin:0;padding:0 14pt 0 0;list-style:none}
+.box ul li{position:relative}
+.box ul li::before{content:'•';position:absolute;right:-12pt;top:0;color:var(--gold2)}
+.box ol{margin:0;padding:0 16pt 0 0;list-style:none;counter-reset:n}
+.box ol li{position:relative;counter-increment:n;margin-bottom:3pt}
+.box ol li::before{content:counter(n) '.';position:absolute;right:-16pt;top:0;color:var(--text)}
+.tip{background:var(--cream2);border:.75pt solid #f2dcbb;border-right:3pt solid var(--gold);border-radius:6pt;padding:6pt 12pt 6pt 12pt;margin:6pt 0 2pt 0;font-size:9.4pt;line-height:15pt;color:var(--text2)}
+.tip .l{font-weight:700;color:var(--gold2)}
+
+/* ---------- سؤال على نمط الامتحان ---------- */
+.exam{background:var(--cream);border:.75pt solid var(--creamb);border-radius:8pt;padding:7pt 11pt 9pt 11pt;margin-bottom:8pt}
+.exam .hd{display:flex;align-items:center;gap:7pt;margin-bottom:4pt}
+.exam .hd .n{width:18.8pt;height:16.5pt;border-radius:4pt;background:var(--navy);color:#fff;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.4pt;display:flex;align-items:center;justify-content:center;line-height:1}
+.exam .hd .t{flex:1;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:10.4pt;color:var(--navy);line-height:1.5}
+.exam .hd .m{background:#fff;border-radius:7pt;padding:0 7pt;height:14.2pt;line-height:13.5pt;font-weight:700;font-size:8.4pt;color:var(--gold2)}
+.exam .qt{font-weight:700;font-size:10.5pt;line-height:16pt;color:var(--navy2);margin:2pt 0 6pt 0}
+.exam .hint{background:var(--bg);border:.75pt solid var(--line2);border-radius:5pt;padding:3pt 9pt;font-size:9.4pt;line-height:15pt;color:var(--text)}
+.exam .hint b{color:var(--navy2)}
+h3.sub{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11.2pt;color:var(--navy);margin:8pt 0 6pt 0;line-height:1.4;padding:5pt 14pt;background:#eef2f8;border-radius:9pt;border-right:3pt solid var(--gold);break-after:avoid}
+
+
+/* ---------- إجابة السؤال الرئيسي ---------- */
+.mq{border-top:.75pt solid var(--line2);border-bottom:.75pt solid var(--line2);text-align:center;padding:6pt 0 7pt 0;margin:0 0 8pt 0}
+.mq .lab{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:9.2pt;color:var(--gold2);line-height:1.5}
+.mq .qq{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:13pt;color:var(--navy);line-height:1.45}
+
+/* ---------- الخلاصة في دقيقة ---------- */
+.dark{background:var(--navy);border-radius:8pt;padding:8pt 12pt 6pt 12pt;color:#fff;margin-bottom:8pt}
+.dark h3{margin:0 0 4pt 0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.8pt;color:#f1c88b;line-height:1.5}
+.dark .g2{display:flex;gap:18pt}
+.dark ul{flex:1;margin:0;padding:0 12pt 0 0;list-style:none;font-size:9pt;line-height:14.2pt;color:#fff}
+.dark li{position:relative;margin-bottom:3.5pt}
+.dark li::before{content:'•';position:absolute;right:-11pt;top:0;color:#fff}
+.dark b{color:#ffd9a0}
+
+/* ---------- اتأكد إنك قادر على ---------- */
+.check{background:#fff;border:.75pt solid var(--line);border-radius:8pt;padding:8pt 13pt 6pt 13pt;margin-bottom:6pt}
+.check h3{margin:0;padding-bottom:5pt;border-bottom:.75pt solid var(--line);font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.8pt;color:var(--navy);line-height:1.5}
+.check .g2{display:flex;gap:16pt;margin-top:6pt}
+.check ul{flex:1;margin:0;padding:0;list-style:none}
+.check li{display:flex;gap:7pt;align-items:flex-start;font-size:9pt;line-height:14.2pt;color:var(--text);margin-bottom:5pt}
+.check li::before{content:'';flex:none;width:12pt;height:12pt;border-radius:3pt;background:#fffbf4;border:.75pt solid var(--gold);margin-top:.5pt}
+.check b{color:var(--navy2)}
+.endline{border-top:.75pt solid var(--line);margin-top:0;padding-top:3pt;text-align:center;font-size:8.6pt;color:var(--muted2);line-height:1.5}
+
+/* ---------- صفحة التلخيص ---------- */
+.instr{background:var(--bg);border:.75pt solid var(--line2);border-radius:6pt;padding:5pt 12pt;font-size:9.2pt;line-height:15.4pt;color:var(--text);margin-bottom:18pt}
+.instr b{color:var(--navy2)}
+.lines div{height:26.6pt;border-bottom:.75pt solid var(--line)}
+
+
+/* ===================================================================
+   توزيع تلقائي: المحتوى بيتكتب في .flow والسكريبت بيوزّعه على .sheet
+   =================================================================== */
+.flow{width:532.7pt;margin:0 auto;background:#fff}
+.pb{display:none}
+
+/* ===================================================================
+   تصميمات زياد (24 سبتمبر) — القسم 3 (رحلة الطلب) · التعاون التسلسلي · القسم 4 · القسم 5
+   =================================================================== */
+.ctitle{text-align:center;margin:4pt 0 8pt 0;padding:6pt 14pt;background:#eef2f8;border-radius:9pt;border-right:3pt solid #e29433}
+.ctitle h2{margin:0;font-weight:800;font-size:16pt;color:var(--navy);line-height:1.3}
+.ctitle .st{font-weight:500;font-size:10.5pt;color:var(--muted2);line-height:1.35}
+.quote.q2{border:.75pt solid #dde5ef;border-radius:9pt;background:#fbf6e8;font-size:10.4pt;line-height:16pt}
+.quote.q2 .exl{color:#a9670f;font-weight:700;text-decoration:underline;text-underline-offset:2pt}
+.panel{border-radius:11pt;background:#f5f7fb;padding:0 6pt 6pt 6pt;margin-bottom:8pt}
+.panel .ph{font-weight:700;font-size:11pt;color:var(--navy);padding:5pt 7pt 4pt 7pt;line-height:1.4}
+.panel .pbody{background:#fff;border-radius:9pt;padding:7pt}
+/* المسار العام */
+.path{display:flex;align-items:center;justify-content:space-between}
+.path .pc{width:61pt;height:68pt;border-radius:8pt;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:3pt 2pt}
+.path .pc svg{width:23pt;height:23pt;margin-bottom:4pt}
+.path .pc b{font-weight:800;font-size:8.4pt;color:var(--navy);line-height:1.2}
+.path .pc small{font-weight:500;font-size:7.6pt;color:var(--muted);line-height:1.3;margin-top:1pt}
+.path .pc.b{background:#f5f7fb} .path .pc.o{background:#f5f7fb} .path .pc.p{background:#f5f7fb} .path .pc.g{background:#f5f7fb}
+.path .ar{flex:none;color:#e29433;font-family:'DejaVuArr';font-weight:700;font-size:10.5pt;line-height:1}
+/* الخطوات بالتفصيل */
+.steps2 .stp{display:flex;align-items:center;gap:10pt;border-radius:9pt;padding:5pt 10pt;margin-bottom:5pt;min-height:43pt}
+.steps2 .stp:last-child{margin-bottom:0}
+.steps2 .stp.cool{background:#f5f7fb} .steps2 .stp.warm{background:#f5f7fb}
+.steps2 .stp .n{flex:none;width:21pt;height:21pt;border-radius:50%;background:#e29433;color:#fff;font-weight:800;font-size:11.5pt;display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 0 0 2.2pt #fff}
+.steps2 .stp .tx{flex:1}
+.steps2 .stp h4{margin:0;font-weight:700;font-size:10.8pt;color:var(--navy);line-height:1.35}
+.steps2 .stp p{font-size:9.7pt;line-height:15pt;color:var(--text2)}
+.steps2 .stp .ic{flex:none;width:46pt;display:flex;justify-content:center;align-items:center}
+.steps2 .stp .ic>svg{width:40pt;height:auto}
+.steps2 .stp .dbret{display:flex;align-items:center;gap:2pt}
+.steps2 .stp .dbret svg:first-child{width:13pt;height:8pt} .steps2 .stp .dbret svg:last-child{width:26pt;height:28pt}
+/* شرائط المعلومة */
+.info{display:flex;align-items:center;gap:12pt;border-radius:9pt;border:.75pt solid;padding:7pt 14pt;margin-bottom:8pt}
+.info .lab{flex:none;display:flex;align-items:center;gap:5pt;font-weight:800;font-size:12pt;line-height:1;padding-left:12pt;border-left:1pt solid}
+.info .lab svg{width:21pt;height:21pt}
+.info p{flex:1;font-size:9.8pt;line-height:14.5pt;color:var(--text2)}
+.info.green{background:#f5f7fb;border-color:#dde5ef} .info.green .lab{color:#a9670f;border-color:#dde5ef}
+.info.gray{background:#f5f7fb;border-color:#dde5ef} .info.gray .lab{color:var(--navy);font-size:14pt;padding:0 14pt 0 16pt;border-color:#dde5ef}
+.info.blue{background:#f5f7fb;border-color:#dde5ef} .info.blue .lab{color:#2e4a78;border-color:transparent;padding-left:4pt}
+
+/* ---------- كيفية تعاون الطبقات الثلاث (رسم تسلسلي) ---------- */
+.sqsub{display:flex;align-items:center;justify-content:space-between;margin:0 2pt 8pt 2pt}
+.sqsub .st{font-size:11pt;color:var(--text);font-weight:600;line-height:1.4}
+.sqsub .legend{display:flex;gap:12pt;font-size:9pt;color:var(--text);font-weight:600}
+.sqsub .legend span{display:inline-flex;align-items:center;gap:4pt}
+.sqsub .legend svg{width:26pt;height:8pt}
+.sqh{display:flex;align-items:flex-end;justify-content:space-between;margin:4pt 0 8pt 0}
+.sqh h3{margin:0;font-weight:800;font-size:19pt;color:var(--navy);line-height:1.3}
+.sqh .st{font-size:11pt;color:var(--text);font-weight:500;line-height:1.4}
+.sqh .legend{display:flex;gap:12pt;font-size:9pt;color:var(--text);font-weight:600;padding-bottom:3pt}
+.sqh .legend span{display:inline-flex;align-items:center;gap:4pt}
+.sqh .legend svg{width:26pt;height:8pt}
+.sq{position:relative;width:532pt;height:264pt;margin-bottom:8pt}
+.sq .hd{position:absolute;top:0;width:110pt;height:26pt;border-radius:5pt;border:.75pt solid #dde5ef;background:#f5f7fb;color:var(--navy);font-weight:700;font-size:10pt;display:flex;align-items:center;justify-content:center;line-height:1;z-index:2}
+.sq .hd.u{background:#2e4a78;border-color:#2e4a78;color:#fff}
+.sq svg.lines{position:absolute;left:0;top:0;width:532pt;height:264pt}
+.sq .lb{position:absolute;transform:translateX(-50%);font-size:9pt;line-height:11pt;color:var(--text2);text-align:center;white-space:nowrap;font-weight:500}
+.sq .nb{position:absolute;width:14pt;height:14pt;border-radius:50%;color:#fff;font-weight:800;font-size:8.4pt;display:flex;align-items:center;justify-content:center;line-height:1;transform:translate(-50%,-50%)}
+.sq .nb.r{background:#2e4a78} .sq .nb.o{background:#e29433}
+
+/* ---------- القسم 4: الخدمات ---------- */
+.tbar{background:#eef2f8;border-radius:9pt;border-right:3pt solid #e29433;padding:6pt 14pt;margin:4pt 0 8pt 0}
+.tbar h2{margin:0;font-weight:800;font-size:13.4pt;color:var(--navy);line-height:1.35}
+.warn{display:flex;align-items:center;gap:10pt;background:#fbf6e8;border:.75pt solid #dde5ef;border-radius:9pt;padding:6pt 12pt;margin-bottom:8pt;font-size:10pt;line-height:14.5pt;color:var(--text2)}
+.warn .ex{flex:none;width:20pt;height:20pt;border-radius:50%;background:#e29433;color:#fff;font-weight:800;font-size:12pt;display:flex;align-items:center;justify-content:center;line-height:1}
+.svc{display:grid;grid-template-columns:88pt 1fr 1fr 1fr;border:.75pt solid #dde5ef;border-radius:10pt;overflow:hidden;margin-bottom:6pt;background:#fff}
+.svc .nm{background:#f5f7fb;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8pt 6pt;gap:6pt}
+.svc .nm .ci{width:42pt;height:42pt;border-radius:50%;background:#eef2f8;display:flex;align-items:center;justify-content:center}
+.svc .nm .ci svg{width:25pt;height:25pt}
+.svc .nm h4{margin:0;font-weight:700;font-size:10.8pt;color:var(--navy);line-height:1.25}
+.svc .col{padding:5pt 7pt 4pt 7pt;border-right:.75pt solid #dde5ef}
+.svc .ch{display:flex;align-items:center;gap:6pt;border-radius:7pt;padding:3pt 7pt;margin-bottom:4pt}
+.svc .ch svg{width:20pt;height:20pt;flex:none}
+.svc .ch b{display:block;font-weight:800;font-size:10pt;line-height:1.25;color:var(--navy)}
+.svc .ch small{display:block;font-weight:700;font-size:8.2pt;color:#8795ab;line-height:1.25}
+.svc .col.f .ch{background:#f5f7fb} .svc .col.b .ch{background:#f5f7fb} .svc .col.b .ch b{color:#a9670f} .svc .col.d .ch{background:#f5f7fb}
+.svc ul{margin:0;padding:0 11pt 0 0;list-style:none;font-size:9.2pt;line-height:14.6pt;color:var(--text2)}
+.svc li{position:relative;margin-bottom:2.5pt}
+.svc li::before{content:'';position:absolute;right:-10pt;top:4.7pt;width:4.2pt;height:4.2pt;border-radius:50%}
+.svc .col.f li::before{background:#2e4a78} .svc .col.b li::before{background:#e29433} .svc .col.d li::before{background:#98a4b5}
+.simply{display:flex;align-items:stretch;background:#fbf6e8;border:.75pt solid #dde5ef;border-radius:9pt;overflow:hidden;margin-bottom:8pt}
+.simply .lab{flex:none;display:flex;align-items:center;gap:5pt;background:#eef2f8;color:#a9670f;font-weight:800;font-size:11pt;padding:0 14pt}
+.simply .lab svg{width:18pt;height:18pt}
+.simply p{flex:1;padding:6pt 12pt;font-size:9.8pt;line-height:14.5pt;color:var(--text2)}
+
+/* ---------- القسم 5: نفس النموذج في خدمات مختلفة ---------- */
+.ntitle{margin:4pt 0 7pt 0}
+.ntitle h2{margin:0;font-weight:800;font-size:18pt;color:var(--navy);line-height:1.35}
+.ntitle h2 .n5{color:#e29433;margin-left:7pt}
+.ntitle .st{font-size:10pt;color:var(--muted);line-height:1.5;font-weight:500}
+.exw{background:#f5f7fb;border:.75pt solid #f1e0b0;border-radius:11pt;padding:7pt 9.2pt 4pt 9.2pt;margin-bottom:8pt}
+.exw .eh{display:flex;align-items:center;gap:9pt;margin-bottom:6pt}
+.exw .eh .tag{display:inline-flex;align-items:center;gap:6pt;background:#eef2f8;border-radius:12pt;padding:1pt 12pt 1pt 5pt;font-weight:800;font-size:12.5pt;color:#a9670f;line-height:1.4}
+.exw .eh .tag svg{width:20pt;height:18pt}
+.exw .eh .sub{font-size:9.6pt;color:var(--text2);font-weight:600}
+.exg{display:grid;grid-template-columns:92pt 16pt 110pt 16pt 136pt 16pt 1fr;align-items:stretch}
+.exg .arrs{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12pt}
+.exg .arrs svg{width:16pt;height:9pt}
+.ecard{background:#fff;border:.75pt solid #dde5ef;border-radius:9pt;overflow:hidden;display:flex;flex-direction:column}
+.ecard .eh2{display:flex;align-items:center;gap:5pt;padding:4pt 7pt;font-weight:800;font-size:10.2pt;line-height:1.3}
+.ecard .eh2 svg{width:17pt;height:17pt;flex:none}
+.ecard.f .eh2{background:#f5f7fb;color:var(--navy)} .ecard.b .eh2{background:#eef2f8;color:#a9670f} .ecard.d .eh2{background:#f5f7fb;color:#2e4a78}
+.ecard.b{border-color:#dde5ef} .ecard.d{border-color:#dde5ef}
+.ecard .eb{padding:6pt 6pt 6pt 6pt;font-size:8.5pt;line-height:13.2pt;color:var(--text2);flex:1}
+.ecard ul{margin:0;padding:0 9pt 0 0;list-style:none}
+.ecard li{position:relative;margin-bottom:2pt}
+.ecard ul.dots li::before{content:'';position:absolute;right:-8pt;top:4.4pt;width:3.6pt;height:3.6pt;border-radius:50%;background:#2e4a78}
+.ecard .mock{background:#f5f7fb;border-radius:6pt;padding:5pt;margin-bottom:6pt}
+.msearch{display:flex;align-items:center;height:17pt;background:#fff;border:.75pt solid #dde5ef;border-radius:5pt;overflow:hidden}
+.msearch .q{flex:1;padding:0 6pt;font-weight:600;font-size:8.4pt;color:var(--navy)}
+.msearch .go{width:18pt;height:100%;background:#2e4a78;display:flex;align-items:center;justify-content:center}
+.msearch .go svg{width:10pt;height:10pt}
+.ecard .mock .ghost{height:4pt;border-radius:2pt;background:#dde4ee;margin-top:5pt;width:70%}
+.ecard .chk{display:flex;gap:4pt;align-items:center;background:#f5f7fb;border-radius:6pt;padding:4pt 5pt;margin-bottom:5pt}
+.ecard .chk ul{flex:1;padding:0}
+.ecard .chk li{display:flex;align-items:center;gap:4pt;margin-bottom:2.5pt}
+.ecard .chk li svg{width:9pt;height:9pt;flex:none}
+.ecard .chk .gr svg{width:21pt;height:21pt}
+.ecard .rules{border:.9pt dashed #dde5ef;border-radius:6pt;padding:4pt 5pt}
+.ecard .rules b{display:block;font-weight:800;font-size:8.6pt;color:var(--navy);margin-bottom:1pt}
+.ecard .rules li::before{content:'';position:absolute;right:-8pt;top:4.4pt;width:3.6pt;height:3.6pt;border-radius:50%;background:#2e4a78}
+.ecard .dr{display:flex;align-items:center;gap:6pt;background:#f5f7fb;border-radius:6pt;padding:4pt 5pt;margin-bottom:4pt}
+.ecard .dr:last-child{margin-bottom:0}
+.ecard .dr svg{width:15pt;height:15pt;flex:none}
+.ecard .dr b{display:block;font-weight:800;font-size:8.6pt;color:var(--navy);line-height:1.25}
+.ecard .dr small{display:block;font-size:7.4pt;color:var(--muted);line-height:1.3}
+.phonecol{display:flex;flex-direction:column;gap:5pt}
+.ucard{background:#f5f7fb;border-radius:8pt;padding:5pt 6pt;display:flex;gap:5pt;align-items:flex-start}
+.ucard .n1{width:15pt;height:15pt;border-radius:50%;background:#2e4a78;color:#fff;font-weight:800;font-size:8.6pt;display:flex;align-items:center;justify-content:center;flex:none;line-height:1}
+.ucard b{display:block;font-weight:800;font-size:10pt;color:#2e4a78;line-height:1.25}
+.ucard small{display:block;font-size:7.8pt;color:var(--text2);line-height:1.35}
+.phone{flex:1;background:#22375c;border-radius:13pt;padding:5pt 4pt}
+.phone .scr{background:#fff;border-radius:9pt;height:100%;padding:5pt 5pt;font-size:6.8pt;color:var(--text2);line-height:1.3}
+.phone .loc{display:flex;align-items:center;gap:2pt;font-weight:700;color:var(--navy);margin-bottom:4pt}
+.phone .loc svg{width:8pt;height:8pt} .phone .loc .dd{font-size:6pt;color:var(--muted)}
+.phone .ms{display:flex;align-items:center;height:14pt;border:.6pt solid #dde5ef;border-radius:5pt;overflow:hidden;margin-bottom:4pt}
+.phone .ms .q{flex:1;padding:0 4pt;font-weight:700;color:var(--navy)}
+.phone .ms .go{width:15pt;height:100%;background:#22375c;display:flex;align-items:center;justify-content:center}
+.phone .ms .go svg{width:8pt;height:8pt}
+.phone .chips{display:flex;gap:2pt;margin-bottom:4pt}
+.phone .chips span{border-radius:5pt;background:#eef2f7;padding:0 3.5pt;font-size:6pt;line-height:9pt}
+.phone .chips span.on{background:#6b7486;color:#fff}
+.phone .ri{display:flex;align-items:center;gap:4pt;background:#fff;border:.5pt solid #eef1f5;border-radius:5pt;padding:2.5pt;margin-bottom:3pt;box-shadow:0 .6pt 1.5pt rgba(23,38,63,.08)}
+.phone .ri .th svg{width:20pt;height:20pt;display:block}
+.phone .ri .rn b{display:block;font-weight:800;font-size:7pt;color:var(--navy)}
+.phone .ri .rn i{font-style:normal;font-weight:700;font-size:6.6pt;color:var(--text)} .phone .ri .rn em{font-style:normal;color:#e29433}
+.ret{position:relative;height:28pt}
+.ret svg{position:absolute;left:0;top:0;width:512.7pt;height:30pt}
+.ret .rl{position:absolute;left:280pt;top:4.5pt;transform:translateX(-50%);background:#2e4a78;color:#fff;border-radius:6pt;padding:0 9pt;font-weight:700;font-size:8.2pt;line-height:15pt;white-space:nowrap}
+.probs{background:#fdf2f2;border:.75pt solid #f3d3d3;border-radius:11pt;padding:6pt 10pt 8pt 10pt;margin-bottom:8pt}
+.probs .ph2{display:flex;align-items:center;gap:6pt;font-weight:800;font-size:13pt;color:#b3261e;margin-bottom:5pt;line-height:1.3}
+.probs .ph2 svg{width:20pt;height:18pt}
+.probs .pg{display:grid;grid-template-columns:1.3fr 1fr;gap:8pt}
+.pcard{background:#fff;border:.75pt solid #f3d9d9;border-radius:9pt;padding:6pt 9pt;display:flex;gap:8pt;align-items:center}
+.pcard>div{flex:1}
+.pcard>svg{width:30pt;height:30pt;flex:none}
+.pcard h5{margin:0 0 2pt 0;font-weight:800;font-size:10.4pt;color:#b3261e;line-height:1.35}
+.pcard ul{margin:0;padding:0 10pt 0 0;list-style:none;font-size:9pt;line-height:14.2pt;color:var(--text2)}
+.pcard li{position:relative} .pcard li::before{content:'•';position:absolute;right:-9pt;color:#b3261e}
+.others{background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:11pt;padding:6pt 10pt 8pt 10pt;margin-bottom:8pt}
+.others .ph2{font-weight:800;font-size:13pt;color:var(--navy);margin-bottom:5pt;line-height:1.3}
+.others .og{display:grid;grid-template-columns:repeat(3,1fr);gap:7pt}
+.ocard{background:#fff;border:.75pt solid #dde5ef;border-radius:9pt;padding:6pt 7pt;display:flex;gap:5pt;align-items:center}
+.ocard .ot{flex:1}
+.ocard h5{display:flex;align-items:center;gap:4pt;margin:0 0 2pt 0;font-weight:800;font-size:10.2pt;color:var(--navy);line-height:1.3}
+.ocard h5 svg{width:15pt;height:15pt}
+.ocard ul{margin:0;padding:0 9pt 0 0;list-style:none;font-size:8.4pt;line-height:13.2pt;color:var(--text2)}
+.ocard li{position:relative} .ocard li::before{content:'•';position:absolute;right:-8pt;color:var(--muted)}
+.ocard .mk{flex:none;width:46pt}
+.mk i{display:block;height:3pt;border-radius:2pt;background:#dde4ee;margin-top:3pt}
+.bankm .ph3{background:#22375c;border-radius:7pt;padding:3pt}
+.bankm .ph3 small,.bankm .ph3 b{display:block;background:#fff;text-align:center;line-height:1.3}
+.bankm .ph3 small{font-size:5.6pt;color:var(--muted);border-radius:5pt 5pt 0 0;padding-top:3pt}
+.bankm .ph3 b{font-size:6.6pt;font-weight:800;color:var(--navy);padding-bottom:3pt}
+.bankm .ph3 i{background:#3a4458}
+.vidm .pl{background:#22375c;border-radius:4pt;overflow:hidden;line-height:0}
+.vidm .pl svg{width:100%;height:auto;display:block}
+.shopm{text-align:center}
+.shopm .pr{background:#f5f7fb;border-radius:5pt;padding:4pt 0;line-height:0}
+.shopm .pr svg{width:22pt;height:20pt}
+.shopm .btn{display:block;margin-top:3pt;background:#e29433;color:#fff;border-radius:3pt;font-weight:700;font-size:5.6pt;line-height:9pt}
+
+/* ---------- مثال من حياتنا تحت الرسم التسلسلي (الصورة 3) ---------- */
+.ex3{position:relative;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:11pt;padding:0 9pt 8pt 9pt;margin-bottom:8pt;overflow:hidden}
+.ex3 .fk{position:absolute;left:12pt;top:6pt;width:24pt;height:32pt}
+.ex3 .fk svg{width:100%;height:100%}
+.ex3 .e3h{display:flex;justify-content:flex-start;margin:0 -9pt 0 0}
+.ex3 .e3h h3{margin:0;background:#eef2f8;border-radius:0 0 0 18pt;padding:3pt 14pt 4pt 22pt;font-weight:800;font-size:12pt;color:#2e4a78;line-height:1.35}
+.ex3 .e3s{font-size:9.6pt;color:var(--text2);font-weight:500;margin:4pt 2pt 7pt 0}
+.e3g{display:grid;grid-template-columns:98pt 18pt 1fr 18pt 1fr 18pt 1fr;align-items:stretch}
+.e3g .garr{display:flex;align-items:center;justify-content:center}
+.e3g .garr svg{width:15pt;height:10pt}
+.e3c{background:#fff;border:.75pt solid #dde5ef;border-radius:8pt;padding:6pt 6pt 7pt 6pt;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.e3c h5{margin:0 0 5pt 0;font-weight:800;font-size:10.4pt;color:var(--navy);line-height:1.3}
+.e3c .ico{height:36pt;display:flex;align-items:center;justify-content:center;margin-bottom:6pt}
+.e3c .ico svg{height:34pt;width:auto}
+.e3c p{font-size:8.8pt;line-height:13.8pt;color:var(--text2)}
+.p3col{display:flex;flex-direction:column;align-items:center;gap:5pt}
+.phone.p3{width:78pt;flex:none;border-radius:12pt;padding:4pt 3.5pt;background:#22375c}
+.phone.p3 .scr{padding:0 0 4pt 0;overflow:hidden;border-radius:9pt}
+.phone.p3 .hero{height:34pt;background:#eef2f8;display:flex;align-items:center;justify-content:center;margin-bottom:-6pt}
+.phone.p3 .hero svg{width:40pt;height:40pt;margin-top:8pt}
+.phone.p3 .ms{position:relative;margin:0 4pt 4pt 4pt;background:#fff;border-color:#dde5ef;box-shadow:0 .8pt 2pt rgba(23,38,63,.15);height:13pt}
+.phone.p3 .ms .go{width:13pt;background:transparent}
+.phone.p3 .ms .q{font-size:6.6pt}
+.phone.p3 .ri{margin:0 4pt 3pt 4pt;padding:2pt}
+.phone.p3 .ri .th svg{width:17pt;height:17pt}
+.phone.p3 .ri .bars{flex:1}
+.phone.p3 .ri .bars i{display:block;height:2.8pt;border-radius:2pt;background:#dde4ee;margin:2pt 0}
+.phone.p3 .ri .bars i+i{width:60%}
+.ucard2{display:flex;align-items:center;gap:5pt;background:#fff;border:.75pt solid #dde5ef;border-radius:7pt;padding:4pt 7pt}
+.ucard2 .n1{width:14pt;height:14pt;border-radius:50%;background:#2e4a78;color:#fff;font-weight:800;font-size:8.4pt;display:flex;align-items:center;justify-content:center;flex:none;line-height:1}
+.ucard2 b{font-weight:800;font-size:8.8pt;color:var(--navy);line-height:1.3}
+.e3r{position:relative;height:31pt;margin-bottom:5pt}
+.e3r svg.rp{position:absolute;left:0;top:0;width:100%;height:24pt}
+.e3r .rl{position:absolute;left:199pt;transform:translateX(-50%);top:13pt;display:inline-flex;align-items:center;gap:5pt;background:#fff;border:.75pt solid #dde5ef;border-radius:11pt;padding:2pt 11pt;font-weight:600;font-size:9pt;color:var(--text2);line-height:1.3;white-space:nowrap}
+.e3r .rl svg{width:11pt;height:11pt}
+.e3p{display:flex;align-items:center;gap:14pt;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:9pt;padding:6pt 14pt;margin-bottom:6pt}
+.e3p .pt{flex:none;display:flex;align-items:center;gap:6pt}
+.e3p .pt svg{width:24pt;height:22pt}
+.e3p .pt b{font-weight:800;font-size:12pt;color:#a9670f}
+.e3p ul{flex:1;margin:0;padding:0 11pt 0 0;list-style:none;font-size:9.4pt;line-height:14pt;color:var(--text2)}
+.e3p li{position:relative} .e3p li::before{content:'';position:absolute;right:-10pt;top:5pt;width:4.2pt;height:4.2pt;border-radius:50%;background:#e29433}
+.e3t{display:flex;align-items:center;gap:8pt;background:#f5f7fb;border-radius:9pt;padding:5pt 12pt}
+.e3t svg{width:18pt;height:18pt;flex:none}
+.e3t p{font-size:9.4pt;line-height:13.5pt;color:var(--text2)}
+
+/* المسار العام على 3 سطور (طلب · معالجة · نتيجة) */
+.path3{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;justify-items:center;column-gap:7pt;row-gap:2pt}
+.path3 .pc{width:100%;min-height:38pt;border-radius:8pt;background:#f5f7fb;border:.75pt solid #dde5ef;display:flex;flex-direction:row;align-items:center;gap:8pt;padding:5pt 10pt;text-align:right}
+.path3 .pc svg{width:22pt;height:22pt;flex:none}
+.path3 .pc .tt{display:flex;flex-direction:column}
+.path3 .pc b{font-weight:700;font-size:9.8pt;color:var(--navy);line-height:1.3}
+.path3 .pc small{font-weight:500;font-size:8.8pt;color:var(--muted);line-height:1.35}
+.path3 .ar{flex:none;color:#e29433;font-family:'DejaVuArr';font-weight:700;font-size:11pt;line-height:1}
+.path3 .pdown{color:#e29433;font-family:'DejaVuArr';font-weight:700;font-size:11pt;line-height:1.2}
+
+/* ---------- علامة «للفهم» (أي حاجة مش من الكتاب) ---------- */
+.fx{display:inline-block;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:7.6pt;color:var(--blue);background:#fff;border:.75pt solid var(--blue);border-radius:7pt;line-height:12pt;padding:0 6pt;margin-right:7pt;vertical-align:2pt;white-space:nowrap}
+.fx.abs{position:absolute;top:-7pt;left:12pt;margin:0;z-index:3}
+.fx.fl{float:left;margin:1pt 8pt 2pt 0;vertical-align:0}
+.map,.info,.simply{position:relative}
+.simply{overflow:visible}
+.simply .lab{border-radius:0 9pt 9pt 0}
+.dark h3 .fx{background:#fff}
+/* ---------- توقّف وفكّر (من الكتاب) ---------- */
+.stop{background:#fbf6e8;border:.75pt solid #eee0b8;border-right:3pt solid #e29433;border-radius:9pt;padding:6pt 12pt 7pt 12pt;margin-bottom:6pt}
+.stop .sh{display:flex;align-items:center;gap:5pt;margin-bottom:2pt}
+.stop .sh svg{width:17pt;height:17pt}
+.stop .sh b{font-weight:800;font-size:11pt;color:var(--gold2)}
+.stop p{font-size:10pt;line-height:15.5pt;color:var(--text2);font-weight:600}
+
+/* ===================== بنك الأسئلة ===================== */
+.qstats{display:grid;grid-template-columns:repeat(8,1fr);border:.75pt solid #dde5ef;border-radius:9pt;overflow:hidden;margin-bottom:12pt;background:#fff}
+.qstats>div{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6pt 2pt 5pt 2pt;border-left:.75pt solid #eef2f8}
+.qstats>div:last-child{border-left:0}
+.qstats b{font-weight:800;font-size:14pt;color:var(--navy);line-height:1.2}
+.qstats span{font-weight:600;font-size:8.6pt;color:var(--muted);line-height:1.3}
+h2.cat{display:flex;align-items:center;gap:6pt;font-weight:800;font-size:13.4pt;color:var(--navy);line-height:1.4;margin:10pt 0 7pt 0;padding:5pt 14pt;border-right:3pt solid #e29433;background:#eef2f8;border-radius:9pt}
+h2.cat .cnt{margin-right:auto;font-weight:700;font-size:8.6pt;color:var(--gold2);background:#fbf6e8;border:.75pt solid #eee0b8;border-radius:7pt;line-height:13pt;padding:0 7pt}
+h2.cat .fx{vertical-align:0}
+.qcard{background:#fff;border:.75pt solid #dde5ef;border-right:3pt solid #e29433;border-radius:9pt;padding:7pt 11pt 8pt 11pt;margin-bottom:8pt}
+.qcard.cont{border-top-right-radius:0}
+.qcard h4{display:flex;align-items:center;margin:0 0 4pt 0;font-weight:800;font-size:10.8pt;color:var(--gold2);line-height:1.4}
+.qcard h4 .n{direction:ltr;unicode-bidi:isolate;margin-left:3pt}
+.qcard h4 .mk{margin-right:auto;font-weight:700;font-size:8.4pt;color:var(--navy2);background:#fff;border:.75pt solid #dde5ef;border-radius:7pt;padding:0 7pt;line-height:14pt}
+.qi,.qs,.para{font-size:9.8pt;line-height:15.6pt;color:var(--text2);margin:0 0 5pt 0}
+.qs b,.qi b,.para b{color:var(--navy2)}
+.para{line-height:20pt}
+.bl{display:inline-block;border-bottom:1pt dotted #8a9ab3;height:11pt;vertical-align:-1pt;margin:0 3pt}
+.ab{display:inline-block;flex:none;width:26pt;height:14pt;border:1pt solid #b9c6d8;border-radius:4pt;background:#fff;margin-right:6pt}
+.ab.w{width:62pt}
+.qq{display:flex;gap:7pt;align-items:flex-start;margin:4pt 0 4pt 0}
+.qq .k,.cl .k,.sa .k,.frow .k,.tfb .k{flex:none;display:inline-flex;align-items:center;justify-content:center;width:16pt;height:16pt;border-radius:50%;background:#fbf6e8;border:.75pt solid #eee0b8;font-weight:800;font-size:8.6pt;color:var(--gold2);line-height:1}
+.qq p{flex:1;font-size:9.8pt;line-height:15pt;color:var(--text2)}
+.qq p b{color:var(--navy2)}
+ul.op{margin:2pt 0 6pt 0;padding:0 17pt 0 0;list-style:none;display:grid;gap:1pt 14pt}
+ul.op.c1{grid-template-columns:1fr} ul.op.c2{grid-template-columns:1fr 1fr} ul.op.c3{grid-template-columns:repeat(3,1fr)}
+ul.op li{font-size:9.4pt;line-height:14.2pt;color:var(--text2)}
+ul.op li{display:flex;align-items:flex-start;gap:6pt}
+ul.op li b{display:inline-flex;flex:none;align-items:center;justify-content:center;width:15pt;height:15pt;padding-bottom:1pt;margin-top:-.3pt;border-radius:50%;background:#eef2f8;border:.75pt solid #dde5ef;font-weight:800;font-size:8.2pt;color:var(--navy2);line-height:1}
+ul.tf{margin:2pt 0 0 0;padding:0;list-style:none}
+ul.tf li,ul.tfb li{display:flex;align-items:center;gap:8pt;padding:3.5pt 4pt;border-top:.75pt solid #eef2f8;font-size:9.6pt;line-height:14.4pt;color:var(--text2)}
+ul.tf li:first-child{border-top:0}
+ul.tf li b{display:inline-flex;flex:none;align-items:center;justify-content:center;width:15pt;height:15pt;padding-bottom:1pt;border-radius:50%;background:#eef2f8;border:.75pt solid #dde5ef;font-weight:800;font-size:8.2pt;color:var(--navy2);line-height:1}
+ul.tf .t,ul.tfb .t{flex:1}
+.pr{flex:none;font-weight:600;color:#8a9ab3;letter-spacing:1pt}
+ul.tfb{margin:0 0 7pt 0;padding:0;list-style:none;background:#fff;border:.75pt solid #dde5ef;border-radius:8pt;overflow:hidden}
+ul.tfb li{border-top:0;border-bottom:.75pt solid #e3e9f1;padding:6pt 10pt}
+ul.tfb li:last-child{border-bottom:0}
+ul.tfb li:nth-child(even){background:#f8fafc}
+.match{display:grid;grid-template-columns:1.35fr 1fr;gap:10pt;margin-top:3pt}
+.match .mb{border:.75pt solid #dde5ef;border-radius:8pt;padding:6pt 10pt 7pt 10pt;background:#fbfcfe}
+.match h5{margin:0 0 3pt 0;font-weight:800;font-size:10pt;color:var(--navy);line-height:1.4}
+.match ol{margin:0;padding:0 14pt 0 0;font-size:9.4pt;line-height:14.5pt;color:var(--text2)}
+.match ol li{margin-bottom:3pt}
+.match ol li span{margin-left:6pt}
+.match ol li .ab{vertical-align:-3pt;margin-right:0}
+.sa{display:grid;grid-template-columns:1fr 1fr;gap:7pt}
+.sa>div{border:.75pt solid #e3e9f1;border-radius:7pt;padding:5pt 8pt;background:#fbfcfe}
+.sa>div,.frow>div{display:flex;gap:7pt;align-items:flex-start}
+.sa p,.frow p{flex:1;font-size:9.6pt;line-height:17pt;color:var(--text2)}
+ul.cl{margin:3pt 0 5pt 0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:0 18pt}
+ul.cl li{display:flex;align-items:center;gap:7pt;padding:5pt 0;border-bottom:.75pt solid #e3e9f1;font-size:9.6pt;line-height:14pt;color:var(--text2)}
+ul.cl li .t{flex:1}
+.mrow{display:grid;grid-template-columns:1fr 1fr;gap:7pt;margin-bottom:7pt}
+.mq{border:.75pt solid #dde5ef;border-radius:8pt;background:#fff;padding:5pt 9pt 5pt 9pt}
+.mq .qq{margin:0 0 4pt 0}
+.mq ul.op{margin:0;padding:4pt 0 0 0;border-top:.75pt dashed #e3e9f1;gap:3pt 10pt}
+.mrow .mq ul.op{margin-bottom:2pt}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:7pt;margin-bottom:7pt}
+.frow>div{border:.75pt solid #dde5ef;border-radius:8pt;background:#fff;padding:6pt 9pt}
+.hint{background:#fbf6e8;border:.75pt solid #eee0b8;border-radius:7pt;padding:4pt 10pt;font-size:9pt;line-height:14pt;color:var(--text2);margin:2pt 0 4pt 0}
+.hint>b:first-child{font-weight:800;color:var(--gold2);margin-left:5pt}
+.hint b{color:var(--navy2)}
+.wl i{display:block;height:17pt;border-bottom:.75pt dotted #b9c6d8}
+.why{border:.75pt solid #dde5ef;border-radius:8pt;background:#fff;padding:6pt 10pt 7pt 10pt;margin-bottom:7pt}
+.why .wl{margin-right:23pt}
+table.cmp{width:100%;border-collapse:separate;border-spacing:0;border:.75pt solid #dde5ef;border-radius:8pt;overflow:hidden;margin:4pt 0 8pt 0;font-size:9.6pt;line-height:14pt}
+table.cmp th{background:#eef2f8;font-weight:800;color:var(--navy);text-align:right;padding:4pt 10pt;border-bottom:.75pt solid #dde5ef}
+table.cmp td{height:22pt;padding:3pt 10pt;border-top:.75pt solid #eef2f8;border-left:.75pt solid #eef2f8}
+table.cmp th+th{border-right:.75pt solid #dde5ef}
+table.cmp td.k{width:118pt;font-weight:700;color:var(--navy2);background:#fbfcfe}
+table.cmp.tall td{height:38pt}
+.qcard table.cmp{margin-bottom:2pt}
+.chx{display:flex;flex-wrap:wrap;gap:4pt 18pt;font-size:9.4pt;line-height:14pt;color:var(--text2);margin:2pt 0 2pt 0}
+.drawbox{height:150pt;margin:4pt 0 0 23pt;border:1pt dashed #b9c6d8;border-radius:8pt;background:#fbfcfe}
+.why.cont{border-top-right-radius:0;border-top-left-radius:0;padding-top:2pt}
+/* ---------- علامة «تقييمات» ---------- */
+.mq,.why,.qcard{position:relative}
+.tq{position:absolute;top:-6.5pt;left:10pt;z-index:3;display:inline-block;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:7.6pt;color:#17263f;background:#e29433;border-radius:7pt;line-height:12pt;padding:0 6pt;white-space:nowrap}
+.qstats .tq{position:static;margin-top:2pt;font-size:8pt;line-height:13pt}
+.content>.tqtop{margin-top:9pt}
+.tqin .tq{top:-3.2pt}
+/* ===== صناديق الكتاب الجانبية: الفكرة الرئيسة · مصطلحات أساسية · تذكّر · الحل · تعليق الصورة ===== */
+.kidea{background:#22375c;border-right:3pt solid #e29433;border-radius:9pt;padding:8pt 14pt 9pt 14pt;margin:12pt 0 9pt 0}
+.kidea .kh{font-weight:800;font-size:9.8pt;line-height:15pt;color:#f1c88b;margin-bottom:2pt}
+.kidea p{font-size:10.4pt;line-height:17pt;color:#fff;margin:0}
+.kidea p b{color:#ffd08a}
+.terms{background:#fff;border:.75pt solid #dde5ef;border-radius:8pt;padding:6pt 12pt 7pt 12pt;margin:0 0 8pt 0}
+.terms .th{display:flex;align-items:center;gap:10pt;margin:0 0 5pt 0;padding-bottom:4pt;border-bottom:.75pt solid #dde5ef}
+.terms h3{flex:none;margin:0;font-weight:800;font-size:9.8pt;line-height:1.5;color:var(--navy)}
+.terms .t3{flex:1;display:flex;gap:6pt}
+.terms .t3 span{flex:1;background:#f5f7fb;border-radius:6pt;padding:1pt 6pt;text-align:center;font-size:9.2pt;line-height:14pt;white-space:nowrap;color:var(--text)}
+.terms .t2{display:grid;grid-template-columns:1fr 1fr;gap:5pt 6pt}
+.terms .t2 div{background:#f5f7fb;border-radius:6pt;padding:3pt 9pt;font-size:9.3pt;line-height:14.5pt;color:var(--text)}
+.terms b{color:#a9670f;font-weight:800}
+.dark .rem{font-size:9.3pt;line-height:14.5pt;color:#fff;margin:0 0 5pt 0;padding-bottom:5pt;border-bottom:.75pt solid rgba(255,255,255,.2)}
+.dark .rem b{color:#f1c88b}
+.qcard.sol .ck{display:inline-flex;align-items:center;justify-content:center;width:14pt;height:14pt;border-radius:50%;background:#e29433;color:#fff;font-size:9pt;margin-left:3pt}
+.qcard.sol .sg{display:grid;grid-template-columns:1.5fr 1fr;gap:14pt}
+.qcard.sol .sp{font-weight:800;color:var(--navy2);font-size:9.6pt;line-height:15pt;margin-bottom:2pt}
+.qcard.sol .sr{display:flex;gap:6pt;font-size:9.6pt;line-height:15pt;color:var(--text);margin-bottom:2pt}
+.qcard.sol .sr b{flex:none;min-width:12pt;color:#a9670f;font-weight:800}
+.qcard.sol .sr i{font-style:normal;font-weight:800;color:#a9670f}
+.terms .t2+.t2{margin-top:5pt}
+.terms .t2.c3{grid-template-columns:1fr 1fr 1fr}
+.terms .t2 .full{grid-column:1/-1}
+.icap{margin:5pt 0 8pt 0;padding-top:4pt;border-top:.75pt dashed #dde5ef;text-align:center;font-size:8.8pt;line-height:13pt;color:var(--muted)}
+</style>
+<script>
+// ===== 1) توزيع المحتوى على صفحات A4 =====
+function paginate(){
+  const flow = document.querySelector('.flow');
+  const blocks = [...flow.children];
+  let content;
+  // كل صفحة = .page بمقاس A4، وجواها .sheet مرسومة ×3 ومتصغّرة ÷3
+  // (عشان إعداد «أقل حجم للخط» في المتصفح مايكبّرش الخطوط الصغيرة ويبوّظ التصميم)
+  const newSheet = () => {
+    const p = document.createElement('section'); p.className = 'page';
+    const s = document.createElement('div'); s.className = 'sheet';
+    content = document.createElement('div'); content.className = 'content';
+    s.appendChild(content); p.appendChild(s); flow.before(p);
+  };
+  const KWN = el => el.matches('.part, hr.rule, h2.sec, .big, h3.sub, .chip, .kwn');
+  const over = () => { const last = content.lastElementChild; if (!last) return false;
+    return last.getBoundingClientRect().bottom > content.getBoundingClientRect().bottom + 0.5; };
+  // كارت أطول من المساحة الفاضية: نسيب أوله هنا ونكمّل الباقي في الصفحة الجاية (عند حدود أجزائه)
+  // سؤال (نصه + مكان إجابته أو اختياراته) ما يتقسمش على صفحتين: التقسيم في كروت الأسئلة
+  // (.why و.qcard) مسموح بس قبل بداية سؤال جديد (.qq / .qi / .qs). لو مفيش نقطة زي كده، الكارت كله ينزل.
+  const QSTART = x => x && x.matches('.qq, .qi, .qs');
+  const trySplit = (el, loose) => {
+    const cont = el.cloneNode(false); cont.classList.add('cont');
+    const keep = (el.firstElementChild && el.firstElementChild.tagName === 'H4') || el.classList.contains('why') ? 2 : 1;
+    const mv = () => cont.insertBefore(el.lastElementChild, cont.firstChild);
+    const back = () => { while (cont.firstChild) el.appendChild(cont.firstChild); return false; };
+    while (over() && el.children.length > keep) mv();
+    const strict = !loose && el.matches('.why, .qcard');
+    if (strict) {
+      for (let ch = true; ch; ) { ch = false;
+        while (el.children.length > keep && cont.children.length && !QSTART(cont.firstElementChild)) { mv(); ch = true; }
+        while (el.children.length > 1 && cont.children.length && QSTART(el.lastElementChild)) { mv(); ch = true; }
+      }
+      if (cont.children.length && !QSTART(cont.firstElementChild)) return back();
+    } else {
+      // نص السؤال ما يفضلش لوحده في آخر الصفحة: ينزل مع اختياراته
+      while (el.children.length > 1 && cont.children.length && el.lastElementChild.matches('.qq, .qi, .qs')) mv();
+    }
+    if (el.children.length < keep) return back();
+    if (over() || !cont.children.length) return back();
+    newSheet(); content.appendChild(cont);
+    if (over()) trySplit(cont) || trySplit(cont, true);
+    return true;
+  };
+  newSheet();
+  for (let i = 0; i < blocks.length; ) {
+    const el = blocks[i];
+    if (el.classList.contains('pb')) { if (content.children.length) newSheet(); i++; continue; }
+    const group = [el]; let j = i;
+    while (KWN(blocks[j]) && j + 1 < blocks.length && !blocks[j + 1].classList.contains('pb')) { j++; group.push(blocks[j]); }
+    // عنوان قسم في البنك (زي «علّل») مايفضلش في آخر الصفحة ومعاه سؤال واحد بس: بياخد معاه السؤال اللي بعده
+    if (group[0].matches('h2.cat') && group[group.length - 1].matches('.why') && j + 1 < blocks.length && blocks[j + 1].matches('.why')) { j++; group.push(blocks[j]); }
+    const wasEmpty = content.children.length === 0;
+    group.forEach(g => content.appendChild(g));
+    const last = group[group.length - 1];
+    if (over()) {
+      if (last.classList.contains('split') && trySplit(last)) { /* اتقسم */ }
+      else if (!wasEmpty) { newSheet(); group.forEach(g => content.appendChild(g)); if (over() && last.classList.contains('split')) trySplit(last) || trySplit(last, true); }
+    }
+    i = j + 1;
+  }
+  flow.remove();
+}
+// ===== 2) الإطار: هيدر + فوتر + علامة مائية + ترقيم =====
+// علامة «تقييمات» فوق أول سؤال في الصفحة بتلمس خط الهيدر: ننزّل السؤال سنة بعد الترقيم.
+// لو الصفحة مليانة، ناخد المسافة من الفراغات اللي بين الأسئلة في نفس الصفحة (أقل من 1pt لكل فراغ).
+function tqTop(){
+  const k = (typeof K === 'number' && K > 0) ? K : 1;
+  const overBy = c => c.lastElementChild.getBoundingClientRect().bottom - c.getBoundingClientRect().bottom;
+  document.querySelectorAll('.content').forEach(c => {
+    const f = c.firstElementChild; if (!f || !f.querySelector('.tq')) return;
+    f.classList.add('tqtop');
+    let d = overBy(c); if (d <= 0) return;
+    const kids = [...c.children].slice(0, -1);
+    const per = (d + 1) * k / kids.length;
+    kids.forEach(e => { e.dataset.mb = e.style.marginBottom; e.style.marginBottom = Math.max(0, parseFloat(getComputedStyle(e).marginBottom) - per) + 'px'; });
+    if (overBy(c) > 0.5) { kids.forEach(e => { e.style.marginBottom = e.dataset.mb; }); f.classList.remove('tqtop'); f.classList.add('tqin'); }
+    kids.forEach(e => delete e.dataset.mb);
+  });
+}
+function frame(){
+  const B = document.body.dataset, START = +B.start || 1, TOTAL = B.total;
+  const LESSON = B.lesson.replace(/(\d+-\d+)/g, '<span class="num">$1</span>');
+  const tiles = [];
+  for (let r = 0; r < 7; r++) for (let c = 0; c < 3; c++) {
+    const x = -20 + c * 215 + (r % 2) * 60, y = -30 + r * 135;
+    tiles.push(`<span class="tile" style="left:${x * K}pt;top:${y * K}pt">زياد السعدني</span>`);
+  }
+  document.querySelectorAll('.sheet').forEach((s, k) => {
+    s.dataset.page = START + k;
+    s.insertAdjacentHTML('afterbegin', `<div class="hdr"><span class="r">${LESSON}</span><span class="l">أكواد مع زياد</span></div>`);
+    s.insertAdjacentHTML('beforeend', `<div class="ftr"><img src="assets/badge.png" alt=""><span class="r"><b>أكواد مع زياد</b><span class="sep">|</span>أ/ زياد السعدني<span class="sep">|</span><span class="num">fb.com/61592749346697</span><span class="sep">|</span>واتساب <span class="num">01124840835</span></span><span class="pn">${START + k} / ${TOTAL}</span></div><div class="wm">${tiles.join('')}<span class="big">زياد السعدني</span></div>`);
+  });
+}
+// ===== 0) لو المتصفح مفعّل «أقل حجم للخط» (Minimum font size) بيكبّر الخطوط الصغيرة ويبوّظ التصميم.
+// الحل: نكبّر كل المقاسات ×K ونصغّر الصفحة ÷K بـ transform (الـtransform مابيتأثرش بالإعداد ده).
+let K = 1;
+function immunize(){
+  const t = document.createElement('span'); t.style.fontSize = '1px'; t.textContent = 'x';
+  document.body.appendChild(t); const mc = parseFloat(getComputedStyle(t).fontSize); t.remove();
+  const wid = px => { const s = document.createElement('span');
+    s.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;font-family:sans-serif;font-size:' + px + 'px';
+    s.textContent = 'abcdefghij'; document.body.appendChild(s); const w = s.getBoundingClientRect().width; s.remove(); return w; };
+  const mr = 4 * wid(4) / (wid(40) / 10);   // الحجم الفعلي اللي اترسم بيه نص طالب 4px
+  // بدون الإعداد: نص الـ4px بيترسم ≈4px (ممكن يزيد شوية من التقريب) — فمانعتبرهوش مفعّل غير لو أكبر من 6px
+  const m = Math.max(mc, mr > 6 ? mr : 0);
+  if (!(m > 1.5)) return;
+  K = Math.max(2, Math.ceil(m / 7));
+  const sc = v => v.replace(/(-?\d*\.?\d+)(pt|px|mm)\b/g, (_, n, u) => (parseFloat(n) * K).toFixed(3) + u);
+  const walk = rules => { for (const r of rules) {
+    if (r instanceof CSSMediaRule) { walk(r.cssRules); continue; }
+    if (!(r instanceof CSSStyleRule)) continue;
+    if (/^(html|body|\.page|html,\s*body)$/.test(r.selectorText.trim())) continue;
+    for (let i = 0; i < r.style.length; i++) { const p = r.style[i], v = r.style.getPropertyValue(p);
+      if (/\d(pt|px|mm)/.test(v)) r.style.setProperty(p, sc(v), r.style.getPropertyPriority(p)); }
+  } };
+  for (const s of document.styleSheets) { try { walk(s.cssRules); } catch (e) {} }
+  document.querySelectorAll('.flow [style]').forEach(el => { el.style.cssText = sc(el.style.cssText); });
+  // الطريقة 1 (Chrome): zoom = 1/K — الصفحة بتفضل بمقاسها الحقيقي فالطباعة سليمة.
+  // الطريقة 2 (احتياطي): transform: scale(1/K) — لو المتصفح بيطبّق الحد الأدنى بعد الـzoom.
+  const probe = css => { const w = document.createElement('div'); w.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;' + css;
+    const s = document.createElement('span'); s.style.fontSize = (6 * K) + 'px'; s.textContent = 'abcdefghij';
+    w.appendChild(s); document.body.appendChild(w); const r = s.getBoundingClientRect().width; w.remove(); return r; };
+  const big = probe(''), zoomed = probe('zoom:' + (1 / K));
+  const zoomOK = Math.abs(zoomed - big / K) < 1.5;
+  const st = document.createElement('style');
+  st.textContent = zoomOK ? `.sheet{zoom:${1 / K}}` : `.sheet{transform:scale(${1 / K})}`;
+  document.head.appendChild(st); document.body.dataset.mode = zoomOK ? 'zoom' : 'transform';
+}
+window.addEventListener('load', async () => {
+  const F = "'Baloo Bhaijaan 2'";
+  await Promise.all([500, 600, 700, 800].map(w => document.fonts.load(`${w} 10pt ${F}`, 'أبجد')));
+  await document.fonts.ready;
+  immunize(); paginate(); tqTop(); frame();
+  document.body.dataset.ready = '1'; document.body.dataset.k = K;
+});
+</script>
+</head>
+<body data-lesson="الدرس 3-1 — البنية العامة لتطبيقات الويب" data-start="2" data-total="58">
+<main class="flow">
+<div class="band">
+  <div class="badge"><span class="l">الدرس</span><span class="n">3-1</span></div>
+  <h1>البنية العامة لتطبيقات الويب</h1>
+  <div class="who">
+    <div class="t"><span class="u">الوحدة الثالثة</span><span class="k">الشرح والمراجعة</span></div>
+    <img src="assets/avatar.png" alt="">
+  </div>
+</div>
+
+<div class="two">
+  <div class="intro">
+    <h3>لما تكتب في مربع البحث.. مين اللي بيدوّر فعلًا؟</h3>
+    <div class="body">
+      <img class="robot" src="assets/robot.svg" alt="">
+      <p>إنت بتفتح موقع فيديو، أو متجر إلكتروني، أو بريد إلكتروني من المتصفح — دي أمثلة على <b>تطبيقات الويب</b>.</p>
+      <p>الجزء اللي بتشوفه وبتتعامل معاه هو <b>الواجهة الأمامية</b>، لكن وراها فيه أجزاء تانية بتشتغل مع بعض عشان طلبك يتحول لنتيجة.</p>
+      <p>في الدرس ده هنفهم تطبيق الويب من خلال <b>نموذج مبسط من تلات طبقات</b>:</p>
+      <ul>
+        <li><b>واجهة أمامية</b> تعرض المحتوى وتستقبل مدخلاتك،</li>
+        <li><b>واجهة خلفية</b> تعالج الطلبات وتطبّق قواعد التطبيق،</li>
+        <li><b>وطبقة بيانات</b> تحفظ البيانات وتوفرها عند الحاجة.</li>
+      </ul>
+      <p>والنموذج ده بيساعدنا نفهم كتير من تطبيقات الويب، لكن مش معناه إن كل التطبيقات مبنية بنفس الشكل؛ <b>البنية الفعلية ممكن تختلف من تطبيق لآخر</b>.</p>
+    </div>
+    <div class="foot"><span class="pill-dark">يلا بينا نبدأ يا صديقي</span></div>
+  </div>
+  <div class="goals">
+    <h3>أهداف التعلم</h3>
+    <div class="g"><span class="tag">ميّز</span><span class="x">بين أدوار الواجهة الأمامية والواجهة الخلفية وطبقة البيانات في نموذج تطبيق ويب مبسط.</span></div>
+    <div class="g"><span class="tag">تتبّع</span><span class="x">تدفق طلب المستخدم عبر طبقات تطبيق الويب حتى ظهور النتيجة.</span></div>
+    <div class="g"><span class="tag">صمّم</span><span class="x">توزيعًا مناسبًا لمسؤوليات تطبيق ويب، وبرّر قراراتك.</span></div>
+  </div>
+</div>
+
+<div class="note-box"><span class="tag">للفهم</span>أي كلام عليه العلامة دي — هو والرسومات — <b>مش موجود في الكتاب</b>. أنا حاطّه عشان تفهم، مش عشان تحفظه. واللي من الكتاب هتلاقيه من غير علامة.</div>
+
+<div class="map">
+  <div class="cell c1"><h4>يعني إيه تطبيق ويب؟</h4><ul>
+    <li>يُستخدم عادةً من خلال متصفح الويب</li>
+    <li>وقد يكون بعضها قابلًا للتثبيت على الجهاز</li>
+    <li>أمثلة: فيديو · تسوق · بريد · خرائط</li></ul></div>
+  <div class="cell c2"><h4>الطبقات الثلاث</h4><ul>
+    <li>الواجهة الأمامية — تعرض المحتوى وتستقبل مدخلات المستخدم</li>
+    <li>الواجهة الخلفية — تعالج الطلبات وتطبّق قواعد التطبيق</li>
+    <li>طبقة البيانات — تحفظ البيانات وتوفّرها عند الحاجة</li></ul></div>
+  <div class="hub">البنية العامة لتطبيقات الويب
+    <svg class="lk r1" viewBox="0 0 20 16"><path d="M0 14 C7 14 10 3 17 3" fill="none" stroke="#22375c" stroke-width="1.55" stroke-linecap="round"/><circle cx="17.5" cy="3" r="2" fill="#22375c"/></svg>
+    <svg class="lk r2" viewBox="0 0 20 16"><path d="M0 2 C7 2 10 13 17 13" fill="none" stroke="#e29433" stroke-width="1.55" stroke-linecap="round"/><circle cx="17.5" cy="13" r="2" fill="#e29433"/></svg>
+    <svg class="lk l1" viewBox="0 0 20 16"><path d="M20 14 C13 14 10 3 3 3" fill="none" stroke="#2e4a78" stroke-width="1.55" stroke-linecap="round"/><circle cx="2.5" cy="3" r="2" fill="#2e4a78"/></svg>
+    <svg class="lk l2" viewBox="0 0 20 16"><path d="M20 2 C13 2 10 13 3 13" fill="none" stroke="#c0453a" stroke-width="1.55" stroke-linecap="round"/><circle cx="2.5" cy="13" r="2" fill="#c0453a"/></svg>
+  </div>
+  <div class="cell c3"><h4>رحلة الطلب</h4><ul>
+    <li>الواجهة الأمامية <span class="en">(Frontend)</span> تستقبل المدخلات وترسل الطلب للواجهة الخلفية <span class="en">(Backend)</span></li>
+    <li>الواجهة الخلفية تطلب البيانات المطلوبة من طبقة البيانات</li>
+    <li>طبقة البيانات تعيد النتائج للواجهة الخلفية</li>
+    <li>الواجهة الخلفية تجهّز الاستجابة، والواجهة الأمامية تعرضها</li></ul></div>
+  <div class="cell c4"><h4>ملاحظة مهمة</h4><ul>
+    <li>ده نموذج تعليمي مبسّط</li>
+    <li>مش بنية إلزامية لكل تطبيق</li>
+    <li>البنية الفعلية قد تختلف من تطبيق لآخر</li>
+    <li>وقد لا توجد قاعدة بيانات تقليدية أصلًا</li></ul></div>
+</div>
+
+<div class="iq">
+  <div class="q">
+    <div class="lab">السؤال الرئيسي — الدرس كله بيجاوب عليه</div>
+    <div class="qq">كيف يُبنى تطبيق الويب، وكيف تعمل طبقاته الثلاث معًا للاستجابة لما يفعله المستخدم؟</div>
+  </div>
+  <div class="idea"><span class="qmark">”</span><b>الفكرة الأساسية:</b> يُبنى تطبيق الويب من <b>ثلاث طبقات</b> — <b>الواجهة الأمامية</b>، و<b>الواجهة الخلفية</b>، و<b>قاعدة البيانات</b> — <b>تتعاون معًا لتحويل إجراء المستخدم <bdi class="nw">(User)</bdi> إلى نتيجة</b>.</div>
+</div>
+<div class="part p1" style="margin-top:2pt"><span>الجزء الأول</span></div>
+<hr class="rule">
+<h2 class="sec"><span class="num">1</span><span class="dot">·</span> ماهية تطبيق الويب</h2>
+<span class="chip">تطبيق الويب</span>
+<div class="banner"><b>تطبيق يُستخدم عادةً من خلال متصفح الويب، وقد يكون بعضه قابلًا للتثبيت على الجهاز</b>. ومن أمثلته <b>خدمات الفيديو والتسوق والبريد والخرائط</b> على الويب.</div>
+
+<div class="note-line"><span class="tag">للفهم</span><span class="lead">ببساطة</span>خُد بالك من كلمتين: <b>«عادةً»</b> — يعني مش شرط دايمًا · و<b>«قد يكون بعضه قابلًا للتثبيت»</b> — يعني مش كل تطبيق ويب بيفضل في المتصفح بس. الكلمتين دول بيتحوّلوا لأسئلة صح وخطأ.</div>
+
+<h2 class="sec"><span class="num">2</span><span class="dot">·</span> الطبقات الثلاث لتطبيق الويب</h2>
+
+<div class="quote"><span class="qmark">”</span>في هذا <b>النموذج التعليمي</b>، نقسم تطبيق الويب إلى <b>ثلاثة أجزاء رئيسة</b> كما يأتي. <b>وقد تختلف البنية الفعلية من تطبيق إلى آخر</b>.</div>
+
+<div class="l3">
+  
+  <div class="l3-title"><h3>البنية العامة لتطبيقات الويب</h3></div>
+  <div class="l3-cards">
+    <div class="l3c warm">
+      <div class="halo"><svg viewBox="0 0 48 36"><rect x="2" y="2" width="44" height="32" rx="5" fill="none" stroke="#e29433" stroke-width="3.2"/><line x1="2" y1="11" x2="46" y2="11" stroke="#e29433" stroke-width="3.2"/><circle cx="8.5" cy="6.6" r="1.8" fill="#e29433"/><circle cx="14" cy="6.6" r="1.8" fill="#e29433"/><line x1="10" y1="19" x2="26" y2="19" stroke="#e29433" stroke-width="3.2" stroke-linecap="round"/><line x1="10" y1="26" x2="36" y2="26" stroke="#e29433" stroke-width="3.2" stroke-linecap="round"/></svg></div>
+      <h4>الواجهة الأمامية</h4><div class="bar"></div>
+      <p>الجزء الذي يراه المستخدم ويتعامل معه في <b>المتصفح</b>: يعرض المحتوى ويستقبل ما يكتبه المستخدم أو يختاره.</p>
+      <span class="pill"><svg viewBox="0 0 20 18"><rect x="1.5" y="1.5" width="17" height="11" rx="1.8" fill="none" stroke="#e29433" stroke-width="2"/><line x1="10" y1="12.5" x2="10" y2="16" stroke="#e29433" stroke-width="2"/><line x1="6" y1="16.5" x2="14" y2="16.5" stroke="#e29433" stroke-width="2" stroke-linecap="round"/></svg>تعرض وتستقبل</span>
+    </div>
+    <div class="l3c cool">
+      <div class="halo"><svg viewBox="0 0 48 40"><rect x="3" y="2" width="42" height="15" rx="4" fill="none" stroke="#2e4a78" stroke-width="3.2"/><rect x="3" y="23" width="42" height="15" rx="4" fill="none" stroke="#2e4a78" stroke-width="3.2"/><circle cx="11" cy="9.5" r="2" fill="#2e4a78"/><circle cx="11" cy="30.5" r="2" fill="#2e4a78"/><line x1="18" y1="9.5" x2="34" y2="9.5" stroke="#2e4a78" stroke-width="3.2" stroke-linecap="round"/><line x1="18" y1="30.5" x2="34" y2="30.5" stroke="#2e4a78" stroke-width="3.2" stroke-linecap="round"/></svg></div>
+      <h4>الواجهة الخلفية</h4><div class="bar"></div>
+      <p>الجزء الذي يعمل على <b>الخادم</b> ويعالج الطلبات ويطبق قواعد التطبيق.</p>
+      <span class="pill"><svg viewBox="0 0 20 20"><rect x="8.4" y="0.6" width="3.2" height="4.4" rx="0.8" fill="#2e4a78" transform="rotate(0 10 10)"/><rect x="8.4" y="0.6" width="3.2" height="4.4" rx="0.8" fill="#2e4a78" transform="rotate(45 10 10)"/><rect x="8.4" y="0.6" width="3.2" height="4.4" rx="0.8" fill="#2e4a78" transform="rotate(90 10 10)"/><rect x="8.4" y="0.6" width="3.2" height="4.4" rx="0.8" fill="#2e4a78" transform="rotate(135 10 10)"/><rect x="8.4" y="0.6" width="3.2" height="4.4" rx="0.8" fill="#2e4a78" transform="rotate(180 10 10)"/><rect x="8.4" y="0.6" width="3.2" height="4.4" rx="0.8" fill="#2e4a78" transform="rotate(225 10 10)"/><rect x="8.4" y="0.6" width="3.2" height="4.4" rx="0.8" fill="#2e4a78" transform="rotate(270 10 10)"/><rect x="8.4" y="0.6" width="3.2" height="4.4" rx="0.8" fill="#2e4a78" transform="rotate(315 10 10)"/><circle cx="10" cy="10" r="6.2" fill="#2e4a78"/><circle cx="10" cy="10" r="2.6" fill="#f5f7fb"/></svg>تعالج وتطبق القواعد</span>
+    </div>
+    <div class="l3c warm">
+      <div class="halo"><svg viewBox="0 0 44 46"><ellipse cx="22" cy="8" rx="19" ry="6" fill="none" stroke="#e29433" stroke-width="3.2"/><path d="M3 8 V38 C3 41.5 11.5 44 22 44 C32.5 44 41 41.5 41 38 V8" fill="none" stroke="#e29433" stroke-width="3.2"/><path d="M3 18 C3 21.5 11.5 24 22 24 C32.5 24 41 21.5 41 18" fill="none" stroke="#e29433" stroke-width="3.2"/><path d="M3 28 C3 31.5 11.5 34 22 34 C32.5 34 41 31.5 41 28" fill="none" stroke="#e29433" stroke-width="3.2"/></svg></div>
+      <h4>قاعدة البيانات</h4><div class="bar"></div>
+      <p>طبقة تحفظ البيانات وتوفرها عند الحاجة. وقد تشمل قواعد بيانات أو تخزين ملفات وكائنات أو ذاكرة مخبأة أو خدمات بيانات خارجية.</p>
+      <span class="pill"><svg viewBox="0 0 18 20"><ellipse cx="9" cy="4" rx="7.3" ry="2.6" fill="none" stroke="#e29433" stroke-width="1.8"/><path d="M1.7 4 V16 C1.7 17.5 5 18.6 9 18.6 C13 18.6 16.3 17.5 16.3 16 V4" fill="none" stroke="#e29433" stroke-width="1.8"/><path d="M1.7 8.2 C1.7 9.7 5 10.8 9 10.8 C13 10.8 16.3 9.7 16.3 8.2" fill="none" stroke="#e29433" stroke-width="1.8"/><path d="M1.7 12.2 C1.7 13.7 5 14.8 9 14.8 C13 14.8 16.3 13.7 16.3 12.2" fill="none" stroke="#e29433" stroke-width="1.8"/></svg>تحفظ البيانات وتوفّرها</span>
+    </div>
+  </div>
+  <table class="l3t">
+    <thead><tr><th style="width:124pt">الطبقة</th><th style="width:206pt">الدور</th><th>أمثلة</th></tr></thead>
+    <tbody>
+      <tr class="warm"><td class="k"><span class="ic"><svg viewBox="0 0 48 36"><rect x="2" y="2" width="44" height="32" rx="5" fill="none" stroke="#e29433" stroke-width="3.2"/><line x1="2" y1="11" x2="46" y2="11" stroke="#e29433" stroke-width="3.2"/><circle cx="8.5" cy="6.6" r="1.8" fill="#e29433"/><circle cx="14" cy="6.6" r="1.8" fill="#e29433"/><line x1="10" y1="19" x2="26" y2="19" stroke="#e29433" stroke-width="3.2" stroke-linecap="round"/><line x1="10" y1="26" x2="36" y2="26" stroke="#e29433" stroke-width="3.2" stroke-linecap="round"/></svg></span>الواجهة الأمامية</td>
+        <td>الجزء الذي <b>يراه المستخدم ويتعامل معه في المتصفح</b>: يعرض المحتوى ويستقبل ما يكتبه المستخدم أو يختاره.</td>
+        <td><ul><li>شاشة البحث</li><li>صفحات عرض المنتجات</li><li>نماذج الإدخال</li></ul></td></tr>
+      <tr class="cool"><td class="k"><span class="ic"><svg viewBox="0 0 48 40"><rect x="3" y="2" width="42" height="15" rx="4" fill="none" stroke="#2e4a78" stroke-width="3.2"/><rect x="3" y="23" width="42" height="15" rx="4" fill="none" stroke="#2e4a78" stroke-width="3.2"/><circle cx="11" cy="9.5" r="2" fill="#2e4a78"/><circle cx="11" cy="30.5" r="2" fill="#2e4a78"/><line x1="18" y1="9.5" x2="34" y2="9.5" stroke="#2e4a78" stroke-width="3.2" stroke-linecap="round"/><line x1="18" y1="30.5" x2="34" y2="30.5" stroke="#2e4a78" stroke-width="3.2" stroke-linecap="round"/></svg></span>الواجهة الخلفية</td>
+        <td>الجزء الذي <b>يعمل على الخادم</b>، ويعالج الطلبات <b>ويطبق قواعد التطبيق</b>.</td>
+        <td><ul><li>البحث عن منتجات تطابق معايير البحث</li><li>التحقّق من تسجيل الدخول</li></ul></td></tr>
+      <tr class="warm"><td class="k"><span class="ic"><svg viewBox="0 0 44 46"><ellipse cx="22" cy="8" rx="19" ry="6" fill="none" stroke="#e29433" stroke-width="3.2"/><path d="M3 8 V38 C3 41.5 11.5 44 22 44 C32.5 44 41 41.5 41 38 V8" fill="none" stroke="#e29433" stroke-width="3.2"/><path d="M3 18 C3 21.5 11.5 24 22 24 C32.5 24 41 21.5 41 18" fill="none" stroke="#e29433" stroke-width="3.2"/><path d="M3 28 C3 31.5 11.5 34 22 34 C32.5 34 41 31.5 41 28" fill="none" stroke="#e29433" stroke-width="3.2"/></svg></span>قاعدة البيانات</td>
+        <td>طبقة <b>تحفظ البيانات وتوفّرها عند الحاجة</b>، وقد تشمل قواعد بيانات أو تخزين ملفات وكائنات أو ذاكرة مخبأة أو خدمات بيانات خارجية.</td>
+        <td><ul><li>معلومات المنتجات</li><li>معلومات المستخدمين</li><li>سجل الطلبات</li></ul></td></tr>
+    </tbody>
+  </table>
+  <div class="icap">نموذج مبسط للعرض والمعالجة والبيانات، وطبقة البيانات هي التي تخزّن السجلات وتوفرها.</div>
+</div>
+<!-- ===== القسم 3: رحلة الطلب والنتيجة ===== -->
+<div class="part p2"><span>الجزء الثاني</span></div>
+<div class="ctitle kwn"><h2><span class="num">3</span> · رحلة الطلب والنتيجة</h2><div class="st">تدفق تعاون الطبقات الثلاث</div></div>
+<div class="quote q2"><span class="qmark">”</span>في كثير من تطبيقات الويب، تعمل الأجزاء معًا لاستقبال <b>طلب المستخدم ومعالجته ثم عرض النتيجة</b>.<br><span class="exl">مثال:</span> <b>البحث عن منتج في متجر إلكتروني.</b></div>
+<div class="panel kwn"><div class="ph">المسار العام للطلب<span class="fx">للفهم</span></div><div class="pbody path3"><div style="grid-area:1/1" class="pc b"><svg viewBox="0 0 24 24"><circle cx="12" cy="7.2" r="4.6" fill="#2e4a78"/><path d="M3.2 21.5c0-5 3.9-8.4 8.8-8.4s8.8 3.4 8.8 8.4z" fill="#2e4a78"/></svg><span class="tt"><b>المستخدم</b><small>يبحث عن منتج</small></span></div><span class="ar" style="grid-area:1/2">←</span><div style="grid-area:1/3" class="pc b"><svg viewBox="0 0 28 22"><rect x="1.2" y="1.2" width="25.6" height="19.6" rx="2.6" fill="#fff" stroke="#2e4a78" stroke-width="1.9"/><path d="M1.2 3.8a2.6 2.6 0 0 1 2.6-2.6h20.4a2.6 2.6 0 0 1 2.6 2.6V7H1.2z" fill="#2e4a78"/><circle cx="4.8" cy="4.2" r=".9" fill="#fff"/><circle cx="7.4" cy="4.2" r=".9" fill="#fff"/><circle cx="10" cy="4.2" r=".9" fill="#fff"/></svg><span class="tt"><b>الواجهة الأمامية</b><small>تستقبل الطلب</small></span></div><span class="ar" style="grid-area:1/4">←</span><div style="grid-area:1/5" class="pc o"><svg viewBox="0 0 26 24"><rect x="1" y="2" width="20" height="9" rx="2" fill="#e29433"/><rect x="1" y="12.8" width="20" height="9" rx="2" fill="#e29433"/><circle cx="5" cy="6.5" r="1.1" fill="#fff"/><circle cx="5" cy="17.3" r="1.1" fill="#fff"/><circle cx="8.2" cy="6.5" r="1.1" fill="#fff"/><circle cx="8.2" cy="17.3" r="1.1" fill="#fff"/><line x1="11.5" y1="6.5" x2="17.5" y2="6.5" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/><line x1="11.5" y1="17.3" x2="17.5" y2="17.3" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/></svg><span class="tt"><b>الواجهة الخلفية</b><small>تعالج الطلب</small></span></div><span class="pdown" style="grid-area:2/5">↓</span><div style="grid-area:3/5" class="pc p"><svg viewBox="0 0 24 26"><path d="M3 5v15.5c0 1.9 4 3.5 9 3.5s9-1.6 9-3.5V5z" fill="#2e4a78"/><ellipse cx="12" cy="5" rx="9" ry="3.4" fill="#6f86a8" opacity=".75"/><path d="M3 11c0 1.9 4 3.5 9 3.5s9-1.6 9-3.5M3 16.2c0 1.9 4 3.5 9 3.5s9-1.6 9-3.5" fill="none" stroke="#fff" stroke-width="1.3"/></svg><span class="tt"><b>طبقة البيانات</b><small>تبحث في البيانات</small></span></div><span class="ar" style="grid-area:3/4">→</span><div style="grid-area:3/3" class="pc o"><svg viewBox="0 0 26 24"><rect x="1" y="2" width="20" height="9" rx="2" fill="#e29433"/><rect x="1" y="12.8" width="20" height="9" rx="2" fill="#e29433"/><circle cx="5" cy="6.5" r="1.1" fill="#fff"/><circle cx="5" cy="17.3" r="1.1" fill="#fff"/><circle cx="8.2" cy="6.5" r="1.1" fill="#fff"/><circle cx="8.2" cy="17.3" r="1.1" fill="#fff"/><line x1="11.5" y1="6.5" x2="17.5" y2="6.5" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/><line x1="11.5" y1="17.3" x2="17.5" y2="17.3" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/></svg><span class="tt"><b>الواجهة الخلفية</b><small>تجهز الاستجابة</small></span></div><span class="ar" style="grid-area:3/2">→</span><div style="grid-area:3/1" class="pc b"><svg viewBox="0 0 28 22"><rect x="1.2" y="1.2" width="25.6" height="19.6" rx="2.6" fill="#fff" stroke="#2e4a78" stroke-width="1.9"/><path d="M1.2 3.8a2.6 2.6 0 0 1 2.6-2.6h20.4a2.6 2.6 0 0 1 2.6 2.6V7H1.2z" fill="#2e4a78"/><circle cx="4.8" cy="4.2" r=".9" fill="#fff"/><circle cx="7.4" cy="4.2" r=".9" fill="#fff"/><circle cx="10" cy="4.2" r=".9" fill="#fff"/></svg><span class="tt"><b>الواجهة الأمامية</b><small>تعرض النتيجة</small></span></div><span class="pdown" style="grid-area:4/1">↓</span><div style="grid-area:5/1" class="pc g"><svg viewBox="0 0 24 24"><path d="M5 2.5h9.5l4.5 4.5v14.5H5z" fill="#fff" stroke="#2e4a78" stroke-width="1.7" stroke-linejoin="round"/><line x1="8" y1="9" x2="14" y2="9" stroke="#2e4a78" stroke-width="1.6" stroke-linecap="round"/><line x1="8" y1="12.5" x2="15" y2="12.5" stroke="#2e4a78" stroke-width="1.6" stroke-linecap="round"/><line x1="8" y1="16" x2="12" y2="16" stroke="#2e4a78" stroke-width="1.6" stroke-linecap="round"/><circle cx="17.5" cy="17.5" r="5" fill="#2e4a78"/><path d="M15.2 17.6l1.6 1.6 3-3.2" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tt"><b>النتيجة</b><small>تظهر للمستخدم</small></span></div></div></div>
+<div class="icap">ينتقل الطلب عبر الطبقات وتعود الاستجابة بعد ذلك.</div>
+<div class="panel"><div class="ph">خطوات الرحلة بالتفصيل</div><div class="pbody steps2">
+<div class="stp cool"><span class="n">1</span><div class="tx"><h4>الأمامية تستقبل</h4><p>تستقبل <b>الواجهة الأمامية</b> كلمات البحث التي أدخلها المستخدم.</p></div><span class="ic"><svg viewBox="0 0 28 22"><rect x="1.2" y="1.2" width="25.6" height="19.6" rx="2.6" fill="#fff" stroke="#2e4a78" stroke-width="1.9"/><path d="M1.2 3.8a2.6 2.6 0 0 1 2.6-2.6h20.4a2.6 2.6 0 0 1 2.6 2.6V7H1.2z" fill="#2e4a78"/><circle cx="4.8" cy="4.2" r=".9" fill="#fff"/><circle cx="7.4" cy="4.2" r=".9" fill="#fff"/><circle cx="10" cy="4.2" r=".9" fill="#fff"/><circle cx="14" cy="13.2" r="3.4" fill="none" stroke="#2e4a78" stroke-width="1.8"/><line x1="16.5" y1="15.7" x2="19.2" y2="18.4" stroke="#2e4a78" stroke-width="1.9" stroke-linecap="round"/></svg></span></div>
+<div class="stp warm"><span class="n">2</span><div class="tx"><h4>الأمامية ترسل</h4><p>ترسل <b>الواجهة الأمامية</b> كلمات البحث إلى <b>الواجهة الخلفية</b>.</p></div><span class="ic"><svg viewBox="0 0 28 22"><rect x="1.2" y="1.2" width="25.6" height="19.6" rx="2.6" fill="#fff" stroke="#2e4a78" stroke-width="1.9"/><path d="M1.2 3.8a2.6 2.6 0 0 1 2.6-2.6h20.4a2.6 2.6 0 0 1 2.6 2.6V7H1.2z" fill="#2e4a78"/><circle cx="4.8" cy="4.2" r=".9" fill="#fff"/><circle cx="7.4" cy="4.2" r=".9" fill="#fff"/><circle cx="10" cy="4.2" r=".9" fill="#fff"/><path d="M21 13.5H10.5" stroke="#e29433" stroke-width="2.4" stroke-linecap="round"/><path d="M13.6 10.2 10 13.5l3.6 3.3" fill="none" stroke="#e29433" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+<div class="stp cool"><span class="n">3</span><div class="tx"><h4>الخلفية تطلب البيانات</h4><p>تطلب <b>الواجهة الخلفية</b> من <b>طبقة البيانات</b> المنتجات التي تطابق عبارة البحث.</p></div><span class="ic"><svg viewBox="0 0 26 24"><rect x="1" y="2" width="20" height="9" rx="2" fill="#e29433"/><rect x="1" y="12.8" width="20" height="9" rx="2" fill="#e29433"/><circle cx="5" cy="6.5" r="1.1" fill="#fff"/><circle cx="5" cy="17.3" r="1.1" fill="#fff"/><circle cx="8.2" cy="6.5" r="1.1" fill="#fff"/><circle cx="8.2" cy="17.3" r="1.1" fill="#fff"/><line x1="11.5" y1="6.5" x2="17.5" y2="6.5" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/><line x1="11.5" y1="17.3" x2="17.5" y2="17.3" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/><g transform="translate(19 17)"><rect x="-1.25" y="-6.2" width="2.5" height="3" rx=".6" fill="#2e4a78" transform="rotate(0)"/><rect x="-1.25" y="-6.2" width="2.5" height="3" rx=".6" fill="#2e4a78" transform="rotate(45)"/><rect x="-1.25" y="-6.2" width="2.5" height="3" rx=".6" fill="#2e4a78" transform="rotate(90)"/><rect x="-1.25" y="-6.2" width="2.5" height="3" rx=".6" fill="#2e4a78" transform="rotate(135)"/><rect x="-1.25" y="-6.2" width="2.5" height="3" rx=".6" fill="#2e4a78" transform="rotate(180)"/><rect x="-1.25" y="-6.2" width="2.5" height="3" rx=".6" fill="#2e4a78" transform="rotate(225)"/><rect x="-1.25" y="-6.2" width="2.5" height="3" rx=".6" fill="#2e4a78" transform="rotate(270)"/><rect x="-1.25" y="-6.2" width="2.5" height="3" rx=".6" fill="#2e4a78" transform="rotate(315)"/><circle r="4.6" fill="#2e4a78"/><circle r="1.9" fill="#fff"/></g></svg></span></div>
+<div class="stp warm"><span class="n">4</span><div class="tx"><h4>البيانات ترجع النتائج</h4><p>تعيد <b>طبقة البيانات</b> النتائج المطلوبة إلى <b>الواجهة الخلفية</b>.</p></div><span class="ic"><span class="dbret"><svg viewBox="0 0 18 10"><line x1="1" y1="5.0" x2="12" y2="5.0" stroke="#2e4a78" stroke-width="1.8"/><path d="M11 1.6 17 5.0 11 8.4z" fill="#2e4a78"/></svg><svg viewBox="0 0 24 26"><path d="M3 5v15.5c0 1.9 4 3.5 9 3.5s9-1.6 9-3.5V5z" fill="#2e4a78"/><ellipse cx="12" cy="5" rx="9" ry="3.4" fill="#6f86a8" opacity=".75"/><path d="M3 11c0 1.9 4 3.5 9 3.5s9-1.6 9-3.5M3 16.2c0 1.9 4 3.5 9 3.5s9-1.6 9-3.5" fill="none" stroke="#fff" stroke-width="1.3"/></svg></span></span></div>
+<div class="stp cool"><span class="n">5</span><div class="tx"><h4>الخلفية تجهّز الاستجابة</h4><p>تجهّز <b>الواجهة الخلفية</b> النتائج لإرسالها إلى <b>الواجهة الأمامية</b>.</p></div><span class="ic"><svg viewBox="0 0 26 24"><rect x="1" y="2" width="20" height="9" rx="2" fill="#e29433"/><rect x="1" y="12.8" width="20" height="9" rx="2" fill="#e29433"/><circle cx="5" cy="6.5" r="1.1" fill="#fff"/><circle cx="5" cy="17.3" r="1.1" fill="#fff"/><circle cx="8.2" cy="6.5" r="1.1" fill="#fff"/><circle cx="8.2" cy="17.3" r="1.1" fill="#fff"/><line x1="11.5" y1="6.5" x2="17.5" y2="6.5" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/><line x1="11.5" y1="17.3" x2="17.5" y2="17.3" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/><g transform="translate(19 17)"><rect x="-1.25" y="-6.2" width="2.5" height="3" rx=".6" fill="#2e4a78" transform="rotate(0)"/><rect x="-1.25" y="-6.2" width="2.5" height="3" rx=".6" fill="#2e4a78" transform="rotate(45)"/><rect x="-1.25" y="-6.2" width="2.5" height="3" rx=".6" fill="#2e4a78" transform="rotate(90)"/><rect x="-1.25" y="-6.2" width="2.5" height="3" rx=".6" fill="#2e4a78" transform="rotate(135)"/><rect x="-1.25" y="-6.2" width="2.5" height="3" rx=".6" fill="#2e4a78" transform="rotate(180)"/><rect x="-1.25" y="-6.2" width="2.5" height="3" rx=".6" fill="#2e4a78" transform="rotate(225)"/><rect x="-1.25" y="-6.2" width="2.5" height="3" rx=".6" fill="#2e4a78" transform="rotate(270)"/><rect x="-1.25" y="-6.2" width="2.5" height="3" rx=".6" fill="#2e4a78" transform="rotate(315)"/><circle r="4.6" fill="#2e4a78"/><circle r="1.9" fill="#fff"/></g></svg></span></div>
+<div class="stp warm"><span class="n">6</span><div class="tx"><h4>الأمامية تعرض</h4><p>تعرض <b>الواجهة الأمامية</b> نتائج البحث على شاشة المستخدم.</p></div><span class="ic"><svg viewBox="0 0 28 22"><rect x="1.2" y="1.2" width="25.6" height="19.6" rx="2.6" fill="#fff" stroke="#2e4a78" stroke-width="1.9"/><path d="M1.2 3.8a2.6 2.6 0 0 1 2.6-2.6h20.4a2.6 2.6 0 0 1 2.6 2.6V7H1.2z" fill="#2e4a78"/><circle cx="4.8" cy="4.2" r=".9" fill="#fff"/><circle cx="7.4" cy="4.2" r=".9" fill="#fff"/><circle cx="10" cy="4.2" r=".9" fill="#fff"/><line x1="6" y1="11" x2="22" y2="11" stroke="#2e4a78" stroke-width="1.5" stroke-linecap="round"/><line x1="6" y1="14.2" x2="22" y2="14.2" stroke="#2e4a78" stroke-width="1.5" stroke-linecap="round"/><line x1="6" y1="17.4" x2="17" y2="17.4" stroke="#2e4a78" stroke-width="1.5" stroke-linecap="round"/></svg></span></div>
+</div></div>
+<div class="info green"><span class="fx abs">للفهم</span><span class="lab"><svg viewBox="0 0 24 24" fill="none" stroke="#e29433" stroke-width="1.7" stroke-linecap="round"><path d="M8.2 14.5a5.6 5.6 0 1 1 7.6 0c-.9.8-1.3 1.6-1.3 2.6h-5c0-1-.4-1.8-1.3-2.6z" fill="#fde2b8"/><line x1="9.6" y1="19.6" x2="14.4" y2="19.6"/><line x1="10.4" y1="22" x2="13.6" y2="22"/><line x1="12" y1="1" x2="12" y2="2.6"/><line x1="3.2" y1="4.6" x2="4.4" y2="5.8"/><line x1="20.8" y1="4.6" x2="19.6" y2="5.8"/><line x1="1" y1="11" x2="2.6" y2="11"/><line x1="21.4" y1="11" x2="23" y2="11"/></svg>معلومة مهمة</span><p>تعمل الطبقات الثلاث معًا بشكل متكامل، وكل طبقة لديها دور محدد، وعند تعاونها نحصل على تجربة استخدام سلسة وفعّالة.</p></div>
+<!-- ===== كيفية تعاون الطبقات الثلاث ===== -->
+<div class="tbar kwn"><h2>كيفية تعاون الطبقات الثلاث</h2></div>
+<div class="sqsub kwn"><span class="st">مثال: البحث عن منتج في موقع تسوق</span><div class="legend"><span><svg viewBox="0 0 26 8"><line x1="25" y1="4.0" x2="6" y2="4.0" stroke="#2e4a78" stroke-width="1.8"/><path d="M7 0.6000000000000001 1 4.0 7 7.4z" fill="#2e4a78"/></svg>طلب</span><span><svg viewBox="0 0 26 8"><line x1="1" y1="4.0" x2="20" y2="4.0" stroke="#e29433" stroke-width="1.8" stroke-dasharray="3 2.4"/><path d="M19 0.6000000000000001 25 4.0 19 7.4z" fill="#e29433"/></svg>بيانات عائدة</span></div></div>
+<div class="sq kwn"><div class="hd" style="left:15pt">قاعدة البيانات</div><div class="hd" style="left:145pt">الواجهة الخلفية</div><div class="hd" style="left:275pt">الواجهة الأمامية</div><div class="hd u" style="left:407pt">المستخدم</div><svg class="lines" viewBox="0 0 532 264"><line x1="70" y1="28" x2="70" y2="258" stroke="#6f86a8" stroke-width="1.1" stroke-dasharray="4 3"/><line x1="200" y1="28" x2="200" y2="258" stroke="#6f86a8" stroke-width="1.1" stroke-dasharray="4 3"/><line x1="330" y1="28" x2="330" y2="258" stroke="#6f86a8" stroke-width="1.1" stroke-dasharray="4 3"/><line x1="462" y1="28" x2="462" y2="258" stroke="#6f86a8" stroke-width="1.1" stroke-dasharray="4 3"/><rect x="326" y="54" width="8" height="196" fill="#f5f7fb" stroke="#2e4a78" stroke-width="1"/><rect x="196" y="90" width="8" height="124" fill="#f5f7fb" stroke="#2e4a78" stroke-width="1"/><rect x="66" y="126" width="8" height="52" fill="#f5f7fb" stroke="#2e4a78" stroke-width="1"/><line x1="462" y1="62" x2="339" y2="62" stroke="#2e4a78" stroke-width="1.6"/><path d="M341 58.4 334 62 341 65.6z" fill="#2e4a78"/><line x1="326" y1="98" x2="209" y2="98" stroke="#2e4a78" stroke-width="1.6"/><path d="M211 94.4 204 98 211 101.6z" fill="#2e4a78"/><line x1="196" y1="134" x2="79" y2="134" stroke="#2e4a78" stroke-width="1.6"/><path d="M81 130.4 74 134 81 137.6z" fill="#2e4a78"/><line x1="74" y1="170" x2="191" y2="170" stroke="#e29433" stroke-width="1.6" stroke-dasharray="4 3"/><path d="M189 166.4 196 170 189 173.6z" fill="#e29433"/><line x1="204" y1="206" x2="321" y2="206" stroke="#e29433" stroke-width="1.6" stroke-dasharray="4 3"/><path d="M319 202.4 326 206 319 209.6z" fill="#e29433"/><line x1="334" y1="242" x2="457" y2="242" stroke="#e29433" stroke-width="1.6" stroke-dasharray="4 3"/><path d="M455 238.4 462 242 455 245.6z" fill="#e29433"/></svg><span class="nb r" style="left:450pt;top:62pt">1</span><span class="lb" style="left:404.0pt;top:47pt">إدخال كلمة البحث</span><span class="nb r" style="left:314pt;top:98pt">2</span><span class="lb" style="left:271.0pt;top:72pt">إرسال الكلمة المفتاحية<br>إلى الواجهة الخلفية</span><span class="nb r" style="left:184pt;top:134pt">3</span><span class="lb" style="left:141.0pt;top:108pt">البحث عن المنتجات<br>المطابقة</span><span class="nb o" style="left:86pt;top:170pt">4</span><span class="lb" style="left:129.0pt;top:155pt">إعادة بيانات المنتج</span><span class="nb o" style="left:216pt;top:206pt">5</span><span class="lb" style="left:259.0pt;top:180pt">إرسال النتائج<br>إلى الواجهة الأمامية</span><span class="nb o" style="left:346pt;top:242pt">6</span><span class="lb" style="left:392.0pt;top:227pt">عرض النتائج</span></div>
+<div class="icap">كيف تعمل الطبقات الثلاث معًا</div>
+<div class="info gray"><span class="lab">فهم</span><p>يوضح هذا النموذج بشكل مبسّط كيفية تعاون أجزاء تطبيق الويب فيما بينها، وهو نموذج تعليمي يساعد على فهم تدفق البيانات بين الطبقات الثلاث.</p></div>
+<!-- ===== مثال من حياتنا (الصورة 3) ===== -->
+<div class="ex3">
+  <span class="fk"><svg viewBox="0 0 30 40"><g fill="#dde5ef"><rect x="4" y="2" width="2.2" height="12" rx="1.1"/><rect x="8.4" y="2" width="2.2" height="12" rx="1.1"/><rect x="12.8" y="2" width="2.2" height="12" rx="1.1"/><path d="M4 12h11v2.5a5.5 5.5 0 0 1-3.6 5.2V37a2 2 0 0 1-3.8 0V19.7A5.5 5.5 0 0 1 4 14.5z"/><path d="M22 2c3.8 2.5 5.5 8 5.5 14 0 2.4-1.2 4-2.8 4.5V37a2 2 0 0 1-3.8 0V3.5A1.4 1.4 0 0 1 22 2z"/></g></svg></span>
+  <div class="e3h"><h3>مثال من حياتنا<span class="fx">للفهم</span></h3></div>
+  <p class="e3s">لنأخذ مثال تطبيق توصيل الطعام، حيث تبحث عن مطعم معيّن.</p>
+  <div class="e3g"><div class="p3col">
+  <div class="phone p3"><div class="scr">
+    <div class="hero"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#e8a24a"/><circle cx="12" cy="12" r="8.6" fill="#f6c453"/><circle cx="8.5" cy="9" r="1.7" fill="#c0392b"/><circle cx="15" cy="8.2" r="1.7" fill="#c0392b"/><circle cx="14.6" cy="14.8" r="1.7" fill="#c0392b"/><circle cx="8.8" cy="15" r="1.7" fill="#c0392b"/><circle cx="12" cy="11.8" r="1" fill="#3f7d3a"/></svg></div>
+    <div class="ms"><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="2.6" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6"/><line x1="15" y1="15" x2="20.5" y2="20.5"/></svg></span><span class="q">بيتزا</span></div>
+    <div class="ri"><span class="th"><svg viewBox="0 0 24 24"><path d="M2.5 11h19a9.5 8.5 0 0 1-19 0z" fill="#b8753a"/><circle cx="7" cy="9.5" r="3.2" fill="#6ab04c"/><circle cx="12" cy="8" r="3.4" fill="#4c9a3a"/><circle cx="17" cy="9.5" r="3.2" fill="#6ab04c"/><circle cx="9.5" cy="8.8" r="1.4" fill="#e74c3c"/><circle cx="15" cy="8.6" r="1.3" fill="#f5c542"/></svg></span><span class="bars"><i></i><i></i></span></div><div class="ri"><span class="th"><svg viewBox="0 0 26 24"><path d="M3 10.5a10 7.5 0 0 1 20 0z" fill="#e29433"/><circle cx="9" cy="6.8" r=".8" fill="#fff"/><circle cx="13" cy="5.2" r=".8" fill="#fff"/><circle cx="17" cy="7" r=".8" fill="#fff"/><rect x="2.2" y="11.3" width="21.6" height="2.4" rx="1.2" fill="#4caf50"/><rect x="2.8" y="14" width="20.4" height="3.2" rx="1.4" fill="#8d4a1d"/><path d="M3 18h20v1.2a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3z" fill="#e29433"/></svg></span><span class="bars"><i></i><i></i></span></div>
+  </div></div>
+  <div class="ucard2"><span class="n1">1</span><b>كتبت اسم مطعم<br>وضغطت بحث</b></div>
+</div><div class="garr"><svg viewBox="0 0 18 12"><path d="M17 6H7" stroke="#2e4a78" stroke-width="3" stroke-linecap="round"/><path d="M8.5 1 1.5 6l7 5z" fill="#2e4a78"/></svg></div><div class="e3c"><h5>الواجهة الأمامية</h5><div class="ico"><svg viewBox="0 0 28 22"><rect x="1.2" y="1.2" width="25.6" height="19.6" rx="2.6" fill="#fff" stroke="#2e4a78" stroke-width="1.9"/><path d="M1.2 3.8a2.6 2.6 0 0 1 2.6-2.6h20.4a2.6 2.6 0 0 1 2.6 2.6V7H1.2z" fill="#2e4a78"/><circle cx="4.8" cy="4.2" r=".9" fill="#fff"/><circle cx="7.4" cy="4.2" r=".9" fill="#fff"/><circle cx="10" cy="4.2" r=".9" fill="#fff"/><circle cx="14" cy="13.2" r="3.4" fill="none" stroke="#2e4a78" stroke-width="1.8"/><line x1="16.5" y1="15.7" x2="19.2" y2="18.4" stroke="#2e4a78" stroke-width="1.9" stroke-linecap="round"/></svg></div><p>تعرض الشاشة ومربع البحث وتستقبل ما تكتبه.</p></div><div class="garr"><svg viewBox="0 0 18 12"><path d="M17 6H7" stroke="#2e4a78" stroke-width="3" stroke-linecap="round"/><path d="M8.5 1 1.5 6l7 5z" fill="#2e4a78"/></svg></div><div class="e3c"><h5>الواجهة الخلفية</h5><div class="ico"><svg viewBox="0 0 24 25"><rect x="1.5" y="2" width="21" height="6" rx="1.6" fill="#22375c"/><line x1="5" y1="5" x2="12" y2="5" stroke="#aebdd0" stroke-width="1.2" stroke-linecap="round"/><circle cx="18.5" cy="5" r=".9" fill="#e29433"/><rect x="1.5" y="9.5" width="21" height="6" rx="1.6" fill="#22375c"/><line x1="5" y1="12.5" x2="12" y2="12.5" stroke="#aebdd0" stroke-width="1.2" stroke-linecap="round"/><circle cx="18.5" cy="12.5" r=".9" fill="#e29433"/><rect x="1.5" y="17" width="21" height="6" rx="1.6" fill="#22375c"/><line x1="5" y1="20" x2="12" y2="20" stroke="#aebdd0" stroke-width="1.2" stroke-linecap="round"/><circle cx="18.5" cy="20" r=".9" fill="#e29433"/></svg></div><p>تستقبل الطلب وتطبق قواعد التطبيق، مثل مطابقة البحث والتأكد من حالة المطعم.</p></div><div class="garr"><svg viewBox="0 0 18 12"><path d="M17 6H7" stroke="#2e4a78" stroke-width="3" stroke-linecap="round"/><path d="M8.5 1 1.5 6l7 5z" fill="#2e4a78"/></svg></div><div class="e3c"><h5>قاعدة البيانات</h5><div class="ico"><svg viewBox="0 0 24 26"><path d="M3 5v15.5c0 1.9 4 3.5 9 3.5s9-1.6 9-3.5V5z" fill="#2e4a78"/><ellipse cx="12" cy="5" rx="9" ry="3.4" fill="#6f86a8" opacity=".75"/><path d="M3 11c0 1.9 4 3.5 9 3.5s9-1.6 9-3.5M3 16.2c0 1.9 4 3.5 9 3.5s9-1.6 9-3.5" fill="none" stroke="#fff" stroke-width="1.3"/></svg></div><p>توفر معلومات المطاعم والمنيو والطلبات السابقة.</p></div></div>
+  <div class="e3r"><svg class="rp" viewBox="0 0 513.2 24"><path d="M60.2 0 V10 H189 V6 M208 0 V10 H337 V6" fill="none" stroke="#2e4a78" stroke-width="1.8" stroke-linejoin="round"/><path d="M185 7 189 .5 193 7z" fill="#2e4a78"/><path d="M333 7 337 .5 341 7z" fill="#2e4a78"/></svg><span class="rl"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="7.5" fill="#2e4a78"/><path d="M4.6 8.2l2.3 2.3 4.4-4.6" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>ترجع البيانات للواجهة الخلفية، ومنها للواجهة الأمامية فتظهر لك نتائج البحث.</span></div>
+  <div class="e3p"><div class="pt"><svg viewBox="0 0 24 22"><path d="M12 1.8 23 20.5H1z" fill="#fff" stroke="#a9670f" stroke-width="2" stroke-linejoin="round"/><line x1="12" y1="8" x2="12" y2="14" stroke="#a9670f" stroke-width="2.3" stroke-linecap="round"/><circle cx="12" cy="17.2" r="1.3" fill="#a9670f"/></svg><b>لو حصلت مشكلة؟</b></div>
+    <ul><li>إذا ظلت الشاشة تُحمّل، فقد تكون الواجهة الأمامية بانتظار الرد.</li><li>إذا ظهرت نتيجة غير دقيقة، فقد تكون المشكلة في البيانات أو المعالجة.</li></ul></div>
+  <div class="e3t"><svg viewBox="0 0 24 24" fill="none" stroke="#2e4a78" stroke-width="1.7" stroke-linecap="round"><path d="M8.2 14.5a5.6 5.6 0 1 1 7.6 0c-.9.8-1.3 1.6-1.3 2.6h-5c0-1-.4-1.8-1.3-2.6z" fill="#fde2b8"/><line x1="9.6" y1="19.6" x2="14.4" y2="19.6"/><line x1="10.4" y1="22" x2="13.6" y2="22"/><line x1="12" y1="1" x2="12" y2="2.6"/><line x1="3.2" y1="4.6" x2="4.4" y2="5.8"/><line x1="20.8" y1="4.6" x2="19.6" y2="5.8"/><line x1="1" y1="11" x2="2.6" y2="11"/><line x1="21.4" y1="11" x2="23" y2="11"/></svg><p>ده نموذج مبسّط للفهم، وفي التطبيقات الحقيقية قد تنقسم الأجزاء أكثر أو تتوزع على خدمات متعددة.</p></div>
+</div>
+<!-- ===== القسم 4: إعدادات تطبيقات الويب المألوفة ===== -->
+<div class="part p3"><span>الجزء الثالث</span></div>
+<div class="tbar kwn"><h2><span class="num">4</span> · إعدادات تطبيقات الويب المألوفة</h2></div>
+<div class="warn kwn"><span class="ex">!</span><p>يمكن تطبيق هذا <b>النموذج المبسط</b> على كثير من تطبيقات الويب لفهم توزيع <b>المهام</b>، مع أن البنية الفعلية قد تختلف.</p></div>
+<div class="svc"><div class="nm"><span class="ci"><svg viewBox="0 0 26 22"><rect x="1.5" y="1.5" width="23" height="16" rx="2.4" fill="none" stroke="#17263f" stroke-width="1.9"/><path d="M11 6.2v6.6l5.4-3.3z" fill="#2e4a78"/><line x1="8" y1="20.5" x2="18" y2="20.5" stroke="#17263f" stroke-width="1.9" stroke-linecap="round"/></svg></span><h4>موقع مشاركة الفيديو</h4></div><div class="col f"><div class="ch"><svg viewBox="0 0 28 22"><rect x="1.2" y="1.2" width="25.6" height="19.6" rx="2.6" fill="#fff" stroke="#17263f" stroke-width="1.9"/><path d="M1.2 3.8a2.6 2.6 0 0 1 2.6-2.6h20.4a2.6 2.6 0 0 1 2.6 2.6V7H1.2z" fill="#17263f"/><circle cx="4.8" cy="4.2" r=".9" fill="#fff"/><circle cx="7.4" cy="4.2" r=".9" fill="#fff"/><circle cx="10" cy="4.2" r=".9" fill="#fff"/></svg><div><b>الواجهة الأمامية</b><small>العرض والتفاعل</small></div></div><ul><li>عرض شاشات تشغيل الفيديو والبحث.</li><li>استقبال إجراءات المستخدم.</li></ul></div><div class="col b"><div class="ch"><svg viewBox="0 0 24 24"><rect x="2.5" y="2.5" width="19" height="8.5" rx="2.4" fill="none" stroke="#e29433" stroke-width="1.8"/><rect x="2.5" y="13" width="19" height="8.5" rx="2.4" fill="none" stroke="#e29433" stroke-width="1.8"/><line x1="14" y1="6.75" x2="18" y2="6.75" stroke="#e29433" stroke-width="1.8" stroke-linecap="round"/><line x1="14" y1="17.25" x2="18" y2="17.25" stroke="#e29433" stroke-width="1.8" stroke-linecap="round"/></svg><div><b>الواجهة الخلفية</b><small>المعالجة والتحكم</small></div></div><ul><li>اختيار الفيديوهات الموصى بها.</li><li>تجميع عدد المشاهدات.</li></ul></div><div class="col d"><div class="ch"><svg viewBox="0 0 24 26"><ellipse cx="12" cy="5" rx="8.6" ry="3.2" fill="none" stroke="#17263f" stroke-width="1.7"/><path d="M3.4 5v15.6c0 1.8 3.9 3.3 8.6 3.3s8.6-1.5 8.6-3.3V5M3.4 10.3c0 1.8 3.9 3.3 8.6 3.3s8.6-1.5 8.6-3.3M3.4 15.5c0 1.8 3.9 3.3 8.6 3.3s8.6-1.5 8.6-3.3" fill="none" stroke="#17263f" stroke-width="1.7"/></svg><div><b>قاعدة البيانات</b><small>التخزين والإدارة</small></div></div><ul><li>تخزين بيانات الفيديو.</li><li>معلومات المستخدمين.</li><li>سجل المشاهدة.</li></ul></div></div>
+<div class="svc"><div class="nm"><span class="ci"><svg viewBox="0 0 28 22" fill="none" stroke="#17263f" stroke-width="1.8" stroke-linecap="round"><circle cx="14" cy="6" r="3.6"/><path d="M7.5 20c0-4 2.9-6.6 6.5-6.6s6.5 2.6 6.5 6.6"/><circle cx="6" cy="8" r="2.7"/><path d="M1.5 18.5c0-3 1.9-5 4.5-5"/><circle cx="22" cy="8" r="2.7"/><path d="M26.5 18.5c0-3-1.9-5-4.5-5"/></svg></span><h4>شبكة التواصل الاجتماعي</h4></div><div class="col f"><div class="ch"><svg viewBox="0 0 28 22"><rect x="1.2" y="1.2" width="25.6" height="19.6" rx="2.6" fill="#fff" stroke="#17263f" stroke-width="1.9"/><path d="M1.2 3.8a2.6 2.6 0 0 1 2.6-2.6h20.4a2.6 2.6 0 0 1 2.6 2.6V7H1.2z" fill="#17263f"/><circle cx="4.8" cy="4.2" r=".9" fill="#fff"/><circle cx="7.4" cy="4.2" r=".9" fill="#fff"/><circle cx="10" cy="4.2" r=".9" fill="#fff"/></svg><div><b>الواجهة الأمامية</b><small>العرض والتفاعل</small></div></div><ul><li>عرض الخط الزمني وشاشات النشر.</li><li>استقبال وإرسال المحتوى المُدخل.</li></ul></div><div class="col b"><div class="ch"><svg viewBox="0 0 24 24"><rect x="2.5" y="2.5" width="19" height="8.5" rx="2.4" fill="none" stroke="#e29433" stroke-width="1.8"/><rect x="2.5" y="13" width="19" height="8.5" rx="2.4" fill="none" stroke="#e29433" stroke-width="1.8"/><line x1="14" y1="6.75" x2="18" y2="6.75" stroke="#e29433" stroke-width="1.8" stroke-linecap="round"/><line x1="14" y1="17.25" x2="18" y2="17.25" stroke="#e29433" stroke-width="1.8" stroke-linecap="round"/></svg><div><b>الواجهة الخلفية</b><small>المعالجة والتحكم</small></div></div><ul><li>تحديد الجمهور المستهدف للمنشورات.</li><li>التحكم في الإشعارات الفورية.</li></ul></div><div class="col d"><div class="ch"><svg viewBox="0 0 24 26"><ellipse cx="12" cy="5" rx="8.6" ry="3.2" fill="none" stroke="#17263f" stroke-width="1.7"/><path d="M3.4 5v15.6c0 1.8 3.9 3.3 8.6 3.3s8.6-1.5 8.6-3.3V5M3.4 10.3c0 1.8 3.9 3.3 8.6 3.3s8.6-1.5 8.6-3.3M3.4 15.5c0 1.8 3.9 3.3 8.6 3.3s8.6-1.5 8.6-3.3" fill="none" stroke="#17263f" stroke-width="1.7"/></svg><div><b>قاعدة البيانات</b><small>التخزين والإدارة</small></div></div><ul><li>تخزين بيانات المنشورات.</li><li>علاقات المتابعة.</li><li>الرسائل.</li></ul></div></div>
+<div class="svc"><div class="nm"><span class="ci"><svg viewBox="0 0 26 24" fill="none" stroke="#17263f" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h3.2l2.6 12.4h12.6L23 7H7"/><circle cx="10" cy="20" r="1.8"/><circle cx="18.5" cy="20" r="1.8"/></svg></span><h4>موقع تجارة إلكترونية</h4></div><div class="col f"><div class="ch"><svg viewBox="0 0 28 22"><rect x="1.2" y="1.2" width="25.6" height="19.6" rx="2.6" fill="#fff" stroke="#17263f" stroke-width="1.9"/><path d="M1.2 3.8a2.6 2.6 0 0 1 2.6-2.6h20.4a2.6 2.6 0 0 1 2.6 2.6V7H1.2z" fill="#17263f"/><circle cx="4.8" cy="4.2" r=".9" fill="#fff"/><circle cx="7.4" cy="4.2" r=".9" fill="#fff"/><circle cx="10" cy="4.2" r=".9" fill="#fff"/></svg><div><b>الواجهة الأمامية</b><small>العرض والتفاعل</small></div></div><ul><li>عرض قوائم المنتجات وشاشات سلة التسوق.</li><li>استقبال عمليات الطلب.</li></ul></div><div class="col b"><div class="ch"><svg viewBox="0 0 24 24"><rect x="2.5" y="2.5" width="19" height="8.5" rx="2.4" fill="none" stroke="#e29433" stroke-width="1.8"/><rect x="2.5" y="13" width="19" height="8.5" rx="2.4" fill="none" stroke="#e29433" stroke-width="1.8"/><line x1="14" y1="6.75" x2="18" y2="6.75" stroke="#e29433" stroke-width="1.8" stroke-linecap="round"/><line x1="14" y1="17.25" x2="18" y2="17.25" stroke="#e29433" stroke-width="1.8" stroke-linecap="round"/></svg><div><b>الواجهة الخلفية</b><small>المعالجة والتحكم</small></div></div><ul><li>التحقق من المخزون.</li><li>إرسال طلبات الدفع.</li><li>التعامل مع نتائجها.</li></ul></div><div class="col d"><div class="ch"><svg viewBox="0 0 24 26"><ellipse cx="12" cy="5" rx="8.6" ry="3.2" fill="none" stroke="#17263f" stroke-width="1.7"/><path d="M3.4 5v15.6c0 1.8 3.9 3.3 8.6 3.3s8.6-1.5 8.6-3.3V5M3.4 10.3c0 1.8 3.9 3.3 8.6 3.3s8.6-1.5 8.6-3.3M3.4 15.5c0 1.8 3.9 3.3 8.6 3.3s8.6-1.5 8.6-3.3" fill="none" stroke="#17263f" stroke-width="1.7"/></svg><div><b>قاعدة البيانات</b><small>التخزين والإدارة</small></div></div><ul><li>تخزين معلومات المنتجات.</li><li>سجل الطلبات.</li><li>معلومات العملاء.</li></ul></div></div>
+<div class="stop kwn"><div class="sh"><svg viewBox="0 0 24 24" fill="none" stroke="#e29433" stroke-width="1.7" stroke-linecap="round"><path d="M8.2 14.5a5.6 5.6 0 1 1 7.6 0c-.9.8-1.3 1.6-1.3 2.6h-5c0-1-.4-1.8-1.3-2.6z" fill="#fde2b8"/><line x1="9.6" y1="19.6" x2="14.4" y2="19.6"/><line x1="10.4" y1="22" x2="13.6" y2="22"/><line x1="12" y1="1" x2="12" y2="2.6"/><line x1="3.2" y1="4.6" x2="4.4" y2="5.8"/><line x1="20.8" y1="4.6" x2="19.6" y2="5.8"/><line x1="1" y1="11" x2="2.6" y2="11"/><line x1="21.4" y1="11" x2="23" y2="11"/></svg><b>توقّف وفكّر</b></div><p>في الجدول، تستخدم كل خدمة نفس الطبقات الثلاث — فما الذي يتغيّر من خدمة إلى أخرى؟</p></div>
+<div class="simply"><span class="fx abs">للفهم</span><span class="lab"><svg viewBox="0 0 24 24" fill="none" stroke="#e29433" stroke-width="1.7" stroke-linecap="round"><path d="M8.2 14.5a5.6 5.6 0 1 1 7.6 0c-.9.8-1.3 1.6-1.3 2.6h-5c0-1-.4-1.8-1.3-2.6z" fill="#fde2b8"/><line x1="9.6" y1="19.6" x2="14.4" y2="19.6"/><line x1="10.4" y1="22" x2="13.6" y2="22"/><line x1="12" y1="1" x2="12" y2="2.6"/><line x1="3.2" y1="4.6" x2="4.4" y2="5.8"/><line x1="20.8" y1="4.6" x2="19.6" y2="5.8"/><line x1="1" y1="11" x2="2.6" y2="11"/><line x1="21.4" y1="11" x2="23" y2="11"/></svg>ببساطة</span><p>الذي يختلف من خدمة إلى أخرى هو <b>نوع البيانات والعمليات</b> التي تقوم بها كل طبقة، بينما يبقى هذا العرض <b>نموذجًا مبسطًا</b> للتعلم وفهم الفكرة العامة.</p></div>
+<div class="kidea keep"><div class="kh">الفكرة الرئيسة</div><p><b>تُبنى تقريبًا كل خدمة عبر الإنترنت</b> – الفيديو، والتواصل الاجتماعي، والتسوق – <b>على نفس الطبقات الثلاث</b>: واجهة أمامية <b>تعرض وتجمع</b>، وواجهة خلفية <b>تقرر وتعالج</b>، وقاعدة بيانات <b>تخزن وتسترجع</b>.</p></div>
+<!-- ===== خلي بالك + سؤال الامتحان ===== -->
+<div class="box cream keep">
+  <h3>خلي بالك من العبارات دي</h3>
+  <ul>
+    <li>تطبيق الويب <b>«يُستخدم عادةً»</b> من خلال المتصفح، و<b>«قد يكون بعضه قابلًا للتثبيت»</b>.</li>
+    <li><b>«نموذج تعليمي مبسط»</b> — و<b>«قد تختلف البنية الفعلية من تطبيق إلى آخر»</b>.</li>
+    <li>طبقة البيانات <b>«قد تشمل»</b> قواعد بيانات أو تخزين ملفات وكائنات أو ذاكرة مخبأة أو خدمات بيانات خارجية.</li>
+    <li>في إجابة السؤال الرئيسي: <b>«هذا نموذج للتعلم وليس بنية إلزامية لكل تطبيق؛ فقد تختلف البنية وقد لا توجد قاعدة بيانات تقليدية أصلًا»</b>.</li>
+    <li>الواجهة الخلفية تعمل <b>على الخادم — لا على المتصفح</b>.</li>
+  </ul>
+</div>
+
+<div class="big">سؤال على نمط الامتحان — ونموذج إجابته</div>
+<hr class="rule">
+
+<div class="exam keep">
+  <div class="hd"><span class="n">1</span><span class="t">سؤال على نمط الامتحان</span><span class="m">[<span class="num">6</span> درجات]</span></div>
+  <div class="qt">اشرح كيف تتعاون الطبقات الثلاث لتطبيق الويب عندما ينشر المستخدم صورة على تطبيق تواصل اجتماعي.</div>
+  <div class="hint"><b>أشِر إلى:</b> دور <b>الواجهة الأمامية</b>، و<b>الواجهة الخلفية</b>، و<b>قاعدة البيانات</b>.</div>
+</div>
+
+<h3 class="sub">سؤال على نمط الامتحان — إجابة نموذجية</h3>
+
+<div class="box white keep">
+  <h3>نموذج إجابة مقترح لسؤال الـ<span class="num">6</span> درجات<span class="fx">للفهم</span></h3>
+  <ol>
+    <li><b>الواجهة الأمامية — تجمع:</b> تعرض <b>شاشة النشر</b> وتستقبل من المستخدم <b>الصورة والنص</b> اللي كتبهم، ثم <b>ترسلهم</b> إلى الواجهة الخلفية.</li>
+    <li><b>الواجهة الخلفية — تعالج وتطبّق القواعد:</b> تستقبل الطلب على <b>الخادم</b>، و<b>تطبّق قواعد التطبيق</b> — مثل <b>تحديد الجمهور المستهدف للمنشور</b> و<b>التحكم في الإشعارات الفورية</b>.</li>
+    <li><b>قاعدة البيانات — تخزن:</b> يُحفظ <b>المنشور والصورة وبياناتهما</b> في طبقة البيانات مع <b>معلومات صاحب المنشور</b> و<b>علاقات المتابعة</b> اللي هتحدد مين يشوفه.</li>
+    <li><b>الرجوع للعرض:</b> تعيد <b>قاعدة البيانات</b> ما هو مطلوب إلى <b>الخلفية</b>، فتجهّزه الخلفية، ثم <b>تعرضه الواجهة الأمامية</b> في الخط الزمني.</li>
+<li><b>الخلاصة: الأمامية تعرض وتجمع · الخلفية تقرر وتعالج · قاعدة البيانات تخزن وتسترجع</b> — والطبقات الثلاث معًا تحوّل <b>إجراء المستخدم إلى نتيجة</b>.</li>
+  </ol>
+  <div class="tip"><span class="l">ركّز:</span> التلميح طلب <b>الدور</b> بتاع كل طبقة — فالإجابة القوية بتسمّي <b>الطبقات التلاتة بالاسم</b> وتحطّ <b>فعل</b> لكل واحدة في سياق <b>نشر الصورة</b> نفسه، مش تعريف عام.</div>
+</div>
+<h2 class="sec"><span class="num"></span>إجابة السؤال الرئيسي</h2>
+
+<div class="mq">
+  <div class="lab">السؤال</div>
+  <div class="qq">كيف يُبنى تطبيق الويب، وكيف تعمل طبقاته الثلاث معًا للاستجابة لما يفعله المستخدم؟</div>
+</div>
+
+<div class="quote"><span class="qmark">”</span>يُستخدم تطبيق الويب <b>عادةً من خلال المتصفح</b>، ويمكن شرح كثير من التطبيقات بنموذج مبسط من <b>ثلاث طبقات</b>: <b>واجهة أمامية</b> تعرض المحتوى وتستقبل مدخلات المستخدم، و<b>واجهة خلفية</b> تعالج الطلبات وتطبق قواعد التطبيق، و<b>طبقة بيانات</b> تحفظ البيانات وتوفرها. <b>تنتقل الطلبات والنتائج بين هذه الأجزاء</b> لتنفيذ مهمة المستخدم. <b>وهذا نموذج للتعلم وليس بنية إلزامية لكل تطبيق؛ فقد تختلف البنية وقد لا توجد قاعدة بيانات تقليدية أصلًا</b>.</div>
+
+<div class="terms keep">
+  <div class="th"><h3>مصطلحات أساسية</h3></div>
+  <div class="t2"><div class="full"><b>تطبيق الويب</b> – تطبيق يُستخدم عادةً عبر متصفح الويب، وقد تتيح بعض تطبيقات الويب أيضًا إمكانية تثبيتها على الجهاز.</div></div>
+  <div class="t2 c3"><div><b>الواجهة الأمامية</b> – الشاشة التي يراها المستخدمون ويتفاعلون معها.</div><div><b>الواجهة الخلفية</b> – المعالجة الخفية من جانب الخادم.</div><div><b>قاعدة البيانات</b> – حيث تُخزَّن البيانات وتُدار.</div></div>
+  <div class="t2"><div class="full"><b>بنية الطبقات الثلاث</b> – الواجهة الأمامية + الواجهة الخلفية + قاعدة البيانات تتعاون معًا.</div></div>
+</div>
+<div class="dark keep">
+  <h3>الخلاصة في دقيقة</h3>
+  <p class="rem"><b>تذكّر:</b> الواجهة الأمامية تعرض وتجمع، والواجهة الخلفية تقرر وتعالج، وقاعدة البيانات تخزن وتسترجع – ثلاث طبقات متعاونة تجعل تطبيق الويب يعمل.</p>
+  <div class="g2">
+    <ul>
+      <li><b>تطبيق الويب:</b> يُستخدم <b>عادةً</b> عبر المتصفح، و<b>قد يكون بعضه قابلًا للتثبيت</b>.</li>
+      <li><b>الخلفية:</b> على <b>الخادم</b> — تعالج الطلبات وتطبّق قواعد التطبيق. <b>تقرر وتعالج.</b></li>
+      <li><b>التدفق:</b> الأمامية تستقبل <span class="arr">←</span> ترسل <span class="arr">←</span> الخلفية تطلب <span class="arr">←</span> البيانات تعيد <span class="arr">←</span> الخلفية تجهّز <span class="arr">←</span> الأمامية تعرض.</li>
+    </ul>
+    <ul>
+      <li><b>الأمامية:</b> في <b>المتصفح</b> — تعرض المحتوى وتستقبل المدخلات. <b>تعرض وتجمع.</b></li>
+      <li><b>قاعدة البيانات:</b> تحفظ البيانات وتوفرها عند الحاجة. <b>تخزن وتسترجع.</b></li>
+      <li><b>انتبه:</b> نموذج <b>للتعلم</b> — البنية الفعلية <b>قد تختلف</b>.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="check keep kwn">
+  <h3>اتأكد إنك قادر على</h3>
+  <div class="g2">
+    <ul>
+      <li><span>أعرف تعريف <b>تطبيق الويب</b> بكلمتي «عادةً» و«قد يكون بعضه قابلًا للتثبيت».</span></li>
+      <li><span>أقدر أرتّب <b>خطوات تدفق الطلب الست</b>.</span></li>
+      <li><span>مابلخبطش بين <b>الخلفية</b> و<b>قاعدة البيانات</b> في سؤال البحث.</span></li>
+    </ul>
+    <ul>
+      <li><span>أقدر أذكر <b>الطبقات التلاتة</b> ودور كل واحدة <b>ومكانها</b> (متصفح / خادم).</span></li>
+      <li><span>أقدر أوزّع <b>مهام أي خدمة</b> (فيديو · تواصل · تسوق) على التلات طبقات.</span></li>
+      <li><span>أعرف <b>تحفّظ الكتاب</b>: نموذج للتعلم مش بنية إلزامية.</span></li>
+    </ul>
+  </div>
+</div>
+
+<div class="endline">أكواد مع زياد — أ/ زياد السعدني · مذكرة البرمجة والذكاء الاصطناعي — تانية ثانوي <span class="num">2026/2027</span> · الوحدة الثالثة — الدرس <span class="num">3-1</span></div>
+<div class="pb"></div>
+<div class="band" style="height:55pt;padding-right:12pt">
+  <div class="badge"><span class="n">3-1</span></div>
+  <h1 style="text-align:right;margin-right:12pt;font-size:14pt">لخّص الدرس بأسلوبك</h1>
+</div>
+<div class="instr"><span class="fx fl">للفهم</span>اقفل المذكرة وحاول تلخّص الدرس من غير ما تبصّ: اكتب أهم <b>المصطلحات</b>، و<b>الفكرة الأساسية</b>، و<b>النقطة اللي لسه محتاجة مراجعة</b>. بعد كده افتح المذكرة وقارن اللي كتبته.</div>
+<div class="lines">
+<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+</div>
+
+<!-- ===================== بنك الأسئلة (ص9 وما بعدها) ===================== -->
+<div class="pb"></div>
+<div class="band">
+  <div class="badge"><span class="l">الدرس</span><span class="n">3-1</span></div>
+  <h1>البنية العامة لتطبيقات الويب</h1>
+  <div class="who"><div class="t"><span class="u">الوحدة الثالثة</span><span class="k">بنك الأسئلة</span></div><img src="assets/avatar.png" alt=""></div>
+</div>
+<div class="qstats"><div><b class="num">12</b><span>أسئلة الكتاب</span></div><div><b class="num">28</b><span>اختر</span></div><div><b class="num">10</b><span>أكمل</span></div><div><b class="num">12</b><span>صح وخطأ</span></div><div><b class="num">9</b><span>تصنيف وقارن</span></div><div><b class="num">8</b><span>علّل</span></div><div><b class="num">25</b><span>مقالي وأنشطة</span></div><div><b class="num">33</b><span class="tq">تقييمات</span></div></div>
+<h2 class="cat kwn">أسئلة الكتاب<span class="cnt">12</span></h2>
+<div class="qcard split "><h4><span class="n">01</span> · المثال المحلول — الجزء الأول</h4><p class="qi">ضع علامة (○) إذا كانت العبارة (أ - د) صحيحة أو (×) إذا كانت خاطئة.</p><ul class="tf"><li><b>أ‌</b><span class="t">الواجهة الأمامية هي مكوّن الشاشة الذي يراه المستخدمون مباشرة.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><b>ب‌</b><span class="t">الواجهة الخلفية هي الجزء الذي يعمل على المتصفح.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><b>ج‌</b><span class="t">قاعدة البيانات هي نظام ينظم البيانات ويخزنها ويديرها.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><b>د‌</b><span class="t">يعمل تطبيق الويب بالواجهة الأمامية وحدها.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li></ul></div>
+<div class="qcard split "><h4><span class="n">02</span> · المثال المحلول — الجزء الثاني</h4><p class="qi">اربط كل وصف (1 - 3) بالمصطلح الأنسب من الخيارات التالية (أ - ج).</p><div class="match"><div class="mb"><h5>الأوصاف</h5><ol><li><span>الجزء المسؤول عن المعالجة من جانب الخادم التي لا يراها المستخدمون</span><span class="ab"></span></li><li><span>مكوّن الشاشة الذي يتفاعل معه المستخدمون مباشرة</span><span class="ab"></span></li><li><span>نظام ينظم البيانات ويخزنها ويديرها</span><span class="ab"></span></li></ol></div><div class="mb"><h5>الخيارات</h5><ul class="op c1"><li><b>أ‌</b>الواجهة الأمامية</li><li><b>ب‌</b>الواجهة الخلفية</li><li><b>ج‌</b>قاعدة البيانات</li></ul></div></div></div>
+<div class="qcard sol keep"><h4><span class="ck">✓</span> الحل — المثال المحلول</h4><div class="sg"><div><div class="sp">(1)</div><div class="sr"><b>أ</b><span>الواجهة الأمامية هي مكوّن الشاشة الذي يراه المستخدمون مباشرة. لذلك، ○.</span></div><div class="sr"><b>ب</b><span>الواجهة الخلفية هي الجزء الذي يعمل على الخادم، لا على المتصفح. لذلك، ×.</span></div><div class="sr"><b>ج</b><span>تعريف صحيح لقاعدة البيانات. لذلك، ○.</span></div><div class="sr"><b>د</b><span>يعمل تطبيق الويب بثلاث طبقات: الواجهة الأمامية، والواجهة الخلفية، وقاعدة البيانات. لذلك، ×.</span></div></div><div><div class="sp">(2)</div><div class="sr"><b>1:</b><span>المعالجة من جانب الخادم هي الواجهة الخلفية. <i>ب</i></span></div><div class="sr"><b>2:</b><span>الشاشة التي يتفاعل معها المستخدمون هي الواجهة الأمامية. <i>أ</i></span></div><div class="sr"><b>3:</b><span>تخزين البيانات وإدارتها هو دور قاعدة البيانات. <i>ج</i></span></div></div></div></div>
+<div class="qcard split "><h4><span class="n">03</span> · تدرّب — أجب عن الأسئلة التالية</h4><div class="sa"><div><span class="k">1</span><p>ما هو المصطلح الذي يُطلق على تطبيق يُستخدم عبر متصفح الويب؟ <span class="bl" style="width:90pt"></span></p></div><div><span class="k">2</span><p>ما هو المصطلح الذي يُطلق على مكوّن الشاشة الذي يراه المستخدمون مباشرة؟ <span class="bl" style="width:90pt"></span></p></div><div><span class="k">3</span><p>ما هو المصطلح الذي يُطلق على الجزء المسؤول عن المعالجة من جانب الخادم التي لا يراها المستخدمون؟ <span class="bl" style="width:90pt"></span></p></div><div><span class="k">4</span><p>ما هو المصطلح الذي يُطلق على نظام ينظم البيانات ويخزنها ويديرها؟ <span class="bl" style="width:90pt"></span></p></div></div></div>
+<div class="qcard split "><h4><span class="n">04</span> · تدرّب — اختيار وتصنيف</h4><div class="qq"><span class="k">1</span><p>عند البحث عن منتج على موقع تسوق إلكتروني، أي مما يلي مسؤول عن البحث في البيانات عن المنتجات المطابقة لكلمات البحث؟</p></div><ul class="op c3"><li><b>أ‌</b>الواجهة الأمامية</li><li><b>ب‌</b>الواجهة الخلفية</li><li><b>ج‌</b>قاعدة البيانات</li></ul><div class="qq"><span class="k">2</span><p>لكل من 1 - 6، حدد إلى أي طبقة من طبقات <b>موقع التجارة الإلكترونية</b> ينتمي: <b>أ</b> الواجهة الأمامية، <b>ب</b> الواجهة الخلفية، <b>ج</b> قاعدة البيانات.</p></div><ul class="cl"><li><span class="k">1</span><span class="t">صفحة عرض المنتجات</span><span class="ab"></span></li><li><span class="k">2</span><span class="t">معالجة التحقق من المخزون</span><span class="ab"></span></li><li><span class="k">3</span><span class="t">تخزين معلومات العملاء</span><span class="ab"></span></li><li><span class="k">4</span><span class="t">شاشة سلة التسوق</span><span class="ab"></span></li><li><span class="k">5</span><span class="t">معالجة الدفع</span><span class="ab"></span></li><li><span class="k">6</span><span class="t">تخزين سجل الطلبات</span><span class="ab"></span></li></ul></div>
+<div class="qcard split "><h4><span class="n">05</span> · سؤال على نمط الامتحان<span class="mk">[<span class="num">6</span> درجات]</span><span class="tq">تقييمات</span></h4><p class="qs">اشرح كيف تتعاون الطبقات الثلاث لتطبيق الويب عندما ينشر المستخدم صورة على تطبيق تواصل اجتماعي.</p><div class="hint"><b>عناصر الإجابة</b> <b>أشِر إلى:</b> دور <b>الواجهة الأمامية</b>، و<b>الواجهة الخلفية</b>، و<b>قاعدة البيانات</b>.</div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="qcard split "><h4><span class="n">06</span> · تمارين — اقرأ الفقرة ثم املأ الفراغات</h4><p class="para">يمكن شرح كثير من تطبيقات الويب بنموذج مبسط من ثلاث طبقات. تسمى الواجهة التي يراها المستخدم ويتعامل معها (<b>1</b>) <span class="bl" style="width:80pt"></span>، ويسمى الجزء الذي يعمل على الخادم ويعالج الطلبات (<b>2</b>) <span class="bl" style="width:80pt"></span>، وتسمى الطبقة التي تحفظ البيانات وتوفرها (<b>3</b>) <span class="bl" style="width:80pt"></span>. وتتعاون هذه الأجزاء لتنفيذ طلب المستخدم.</p></div>
+<div class="qcard split "><h4><span class="n">07</span> · تمارين — شبكة تواصل اجتماعي · واختيار<span class="tq">تقييمات</span></h4><div class="qq"><span class="k">1</span><p>لكل من 1 - 6، حدد إلى أي طبقة من طبقات <b>شبكة تواصل اجتماعي</b> ينتمي: <b>أ</b> الواجهة الأمامية، <b>ب</b> الواجهة الخلفية، <b>ج</b> قاعدة البيانات.</p></div><ul class="cl"><li><span class="k">1</span><span class="t">شاشة الخط الزمني</span><span class="ab"></span></li><li><span class="k">2</span><span class="t">معالجة تحديد الجمهور المستهدف للمنشور</span><span class="ab"></span></li><li><span class="k">3</span><span class="t">تخزين بيانات المنشورات</span><span class="ab"></span></li><li><span class="k">4</span><span class="t">شاشة النشر</span><span class="ab"></span></li><li><span class="k">5</span><span class="t">معالجة الإشعارات</span><span class="ab"></span></li><li><span class="k">6</span><span class="t">تخزين علاقات المتابعة</span><span class="ab"></span></li></ul><div class="qq"><span class="k">2</span><p>من الخيارات التالية (أ - د)، اختر الخيار الذي يصف <b>بشكل أنسب</b> بنية الطبقات الثلاث لتطبيق الويب.</p></div><ul class="op c1"><li><b>أ‌</b>الواجهة الأمامية لها دور تخزين البيانات وإدارتها.</li><li><b>ب‌</b>الواجهة الخلفية هي الجزء الذي يتفاعل معه المستخدمون مباشرة على المتصفح.</li><li><b>ج‌</b>استجابةً لإجراءات المستخدم، تتعاون الواجهة الأمامية والواجهة الخلفية وقاعدة البيانات لتنفيذ المعالجة.</li><li><b>د‌</b>قاعدة البيانات لها دور عرض الشاشات للمستخدمين.</li></ul></div>
+<h2 class="cat kwn">اختر الإجابة الصحيحة<span class="cnt">28</span></h2>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">1</span><p>«تطبيق يُستخدم عادةً من خلال متصفح الويب» هو:</p></div><ul class="op c2"><li><b>أ‌</b>نظام التشغيل</li><li><b>ب‌</b>تطبيق الويب</li><li><b>ج‌</b>قاعدة البيانات</li><li><b>د‌</b>الخادم</li></ul></div><div class="mq"><div class="qq"><span class="k">2</span><p>حسب الكتاب، بعض تطبيقات الويب:</p></div><ul class="op c2"><li><b>أ‌</b>لا تحتاج إلى خادم أبدًا</li><li><b>ب‌</b>تعمل بدون إنترنت دائمًا</li><li><b>ج‌</b>تتيح إمكانية تثبيتها على الجهاز</li><li><b>د‌</b>تعمل على المتصفح فقط بلا استثناء</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">3</span><span class="tq">تقييمات</span><p>من أمثلة تطبيقات الويب التي يذكرها الكتاب:</p></div><ul class="op c2"><li><b>أ‌</b>برامج تشغيل الطابعة</li><li><b>ب‌</b>خدمات الفيديو والتسوق والبريد والخرائط</li><li><b>ج‌</b>أنظمة التشغيل</li><li><b>د‌</b>برامج مكافحة الفيروسات</li></ul></div><div class="mq"><div class="qq"><span class="k">4</span><span class="tq">تقييمات</span><p>«الجزء الذي يراه المستخدم ويتعامل معه في المتصفح» هو:</p></div><ul class="op c2"><li><b>أ‌</b>الواجهة الخلفية</li><li><b>ب‌</b>قاعدة البيانات</li><li><b>ج‌</b>الخادم</li><li><b>د‌</b>الواجهة الأمامية</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">5</span><p>«الجزء الذي يعمل على الخادم ويعالج الطلبات ويطبق قواعد التطبيق» هو:</p></div><ul class="op c2"><li><b>أ‌</b>الواجهة الأمامية</li><li><b>ب‌</b>المتصفح</li><li><b>ج‌</b>قاعدة البيانات</li><li><b>د‌</b>الواجهة الخلفية</li></ul></div><div class="mq"><div class="qq"><span class="k">6</span><span class="tq">تقييمات</span><p>«طبقة تحفظ البيانات وتوفرها عند الحاجة» هي:</p></div><ul class="op c2"><li><b>أ‌</b>الواجهة الأمامية</li><li><b>ب‌</b>قاعدة البيانات</li><li><b>ج‌</b>الواجهة الخلفية</li><li><b>د‌</b>المتصفح</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">7</span><p>الواجهة الخلفية تعمل على:</p></div><ul class="op c2"><li><b>أ‌</b>المتصفح</li><li><b>ب‌</b>بطاقة الشبكة</li><li><b>ج‌</b>الطابعة</li><li><b>د‌</b>الخادم</li></ul></div><div class="mq"><div class="qq"><span class="k">8</span><p>«شاشة البحث وصفحات عرض المنتجات ونماذج الإدخال» أمثلة على:</p></div><ul class="op c2"><li><b>أ‌</b>الواجهة الأمامية</li><li><b>ب‌</b>الواجهة الخلفية</li><li><b>ج‌</b>قاعدة البيانات</li><li><b>د‌</b>الخادم</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">9</span><span class="tq">تقييمات</span><p>«التحقق من تسجيل الدخول» مثال على عمل:</p></div><ul class="op c2"><li><b>أ‌</b>الواجهة الأمامية</li><li><b>ب‌</b>المتصفح</li><li><b>ج‌</b>قاعدة البيانات</li><li><b>د‌</b>الواجهة الخلفية</li></ul></div><div class="mq"><div class="qq"><span class="k">10</span><span class="tq">تقييمات</span><p>«معلومات المنتجات ومعلومات المستخدمين وسجل الطلبات» أمثلة على محتوى:</p></div><ul class="op c2"><li><b>أ‌</b>قاعدة البيانات</li><li><b>ب‌</b>الواجهة الخلفية</li><li><b>ج‌</b>الواجهة الأمامية</li><li><b>د‌</b>المتصفح</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">11</span><p>طبقة البيانات – حسب الكتاب – <b>قد تشمل</b>:</p></div><ul class="op c2"><li><b>أ‌</b>المتصفح فقط</li><li><b>ب‌</b>قواعد بيانات أو تخزين ملفات وكائنات أو ذاكرة مخبأة أو خدمات بيانات خارجية</li><li><b>ج‌</b>شاشات العرض</li><li><b>د‌</b>كابلات الشبكة</li></ul></div><div class="mq"><div class="qq"><span class="k">12</span><p>الخطوة الأولى في تدفق البحث عن منتج هي:</p></div><ul class="op c2"><li><b>أ‌</b>تستقبل الواجهة الأمامية كلمات البحث</li><li><b>ب‌</b>تعيد طبقة البيانات النتائج</li><li><b>ج‌</b>تجهز الخلفية النتائج</li><li><b>د‌</b>تعرض الأمامية النتائج</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">13</span><span class="tq">تقييمات</span><p>مَن يطلب من طبقة البيانات المنتجات المطابقة؟</p></div><ul class="op c2"><li><b>أ‌</b>الواجهة الأمامية</li><li><b>ب‌</b>المتصفح</li><li><b>ج‌</b>الواجهة الخلفية</li><li><b>د‌</b>المستخدم</li></ul></div><div class="mq"><div class="qq"><span class="k">14</span><p>الخطوة الأخيرة في التدفق هي:</p></div><ul class="op c2"><li><b>أ‌</b>تعيد طبقة البيانات النتائج</li><li><b>ب‌</b>تجهز الخلفية النتائج</li><li><b>ج‌</b>تعرض الواجهة الأمامية نتائج البحث على شاشة المستخدم</li><li><b>د‌</b>ترسل الأمامية كلمات البحث</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">15</span><span class="tq">تقييمات</span><p>في موقع فيديو، «اختيار الفيديوهات الموصى بها وتجميع عدد المشاهدات» عمل:</p></div><ul class="op c2"><li><b>أ‌</b>الواجهة الأمامية</li><li><b>ب‌</b>المتصفح</li><li><b>ج‌</b>قاعدة البيانات</li><li><b>د‌</b>الواجهة الخلفية</li></ul></div><div class="mq"><div class="qq"><span class="k">16</span><span class="tq">تقييمات</span><p>في شبكة تواصل اجتماعي، «تخزين علاقات المتابعة» عمل:</p></div><ul class="op c2"><li><b>أ‌</b>الواجهة الأمامية</li><li><b>ب‌</b>الواجهة الخلفية</li><li><b>ج‌</b>قاعدة البيانات</li><li><b>د‌</b>الخادم الوسيط</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">17</span><p>في موقع تجارة إلكترونية، «التحقق من المخزون» عمل:</p></div><ul class="op c2"><li><b>أ‌</b>الواجهة الخلفية</li><li><b>ب‌</b>الواجهة الأمامية</li><li><b>ج‌</b>قاعدة البيانات</li><li><b>د‌</b>المستخدم</li></ul></div><div class="mq"><div class="qq"><span class="k">18</span><p>«عرض الخط الزمني وشاشات النشر» عمل:</p></div><ul class="op c2"><li><b>أ‌</b>الواجهة الخلفية</li><li><b>ب‌</b>الواجهة الأمامية</li><li><b>ج‌</b>قاعدة البيانات</li><li><b>د‌</b>الخادم</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">19</span><p>أيُّ العبارات التالية <b>خطأ</b>؟</p></div><ul class="op c2"><li><b>أ‌</b>الواجهة الأمامية تعرض المحتوى وتستقبل المدخلات</li><li><b>ب‌</b>قاعدة البيانات تحفظ البيانات وتوفرها</li><li><b>ج‌</b>الواجهة الخلفية تعمل على المتصفح</li><li><b>د‌</b>الطبقات الثلاث تتعاون لتنفيذ طلب المستخدم</li></ul></div><div class="mq"><div class="qq"><span class="k">20</span><p>ما الذي يتغيّر بين موقع الفيديو وشبكة التواصل وموقع التسوق؟</p></div><ul class="op c2"><li><b>أ‌</b>عدد الطبقات</li><li><b>ب‌</b>المحتوى الذي تعمل عليه كل طبقة</li><li><b>ج‌</b>مكان الواجهة الخلفية</li><li><b>د‌</b>اسم المتصفح</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">21</span><p>حسب الكتاب، نموذج الطبقات الثلاث:</p></div><ul class="op c2"><li><b>أ‌</b>بنية إلزامية لكل تطبيق</li><li><b>ب‌</b>نموذج للتعلم، وقد تختلف البنية الفعلية</li><li><b>ج‌</b>ينطبق على المواقع الحكومية فقط</li><li><b>د‌</b>يخص تطبيقات الهاتف فقط</li></ul></div><div class="mq"><div class="qq"><span class="k">22</span><p>يذكر الكتاب صراحةً أنه في بعض التطبيقات:</p></div><ul class="op c2"><li><b>أ‌</b>لا يوجد متصفح</li><li><b>ب‌</b>لا توجد واجهة أمامية</li><li><b>ج‌</b>لا يوجد مستخدمون</li><li><b>د‌</b>قد لا توجد قاعدة بيانات تقليدية أصلًا</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">23</span><span class="tq">تقييمات</span><p>الفكرة الرئيسة تصف الطبقات الثلاث بأنها:</p></div><ul class="op c2"><li><b>أ‌</b>واجهة أمامية تعرض وتجمع · خلفية تقرر وتعالج · قاعدة بيانات تخزن وتسترجع</li><li><b>ب‌</b>ثلاثة برامج منفصلة لا تتصل ببعضها</li><li><b>ج‌</b>ثلاث مراحل زمنية للتطوير</li><li><b>د‌</b>ثلاثة أنواع من المتصفحات</li></ul></div><div class="mq"><div class="qq"><span class="k">24</span><p>حين تكتب في مربع البحث وترى النتائج، الطبقة التي <b>جمعت المدخلات</b> هي:</p></div><ul class="op c2"><li><b>أ‌</b>قاعدة البيانات</li><li><b>ب‌</b>الواجهة الخلفية</li><li><b>ج‌</b>الواجهة الأمامية</li><li><b>د‌</b>الخادم</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">25</span><p>وفي المثال نفسه، الطبقة التي <b>وجدت الإجابة</b> في البيانات هي:</p></div><ul class="op c2"><li><b>أ‌</b>الواجهة الأمامية</li><li><b>ب‌</b>المستخدم</li><li><b>ج‌</b>المتصفح وحده</li><li><b>د‌</b>الواجهة الخلفية بطلبها من طبقة البيانات</li></ul></div><div class="mq"><div class="qq"><span class="k">26</span><p>«تطبيق طقس يأخذ اسم مدينة» – تخزين التوقعات السابقة مهمة:</p></div><ul class="op c2"><li><b>أ‌</b>قاعدة البيانات</li><li><b>ب‌</b>الواجهة الخلفية</li><li><b>ج‌</b>الواجهة الأمامية</li><li><b>د‌</b>المتصفح</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">27</span><span class="tq">تقييمات</span><p>يُبنى عادةً تطبيق الويب من:</p></div><ul class="op c2"><li><b>أ‌</b>طبقة واحدة</li><li><b>ب‌</b>طبقتان</li><li><b>ج‌</b>ثلاث طبقات</li><li><b>د‌</b>أربع طبقات</li></ul></div><div class="mq"><div class="qq"><span class="k">28</span><span class="tq">تقييمات</span><p>إرسال طلبات الدفع والتعامل مع نتائجها في موقع التجارة الإلكترونية من عمل:</p></div><ul class="op c2"><li><b>أ‌</b>الواجهة الخلفية</li><li><b>ب‌</b>قاعدة البيانات</li><li><b>ج‌</b>الواجهة الأمامية</li><li><b>د‌</b>متصفح المستخدم</li></ul></div></div>
+<h2 class="cat kwn">أكمل<span class="cnt">10</span></h2>
+<div class="frow"><div><span class="k">1</span><p>التطبيق الذي يُستخدم عادةً عبر متصفح الويب هو <span class="bl" style="width:70pt"></span></p></div><div><span class="k">2</span><p>الشاشة التي يراها المستخدمون ويتفاعلون معها هي <span class="bl" style="width:70pt"></span></p></div></div>
+<div class="frow"><div><span class="k">3</span><p>المعالجة الخفية من جانب الخادم هي <span class="bl" style="width:70pt"></span></p></div><div><span class="k">4</span><p>المكان الذي تُخزَّن فيه البيانات وتُدار هو <span class="bl" style="width:70pt"></span></p></div></div>
+<div class="frow"><div><span class="k">5</span><p>الواجهة الأمامية + الواجهة الخلفية + قاعدة البيانات معًا تُسمى <span class="bl" style="width:70pt"></span></p></div><div><span class="k">6</span><p>الواجهة الأمامية تعرض و<span class="bl" style="width:50pt"></span> · والخلفية تقرر و<span class="bl" style="width:50pt"></span> · وقاعدة البيانات تخزن و<span class="bl" style="width:50pt"></span></p></div></div>
+<div class="frow"><div><span class="k">7</span><p>الواجهة الخلفية تعمل على <span class="bl" style="width:60pt"></span> بينما الأمامية تعمل في <span class="bl" style="width:60pt"></span></p></div><div><span class="k">8</span><p>في تدفق البحث: الأمامية تستقبل ← ترسل للخلفية ← الخلفية تطلب من <span class="bl" style="width:70pt"></span></p></div></div>
+<div class="frow"><div><span class="k">9</span><p>الواجهة الخلفية تعالج الطلبات وتطبّق <span class="bl" style="width:70pt"></span></p></div><div><span class="k">10</span><p>الكتاب يصف الطبقات الثلاث بأنها <span class="bl" style="width:70pt"></span> لا بنية إلزامية</p></div></div>
+<h2 class="cat kwn">صح وخطأ<span class="cnt">12</span></h2>
+<ul class="tfb"><li><span class="k">1</span><span class="t">يتفاعل المستخدم مع الواجهة الأمامية من خلال المتصفح.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">2</span><span class="t">التحقق من تسجيل الدخول من عمل الواجهة الأمامية.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">3</span><span class="t">قاعدة البيانات تحفظ البيانات وتوفرها عند الحاجة.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li></ul>
+<ul class="tfb"><li><span class="k">4</span><span class="t">قاعدة البيانات هي التي تعرض نتائج البحث على شاشة المستخدم.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">5</span><span class="t">تطبيق الويب يُستخدم عادةً عبر المتصفح، وقد يكون بعضه قابلًا للتثبيت على الجهاز.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">6</span><span class="t">الواجهة الأمامية هي المسؤولة عن تخزين البيانات وإدارتها.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li></ul>
+<ul class="tfb"><li><span class="k">7</span><span class="t">الواجهة الخلفية تطبّق قواعد التطبيق.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">8</span><span class="t">«شاشة سلة التسوق» تنتمي إلى الواجهة الخلفية.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">9</span><span class="t">«تخزين سجل الطلبات» ينتمي إلى قاعدة البيانات.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li></ul>
+<ul class="tfb"><li><span class="k">10</span><span class="t">الطبقات الثلاث بنية إلزامية لكل تطبيق ويب.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">11</span><span class="t">طبقة البيانات قد تشمل تخزين ملفات وكائنات أو ذاكرة مخبأة أو خدمات بيانات خارجية.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">12</span><span class="t">في تدفق البحث، تعيد طبقة البيانات النتائج مباشرة إلى الواجهة الأمامية.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li></ul>
+<h2 class="cat kwn">تصنيف وقارن<span class="cnt">9</span></h2>
+<div class="qcard split "><h4><span class="n">01</span> · البند ده في أنهي طبقة؟ — موقع فيديو<span class="tq">تقييمات</span></h4><p class="qi">اكتب <b>أ</b> للواجهة الأمامية، <b>ب</b> للواجهة الخلفية، <b>ج</b> لقاعدة البيانات.</p><ul class="cl"><li><span class="k">1</span><span class="t">عرض شاشة تشغيل الفيديو</span><span class="ab"></span></li><li><span class="k">2</span><span class="t">اختيار الفيديوهات الموصى بها</span><span class="ab"></span></li><li><span class="k">3</span><span class="t">تخزين سجل المشاهدة</span><span class="ab"></span></li><li><span class="k">4</span><span class="t">استقبال إجراءات المستخدم</span><span class="ab"></span></li><li><span class="k">5</span><span class="t">تجميع عدد المشاهدات</span><span class="ab"></span></li><li><span class="k">6</span><span class="t">تخزين بيانات الفيديو ومعلومات المستخدمين</span><span class="ab"></span></li></ul></div>
+<div class="qcard split "><h4><span class="n">02</span> · تطبيق طقس — وزّع المهام</h4><p class="qi">تطبيق يكتب فيه المستخدم اسم مدينة ويرى توقعات الطقس. اكتب الطبقة المناسبة لكل مهمة.</p><ul class="cl"><li><span class="k">1</span><span class="t">أخذ اسم المدينة من المستخدم</span><span class="ab w"></span></li><li><span class="k">2</span><span class="t">البحث عن بيانات التوقعات وتجهيزها</span><span class="ab w"></span></li><li><span class="k">3</span><span class="t">تخزين التوقعات السابقة</span><span class="ab w"></span></li><li><span class="k">4</span><span class="t">عرض التوقعات على الشاشة</span><span class="ab w"></span></li></ul></div>
+<div class="qcard split "><h4><span class="n">03</span> · طابق كل مصطلح بتعريفه</h4><div class="match"><div class="mb"><h5>التعريف</h5><ol><li><span>الشاشة التي يراها المستخدمون ويتفاعلون معها</span><span class="ab"></span></li><li><span>المعالجة الخفية من جانب الخادم</span><span class="ab"></span></li><li><span>حيث تُخزَّن البيانات وتُدار</span><span class="ab"></span></li><li><span>تطبيق يُستخدم عادةً عبر متصفح الويب</span><span class="ab"></span></li></ol></div><div class="mb"><h5>المصطلح</h5><ul class="op c1"><li><b>أ‌</b>الواجهة الخلفية</li><li><b>ب‌</b>تطبيق الويب</li><li><b>ج‌</b>الواجهة الأمامية</li><li><b>د‌</b>قاعدة البيانات</li></ul></div></div></div>
+<div class="qcard split "><h4><span class="n">04</span> · رتّب خطوات تدفق الطلب</h4><p class="qi">رتّب من <b>1</b> إلى <b>6</b> حسب مثال البحث عن منتج في الكتاب.</p><ul class="cl"><li><span class="k">أ</span><span class="t">تجهز الواجهة الخلفية النتائج لإرسالها للأمامية</span><span class="ab"></span></li><li><span class="k">ب</span><span class="t">تستقبل الواجهة الأمامية كلمات البحث</span><span class="ab"></span></li><li><span class="k">ج</span><span class="t">تعيد طبقة البيانات النتائج المطلوبة للخلفية</span><span class="ab"></span></li><li><span class="k">د</span><span class="t">تعرض الواجهة الأمامية النتائج على الشاشة</span><span class="ab"></span></li><li><span class="k">هـ</span><span class="t">ترسل الأمامية كلمات البحث إلى الخلفية</span><span class="ab"></span></li><li><span class="k">و</span><span class="t">تطلب الخلفية من طبقة البيانات المنتجات المطابقة</span><span class="ab"></span></li></ul></div>
+<div class="qcard split "><h4><span class="n">05</span> · شخّص العطل</h4><p class="qi">لكل مشكلة، اكتب <b>الطبقة أو الطبقات</b> اللي ممكن تكون سبب المشكلة – و<b>ليه</b>.</p><div class="qq"><span class="k">1</span><p>الصفحة بتفتح بس مفيش أي نتائج ظاهرة رغم وجود منتجات.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="qq"><span class="k">2</span><p>الشاشة نفسها مش بتظهر أصلًا والزراير مش شغالة.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="qcard split "><h4><span class="n">06</span> · قارن بين الواجهة الأمامية والواجهة الخلفية</h4><table class="cmp tall"><thead><tr><th>وجه المقارنة</th><th>الواجهة الأمامية</th><th>الواجهة الخلفية</th></tr></thead><tbody><tr><td class="k">أين تعمل</td><td></td><td></td></tr><tr><td class="k">الدور</td><td></td><td></td></tr></tbody></table></div>
+<div class="qcard split "><h4><span class="n">07</span> · قارن بين الواجهة الخلفية وقاعدة البيانات</h4><table class="cmp tall"><thead><tr><th>وجه المقارنة</th><th>الواجهة الخلفية</th><th>قاعدة البيانات</th></tr></thead><tbody><tr><td class="k">الدور</td><td></td><td></td></tr><tr><td class="k">في مثال البحث</td><td></td><td></td></tr></tbody></table></div>
+<div class="qcard split "><h4><span class="n">08</span> · قارن بين موقع فيديو وموقع تجارة إلكترونية</h4><table class="cmp tall"><thead><tr><th>وجه المقارنة</th><th>موقع فيديو</th><th>موقع تجارة إلكترونية</th></tr></thead><tbody><tr><td class="k">مثال للواجهة الأمامية</td><td></td><td></td></tr><tr><td class="k">مثال للواجهة الخلفية</td><td></td><td></td></tr></tbody></table></div>
+<div class="qcard split "><h4><span class="n">09</span> · قارن بين ما يتغيّر وما يظل ثابتًا من خدمة لأخرى</h4><table class="cmp tall"><thead><tr><th>وجه المقارنة</th><th>ما يتغيّر بين الخدمات</th><th>ما يظل ثابتًا</th></tr></thead><tbody><tr><td class="k">ماذا</td><td></td><td></td></tr><tr><td class="k">مثال</td><td></td><td></td></tr></tbody></table></div>
+<h2 class="cat kwn">علّل<span class="cnt">8</span></h2>
+<div class="why split"><div class="qq"><span class="k">1</span><p>لا يعمل تطبيق الويب بالواجهة الأمامية وحدها.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">2</span><p>لا يصحّ القول إن الواجهة الخلفية تعمل على المتصفح.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">3</span><p>لا تتولى الواجهة الأمامية تخزين بيانات التطبيق وإدارتها.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">4</span><p>يمرّ طلب البحث بالواجهة الخلفية قبل الوصول إلى طبقة البيانات.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">5</span><p>يمكن شرح موقع الفيديو وشبكة التواصل وموقع التسوق بنفس النموذج.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">6</span><p>يصف الكتاب الطبقات الثلاث بأنها «نموذج للتعلم» لا بنية إلزامية.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">7</span><span class="tq">تقييمات</span><p>يُعد فصل مسؤوليات العرض والمعالجة والبيانات في طبقات واضحة مفيدًا.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">8</span><p>يقول الكتاب إن تطبيق الويب يُستخدم «عادةً» عبر المتصفح ولا يقول «دائمًا».</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+
+<div class="qcard split "><h4><span class="n">01</span> · طبّق ما تعلمته — تطبيق الطقس</h4><p class="qs">يتيح تطبيق طقس للمستخدمين كتابة اسم مدينة ورؤية توقعات الطقس. باستخدام نموذج الطبقات الثلاث، سمِّ أي طبقة تقوم بكل مهمة – أخذ اسم المدينة، والبحث عن بيانات التوقعات، وتخزين التوقعات السابقة – وحدّد <b>مهمة واحدة لا يمكن للواجهة الأمامية القيام بها وحدها</b>.</p><div class="hint"><b>عناصر الإجابة</b> <b>تلات مهام</b> موزّعة بالاسم · <b>مهمة واحدة</b> خارج قدرة الأمامية <b>مع السبب</b>.</div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="qcard split "><h4><span class="n">02</span> · فكّر كمهندس — ابحث ثم قرر</h4><p class="qs">تريد عيادة تطبيق ويب يحجز فيه المرضى المواعيد، ويتحققون من الأوقات المتاحة، ويطّلعون على زياراتهم السابقة. أنت تخطط لطبقاته الثلاث.</p><p class="qs"><b>(1) وزّع المهام.</b> لثلاث ميزات – <b>نموذج الحجز</b> و<b>التحقق من الأوقات المتاحة</b> و<b>تخزين الزيارات السابقة</b> – حدد أي طبقة ينبغي أن تتولى كل منها، ولماذا.</p><table class="cmp"><thead><tr><th>الميزة</th><th>الطبقة</th><th>ليه؟</th></tr></thead><tbody><tr><td class="k">نموذج الحجز</td><td></td><td></td></tr><tr><td class="k">التحقق من الأوقات المتاحة</td><td></td><td></td></tr><tr><td class="k">تخزين الزيارات السابقة</td><td></td><td></td></tr></tbody></table></div>
+<div class="qcard split cont"><p class="qs"><b>(2) شخّص العطل.</b> تفتح صفحة الحجز، لكن لا تظهر أوقات متاحة. ما الأجزاء التي قد تكون سبب المشكلة؟ وما المعلومة التي تحتاج إليها لتتأكد؟</p><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><p class="qs"><b>(3) قرّر.</b> أوصِ بما إذا كان ينبغي للعيادة أن تنظّم مسؤوليات العرض والمعالجة والبيانات في طبقات واضحة، وبرّر فائدة فصل المسؤوليات بسببين. في أزواج، قارنوا توزيعاتكم واتفقوا معًا على أين ينتمي التحقق من الأوقات المتاحة.</p><p class="chx"><span>☐ خلط مسؤوليات العرض والمعالجة والبيانات دون فصل واضح</span><span>☐ تنظيم المسؤوليات في طبقات واضحة</span></p><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="hint"><b>عناصر الإجابة</b> تلميح الكتاب: <b>الواجهة الأمامية تعرض وتجمع؛ والواجهة الخلفية تقرر وتعالج؛ وقاعدة البيانات تخزن وتسترجع.</b> ولاحظ إن السؤال طالب <b>بدليل</b> على إجابتك.</div></div>
+<div class="why ess split"><div class="qq"><span class="k">3</span><span class="tq">تقييمات</span><p>اذكر <b>الطبقات الثلاث</b> ودور كل واحدة <b>ومكانها</b>، مع مثال واحد لكل طبقة.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why ess split"><div class="qq"><span class="k">4</span><span class="tq">تقييمات</span><p>اشرح <b>تدفق الطلب</b> من لحظة كتابة المستخدم كلمة البحث حتى ظهور النتائج، خطوة بخطوة.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why ess split"><div class="qq"><span class="k">5</span><p>مدرسة عايزة تطبيق ويب: الطلاب يشوفوا الجدول ويراجعوا درجاتهم، والمدرسين يسجّلوا الغياب. وزّع المهام على الطبقات الثلاث، واذكر <b>مهمة واحدة</b> ما تقدرش الواجهة الأمامية تعملها وحدها ولماذا.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">6</span><span class="tq">تقييمات</span><p>عرّف تطبيق الويب.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">7</span><span class="tq">تقييمات</span><p>اشرح مفهوم تطبيق الويب مع ذكر أمثلة من حياتك اليومية.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">8</span><span class="tq">تقييمات</span><p>اشرح البنية العامة لتطبيقات الويب والطبقات الثلاث.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">9</span><span class="tq">تقييمات</span><p>صمّم مخططًا هيكليًا يوضح كيف تتعاون الطبقات الثلاث لتنفيذ إجراءات المستخدم.</p></div><div class="drawbox"></div></div>
+<div class="why split"><div class="qq"><span class="k">10</span><span class="tq">تقييمات</span><p>قارن بين دور الواجهة الأمامية ودور الواجهة الخلفية في تطبيق شبكة التواصل الاجتماعي.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">11</span><span class="tq">تقييمات</span><p>وضّح الفرق بين الواجهة الأمامية والواجهة الخلفية في تطبيقات الويب مع ذكر مثال لكل منهما.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">12</span><span class="tq">تقييمات</span><p>كيف تتعامل الواجهة الخلفية مع البيانات الواردة من الواجهة الأمامية والبيانات المخزنة في قاعدة البيانات في موقع للتجارة الإلكترونية؟</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">13</span><span class="tq">تقييمات</span><p>اشرح دور قاعدة البيانات في تطبيق ويب، وكيف تتعاون مع الواجهة الخلفية لإظهار النتائج للمستخدم.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">14</span><span class="tq">تقييمات</span><p>ناقش أهمية طبقة قاعدة البيانات في مواقع التجارة الإلكترونية.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">15</span><span class="tq">تقييمات</span><p>وضّح كيف تتكامل الطبقات الثلاث في تقديم خدمة «مشاركة الفيديو» مع ذكر مثال لوظيفة كل طبقة.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">16</span><span class="tq">تقييمات</span><p>صمّم توزيعًا مناسبًا لمسؤوليات تطبيق ويب للتجارة الإلكترونية، وبرّر قراراتك.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">17</span><span class="tq">تقييمات</span><p>حلّل دور الواجهة الخلفية في موقع تجارة إلكترونية.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">18</span><span class="tq">تقييمات</span><p>ما أهمية وجود واجهة خلفية قوية في التجارة الإلكترونية؟</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">19</span><span class="tq">تقييمات</span><p>ما دور الواجهة الأمامية في موقع فيديو؟</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">20</span><span class="tq">تقييمات</span><p>ما دور قاعدة البيانات في شبكة التواصل الاجتماعي؟</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">21</span><span class="tq">تقييمات</span><p>حدّد خطوات التعاون عند إرسال بريد إلكتروني.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">22</span><p><b>توقّف وفكّر:</b> عندما تكتب في مربع البحث وترى النتائج، أي طبقة جمعت المدخلات، وأي طبقة وجدت الإجابة؟</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">23</span><p><b>توقّف وفكّر:</b> في الجدول، تستخدم كل خدمة نفس الطبقات الثلاث – فما الذي يتغيّر من خدمة إلى أخرى؟</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">24</span><p><b>فكّر وتحدَّ – تأمّل:</b> أي طبقة تعتقد أن فشلها يكون أكثر وضوحًا للمستخدم عندما يحدث خطأ ما، ولماذا؟ · <b>وتحدَّ:</b> اذكر خدمة واحدة عبر الإنترنت تستخدمها وصف ما تقوم به واجهتها الأمامية وواجهتها الخلفية وقاعدة بياناتها.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">25</span><p><b>اختبر فهمك:</b> أجب عن أسئلة هذا البنك <b>دون الرجوع</b> إلى الشرح، ثم راجع إجاباتك.</p></div><div class="wl"><i></i></div></div>
+</main>
+</body>
+</html>

@@ -1,0 +1,1241 @@
+<!doctype html>
+<!--
+  أكواد مع زياد — مذكرة تانية ثانوي — الدرس 2-1 (الشرح + بنك الأسئلة) — مصدر HTML قابل للتعديل
+  - كل المحتوى جوه <main class="flow"> بالترتيب. عند فتح الملف بيتوزع تلقائيًا على صفحات A4
+    (أي حاجة مش داخلة بتنزل للصفحة اللي بعدها)، والهيدر والفوتر والعلامة المائية والترقيم بيتضافوا لوحدهم.
+  - عشان تبدأ صفحة جديدة إجباري: <div class="pb"></div>
+  - العناوين (.part / .rule / h2.sec / .big / h3.sub / .chip / أي عنصر عليه class="kwn") بتفضل لازقة في اللي بعدها.
+  - اسم الدرس ورقم أول صفحة وإجمالي صفحات الوحدة في <body data-lesson data-start data-total>.
+  - الطباعة لـPDF من المتصفح: Cmd+P → الهوامش None → تفعيل Background graphics.
+  - الستايل كله جوه <style> في نفس الملف. الخطوط في fonts/ والصور في assets/ — لازم يفضلوا جنب الملف.
+  - لو المتصفح مفعّل «أقل حجم للخط»، الصفحة بتعرف لوحدها وبتحمي التصميم (السكريبت immunize).
+-->
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>الدرس 2-1 — تقنيات التشفير والمصادقة</title>
+<style>
+/* ===== أكواد مع زياد — مذكرة تانية ثانوي — ستايل الشرح (إعادة بناء HTML) ===== */
+
+@font-face{font-family:'Baloo Bhaijaan 2';font-weight:400 800;src:url(fonts/BalooBhaijaan2.ttf) format('truetype')}
+@font-face{font-family:'DejaVuArr';font-weight:700;src:url(fonts/DejaVuSans-Bold.ttf) format('truetype');unicode-range:U+2190-21FF}
+
+:root{
+  --navy:#17263f; --navy2:#22375c; --blue:#2e4a78; --gold:#e29433; --gold2:#a9670f; --gold3:#dd860f;
+  --text:#33445f; --text2:#1c2a44; --muted:#4e5f7c; --muted2:#6e7f9c;
+  --line:#dce5f1; --line2:#d7e4f5; --bg:#eef4fc; --bg2:#f1f6fc;
+  --cream:#fbf4de; --cream2:#fdf3e2; --creamb:#eee0b8; --creamb2:#efce9c;
+  --green:#22375c; --green2:#3fa97c; --greenb:#bfe0d1; --greenbg:#eaf6f0;
+  --red:#c0453a; --teal:#3e9ccb;
+}
+
+@page{ size:210mm 297mm; margin:0 }
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:'Baloo Bhaijaan 2';font-weight:500;font-size:9.9pt;line-height:1.5;color:var(--text);direction:rtl;text-align:right;background:#e6eaf0;padding:18pt 0}
+b,strong{font-weight:700;color:var(--navy2)}
+p{margin:0}
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+.num{direction:ltr;unicode-bidi:isolate}
+
+/* ---------- الصفحة A4 (sheet) ---------- */
+.page{position:relative;width:210mm;height:297mm;margin:0 auto 18pt auto;background:#fff;overflow:hidden;box-shadow:0 2pt 14pt rgba(23,38,63,.18)}
+.sheet{position:absolute;left:0;top:0;width:210mm;height:297mm;background:#fff;overflow:hidden;transform-origin:0 0}
+.sheet .content{position:absolute;top:31.5pt;left:31.6pt;right:31.6pt;bottom:36.4pt}
+.sheet .hdr{position:absolute;top:0;left:0;right:0;height:31.5pt;font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:7.2pt;line-height:1}
+.sheet .hdr .r{position:absolute;right:25.4pt;top:17.6pt;color:var(--navy);white-space:nowrap}
+.sheet .hdr .l{position:absolute;left:39.7pt;top:17.6pt;color:var(--gold2);white-space:nowrap}
+.sheet .hdr::after{content:'';position:absolute;left:0;right:0;top:27.8pt;height:.7pt;background:var(--gold)}
+.sheet .ftr{position:absolute;bottom:0;left:0;right:0;height:36.4pt;font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:7.39pt;line-height:1;color:var(--muted)}
+.sheet .ftr img{position:absolute;right:28.2pt;top:10.7pt;width:10.5pt;height:10.5pt;border-radius:50%}
+.sheet .ftr .r{position:absolute;right:43.2pt;top:11.9pt;white-space:nowrap}
+.sheet .ftr .r b{color:var(--navy);font-weight:700}
+.sheet .ftr .sep{margin:0 5pt;color:#9aa8bd}
+.sheet .ftr .pn{position:absolute;left:45pt;top:11.5pt;font-family:'Baloo Bhaijaan 2';font-weight:600;font-size:7.39pt;color:var(--navy);direction:ltr}
+/* العلامة المائية */
+.sheet .wm{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:5}
+.sheet .wm .big{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-30deg);font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:62pt;white-space:nowrap;color:transparent;-webkit-text-stroke:.9pt rgba(23,38,63,.10);line-height:1}
+.sheet .wm .tile{position:absolute;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:19pt;white-space:nowrap;color:transparent;-webkit-text-stroke:.6pt rgba(23,38,63,.085);transform:rotate(-30deg);line-height:1}
+@media print{
+  body{background:#fff;padding:0}
+  .page{margin:0;box-shadow:none;break-after:page;page-break-after:always}
+  .page:last-of-type{break-after:auto;page-break-after:auto}
+}
+
+/* ---------- شريط رأس الدرس ---------- */
+.band{background:var(--navy);border-right:3pt solid var(--gold);border-radius:8pt;height:62.5pt;display:flex;align-items:center;padding:0 12pt 0 14pt;position:relative;margin-bottom:10pt}
+.band .badge{width:41.5pt;height:39pt;border-radius:6pt;background:rgba(255,255,255,.09);border:1pt solid rgba(255,255,255,.18);display:flex;flex-direction:column;align-items:center;justify-content:center;flex:none}
+.band .badge .l{font-family:'Baloo Bhaijaan 2';font-weight:600;font-size:7.4pt;color:#a9bdd8;line-height:1}
+.band .badge .n{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:15pt;color:var(--gold);line-height:1.1;direction:ltr}
+.band h1{flex:1;margin:0;text-align:center;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:15.4pt;color:#fff;letter-spacing:.2pt}
+.band .who{display:flex;align-items:center;gap:9pt;flex:none}
+.band .who .t{display:flex;flex-direction:column;justify-content:center;gap:1pt}
+.band .who .u{font-family:'Baloo Bhaijaan 2';font-weight:600;font-size:8pt;color:#a9bdd8;line-height:1.3}
+.band .who .k{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:8.6pt;color:#fff;line-height:1.3}
+.band .who img{width:42.75pt;height:42.75pt;border-radius:7pt;border:1pt solid rgba(255,255,255,.25);display:block}
+
+/* ---------- صندوقا المقدمة وأهداف التعلم ---------- */
+.two{display:flex;gap:11.6pt;align-items:stretch;margin-bottom:6.5pt}
+.two .intro{flex:0 0 297pt;background:#fff;border:.75pt solid var(--line);border-radius:8pt;padding:12pt 11.6pt 11pt 11.6pt;position:relative}
+.two .goals{flex:1;background:#fff;border:.75pt solid var(--line);border-right:2.5pt solid var(--gold);border-radius:8pt;padding:9pt 11pt 8pt 12pt}
+.intro h3{margin:0 0 4pt 0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11.8pt;line-height:1.45;color:var(--gold)}
+.intro .body{font-size:9.49pt;line-height:15.4pt;color:var(--text2)}
+.intro .body p{margin:0}
+.intro .body p+p{margin-top:0}
+.intro .body ul{margin:0;padding:0 12pt 0 0;list-style:none}
+.intro .body li{position:relative}
+.intro .body li::before{content:'';position:absolute;right:-9pt;top:5.6pt;width:3.6pt;height:3.6pt;border-radius:50%;background:var(--gold)}
+.intro .body b{color:var(--navy2)}
+.intro .robot{float:left;width:35.3pt;height:46.2pt;margin:2pt 0 3pt 12pt}
+.intro .robot svg{width:100%;height:100%;display:block}
+.intro .foot{display:flex;justify-content:flex-start;margin-top:8pt}
+.pill-dark{display:inline-flex;align-items:center;gap:6pt;background:var(--navy);color:#fff;border-radius:9pt;padding:0 9pt 0 12pt;height:18pt;font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:8.6pt;line-height:1}
+.pill-dark::before{content:'';width:6.5pt;height:6.5pt;border-radius:50%;background:var(--gold);flex:none}
+.goals h3{margin:0 0 7pt 0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.6pt;color:var(--gold);line-height:1.5}
+.goals .g{display:flex;align-items:center;gap:8pt;padding:9pt 0 9.5pt 0}
+.goals .g+.g{border-top:.75pt dashed var(--line)}
+.goals .g .tag{flex:none;width:41.3pt;height:16.5pt;border-radius:8.5pt;background:var(--cream2);border:.75pt solid var(--creamb2);display:flex;align-items:center;justify-content:center;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:8.8pt;color:var(--gold2);line-height:1}
+.goals .g .x{flex:1;font-size:9.19pt;line-height:15pt;color:var(--text);text-align:right}
+
+/* ---------- ملاحظة «للفهم» بخلفية ---------- */
+.note-box{position:relative;background:var(--bg);border:.75pt dashed var(--line2);border-radius:6pt;padding:6pt 11pt 5pt 12pt;font-size:9.3pt;line-height:14.7pt;color:var(--text);margin-bottom:6pt}
+.note-box .tag,.note-line .tag{position:absolute;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:7.6pt;color:var(--blue);background:#fff;border:.75pt solid var(--blue);border-radius:7pt;height:13.5pt;line-height:12pt;padding:0 6pt;display:inline-block}
+.note-box .tag{position:static;display:inline-block;margin-left:5pt;vertical-align:1pt}
+/* ملاحظة «للفهم» بخط منقّط علوي والشارة على الشمال */
+.note-line{position:relative;border-top:.75pt dashed var(--line);padding:5pt 0 0 0;margin-top:9pt;font-size:9.8pt;line-height:15.4pt;color:var(--text)}
+.note-line .tag{left:0;top:-6.7pt}
+.note-line .lead{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.8pt;color:var(--gold);margin-left:4pt}
+.note-line b{color:var(--navy2)}
+
+/* ---------- الشبكة الرباعية (الكروت بتكبر على قد محتواها) ---------- */
+.map{display:grid;grid-template-columns:1fr 132pt 1fr;grid-template-rows:auto auto;column-gap:20pt;row-gap:7pt;background:#fff;border:.75pt solid var(--line);border-radius:8pt;padding:7pt 8.5pt;margin-bottom:9pt}
+.map .cell{background:#fff;border:.75pt solid var(--line);border-radius:6pt;border-top-width:3pt;padding:4pt 8pt 5pt 8pt}
+.map .cell h4{margin:0 0 1pt 0;font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:9.9pt;line-height:1.5}
+.map .cell ul{margin:0;padding:0 9pt 0 0;list-style:none;font-size:8.9pt;line-height:14pt;color:var(--text)}
+.map .cell li{position:relative;margin-bottom:1.5pt}
+.map .cell li::before{content:'•';position:absolute;right:-9pt;top:0;color:var(--text)}
+.map .cell .en{direction:ltr;unicode-bidi:isolate;font-weight:600;color:var(--muted)}
+.map .c1{grid-column:1;grid-row:1;border-top-color:var(--navy2)} .map .c1 h4{color:var(--navy2)}
+.map .c2{grid-column:1;grid-row:2;border-top-color:var(--navy2)} .map .c2 h4{color:var(--navy2)}
+.map .c3{grid-column:3;grid-row:1;border-top-color:var(--navy2)} .map .c3 h4{color:var(--navy2)}
+.map .c4{grid-column:3;grid-row:2;border-top-color:var(--gold)} .map .c4 h4{color:var(--gold2)}
+.map .hub{grid-column:2;grid-row:1 / 3;align-self:center;position:relative;min-height:48.7pt;background:var(--navy);border-radius:8pt;color:#fff;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11pt;line-height:1.35;display:flex;align-items:center;justify-content:center;text-align:center;padding:6pt 8pt}
+.map .hub .lk{position:absolute;width:20pt;height:16pt}
+.map .hub .lk.r1{left:100%;top:-6pt} .map .hub .lk.r2{left:100%;bottom:-6pt}
+.map .hub .lk.l1{right:100%;top:-6pt} .map .hub .lk.l2{right:100%;bottom:-6pt}
+.arr{font-family:'DejaVuArr','Baloo Bhaijaan 2'}
+
+/* ---------- الفكرة الأساسية + السؤال الرئيسي ---------- */
+.iq{display:flex;gap:10pt;align-items:stretch;margin-bottom:6pt}
+.iq .q{flex:0 0 261.7pt;border-top:.75pt solid var(--line2);border-bottom:.75pt solid var(--line2);padding:8pt 8pt 8pt 4pt;text-align:center}
+.iq .q .lab{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:9.2pt;color:var(--gold2);line-height:1.5}
+.iq .q .qq{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:10.6pt;color:var(--navy);line-height:1.45;margin-top:1pt}
+.iq .idea{flex:1;position:relative;background:var(--cream);border:.75pt solid var(--creamb);border-radius:6pt;padding:7pt 12pt 7pt 30pt;font-size:10pt;line-height:15.5pt;color:var(--text2)}
+.iq .idea b{color:var(--navy2)}
+.qmark{position:absolute;left:7pt;top:-4pt;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:30pt;color:var(--creamb);line-height:1}
+
+/* ---------- عناوين ---------- */
+.big{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:15pt;color:var(--navy);text-align:center;line-height:1.4;margin:4pt 0 2pt 0}
+.content>.big{padding:4pt 14pt;background:#eef2f8;border-radius:9pt;border-right:3pt solid #e29433;margin:4pt 0 6pt 0}
+.content>.big+hr.rule{display:none}
+.part{display:flex;justify-content:center;margin:4pt 0 0 0}
+.part span{display:inline-block;border-radius:7pt;padding:0 8pt;height:14.2pt;line-height:13pt;font-weight:700;font-size:8.8pt}
+.part.p1 span{background:var(--bg);border:.75pt solid var(--line2);color:var(--blue)}
+.part.p2 span{background:var(--bg);border:.75pt solid var(--line2);color:var(--blue)}
+.part.p3 span{background:var(--bg);border:.75pt solid var(--line2);color:var(--blue)}
+.rule{border:0;border-top:.75pt solid var(--line);margin:9pt 0 0 0}
+h2.sec{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:13.4pt;color:var(--navy);line-height:1.35;margin:9pt 0 8pt 0;padding:6pt 14pt;background:#eef2f8;border-radius:9pt;border-right:3pt solid var(--gold);break-after:avoid}
+h2.sec.g,h2.sec.t{border-right-color:var(--gold)}
+h2.sec .dot{color:var(--navy);margin:0 3pt}
+
+/* ---------- اقتباس الكتاب ---------- */
+.quote{position:relative;background:var(--cream);border-left:.75pt solid var(--creamb);border-radius:6pt;padding:7.5pt 12pt 7.5pt 34pt;font-size:10.5pt;line-height:16.5pt;color:var(--text);margin-bottom:9pt}
+.quote b{color:var(--navy2)}
+
+/* ---------- شارة عنوان صغيرة + بانر التعريف ---------- */
+.chip{display:inline-block;background:var(--bg2);border-radius:6pt;padding:0 12pt;height:21pt;line-height:20pt;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:10.4pt;color:var(--navy);margin-bottom:5pt}
+.banner{background:var(--navy);color:#fff;padding:9pt 16pt 8pt 22pt;margin:0 0 0 68pt;font-size:9.9pt;line-height:15.3pt;clip-path:polygon(0.3% 6%,3% 2%,12% 0,30% 3%,52% 0,70% 2%,88% 0,100% 4%,99.6% 60%,100% 100%,80% 97%,62% 100%,40% 96%,20% 100%,6% 97%,0 100%,1% 40%)}
+.banner b{color:#ffd08a}
+
+/* ---------- الأعمدة الثلاثة بالأيقونات ---------- */
+.cols3{display:flex;gap:16pt;align-items:flex-start;margin:6pt 0 12pt 0}
+.cols3 .c{flex:1;text-align:center}
+.cols3 .ic{height:95pt;display:flex;align-items:center;justify-content:center}
+.cols3 .ic svg{height:92pt;width:auto}
+.cols3 h4{margin:6pt 0 0 0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:12.6pt;color:var(--navy);line-height:1.45}
+.cols3 .en{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:7.6pt;color:var(--gold2);letter-spacing:1.4pt;line-height:1.3;direction:ltr}
+.cols3 .bar{width:31.5pt;height:2.3pt;border-radius:2pt;background:var(--gold);margin:7pt auto 8pt auto}
+.cols3 .d{font-size:9.7pt;line-height:15.7pt;color:var(--text);text-align:center;padding:0 2pt}
+.cols3 .d b{color:var(--navy2)}
+.tagp{display:inline-block;background:var(--bg);border:.75pt solid var(--line2);border-radius:7pt;padding:0 8pt;height:14.2pt;line-height:13pt;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:7.8pt;color:var(--blue);margin-top:5pt}
+
+/* ---------- الطبقات الثلاث: كروت + جدول (تصميم زياد 24 سبتمبر) ---------- */
+.l3{position:relative;overflow:hidden;padding:6pt 0 2pt 0;margin-bottom:6pt;--or:#e29433;--orl:#f5f7fb;--orb:#dde5ef;--orp:#eef2f8;--bl:#2e4a78;--bll:#f5f7fb;--blb:#dde5ef;--blp:#eef2f8}
+.l3 .dec{position:absolute;pointer-events:none;z-index:0}
+.l3 .d1{left:-60pt;top:-50pt;width:150pt;height:150pt;border-radius:50%;background:#eef4fb}
+.l3 .d2{right:-40pt;top:-58pt;width:110pt;height:110pt;border-radius:50%;background:#f1f6fc;border:.8pt solid #f3c98d;border-color:transparent transparent #f3c98d #f3c98d;transform:rotate(-20deg)}
+.l3 .d3{right:78pt;top:14pt;width:12pt;height:12pt;border-radius:50%;background:#fbe3c2}
+.l3 .dots{left:14pt;top:12pt;width:34pt;height:20pt;background-image:radial-gradient(#c9d6e6 .9pt,transparent 1pt);background-size:6.5pt 6.5pt}
+.l3>*:not(.dec){position:relative;z-index:1}
+.l3-title{display:flex;align-items:center;justify-content:center;gap:10pt;margin:0 0 10pt 0}
+.l3-title h3{margin:0;background:#eef2f8;border-radius:14pt;padding:3pt 20pt 4pt 20pt;font-weight:800;font-size:15pt;line-height:1.35;color:var(--navy);position:relative}
+.l3-title h3::after{content:'';position:absolute;left:50%;transform:translateX(-50%);bottom:-4pt;width:48pt;height:3.2pt;border-radius:2pt;background:#e29433}
+.l3-title .spk{width:12pt;height:16pt;position:relative}
+.l3-title .spk::before,.l3-title .spk::after{content:'';position:absolute;height:2.2pt;border-radius:1pt;background:#e29433}
+.l3-title .spk.r::before{width:7pt;right:1pt;top:3pt;transform:rotate(-50deg)} .l3-title .spk.r::after{width:7pt;right:3pt;top:11pt}
+.l3-title .spk.l::before{width:7pt;left:1pt;top:3pt;transform:rotate(50deg)} .l3-title .spk.l::after{width:7pt;left:3pt;top:11pt}
+.l3-cards{display:flex;gap:8pt;margin-bottom:8pt}
+.l3c{flex:1;border-radius:10pt;border:.75pt solid;padding:8pt 9pt 9pt 9pt;text-align:center;display:flex;flex-direction:column;align-items:center}
+.l3c.warm{background:var(--orl);border-color:var(--orb)} .l3c.cool{background:var(--bll);border-color:var(--blb)}
+.l3c .halo{position:relative;width:62pt;height:62pt;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:4pt}
+.l3c.warm .halo{background:#eef2f8} .l3c.cool .halo{background:#eef2f8}
+.l3c .halo>svg:not(.sp){width:40pt;height:auto}
+.l3c .halo .sp{position:absolute;left:-18pt;top:6pt;width:98pt;height:40pt}
+.l3c h4{margin:0;font-weight:800;font-size:12pt;line-height:1.35;color:var(--navy)}
+.l3c .bar{width:26pt;height:2.4pt;border-radius:2pt;background:#e29433;margin:4pt 0 6pt 0}
+.l3c p{flex:1;font-size:9.8pt;line-height:15.2pt;color:var(--text2);margin:0 0 7pt 0}
+.l3c p b{color:var(--navy2)}
+.l3c .pill{display:inline-flex;align-items:center;gap:5pt;border-radius:11pt;padding:0 12pt;height:21pt;font-weight:700;font-size:9.4pt;line-height:1}
+.l3c.warm .pill{background:var(--orp);color:#a9670f} .l3c.cool .pill{background:var(--blp);color:#2e4a78}
+.l3c .pill svg{width:11pt;height:11pt;flex:none}
+table.l3t{width:100%;border-collapse:separate;border-spacing:0;border:.75pt solid var(--blb);border-radius:9pt;overflow:hidden;font-size:9.6pt;line-height:14.8pt;color:var(--text2)}
+table.l3t th{background:#f5f7fb;font-weight:700;font-size:10pt;color:var(--navy);text-align:center;padding:5pt 8pt 4pt 8pt;border-bottom:.75pt solid var(--blb)}
+table.l3t th+th,table.l3t td+td{border-right:.75pt solid #dde5ef}
+table.l3t td{padding:6pt 10pt;vertical-align:middle;border-top:.75pt solid #dde5ef}
+table.l3t tr:first-child td{border-top:0}
+table.l3t tr.warm td{background:#f5f7fb} table.l3t tr.cool td{background:#f5f7fb}
+table.l3t td.k{font-weight:800;font-size:11pt;color:var(--navy);white-space:nowrap}
+table.l3t td.k .ic{display:inline-flex;align-items:center;justify-content:center;width:32pt;height:32pt;border-radius:50%;margin-left:8pt;vertical-align:middle}
+table.l3t tr.warm td.k .ic{background:#eef2f8} table.l3t tr.cool td.k .ic{background:#eef2f8}
+table.l3t td.k .ic svg{width:20pt;height:auto}
+table.l3t td b{color:var(--navy2)}
+table.l3t ul{margin:0;padding:0 11pt 0 0;list-style:none}
+table.l3t li{position:relative;line-height:15pt}
+table.l3t li::before{content:'';position:absolute;right:-10pt;top:5.6pt;width:4.2pt;height:4.2pt;border-radius:50%}
+table.l3t tr.warm li::before{background:#e29433} table.l3t tr.cool li::before{background:#2e4a78}
+
+/* ---------- الجداول ---------- */
+table.t{width:100%;border-collapse:separate;border-spacing:0;border:.75pt solid var(--line);border-radius:8pt;overflow:hidden;font-size:9.9pt;line-height:14.3pt;color:var(--text);margin-bottom:8pt}
+table.t th{background:var(--bg);font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:9.6pt;color:var(--navy);text-align:right;padding:5pt 10pt 4pt 10pt;border-bottom:.75pt solid var(--line2);box-shadow:0 .75pt 0 var(--line);line-height:1.5;vertical-align:middle}
+table.t th .sub{display:block;font-size:8.8pt;color:var(--muted2);font-weight:700;line-height:1.3}
+table.t td{padding:6.5pt 10pt 5.5pt 10pt;vertical-align:top;border-top:.75pt solid var(--line)}
+table.t tr:first-child td{border-top:0}
+table.t tbody tr:nth-child(even) td{background:var(--bg)}
+table.t td b{color:var(--navy2)}
+table.t td.k{font-weight:700;color:var(--navy2);white-space:nowrap}
+table.t.t4 td.k{white-space:normal}
+table.t.t4 th,table.t.t4 td{text-align:right}
+
+/* ---------- الأشكال ---------- */
+.fig{background:#fff;border:.75pt solid var(--line);border-radius:8pt;padding:12pt 9.5pt 6pt 9.5pt;margin-bottom:8pt}
+.fig .cap{border-top:.75pt dashed var(--line);margin-top:8pt;padding-top:5pt;text-align:center;font-family:'Baloo Bhaijaan 2';font-weight:600;font-size:8.8pt;color:var(--text);line-height:1.5}
+/* الشكل 3.1.1 */
+.layers .lay{border:.75pt solid #c9d9ee;background:#e8f0fb;border-radius:10pt;height:52pt;display:flex;align-items:center;padding:0 18pt 0 24pt;gap:14pt}
+.layers .lay.mid{background:var(--cream2);border-color:var(--creamb2)}
+.layers .lay .n{flex:0 0 118pt;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:12.8pt;color:var(--navy);line-height:1.2;text-align:center}
+.layers .lay .n small{display:block;font-size:9.2pt;font-weight:700;color:var(--gold2);letter-spacing:1pt;direction:ltr;margin-top:1pt}
+.layers .lay .n.g{color:var(--gold2)}
+.layers .lay .d{flex:1;text-align:center;font-size:11pt;line-height:1.35;color:var(--text)}
+.layers .lay .d em{display:block;font-style:normal;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11pt;color:var(--gold2);margin-top:1pt}
+.layers .arrows{height:24pt;position:relative}
+.layers .arrows .a{position:absolute;top:2pt;width:14pt;height:20pt}
+.layers .arrows .down{right:75pt} .layers .arrows .up{left:118pt}
+/* الشكل 3.1.2 */
+.seq{position:relative;height:238pt}
+.seq .hd{position:absolute;top:3pt;height:37pt;border-radius:9pt;display:flex;align-items:center;justify-content:center;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11.5pt;color:var(--navy);background:#e8f0fb;border:.75pt solid #c9d9ee}
+.seq .hd.mid{background:var(--cream2);border-color:var(--creamb2);color:var(--gold2)}
+.seq .h1{right:6pt;width:128pt} .seq .h2{left:196pt;width:126pt} .seq .h3{left:6pt;width:126pt}
+.seq svg{position:absolute;left:0;top:0;width:100%;height:100%}
+.seq .st{position:absolute;font-size:10.1pt;color:var(--text);line-height:1.3;white-space:nowrap}
+.seq .st.g{color:var(--gold2)} .seq .st.b{color:var(--blue)}
+.seq .no{position:absolute;right:20pt;width:18.4pt;height:18.4pt;border-radius:50%;background:var(--gold3);color:#fff;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.6pt;display:flex;align-items:center;justify-content:center;line-height:1}
+
+/* ---------- الخطوات الست ---------- */
+.steps{position:relative;padding-right:22pt;margin:0 0 6pt 0}
+.steps::before{content:'';position:absolute;right:6pt;top:8pt;bottom:14pt;width:1.5pt;background:var(--gold);border-radius:1pt}
+.steps .s{position:relative;padding:0 0 12.5pt 0}
+.steps .s .n{position:absolute;right:-22.7pt;top:3pt;width:13.5pt;height:13.5pt;border-radius:50%;background:var(--gold);color:#fff;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:8.2pt;display:flex;align-items:center;justify-content:center;line-height:1}
+.steps .s h4{margin:0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:10.6pt;color:var(--navy);line-height:1.5}
+.steps .s p{font-size:9.9pt;line-height:14.5pt;color:var(--text)}
+
+/* ---------- صناديق ملوّنة ---------- */
+.box{border-radius:8pt;padding:8pt 12pt 8pt 12pt;margin-bottom:8pt;border:.75pt solid}
+.box h3{margin:0 0 3pt 0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.9pt;line-height:1.5}
+.box.cream{background:var(--cream);border-color:var(--creamb)} .box.cream h3{color:var(--gold2)}
+.box.green{background:var(--greenbg);border-color:var(--greenb)} .box.green h3{color:var(--green);font-size:10pt}
+.box.white{background:#fff;border-color:var(--greenb)} .box.white h3{color:var(--green);font-size:10.5pt}
+.box p,.box li{font-size:10.5pt;line-height:16.5pt;color:var(--text)}
+.box p+p{margin-top:3pt}
+.box ul{margin:0;padding:0 14pt 0 0;list-style:none}
+.box ul li{position:relative}
+.box ul li::before{content:'•';position:absolute;right:-12pt;top:0;color:var(--gold2)}
+.box ol{margin:0;padding:0 16pt 0 0;list-style:none;counter-reset:n}
+.box ol li{position:relative;counter-increment:n;margin-bottom:3pt}
+.box ol li::before{content:counter(n) '.';position:absolute;right:-16pt;top:0;color:var(--text)}
+.tip{background:var(--cream2);border:.75pt solid #f2dcbb;border-right:3pt solid var(--gold);border-radius:6pt;padding:6pt 12pt 6pt 12pt;margin:6pt 0 2pt 0;font-size:9.4pt;line-height:15pt;color:var(--text2)}
+.tip .l{font-weight:700;color:var(--gold2)}
+
+/* ---------- سؤال على نمط الامتحان ---------- */
+.exam{background:var(--cream);border:.75pt solid var(--creamb);border-radius:8pt;padding:7pt 11pt 9pt 11pt;margin-bottom:8pt}
+.exam .hd{display:flex;align-items:center;gap:7pt;margin-bottom:4pt}
+.exam .hd .n{width:18.8pt;height:16.5pt;border-radius:4pt;background:var(--navy);color:#fff;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.4pt;display:flex;align-items:center;justify-content:center;line-height:1}
+.exam .hd .t{flex:1;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:10.4pt;color:var(--navy);line-height:1.5}
+.exam .hd .m{background:#fff;border-radius:7pt;padding:0 7pt;height:14.2pt;line-height:13.5pt;font-weight:700;font-size:8.4pt;color:var(--gold2)}
+.exam .qt{font-weight:700;font-size:10.5pt;line-height:16pt;color:var(--navy2);margin:2pt 0 6pt 0}
+.exam .hint{background:var(--bg);border:.75pt solid var(--line2);border-radius:5pt;padding:3pt 9pt;font-size:9.4pt;line-height:15pt;color:var(--text)}
+.exam .hint b{color:var(--navy2)}
+h3.sub{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11.2pt;color:var(--navy);margin:8pt 0 6pt 0;line-height:1.4;padding:5pt 14pt;background:#eef2f8;border-radius:9pt;border-right:3pt solid var(--gold);break-after:avoid}
+
+
+/* ---------- إجابة السؤال الرئيسي ---------- */
+.mq{border-top:.75pt solid var(--line2);border-bottom:.75pt solid var(--line2);text-align:center;padding:6pt 0 7pt 0;margin:0 0 8pt 0}
+.mq .lab{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:9.2pt;color:var(--gold2);line-height:1.5}
+.mq .qq{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:13pt;color:var(--navy);line-height:1.45}
+
+/* ---------- الخلاصة في دقيقة ---------- */
+.dark{background:var(--navy);border-radius:8pt;padding:8pt 12pt 6pt 12pt;color:#fff;margin-bottom:8pt}
+.dark h3{margin:0 0 4pt 0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.8pt;color:#f1c88b;line-height:1.5}
+.dark .g2{display:flex;gap:18pt}
+.dark ul{flex:1;margin:0;padding:0 12pt 0 0;list-style:none;font-size:9pt;line-height:14.2pt;color:#fff}
+.dark li{position:relative;margin-bottom:3.5pt}
+.dark li::before{content:'•';position:absolute;right:-11pt;top:0;color:#fff}
+.dark b{color:#ffd9a0}
+
+/* ---------- اتأكد إنك قادر على ---------- */
+.check{background:#fff;border:.75pt solid var(--line);border-radius:8pt;padding:8pt 13pt 6pt 13pt;margin-bottom:6pt}
+.check h3{margin:0;padding-bottom:5pt;border-bottom:.75pt solid var(--line);font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.8pt;color:var(--navy);line-height:1.5}
+.check .g2{display:flex;gap:16pt;margin-top:6pt}
+.check ul{flex:1;margin:0;padding:0;list-style:none}
+.check li{display:flex;gap:7pt;align-items:flex-start;font-size:9pt;line-height:14.2pt;color:var(--text);margin-bottom:5pt}
+.check li::before{content:'';flex:none;width:12pt;height:12pt;border-radius:3pt;background:#fffbf4;border:.75pt solid var(--gold);margin-top:.5pt}
+.check b{color:var(--navy2)}
+.endline{border-top:.75pt solid var(--line);margin-top:0;padding-top:3pt;text-align:center;font-size:8.6pt;color:var(--muted2);line-height:1.5}
+
+/* ---------- صفحة التلخيص ---------- */
+.instr{background:var(--bg);border:.75pt solid var(--line2);border-radius:6pt;padding:5pt 12pt;font-size:9.2pt;line-height:15.4pt;color:var(--text);margin-bottom:18pt}
+.instr b{color:var(--navy2)}
+.lines div{height:26.6pt;border-bottom:.75pt solid var(--line)}
+
+
+/* ===================================================================
+   توزيع تلقائي: المحتوى بيتكتب في .flow والسكريبت بيوزّعه على .sheet
+   =================================================================== */
+.flow{width:532.7pt;margin:0 auto;background:#fff}
+.pb{display:none}
+
+/* ===================================================================
+   تصميمات زياد (24 سبتمبر) — القسم 3 (رحلة الطلب) · التعاون التسلسلي · القسم 4 · القسم 5
+   =================================================================== */
+.ctitle{text-align:center;margin:4pt 0 8pt 0;padding:6pt 14pt;background:#eef2f8;border-radius:9pt;border-right:3pt solid #e29433}
+.ctitle h2{margin:0;font-weight:800;font-size:16pt;color:var(--navy);line-height:1.3}
+.ctitle .st{font-weight:500;font-size:10.5pt;color:var(--muted2);line-height:1.35}
+.quote.q2{border:.75pt solid #dde5ef;border-radius:9pt;background:#fbf6e8;font-size:10.4pt;line-height:16pt}
+.quote.q2 .exl{color:#a9670f;font-weight:700;text-decoration:underline;text-underline-offset:2pt}
+.panel{border-radius:11pt;background:#f5f7fb;padding:0 6pt 6pt 6pt;margin-bottom:8pt}
+.panel .ph{font-weight:700;font-size:11pt;color:var(--navy);padding:5pt 7pt 4pt 7pt;line-height:1.4}
+.panel .pbody{background:#fff;border-radius:9pt;padding:7pt}
+/* المسار العام */
+.path{display:flex;align-items:center;justify-content:space-between}
+.path .pc{width:61pt;height:68pt;border-radius:8pt;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:3pt 2pt}
+.path .pc svg{width:23pt;height:23pt;margin-bottom:4pt}
+.path .pc b{font-weight:800;font-size:8.4pt;color:var(--navy);line-height:1.2}
+.path .pc small{font-weight:500;font-size:7.6pt;color:var(--muted);line-height:1.3;margin-top:1pt}
+.path .pc.b{background:#f5f7fb} .path .pc.o{background:#f5f7fb} .path .pc.p{background:#f5f7fb} .path .pc.g{background:#f5f7fb}
+.path .ar{flex:none;color:#e29433;font-family:'DejaVuArr';font-weight:700;font-size:10.5pt;line-height:1}
+/* الخطوات بالتفصيل */
+.steps2 .stp{display:flex;align-items:center;gap:10pt;border-radius:9pt;padding:5pt 10pt;margin-bottom:5pt;min-height:43pt}
+.steps2 .stp:last-child{margin-bottom:0}
+.steps2 .stp.cool{background:#f5f7fb} .steps2 .stp.warm{background:#f5f7fb}
+.steps2 .stp .n{flex:none;width:21pt;height:21pt;border-radius:50%;background:#e29433;color:#fff;font-weight:800;font-size:11.5pt;display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 0 0 2.2pt #fff}
+.steps2 .stp .tx{flex:1}
+.steps2 .stp h4{margin:0;font-weight:700;font-size:10.8pt;color:var(--navy);line-height:1.35}
+.steps2 .stp p{font-size:9.7pt;line-height:15pt;color:var(--text2)}
+.steps2 .stp .ic{flex:none;width:46pt;display:flex;justify-content:center;align-items:center}
+.steps2 .stp .ic>svg{width:40pt;height:auto}
+.steps2 .stp .dbret{display:flex;align-items:center;gap:2pt}
+.steps2 .stp .dbret svg:first-child{width:13pt;height:8pt} .steps2 .stp .dbret svg:last-child{width:26pt;height:28pt}
+/* شرائط المعلومة */
+.info{display:flex;align-items:center;gap:12pt;border-radius:9pt;border:.75pt solid;padding:7pt 14pt;margin-bottom:8pt}
+.info .lab{flex:none;display:flex;align-items:center;gap:5pt;font-weight:800;font-size:12pt;line-height:1;padding-left:12pt;border-left:1pt solid}
+.info .lab svg{width:21pt;height:21pt}
+.info p{flex:1;font-size:9.8pt;line-height:14.5pt;color:var(--text2)}
+.info.green{background:#f5f7fb;border-color:#dde5ef} .info.green .lab{color:#a9670f;border-color:#dde5ef}
+.info.gray{background:#f5f7fb;border-color:#dde5ef} .info.gray .lab{color:var(--navy);font-size:14pt;padding:0 14pt 0 16pt;border-color:#dde5ef}
+.info.blue{background:#f5f7fb;border-color:#dde5ef} .info.blue .lab{color:#2e4a78;border-color:transparent;padding-left:4pt}
+
+/* ---------- كيفية تعاون الطبقات الثلاث (رسم تسلسلي) ---------- */
+.sqsub{display:flex;align-items:center;justify-content:space-between;margin:0 2pt 8pt 2pt}
+.sqsub .st{font-size:11pt;color:var(--text);font-weight:600;line-height:1.4}
+.sqsub .legend{display:flex;gap:12pt;font-size:9pt;color:var(--text);font-weight:600}
+.sqsub .legend span{display:inline-flex;align-items:center;gap:4pt}
+.sqsub .legend svg{width:26pt;height:8pt}
+.sqh{display:flex;align-items:flex-end;justify-content:space-between;margin:4pt 0 8pt 0}
+.sqh h3{margin:0;font-weight:800;font-size:19pt;color:var(--navy);line-height:1.3}
+.sqh .st{font-size:11pt;color:var(--text);font-weight:500;line-height:1.4}
+.sqh .legend{display:flex;gap:12pt;font-size:9pt;color:var(--text);font-weight:600;padding-bottom:3pt}
+.sqh .legend span{display:inline-flex;align-items:center;gap:4pt}
+.sqh .legend svg{width:26pt;height:8pt}
+.sq{position:relative;width:532pt;height:264pt;margin-bottom:8pt}
+.sq .hd{position:absolute;top:0;width:110pt;height:26pt;border-radius:5pt;border:.75pt solid #dde5ef;background:#f5f7fb;color:var(--navy);font-weight:700;font-size:10pt;display:flex;align-items:center;justify-content:center;line-height:1;z-index:2}
+.sq .hd.u{background:#2e4a78;border-color:#2e4a78;color:#fff}
+.sq svg.lines{position:absolute;left:0;top:0;width:532pt;height:264pt}
+.sq .lb{position:absolute;transform:translateX(-50%);font-size:9pt;line-height:11pt;color:var(--text2);text-align:center;white-space:nowrap;font-weight:500}
+.sq .nb{position:absolute;width:14pt;height:14pt;border-radius:50%;color:#fff;font-weight:800;font-size:8.4pt;display:flex;align-items:center;justify-content:center;line-height:1;transform:translate(-50%,-50%)}
+.sq .nb.r{background:#2e4a78} .sq .nb.o{background:#e29433}
+
+/* ---------- القسم 4: الخدمات ---------- */
+.tbar{background:#eef2f8;border-radius:9pt;border-right:3pt solid #e29433;padding:6pt 14pt;margin:4pt 0 8pt 0}
+.tbar h2{margin:0;font-weight:800;font-size:13.4pt;color:var(--navy);line-height:1.35}
+.warn{display:flex;align-items:center;gap:10pt;background:#fbf6e8;border:.75pt solid #dde5ef;border-radius:9pt;padding:6pt 12pt;margin-bottom:8pt;font-size:10pt;line-height:14.5pt;color:var(--text2)}
+.warn .ex{flex:none;width:20pt;height:20pt;border-radius:50%;background:#e29433;color:#fff;font-weight:800;font-size:12pt;display:flex;align-items:center;justify-content:center;line-height:1}
+.svc{display:grid;grid-template-columns:88pt 1fr 1fr 1fr;border:.75pt solid #dde5ef;border-radius:10pt;overflow:hidden;margin-bottom:6pt;background:#fff}
+.svc .nm{background:#f5f7fb;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8pt 6pt;gap:6pt}
+.svc .nm .ci{width:42pt;height:42pt;border-radius:50%;background:#eef2f8;display:flex;align-items:center;justify-content:center}
+.svc .nm .ci svg{width:25pt;height:25pt}
+.svc .nm h4{margin:0;font-weight:700;font-size:10.8pt;color:var(--navy);line-height:1.25}
+.svc .col{padding:5pt 7pt 4pt 7pt;border-right:.75pt solid #dde5ef}
+.svc .ch{display:flex;align-items:center;gap:6pt;border-radius:7pt;padding:3pt 7pt;margin-bottom:4pt}
+.svc .ch svg{width:20pt;height:20pt;flex:none}
+.svc .ch b{display:block;font-weight:800;font-size:10pt;line-height:1.25;color:var(--navy)}
+.svc .ch small{display:block;font-weight:700;font-size:8.2pt;color:#8795ab;line-height:1.25}
+.svc .col.f .ch{background:#f5f7fb} .svc .col.b .ch{background:#f5f7fb} .svc .col.b .ch b{color:#a9670f} .svc .col.d .ch{background:#f5f7fb}
+.svc ul{margin:0;padding:0 11pt 0 0;list-style:none;font-size:9.2pt;line-height:14.6pt;color:var(--text2)}
+.svc li{position:relative;margin-bottom:2.5pt}
+.svc li::before{content:'';position:absolute;right:-10pt;top:4.7pt;width:4.2pt;height:4.2pt;border-radius:50%}
+.svc .col.f li::before{background:#2e4a78} .svc .col.b li::before{background:#e29433} .svc .col.d li::before{background:#98a4b5}
+.simply{display:flex;align-items:stretch;background:#fbf6e8;border:.75pt solid #dde5ef;border-radius:9pt;overflow:hidden;margin-bottom:8pt}
+.simply .lab{flex:none;display:flex;align-items:center;gap:5pt;background:#eef2f8;color:#a9670f;font-weight:800;font-size:11pt;padding:0 14pt}
+.simply .lab svg{width:18pt;height:18pt}
+.simply p{flex:1;padding:6pt 12pt;font-size:9.8pt;line-height:14.5pt;color:var(--text2)}
+
+/* ---------- القسم 5: نفس النموذج في خدمات مختلفة ---------- */
+.ntitle{margin:4pt 0 7pt 0}
+.ntitle h2{margin:0;font-weight:800;font-size:18pt;color:var(--navy);line-height:1.35}
+.ntitle h2 .n5{color:#e29433;margin-left:7pt}
+.ntitle .st{font-size:10pt;color:var(--muted);line-height:1.5;font-weight:500}
+.exw{background:#f5f7fb;border:.75pt solid #f1e0b0;border-radius:11pt;padding:7pt 9.2pt 4pt 9.2pt;margin-bottom:8pt}
+.exw .eh{display:flex;align-items:center;gap:9pt;margin-bottom:6pt}
+.exw .eh .tag{display:inline-flex;align-items:center;gap:6pt;background:#eef2f8;border-radius:12pt;padding:1pt 12pt 1pt 5pt;font-weight:800;font-size:12.5pt;color:#a9670f;line-height:1.4}
+.exw .eh .tag svg{width:20pt;height:18pt}
+.exw .eh .sub{font-size:9.6pt;color:var(--text2);font-weight:600}
+.exg{display:grid;grid-template-columns:92pt 16pt 110pt 16pt 136pt 16pt 1fr;align-items:stretch}
+.exg .arrs{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12pt}
+.exg .arrs svg{width:16pt;height:9pt}
+.ecard{background:#fff;border:.75pt solid #dde5ef;border-radius:9pt;overflow:hidden;display:flex;flex-direction:column}
+.ecard .eh2{display:flex;align-items:center;gap:5pt;padding:4pt 7pt;font-weight:800;font-size:10.2pt;line-height:1.3}
+.ecard .eh2 svg{width:17pt;height:17pt;flex:none}
+.ecard.f .eh2{background:#f5f7fb;color:var(--navy)} .ecard.b .eh2{background:#eef2f8;color:#a9670f} .ecard.d .eh2{background:#f5f7fb;color:#2e4a78}
+.ecard.b{border-color:#dde5ef} .ecard.d{border-color:#dde5ef}
+.ecard .eb{padding:6pt 6pt 6pt 6pt;font-size:8.5pt;line-height:13.2pt;color:var(--text2);flex:1}
+.ecard ul{margin:0;padding:0 9pt 0 0;list-style:none}
+.ecard li{position:relative;margin-bottom:2pt}
+.ecard ul.dots li::before{content:'';position:absolute;right:-8pt;top:4.4pt;width:3.6pt;height:3.6pt;border-radius:50%;background:#2e4a78}
+.ecard .mock{background:#f5f7fb;border-radius:6pt;padding:5pt;margin-bottom:6pt}
+.msearch{display:flex;align-items:center;height:17pt;background:#fff;border:.75pt solid #dde5ef;border-radius:5pt;overflow:hidden}
+.msearch .q{flex:1;padding:0 6pt;font-weight:600;font-size:8.4pt;color:var(--navy)}
+.msearch .go{width:18pt;height:100%;background:#2e4a78;display:flex;align-items:center;justify-content:center}
+.msearch .go svg{width:10pt;height:10pt}
+.ecard .mock .ghost{height:4pt;border-radius:2pt;background:#dde4ee;margin-top:5pt;width:70%}
+.ecard .chk{display:flex;gap:4pt;align-items:center;background:#f5f7fb;border-radius:6pt;padding:4pt 5pt;margin-bottom:5pt}
+.ecard .chk ul{flex:1;padding:0}
+.ecard .chk li{display:flex;align-items:center;gap:4pt;margin-bottom:2.5pt}
+.ecard .chk li svg{width:9pt;height:9pt;flex:none}
+.ecard .chk .gr svg{width:21pt;height:21pt}
+.ecard .rules{border:.9pt dashed #dde5ef;border-radius:6pt;padding:4pt 5pt}
+.ecard .rules b{display:block;font-weight:800;font-size:8.6pt;color:var(--navy);margin-bottom:1pt}
+.ecard .rules li::before{content:'';position:absolute;right:-8pt;top:4.4pt;width:3.6pt;height:3.6pt;border-radius:50%;background:#2e4a78}
+.ecard .dr{display:flex;align-items:center;gap:6pt;background:#f5f7fb;border-radius:6pt;padding:4pt 5pt;margin-bottom:4pt}
+.ecard .dr:last-child{margin-bottom:0}
+.ecard .dr svg{width:15pt;height:15pt;flex:none}
+.ecard .dr b{display:block;font-weight:800;font-size:8.6pt;color:var(--navy);line-height:1.25}
+.ecard .dr small{display:block;font-size:7.4pt;color:var(--muted);line-height:1.3}
+.phonecol{display:flex;flex-direction:column;gap:5pt}
+.ucard{background:#f5f7fb;border-radius:8pt;padding:5pt 6pt;display:flex;gap:5pt;align-items:flex-start}
+.ucard .n1{width:15pt;height:15pt;border-radius:50%;background:#2e4a78;color:#fff;font-weight:800;font-size:8.6pt;display:flex;align-items:center;justify-content:center;flex:none;line-height:1}
+.ucard b{display:block;font-weight:800;font-size:10pt;color:#2e4a78;line-height:1.25}
+.ucard small{display:block;font-size:7.8pt;color:var(--text2);line-height:1.35}
+.phone{flex:1;background:#22375c;border-radius:13pt;padding:5pt 4pt}
+.phone .scr{background:#fff;border-radius:9pt;height:100%;padding:5pt 5pt;font-size:6.8pt;color:var(--text2);line-height:1.3}
+.phone .loc{display:flex;align-items:center;gap:2pt;font-weight:700;color:var(--navy);margin-bottom:4pt}
+.phone .loc svg{width:8pt;height:8pt} .phone .loc .dd{font-size:6pt;color:var(--muted)}
+.phone .ms{display:flex;align-items:center;height:14pt;border:.6pt solid #dde5ef;border-radius:5pt;overflow:hidden;margin-bottom:4pt}
+.phone .ms .q{flex:1;padding:0 4pt;font-weight:700;color:var(--navy)}
+.phone .ms .go{width:15pt;height:100%;background:#22375c;display:flex;align-items:center;justify-content:center}
+.phone .ms .go svg{width:8pt;height:8pt}
+.phone .chips{display:flex;gap:2pt;margin-bottom:4pt}
+.phone .chips span{border-radius:5pt;background:#eef2f7;padding:0 3.5pt;font-size:6pt;line-height:9pt}
+.phone .chips span.on{background:#6b7486;color:#fff}
+.phone .ri{display:flex;align-items:center;gap:4pt;background:#fff;border:.5pt solid #eef1f5;border-radius:5pt;padding:2.5pt;margin-bottom:3pt;box-shadow:0 .6pt 1.5pt rgba(23,38,63,.08)}
+.phone .ri .th svg{width:20pt;height:20pt;display:block}
+.phone .ri .rn b{display:block;font-weight:800;font-size:7pt;color:var(--navy)}
+.phone .ri .rn i{font-style:normal;font-weight:700;font-size:6.6pt;color:var(--text)} .phone .ri .rn em{font-style:normal;color:#e29433}
+.ret{position:relative;height:28pt}
+.ret svg{position:absolute;left:0;top:0;width:512.7pt;height:30pt}
+.ret .rl{position:absolute;left:280pt;top:4.5pt;transform:translateX(-50%);background:#2e4a78;color:#fff;border-radius:6pt;padding:0 9pt;font-weight:700;font-size:8.2pt;line-height:15pt;white-space:nowrap}
+.probs{background:#fdf2f2;border:.75pt solid #f3d3d3;border-radius:11pt;padding:6pt 10pt 8pt 10pt;margin-bottom:8pt}
+.probs .ph2{display:flex;align-items:center;gap:6pt;font-weight:800;font-size:13pt;color:#b3261e;margin-bottom:5pt;line-height:1.3}
+.probs .ph2 svg{width:20pt;height:18pt}
+.probs .pg{display:grid;grid-template-columns:1.3fr 1fr;gap:8pt}
+.pcard{background:#fff;border:.75pt solid #f3d9d9;border-radius:9pt;padding:6pt 9pt;display:flex;gap:8pt;align-items:center}
+.pcard>div{flex:1}
+.pcard>svg{width:30pt;height:30pt;flex:none}
+.pcard h5{margin:0 0 2pt 0;font-weight:800;font-size:10.4pt;color:#b3261e;line-height:1.35}
+.pcard ul{margin:0;padding:0 10pt 0 0;list-style:none;font-size:9pt;line-height:14.2pt;color:var(--text2)}
+.pcard li{position:relative} .pcard li::before{content:'•';position:absolute;right:-9pt;color:#b3261e}
+.others{background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:11pt;padding:6pt 10pt 8pt 10pt;margin-bottom:8pt}
+.others .ph2{font-weight:800;font-size:13pt;color:var(--navy);margin-bottom:5pt;line-height:1.3}
+.others .og{display:grid;grid-template-columns:repeat(3,1fr);gap:7pt}
+.ocard{background:#fff;border:.75pt solid #dde5ef;border-radius:9pt;padding:6pt 7pt;display:flex;gap:5pt;align-items:center}
+.ocard .ot{flex:1}
+.ocard h5{display:flex;align-items:center;gap:4pt;margin:0 0 2pt 0;font-weight:800;font-size:10.2pt;color:var(--navy);line-height:1.3}
+.ocard h5 svg{width:15pt;height:15pt}
+.ocard ul{margin:0;padding:0 9pt 0 0;list-style:none;font-size:8.4pt;line-height:13.2pt;color:var(--text2)}
+.ocard li{position:relative} .ocard li::before{content:'•';position:absolute;right:-8pt;color:var(--muted)}
+.ocard .mk{flex:none;width:46pt}
+.mk i{display:block;height:3pt;border-radius:2pt;background:#dde4ee;margin-top:3pt}
+.bankm .ph3{background:#22375c;border-radius:7pt;padding:3pt}
+.bankm .ph3 small,.bankm .ph3 b{display:block;background:#fff;text-align:center;line-height:1.3}
+.bankm .ph3 small{font-size:5.6pt;color:var(--muted);border-radius:5pt 5pt 0 0;padding-top:3pt}
+.bankm .ph3 b{font-size:6.6pt;font-weight:800;color:var(--navy);padding-bottom:3pt}
+.bankm .ph3 i{background:#3a4458}
+.vidm .pl{background:#22375c;border-radius:4pt;overflow:hidden;line-height:0}
+.vidm .pl svg{width:100%;height:auto;display:block}
+.shopm{text-align:center}
+.shopm .pr{background:#f5f7fb;border-radius:5pt;padding:4pt 0;line-height:0}
+.shopm .pr svg{width:22pt;height:20pt}
+.shopm .btn{display:block;margin-top:3pt;background:#e29433;color:#fff;border-radius:3pt;font-weight:700;font-size:5.6pt;line-height:9pt}
+
+/* ---------- مثال من حياتنا تحت الرسم التسلسلي (الصورة 3) ---------- */
+.ex3{position:relative;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:11pt;padding:0 9pt 8pt 9pt;margin-bottom:8pt;overflow:hidden}
+.ex3 .fk{position:absolute;left:12pt;top:6pt;width:24pt;height:32pt}
+.ex3 .fk svg{width:100%;height:100%}
+.ex3 .e3h{display:flex;justify-content:flex-start;margin:0 -9pt 0 0}
+.ex3 .e3h h3{margin:0;background:#eef2f8;border-radius:0 0 0 18pt;padding:3pt 14pt 4pt 22pt;font-weight:800;font-size:12pt;color:#2e4a78;line-height:1.35}
+.ex3 .e3s{font-size:9.6pt;color:var(--text2);font-weight:500;margin:4pt 2pt 7pt 0}
+.e3g{display:grid;grid-template-columns:98pt 18pt 1fr 18pt 1fr 18pt 1fr;align-items:stretch}
+.e3g .garr{display:flex;align-items:center;justify-content:center}
+.e3g .garr svg{width:15pt;height:10pt}
+.e3c{background:#fff;border:.75pt solid #dde5ef;border-radius:8pt;padding:6pt 6pt 7pt 6pt;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.e3c h5{margin:0 0 5pt 0;font-weight:800;font-size:10.4pt;color:var(--navy);line-height:1.3}
+.e3c .ico{height:36pt;display:flex;align-items:center;justify-content:center;margin-bottom:6pt}
+.e3c .ico svg{height:34pt;width:auto}
+.e3c p{font-size:8.8pt;line-height:13.8pt;color:var(--text2)}
+.p3col{display:flex;flex-direction:column;align-items:center;gap:5pt}
+.phone.p3{width:78pt;flex:none;border-radius:12pt;padding:4pt 3.5pt;background:#22375c}
+.phone.p3 .scr{padding:0 0 4pt 0;overflow:hidden;border-radius:9pt}
+.phone.p3 .hero{height:34pt;background:#eef2f8;display:flex;align-items:center;justify-content:center;margin-bottom:-6pt}
+.phone.p3 .hero svg{width:40pt;height:40pt;margin-top:8pt}
+.phone.p3 .ms{position:relative;margin:0 4pt 4pt 4pt;background:#fff;border-color:#dde5ef;box-shadow:0 .8pt 2pt rgba(23,38,63,.15);height:13pt}
+.phone.p3 .ms .go{width:13pt;background:transparent}
+.phone.p3 .ms .q{font-size:6.6pt}
+.phone.p3 .ri{margin:0 4pt 3pt 4pt;padding:2pt}
+.phone.p3 .ri .th svg{width:17pt;height:17pt}
+.phone.p3 .ri .bars{flex:1}
+.phone.p3 .ri .bars i{display:block;height:2.8pt;border-radius:2pt;background:#dde4ee;margin:2pt 0}
+.phone.p3 .ri .bars i+i{width:60%}
+.ucard2{display:flex;align-items:center;gap:5pt;background:#fff;border:.75pt solid #dde5ef;border-radius:7pt;padding:4pt 7pt}
+.ucard2 .n1{width:14pt;height:14pt;border-radius:50%;background:#2e4a78;color:#fff;font-weight:800;font-size:8.4pt;display:flex;align-items:center;justify-content:center;flex:none;line-height:1}
+.ucard2 b{font-weight:800;font-size:8.8pt;color:var(--navy);line-height:1.3}
+.e3r{position:relative;height:31pt;margin-bottom:5pt}
+.e3r svg.rp{position:absolute;left:0;top:0;width:100%;height:24pt}
+.e3r .rl{position:absolute;left:199pt;transform:translateX(-50%);top:13pt;display:inline-flex;align-items:center;gap:5pt;background:#fff;border:.75pt solid #dde5ef;border-radius:11pt;padding:2pt 11pt;font-weight:600;font-size:9pt;color:var(--text2);line-height:1.3;white-space:nowrap}
+.e3r .rl svg{width:11pt;height:11pt}
+.e3p{display:flex;align-items:center;gap:14pt;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:9pt;padding:6pt 14pt;margin-bottom:6pt}
+.e3p .pt{flex:none;display:flex;align-items:center;gap:6pt}
+.e3p .pt svg{width:24pt;height:22pt}
+.e3p .pt b{font-weight:800;font-size:12pt;color:#a9670f}
+.e3p ul{flex:1;margin:0;padding:0 11pt 0 0;list-style:none;font-size:9.4pt;line-height:14pt;color:var(--text2)}
+.e3p li{position:relative} .e3p li::before{content:'';position:absolute;right:-10pt;top:5pt;width:4.2pt;height:4.2pt;border-radius:50%;background:#e29433}
+.e3t{display:flex;align-items:center;gap:8pt;background:#f5f7fb;border-radius:9pt;padding:5pt 12pt}
+.e3t svg{width:18pt;height:18pt;flex:none}
+.e3t p{font-size:9.4pt;line-height:13.5pt;color:var(--text2)}
+
+/* المسار العام على 3 سطور (طلب · معالجة · نتيجة) */
+.path3{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;justify-items:center;column-gap:7pt;row-gap:2pt}
+.path3 .pc{width:100%;min-height:38pt;border-radius:8pt;background:#f5f7fb;border:.75pt solid #dde5ef;display:flex;flex-direction:row;align-items:center;gap:8pt;padding:5pt 10pt;text-align:right}
+.path3 .pc svg{width:22pt;height:22pt;flex:none}
+.path3 .pc .tt{display:flex;flex-direction:column}
+.path3 .pc b{font-weight:700;font-size:9.8pt;color:var(--navy);line-height:1.3}
+.path3 .pc small{font-weight:500;font-size:8.8pt;color:var(--muted);line-height:1.35}
+.path3 .ar{flex:none;color:#e29433;font-family:'DejaVuArr';font-weight:700;font-size:11pt;line-height:1}
+.path3 .pdown{color:#e29433;font-family:'DejaVuArr';font-weight:700;font-size:11pt;line-height:1.2}
+
+/* ---------- علامة «للفهم» (أي حاجة مش من الكتاب) ---------- */
+.fx{display:inline-block;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:7.6pt;color:var(--blue);background:#fff;border:.75pt solid var(--blue);border-radius:7pt;line-height:12pt;padding:0 6pt;margin-right:7pt;vertical-align:2pt;white-space:nowrap}
+.fx.abs{position:absolute;top:-7pt;left:12pt;margin:0;z-index:3}
+.fx.fl{float:left;margin:1pt 8pt 2pt 0;vertical-align:0}
+.map,.info,.simply{position:relative}
+.simply{overflow:visible}
+.simply .lab{border-radius:0 9pt 9pt 0}
+.dark h3 .fx{background:#fff}
+/* ---------- توقّف وفكّر (من الكتاب) ---------- */
+.stop{background:#fbf6e8;border:.75pt solid #eee0b8;border-right:3pt solid #e29433;border-radius:9pt;padding:6pt 12pt 7pt 12pt;margin-bottom:6pt}
+.stop .sh{display:flex;align-items:center;gap:5pt;margin-bottom:2pt}
+.stop .sh svg{width:17pt;height:17pt}
+.stop .sh b{font-weight:800;font-size:11pt;color:var(--gold2)}
+.stop p{font-size:10pt;line-height:15.5pt;color:var(--text2);font-weight:600}
+
+/* ===================== بنك الأسئلة ===================== */
+.qstats{display:grid;grid-template-columns:repeat(8,1fr);border:.75pt solid #dde5ef;border-radius:9pt;overflow:hidden;margin-bottom:12pt;background:#fff}
+.qstats>div{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6pt 2pt 5pt 2pt;border-left:.75pt solid #eef2f8}
+.qstats>div:last-child{border-left:0}
+.qstats b{font-weight:800;font-size:14pt;color:var(--navy);line-height:1.2}
+.qstats span{font-weight:600;font-size:8.6pt;color:var(--muted);line-height:1.3}
+h2.cat{display:flex;align-items:center;gap:6pt;font-weight:800;font-size:13.4pt;color:var(--navy);line-height:1.4;margin:10pt 0 7pt 0;padding:5pt 14pt;border-right:3pt solid #e29433;background:#eef2f8;border-radius:9pt}
+h2.cat .cnt{margin-right:auto;font-weight:700;font-size:8.6pt;color:var(--gold2);background:#fbf6e8;border:.75pt solid #eee0b8;border-radius:7pt;line-height:13pt;padding:0 7pt}
+h2.cat .fx{vertical-align:0}
+.qcard{background:#fff;border:.75pt solid #dde5ef;border-right:3pt solid #e29433;border-radius:9pt;padding:7pt 11pt 8pt 11pt;margin-bottom:8pt}
+.qcard.cont{border-top-right-radius:0}
+.qcard h4{display:flex;align-items:center;margin:0 0 4pt 0;font-weight:800;font-size:10.8pt;color:var(--gold2);line-height:1.4}
+.qcard h4 .n{direction:ltr;unicode-bidi:isolate;margin-left:3pt}
+.qcard h4 .mk{margin-right:auto;font-weight:700;font-size:8.4pt;color:var(--navy2);background:#fff;border:.75pt solid #dde5ef;border-radius:7pt;padding:0 7pt;line-height:14pt}
+.qi,.qs,.para{font-size:9.8pt;line-height:15.6pt;color:var(--text2);margin:0 0 5pt 0}
+.qs b,.qi b,.para b{color:var(--navy2)}
+.para{line-height:20pt}
+.bl{display:inline-block;border-bottom:1pt dotted #8a9ab3;height:11pt;vertical-align:-1pt;margin:0 3pt}
+.ab{display:inline-block;flex:none;width:26pt;height:14pt;border:1pt solid #b9c6d8;border-radius:4pt;background:#fff;margin-right:6pt}
+.ab.w{width:62pt}
+.qq{display:flex;gap:7pt;align-items:flex-start;margin:4pt 0 4pt 0}
+.qq .k,.cl .k,.sa .k,.frow .k,.tfb .k{flex:none;display:inline-flex;align-items:center;justify-content:center;width:16pt;height:16pt;border-radius:50%;background:#fbf6e8;border:.75pt solid #eee0b8;font-weight:800;font-size:8.6pt;color:var(--gold2);line-height:1}
+.qq p{flex:1;font-size:9.8pt;line-height:15pt;color:var(--text2)}
+.qq p b{color:var(--navy2)}
+ul.op{margin:2pt 0 6pt 0;padding:0 17pt 0 0;list-style:none;display:grid;gap:1pt 14pt}
+ul.op.c1{grid-template-columns:1fr} ul.op.c2{grid-template-columns:1fr 1fr} ul.op.c3{grid-template-columns:repeat(3,1fr)}
+ul.op li{font-size:9.4pt;line-height:14.2pt;color:var(--text2)}
+ul.op li{display:flex;align-items:flex-start;gap:6pt}
+ul.op li b{display:inline-flex;flex:none;align-items:center;justify-content:center;width:15pt;height:15pt;padding-bottom:1pt;margin-top:-.3pt;border-radius:50%;background:#eef2f8;border:.75pt solid #dde5ef;font-weight:800;font-size:8.2pt;color:var(--navy2);line-height:1}
+ul.tf{margin:2pt 0 0 0;padding:0;list-style:none}
+ul.tf li,ul.tfb li{display:flex;align-items:center;gap:8pt;padding:3.5pt 4pt;border-top:.75pt solid #eef2f8;font-size:9.6pt;line-height:14.4pt;color:var(--text2)}
+ul.tf li:first-child{border-top:0}
+ul.tf li b{display:inline-flex;flex:none;align-items:center;justify-content:center;width:15pt;height:15pt;padding-bottom:1pt;border-radius:50%;background:#eef2f8;border:.75pt solid #dde5ef;font-weight:800;font-size:8.2pt;color:var(--navy2);line-height:1}
+ul.tf .t,ul.tfb .t{flex:1}
+.pr{flex:none;font-weight:600;color:#8a9ab3;letter-spacing:1pt}
+ul.tfb{margin:0 0 7pt 0;padding:0;list-style:none;background:#fff;border:.75pt solid #dde5ef;border-radius:8pt;overflow:hidden}
+ul.tfb li{border-top:0;border-bottom:.75pt solid #e3e9f1;padding:6pt 10pt}
+ul.tfb li:last-child{border-bottom:0}
+ul.tfb li:nth-child(even){background:#f8fafc}
+.match{display:grid;grid-template-columns:1.35fr 1fr;gap:10pt;margin-top:3pt}
+.match .mb{border:.75pt solid #dde5ef;border-radius:8pt;padding:6pt 10pt 7pt 10pt;background:#fbfcfe}
+.match h5{margin:0 0 3pt 0;font-weight:800;font-size:10pt;color:var(--navy);line-height:1.4}
+.match ol{margin:0;padding:0 14pt 0 0;font-size:9.4pt;line-height:14.5pt;color:var(--text2)}
+.match ol li{margin-bottom:3pt}
+.match ol li span{margin-left:6pt}
+.match ol li .ab{vertical-align:-3pt;margin-right:0}
+.sa{display:grid;grid-template-columns:1fr 1fr;gap:7pt}
+.sa>div{border:.75pt solid #e3e9f1;border-radius:7pt;padding:5pt 8pt;background:#fbfcfe}
+.sa>div,.frow>div{display:flex;gap:7pt;align-items:flex-start}
+.sa p,.frow p{flex:1;font-size:9.6pt;line-height:17pt;color:var(--text2)}
+ul.cl{margin:3pt 0 5pt 0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:0 18pt}
+ul.cl li{display:flex;align-items:center;gap:7pt;padding:5pt 0;border-bottom:.75pt solid #e3e9f1;font-size:9.6pt;line-height:14pt;color:var(--text2)}
+ul.cl li .t{flex:1}
+.mrow{display:grid;grid-template-columns:1fr 1fr;gap:7pt;margin-bottom:7pt}
+.mq{border:.75pt solid #dde5ef;border-radius:8pt;background:#fff;padding:5pt 9pt 5pt 9pt}
+.mq .qq{margin:0 0 4pt 0}
+.mq ul.op{margin:0;padding:4pt 0 0 0;border-top:.75pt dashed #e3e9f1;gap:3pt 10pt}
+.mrow .mq ul.op{margin-bottom:2pt}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:7pt;margin-bottom:7pt}
+.frow>div{border:.75pt solid #dde5ef;border-radius:8pt;background:#fff;padding:6pt 9pt}
+.hint{background:#fbf6e8;border:.75pt solid #eee0b8;border-radius:7pt;padding:4pt 10pt;font-size:9pt;line-height:14pt;color:var(--text2);margin:2pt 0 4pt 0}
+.hint>b:first-child{font-weight:800;color:var(--gold2);margin-left:5pt}
+.hint b{color:var(--navy2)}
+.wl i{display:block;height:17pt;border-bottom:.75pt dotted #b9c6d8}
+.why{border:.75pt solid #dde5ef;border-radius:8pt;background:#fff;padding:6pt 10pt 7pt 10pt;margin-bottom:7pt}
+.why .wl{margin-right:23pt}
+table.cmp{width:100%;border-collapse:separate;border-spacing:0;border:.75pt solid #dde5ef;border-radius:8pt;overflow:hidden;margin:4pt 0 8pt 0;font-size:9.6pt;line-height:14pt}
+table.cmp th{background:#eef2f8;font-weight:800;color:var(--navy);text-align:right;padding:4pt 10pt;border-bottom:.75pt solid #dde5ef}
+table.cmp td{height:22pt;padding:3pt 10pt;border-top:.75pt solid #eef2f8;border-left:.75pt solid #eef2f8}
+table.cmp th+th{border-right:.75pt solid #dde5ef}
+table.cmp td.k{width:118pt;font-weight:700;color:var(--navy2);background:#fbfcfe}
+table.cmp.tall td{height:38pt}
+.qcard table.cmp{margin-bottom:2pt}
+.chx{display:flex;flex-wrap:wrap;gap:4pt 18pt;font-size:9.4pt;line-height:14pt;color:var(--text2);margin:2pt 0 2pt 0}
+.drawbox{height:150pt;margin:4pt 0 0 23pt;border:1pt dashed #b9c6d8;border-radius:8pt;background:#fbfcfe}
+.why.cont{border-top-right-radius:0;border-top-left-radius:0;padding-top:2pt}
+/* ---------- علامة «تقييمات» ---------- */
+.mq,.why,.qcard{position:relative}
+.tq{position:absolute;top:-6.5pt;left:10pt;z-index:3;display:inline-block;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:7.6pt;color:#17263f;background:#e29433;border-radius:7pt;line-height:12pt;padding:0 6pt;white-space:nowrap}
+.qstats .tq{position:static;margin-top:2pt;font-size:8pt;line-height:13pt}
+.content>.tqtop{margin-top:9pt}
+.tqin .tq{top:-3.2pt}
+/* ===== صناديق الكتاب الجانبية: الفكرة الرئيسة · مصطلحات أساسية · تذكّر · الحل · تعليق الصورة ===== */
+.kidea{background:#22375c;border-right:3pt solid #e29433;border-radius:9pt;padding:8pt 14pt 9pt 14pt;margin:12pt 0 9pt 0}
+.kidea .kh{font-weight:800;font-size:9.8pt;line-height:15pt;color:#f1c88b;margin-bottom:2pt}
+.kidea p{font-size:10.4pt;line-height:17pt;color:#fff;margin:0}
+.kidea p b{color:#ffd08a}
+.terms{background:#fff;border:.75pt solid #dde5ef;border-radius:8pt;padding:6pt 12pt 7pt 12pt;margin:0 0 8pt 0}
+.terms .th{display:flex;align-items:center;gap:10pt;margin:0 0 5pt 0;padding-bottom:4pt;border-bottom:.75pt solid #dde5ef}
+.terms h3{flex:none;margin:0;font-weight:800;font-size:9.8pt;line-height:1.5;color:var(--navy)}
+.terms .t3{flex:1;display:flex;gap:6pt}
+.terms .t3 span{flex:1;background:#f5f7fb;border-radius:6pt;padding:1pt 6pt;text-align:center;font-size:9.2pt;line-height:14pt;white-space:nowrap;color:var(--text)}
+.terms .t2{display:grid;grid-template-columns:1fr 1fr;gap:5pt 6pt}
+.terms .t2 div{background:#f5f7fb;border-radius:6pt;padding:3pt 9pt;font-size:9.3pt;line-height:14.5pt;color:var(--text)}
+.terms b{color:#a9670f;font-weight:800}
+.dark .rem{font-size:9.3pt;line-height:14.5pt;color:#fff;margin:0 0 5pt 0;padding-bottom:5pt;border-bottom:.75pt solid rgba(255,255,255,.2)}
+.dark .rem b{color:#f1c88b}
+.qcard.sol .ck{display:inline-flex;align-items:center;justify-content:center;width:14pt;height:14pt;border-radius:50%;background:#e29433;color:#fff;font-size:9pt;margin-left:3pt}
+.qcard.sol .sg{display:grid;grid-template-columns:1.5fr 1fr;gap:14pt}
+.qcard.sol .sp{font-weight:800;color:var(--navy2);font-size:9.6pt;line-height:15pt;margin-bottom:2pt}
+.qcard.sol .sr{display:flex;gap:6pt;font-size:9.6pt;line-height:15pt;color:var(--text);margin-bottom:2pt}
+.qcard.sol .sr b{flex:none;min-width:12pt;color:#a9670f;font-weight:800}
+.qcard.sol .sr i{font-style:normal;font-weight:800;color:#a9670f}
+.terms .t2+.t2{margin-top:5pt}
+.terms .t2.c3{grid-template-columns:1fr 1fr 1fr}
+.terms .t2 .full{grid-column:1/-1}
+.icap{margin:5pt 0 8pt 0;padding-top:4pt;border-top:.75pt dashed #dde5ef;text-align:center;font-size:8.8pt;line-height:13pt;color:var(--muted)}
+
+/* ---------- إضافات الدرس 2-1 ---------- */
+.banner{text-wrap:pretty}
+.quote,.note-line,.box p,.box li,.stg p,.hf .hs p{text-wrap:pretty}
+.intro .body p+p{margin-top:4pt}
+.map .cell li{text-wrap:pretty}
+.map.m2 .cell h4{display:flex;align-items:flex-start;gap:5pt;line-height:1.4;margin-bottom:2pt}
+.map.m2 .cell h4 .mn{flex:none;display:inline-flex;align-items:center;justify-content:center;width:13pt;height:13pt;border-radius:50%;background:var(--navy2);color:#fff;font-size:7.8pt;font-weight:800;margin-top:1.5pt}
+.map.m2{grid-template-columns:1fr 104pt 1fr;column-gap:15pt}
+.map.m2 .hub{font-size:10.4pt;padding:6pt 6pt}
+.nw{white-space:nowrap}
+.box.plain{background:#f5f7fb;border-color:#dde5ef} .box.plain h3{color:var(--navy)}
+.box.plain p{text-wrap:pretty}
+.cmpw{position:relative}
+/* مراحل اتصال HTTPS (جدول الكتاب ككروت) */
+.stg{display:flex;flex-direction:column;gap:6pt;margin:0 0 4pt 0}
+.stg .sh{display:grid;grid-template-columns:1fr 112pt;gap:10pt;padding:0 11pt 0 11pt;font-weight:700;font-size:8.6pt;color:var(--muted);line-height:1.3}
+.stg .sh span:first-child{padding-right:30pt}
+.stg .sh span:last-child{text-align:center}
+.stg .sc{display:grid;grid-template-columns:20pt 1fr 112pt;align-items:center;gap:10pt;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:9pt;padding:7pt 11pt}
+.stg .sn{width:20pt;height:20pt;border-radius:50%;background:#e29433;color:#fff;font-weight:800;font-size:10.5pt;display:flex;align-items:center;justify-content:center;line-height:1}
+.stg h4{margin:0 0 1pt 0;font-weight:800;font-size:10.6pt;color:var(--navy);line-height:1.4}
+.stg p{font-size:9.7pt;line-height:15pt;color:var(--text2)}
+.stg p b{color:var(--navy2)}
+.stg .mc{align-self:stretch;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2pt;text-align:center;background:#fff;border:.75pt solid #dde5ef;border-radius:8pt;padding:4pt 6pt}
+.stg .mc svg{width:22pt;height:22pt}
+.stg .mc b{font-size:9.6pt;font-weight:800;line-height:1.35}
+.stg .mc.pk b{color:#2e4a78} .stg .mc.sy b{color:#a9670f}
+.stg .mc.sy{background:#fbf6e8;border-color:#eee0b8}
+/* شكل الكتاب: تدفق اتصال HTTPS */
+.hf{padding-top:9pt}
+.hf .hfh{display:flex;justify-content:space-between}
+.hf .nd{width:150pt;border-radius:8pt;text-align:center;padding:4pt 6pt 5pt 6pt;line-height:1.3}
+.hf .nd b{display:block;font-weight:800;font-size:11pt}
+.hf .nd small{display:block;font-size:8.2pt;font-weight:600}
+.hf .nd.b{background:#fff;border:1.2pt solid #22375c} .hf .nd.b b{color:var(--navy)} .hf .nd.b small{color:var(--muted)}
+.hf .nd.s{background:#22375c;border:1.2pt solid #22375c} .hf .nd.s b{color:#fff} .hf .nd.s small{color:#c9d6e6}
+.hf .hfb{position:relative;padding:8pt 0 6pt 0}
+.hf .hfb::before,.hf .hfb::after{content:'';position:absolute;top:0;bottom:0;width:0;border-left:1.2pt dashed #b9c6d8}
+.hf .hfb::before{right:75pt} .hf .hfb::after{left:75pt}
+.hf .hs{margin:0 75pt;position:relative}
+.hf .hs+.hs{margin-top:9pt}
+.hf .hs .pl{display:flex;justify-content:center;margin-bottom:4pt}
+.hf .hs .pl span{display:inline-flex;align-items:center;gap:5pt;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:9pt;padding:0 10pt 0 8pt;font-weight:800;font-size:9.4pt;line-height:17pt;color:var(--navy)}
+.hf .hs .pl i{font-style:normal;flex:none;width:13pt;height:13pt;border-radius:50%;background:#e29433;color:#fff;font-size:8pt;display:inline-flex;align-items:center;justify-content:center;line-height:1}
+.hf .ar{position:relative;height:10pt}
+.hf .ar::before{content:'';position:absolute;left:0;right:0;top:4.2pt;border-top:1.6pt solid #22375c}
+.hf .ar i{position:absolute;top:0;width:0;height:0;border-top:5pt solid transparent;border-bottom:5pt solid transparent}
+.hf .ar .hr{right:-1pt;border-left:9pt solid #22375c}
+.hf .ar .hl{left:-1pt;border-right:9pt solid #22375c}
+.hf .ar.g::before{border-top-color:#e29433} .hf .ar.g .hr{border-left-color:#e29433} .hf .ar.g .hl{border-right-color:#e29433}
+.hf .hs p{text-align:center;font-size:9.3pt;line-height:14pt;color:var(--text2);margin-top:3pt;padding:0 6pt}
+.hf .hff{background:#eef2f8;border-radius:7pt;text-align:center;font-size:8.8pt;line-height:13.5pt;color:var(--text2);padding:3pt 10pt}
+.hf .hff b{color:var(--navy2)}
+/* صورة من الكتاب جنب نص */
+.sf{display:grid;grid-template-columns:1fr 200pt;gap:12pt;align-items:center;margin:0 0 9pt 0}
+.sf .quote{margin:0}
+.im{background:#fff;border:.75pt solid #dde5ef;border-radius:9pt;padding:5pt 5pt 0 5pt}
+.im img{display:block;width:100%;height:auto;border-radius:6pt}
+.im .icap{margin:4pt 2pt 4pt 2pt;text-wrap:pretty}
+/* المفتاح العام × المتماثل */
+.kp .kg{display:grid;grid-template-columns:1fr 1fr;gap:10pt}
+.kp .kc{display:flex;align-items:center;gap:10pt;border-radius:9pt;padding:8pt 11pt;border:.75pt solid #dde5ef;background:#f5f7fb}
+.kp .kc.sy{background:#fbf6e8;border-color:#eee0b8}
+.kp .kc .ic{flex:none;display:flex;flex-direction:column;align-items:center;gap:1pt;width:38pt}
+.kp .kc .ic svg{width:34pt;height:17pt}
+.kp .kt{flex:1}
+.kp h4{margin:0 0 2pt 0;font-weight:800;font-size:11pt;color:var(--navy);line-height:1.35}
+.kp .kc.sy h4{color:#a9670f}
+.kp p{font-size:9.4pt;line-height:14.2pt;color:var(--text2)}
+.kp .tg{flex:none;font-weight:800;font-size:8.6pt;border-radius:7pt;padding:0 8pt;line-height:15pt;background:#fff;border:.75pt solid #dde5ef;color:#2e4a78}
+.kp .kc.sy .tg{border-color:#eee0b8;color:#a9670f}
+/* فئات عوامل المصادقة */
+.fac .fg3{display:grid;grid-template-columns:repeat(3,1fr);gap:9pt}
+.fac .fc{display:flex;flex-direction:column;align-items:center;text-align:center;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:9pt;padding:7pt 8pt 7pt 8pt}
+.fac .fc .ic{width:34pt;height:34pt;border-radius:50%;background:#fff;border:.75pt solid #dde5ef;display:flex;align-items:center;justify-content:center;margin-bottom:3pt}
+.fac .fc .ic svg{width:20pt;height:20pt}
+.fac h4{margin:0;font-weight:800;font-size:11.4pt;color:var(--navy);line-height:1.35}
+.fac .fc p{font-size:9.4pt;line-height:14pt;color:var(--text2);margin-top:1pt}
+.fac .fc small{flex:1;font-size:8.8pt;line-height:13.4pt;color:var(--muted);margin:2pt 0 4pt 0}
+.fac .tg{font-weight:800;font-size:8.4pt;color:#a9670f;background:#fff;border:.75pt solid #eee0b8;border-radius:7pt;padding:0 9pt;line-height:14pt}
+.fac .fn{margin-top:7pt;padding:4pt 10pt;border-radius:7pt;background:#fbf6e8;border-right:3pt solid #e29433;font-size:9.2pt;line-height:14.2pt;color:var(--text2);text-wrap:pretty}
+.fac .fn b{color:var(--navy2)}
+/* جدول الخدمات */
+table.svt td{vertical-align:middle}
+table.svt td.k{white-space:normal}
+.fk{font-size:8.8pt;font-weight:700}
+.fk.f1{color:#a9670f} .fk.f2{color:#2e4a78} .fk.f3{color:#6e7f9c}
+/* جدول التقنيات والتأثير + صورة الشهادة */
+.tx{display:grid;grid-template-columns:1fr 150pt;gap:12pt;align-items:center;margin:0 0 9pt 0}
+.tx .tl{border:.75pt solid #dde5ef;border-radius:9pt;overflow:hidden;background:#fff}
+.tx .th{display:grid;grid-template-columns:132pt 1fr;background:#eef2f8;font-weight:800;font-size:9.6pt;color:var(--navy);line-height:1.5}
+.tx .th span{padding:3pt 10pt}
+.tx .tr{display:grid;grid-template-columns:132pt 1fr;border-top:.75pt solid #e3e9f1}
+.tx .tn{display:flex;align-items:center;gap:7pt;padding:6pt 9pt;background:#f5f7fb;border-left:.75pt solid #e3e9f1}
+.tx .tn .ic{flex:none;width:26pt;height:26pt;border-radius:50%;background:#fff;border:.75pt solid #dde5ef;display:flex;align-items:center;justify-content:center}
+.tx .tn .ic svg{width:15pt;height:15pt}
+.tx .tn b{display:block;font-weight:800;font-size:10pt;color:var(--navy);line-height:1.35}
+.tx .tn small{display:block;font-size:7.8pt;line-height:11pt;color:var(--muted);font-weight:600}
+.tx .te{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:3pt;padding:6pt 10pt}
+.tx .te p{font-size:9.4pt;line-height:14.2pt;color:var(--text2);text-wrap:pretty}
+.tx .te p b{color:var(--navy2)}
+.tx .tg{font-weight:700;font-size:8pt;color:#a9670f;background:#fbf6e8;border:.75pt solid #eee0b8;border-radius:6pt;padding:0 7pt;line-height:13pt}
+/* التهديد ← التقنية */
+.thr{padding-top:10pt}
+.thr .th2{display:flex;align-items:center;justify-content:center;gap:8pt;margin-bottom:6pt;font-weight:800;font-size:10pt;line-height:1.35}
+.thr .th2 .a{color:#a9670f} .thr .th2 .b{color:var(--navy)}
+.thr .tgr{display:grid;grid-template-columns:1fr 1fr;gap:6pt 16pt}
+.thr .trw{display:grid;grid-template-columns:1.15fr 30pt 1fr;align-items:stretch}
+.thr .t1,.thr .t2{display:flex;align-items:center;justify-content:center;border-radius:8pt;padding:3pt 8pt;text-align:center;font-size:9.6pt;line-height:13.6pt;text-wrap:pretty}
+.thr .t1{background:#fbf6e8;border:.75pt solid #eee0b8;color:var(--text2)}
+.thr .t2{background:#f5f7fb;border:.75pt solid #dde5ef;color:var(--navy);font-weight:800}
+.thr .ar{display:flex;align-items:center;justify-content:center}
+.thr .ar svg{width:24pt;height:9pt}
+/* بنك */
+.match ol.la{list-style:none;padding:0}
+.match ol.la li{display:flex;align-items:center;gap:6pt}
+.match ol.la li b{flex:none;display:inline-flex;align-items:center;justify-content:center;width:15pt;height:15pt;border-radius:50%;background:#eef2f8;border:.75pt solid #dde5ef;font-weight:800;font-size:8.2pt;color:var(--navy2);line-height:1;margin-top:0}
+.match ol.la li span:not(.ab){flex:1;margin-left:0}
+.match ol.la li .ab{margin-top:0}
+.qs.rd{background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:7pt;padding:5pt 10pt;text-wrap:pretty}
+</style>
+<script>
+// ===== 1) توزيع المحتوى على صفحات A4 =====
+function paginate(){
+  const flow = document.querySelector('.flow');
+  const blocks = [...flow.children];
+  let content;
+  // كل صفحة = .page بمقاس A4، وجواها .sheet مرسومة ×3 ومتصغّرة ÷3
+  // (عشان إعداد «أقل حجم للخط» في المتصفح مايكبّرش الخطوط الصغيرة ويبوّظ التصميم)
+  const newSheet = () => {
+    const p = document.createElement('section'); p.className = 'page';
+    const s = document.createElement('div'); s.className = 'sheet';
+    content = document.createElement('div'); content.className = 'content';
+    s.appendChild(content); p.appendChild(s); flow.before(p);
+  };
+  const KWN = el => el.matches('.part, hr.rule, h2.sec, .big, h3.sub, .chip, .kwn');
+  const over = () => { const last = content.lastElementChild; if (!last) return false;
+    return last.getBoundingClientRect().bottom > content.getBoundingClientRect().bottom + 0.5; };
+  // كارت أطول من المساحة الفاضية: نسيب أوله هنا ونكمّل الباقي في الصفحة الجاية (عند حدود أجزائه)
+  // سؤال (نصه + مكان إجابته أو اختياراته) ما يتقسمش على صفحتين: التقسيم في كروت الأسئلة
+  // (.why و.qcard) مسموح بس قبل بداية سؤال جديد (.qq / .qi / .qs). لو مفيش نقطة زي كده، الكارت كله ينزل.
+  const QSTART = x => x && x.matches('.qq, .qi, .qs');
+  const trySplit = (el, loose) => {
+    const cont = el.cloneNode(false); cont.classList.add('cont');
+    const keep = (el.firstElementChild && /^H[34]$/.test(el.firstElementChild.tagName)) || el.classList.contains('why') ? 2 : 1;
+    const mv = () => cont.insertBefore(el.lastElementChild, cont.firstChild);
+    const back = () => { while (cont.firstChild) el.appendChild(cont.firstChild); return false; };
+    while (over() && el.children.length > keep) mv();
+    const strict = !loose && el.matches('.why, .qcard');
+    if (strict) {
+      for (let ch = true; ch; ) { ch = false;
+        while (el.children.length > keep && cont.children.length && !QSTART(cont.firstElementChild)) { mv(); ch = true; }
+        while (el.children.length > 1 && cont.children.length && QSTART(el.lastElementChild)) { mv(); ch = true; }
+      }
+      if (cont.children.length && !QSTART(cont.firstElementChild)) return back();
+    } else {
+      // نص السؤال ما يفضلش لوحده في آخر الصفحة: ينزل مع اختياراته
+      while (el.children.length > 1 && cont.children.length && el.lastElementChild.matches('.qq, .qi, .qs')) mv();
+    }
+    if (el.children.length < keep) return back();
+    if (over() || !cont.children.length) return back();
+    newSheet(); content.appendChild(cont);
+    if (over()) trySplit(cont) || trySplit(cont, true);
+    return true;
+  };
+  newSheet();
+  for (let i = 0; i < blocks.length; ) {
+    const el = blocks[i];
+    if (el.classList.contains('pb')) { if (content.children.length) newSheet(); i++; continue; }
+    const group = [el]; let j = i;
+    while (KWN(blocks[j]) && j + 1 < blocks.length && !blocks[j + 1].classList.contains('pb')) { j++; group.push(blocks[j]); }
+    // عنوان قسم في البنك (زي «علّل») مايفضلش في آخر الصفحة ومعاه سؤال واحد بس: بياخد معاه السؤال اللي بعده
+    if (group[0].matches('h2.cat') && group[group.length - 1].matches('.why') && j + 1 < blocks.length && blocks[j + 1].matches('.why')) { j++; group.push(blocks[j]); }
+    const wasEmpty = content.children.length === 0;
+    group.forEach(g => content.appendChild(g));
+    const last = group[group.length - 1];
+    if (over()) {
+      if (last.classList.contains('split') && trySplit(last)) { /* اتقسم */ }
+      else if (!wasEmpty) { newSheet(); group.forEach(g => content.appendChild(g)); if (over() && last.classList.contains('split')) trySplit(last) || trySplit(last, true); }
+    }
+    i = j + 1;
+  }
+  flow.remove();
+}
+// ===== 2) الإطار: هيدر + فوتر + علامة مائية + ترقيم =====
+// علامة «تقييمات» فوق أول سؤال في الصفحة بتلمس خط الهيدر: ننزّل السؤال سنة بعد الترقيم.
+// لو الصفحة مليانة، ناخد المسافة من الفراغات اللي بين الأسئلة في نفس الصفحة (أقل من 1pt لكل فراغ).
+function tqTop(){
+  const k = (typeof K === 'number' && K > 0) ? K : 1;
+  const overBy = c => c.lastElementChild.getBoundingClientRect().bottom - c.getBoundingClientRect().bottom;
+  document.querySelectorAll('.content').forEach(c => {
+    const f = c.firstElementChild; if (!f || !f.querySelector('.tq')) return;
+    f.classList.add('tqtop');
+    let d = overBy(c); if (d <= 0) return;
+    const kids = [...c.children].slice(0, -1);
+    const per = (d + 1) * k / kids.length;
+    kids.forEach(e => { e.dataset.mb = e.style.marginBottom; e.style.marginBottom = Math.max(0, parseFloat(getComputedStyle(e).marginBottom) - per) + 'px'; });
+    if (overBy(c) > 0.5) { kids.forEach(e => { e.style.marginBottom = e.dataset.mb; }); f.classList.remove('tqtop'); f.classList.add('tqin'); }
+    kids.forEach(e => delete e.dataset.mb);
+  });
+}
+function frame(){
+  const B = document.body.dataset, START = +B.start || 1, TOTAL = B.total;
+  const LESSON = B.lesson.replace(/(\d+-\d+)/g, '<span class="num">$1</span>');
+  const tiles = [];
+  for (let r = 0; r < 7; r++) for (let c = 0; c < 3; c++) {
+    const x = -20 + c * 215 + (r % 2) * 60, y = -30 + r * 135;
+    tiles.push(`<span class="tile" style="left:${x * K}pt;top:${y * K}pt">زياد السعدني</span>`);
+  }
+  document.querySelectorAll('.sheet').forEach((s, k) => {
+    s.dataset.page = START + k;
+    s.insertAdjacentHTML('afterbegin', `<div class="hdr"><span class="r">${LESSON}</span><span class="l">أكواد مع زياد</span></div>`);
+    s.insertAdjacentHTML('beforeend', `<div class="ftr"><img src="assets/badge.png" alt=""><span class="r"><b>أكواد مع زياد</b><span class="sep">|</span>أ/ زياد السعدني<span class="sep">|</span><span class="num">fb.com/61592749346697</span><span class="sep">|</span>واتساب <span class="num">01124840835</span></span><span class="pn">${START + k} / ${TOTAL}</span></div><div class="wm">${tiles.join('')}<span class="big">زياد السعدني</span></div>`);
+  });
+}
+// ===== 0) لو المتصفح مفعّل «أقل حجم للخط» (Minimum font size) بيكبّر الخطوط الصغيرة ويبوّظ التصميم.
+// الحل: نكبّر كل المقاسات ×K ونصغّر الصفحة ÷K بـ transform (الـtransform مابيتأثرش بالإعداد ده).
+let K = 1;
+function immunize(){
+  const t = document.createElement('span'); t.style.fontSize = '1px'; t.textContent = 'x';
+  document.body.appendChild(t); const mc = parseFloat(getComputedStyle(t).fontSize); t.remove();
+  const wid = px => { const s = document.createElement('span');
+    s.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;font-family:sans-serif;font-size:' + px + 'px';
+    s.textContent = 'abcdefghij'; document.body.appendChild(s); const w = s.getBoundingClientRect().width; s.remove(); return w; };
+  const mr = 4 * wid(4) / (wid(40) / 10);   // الحجم الفعلي اللي اترسم بيه نص طالب 4px
+  // بدون الإعداد: نص الـ4px بيترسم ≈4px (ممكن يزيد شوية من التقريب) — فمانعتبرهوش مفعّل غير لو أكبر من 6px
+  const m = Math.max(mc, mr > 6 ? mr : 0);
+  if (!(m > 1.5)) return;
+  K = Math.max(2, Math.ceil(m / 7));
+  const sc = v => v.replace(/(-?\d*\.?\d+)(pt|px|mm)\b/g, (_, n, u) => (parseFloat(n) * K).toFixed(3) + u);
+  const walk = rules => { for (const r of rules) {
+    if (r instanceof CSSMediaRule) { walk(r.cssRules); continue; }
+    if (!(r instanceof CSSStyleRule)) continue;
+    if (/^(html|body|\.page|html,\s*body)$/.test(r.selectorText.trim())) continue;
+    for (let i = 0; i < r.style.length; i++) { const p = r.style[i], v = r.style.getPropertyValue(p);
+      if (/\d(pt|px|mm)/.test(v)) r.style.setProperty(p, sc(v), r.style.getPropertyPriority(p)); }
+  } };
+  for (const s of document.styleSheets) { try { walk(s.cssRules); } catch (e) {} }
+  document.querySelectorAll('.flow [style]').forEach(el => { el.style.cssText = sc(el.style.cssText); });
+  // الطريقة 1 (Chrome): zoom = 1/K — الصفحة بتفضل بمقاسها الحقيقي فالطباعة سليمة.
+  // الطريقة 2 (احتياطي): transform: scale(1/K) — لو المتصفح بيطبّق الحد الأدنى بعد الـzoom.
+  const probe = css => { const w = document.createElement('div'); w.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;' + css;
+    const s = document.createElement('span'); s.style.fontSize = (6 * K) + 'px'; s.textContent = 'abcdefghij';
+    w.appendChild(s); document.body.appendChild(w); const r = s.getBoundingClientRect().width; w.remove(); return r; };
+  const big = probe(''), zoomed = probe('zoom:' + (1 / K));
+  const zoomOK = Math.abs(zoomed - big / K) < 1.5;
+  const st = document.createElement('style');
+  st.textContent = zoomOK ? `.sheet{zoom:${1 / K}}` : `.sheet{transform:scale(${1 / K})}`;
+  document.head.appendChild(st); document.body.dataset.mode = zoomOK ? 'zoom' : 'transform';
+}
+window.addEventListener('load', async () => {
+  const F = "'Baloo Bhaijaan 2'";
+  await Promise.all([500, 600, 700, 800].map(w => document.fonts.load(`${w} 10pt ${F}`, 'أبجد')));
+  await document.fonts.ready;
+  immunize(); paginate(); tqTop(); frame();
+  document.body.dataset.ready = '1'; document.body.dataset.k = K;
+});
+</script>
+</head>
+<body data-lesson="الدرس 2-1 — تقنيات التشفير والمصادقة" data-start="2" data-total="21">
+<main class="flow">
+<div class="band">
+  <div class="badge"><span class="l">الدرس</span><span class="n">2-1</span></div>
+  <h1>تقنيات التشفير والمصادقة</h1>
+  <div class="who">
+    <div class="t"><span class="u">الوحدة الثانية</span><span class="k">الشرح والمراجعة</span></div>
+    <img src="assets/avatar.png" alt="">
+  </div>
+</div>
+<div class="two">
+  <div class="intro">
+    <h3>إنت بتشتري أونلاين .. مين بيحميك بالظبط؟</h3>
+    <div class="body">
+      <img class="robot" src="assets/robot.svg" alt="">
+      <p>وإنت بتشتري أونلاين، إزاي بياناتك بتتحمى وهي بتتنقل بين المتصفح والموقع؟ وإزاي المتصفح بيتحقق من <b>شهادة الخادم واسم النطاق</b>؟ في الدرس ده هنفهم <b>دور كل تقنية</b>، وليه حماية الاتصال <b>مش معناها إن كل موقع نزوره موثوق</b>.</p>
+      <p>وأهم فكرة في الدرس – والكتاب بيقولها في أوله وآخره: <b>الأمان مش تقنية واحدة</b>. دي <b>طبقات</b> بتشتغل مع بعض، وكل طبقة بتقلّل خطر معيّن.</p>
+      <p>وخُد بالك من <b>الملاحظة المهمة في الكتاب</b>: التقنيات دي <b>بتقلّل المخاطر</b>، لكنها <b>لا تعني أن محتوى الموقع موثوق ولا أن الحماية مطلقة</b>. ركّز في الجملة دي لأنها ممكن تظهر بصيغة صح أو خطأ.</p>
+    </div>
+    <div class="foot"><span class="pill-dark">نبدأ من HTTPS</span></div>
+  </div>
+  <div class="goals">
+    <h3>أهداف التعلم</h3>
+    <div class="g"><span class="tag">اشرح</span><span class="x">كيف تستخدم اتصالات HTTPS تقنيات مختلفة لحماية الاتصال.</span></div>
+    <div class="g"><span class="tag">ميّز</span><span class="x">بين دور التشفير، والشهادات الرقمية، والمصادقة الثنائية، والتوقيعات الرقمية.</span></div>
+    <div class="g"><span class="tag">قيّم</span><span class="x">طريقة مصادقة في سياق محدد، وبرر اختيارك باستخدام متطلبات الأمان وإمكانية الوصول.</span></div>
+  </div>
+</div>
+<div class="note-box"><span class="tag">للفهم</span>أي جزء عليه علامة «للفهم» هو شرح أو رسم إضافي للتوضيح، ومش مطلوب حفظه كنص من الكتاب.</div>
+<div class="map m2">
+  <div class="cell c1"><h4><span class="mn">1</span>اتصال HTTPS</h4><ul>
+    <li><bdi>HTTP</bdi> منقول عبر اتصال <bdi>TLS</bdi> مؤمَّن.</li>
+    <li><bdi>TLS</bdi> يوفر سرية البيانات وسلامتها أثناء النقل.</li>
+    <li>خطوات إنشاء الاتصال الآمن = <b>مصافحة TLS</b>.</li></ul></div>
+  <div class="cell c3"><h4><span class="mn">2</span>مراحل اتصال HTTPS</h4><ul>
+    <li><b>أثناء مصافحة TLS:</b> التحقق من الشهادة الرقمية — مفتاح عام.</li>
+    <li><b>أثناء مصافحة TLS:</b> اشتقاق مفاتيح الجلسة — مفتاح عام.</li>
+    <li><b>بعد اكتمال المصافحة:</b> حماية البيانات بالتشفير المتماثل وآليات سلامة البيانات.</li></ul></div>
+  <div class="hub">تقنيات التشفير<br>والمصادقة
+    <svg class="lk r1" viewBox="0 0 20 16"><path d="M0 14 C7 14 10 3 17 3" fill="none" stroke="#22375c" stroke-width="1.55" stroke-linecap="round"/><circle cx="17.5" cy="3" r="2" fill="#22375c"/></svg>
+    <svg class="lk r2" viewBox="0 0 20 16"><path d="M0 2 C7 2 10 13 17 13" fill="none" stroke="#e29433" stroke-width="1.55" stroke-linecap="round"/><circle cx="17.5" cy="13" r="2" fill="#e29433"/></svg>
+    <svg class="lk l1" viewBox="0 0 20 16"><path d="M20 14 C13 14 10 3 3 3" fill="none" stroke="#2e4a78" stroke-width="1.55" stroke-linecap="round"/><circle cx="2.5" cy="3" r="2" fill="#2e4a78"/></svg>
+    <svg class="lk l2" viewBox="0 0 20 16"><path d="M20 2 C13 2 10 13 3 13" fill="none" stroke="#a9670f" stroke-width="1.55" stroke-linecap="round"/><circle cx="2.5" cy="13" r="2" fill="#a9670f"/></svg>
+  </div>
+  <div class="cell c2"><h4><span class="mn">3</span>المصادقة</h4><ul>
+    <li><b><bdi class="nw">2FA</bdi></b> — عاملان مستقلان من فئتين مختلفتين.</li>
+    <li><b><bdi class="nw">MFA</bdi></b> — عاملان أو أكثر من فئات مختلفة.</li>
+    <li>الفئات: المعرفة · الحيازة · السمات الحيوية.</li></ul></div>
+  <div class="cell c4"><h4><span class="mn">4</span>تركيبات تقنيات الأمان</h4><ul>
+    <li><b>التشفير</b> — يمنع قراءة محتوى الاتصال.</li>
+    <li><b>التوقيع الرقمي</b> — سلامة البيانات وهوية الموقّع، ودليل يدعم عدم التنصل عندما يتطلب النظام ذلك.</li>
+    <li><b>الشهادة الرقمية</b> — هوية الخادم واسم النطاق.</li>
+    <li><b><bdi class="nw">2FA</bdi></b> — تقلل احتمال الدخول غير المصرح به.</li></ul></div>
+</div>
+<div class="iq">
+  <div class="q">
+    <div class="lab">السؤال الرئيسي — الدرس كله بيجاوب عليه</div>
+    <div class="qq">كيف تعمل تقنيات التشفير والمصادقة معًا للحفاظ على أمان الاتصال والخدمات عبر الإنترنت؟</div>
+  </div>
+  <div class="idea"><span class="qmark">”</span><b>الفكرة الأساسية:</b> يعتمد الاتصال والخدمات الآمنة عبر الإنترنت على <b>الجمع بين التشفير والمصادقة</b>، <b>وليس على تقنية واحدة فقط</b>.</div>
+</div>
+<div class="part p1"><span>الجزء الأول</span></div>
+<hr class="rule">
+<h2 class="sec"><span class="num">1</span><span class="dot">·</span> كيف تعمل اتصالات HTTPS</h2>
+<div class="sf"><div class="quote"><span class="qmark">”</span>عندما تسجل الدخول إلى تطبيق مصرفي أو تشتري عبر الإنترنت أو تفتح موقعًا يستخدم <b>HTTPS</b>، <b>تعمل عدة تقنيات لحماية الاتصال</b>. <b>يشفّر TLS البيانات أثناء انتقالها</b>، و<b>يتحقق المتصفح من شهادة الموقع واسم النطاق</b> الذي يتصل به، و<b>تتحقق الخدمة من هوية المستخدم</b> قبل منحه حق الوصول. <b>تقلل هذه الوسائل المخاطر، لكنها لا تعني أن محتوى الموقع موثوق أو أن الحماية مطلقة</b>.</div><div class="im"><img src="assets/u2/l21_https.jpg" alt=""><div class="icap">يستخدم التشفير بالمفتاح العام زوجًا من المفاتيح المرتبطة: مفتاحًا عامًا ومفتاحًا خاصًا.</div></div></div>
+<span class="chip">HTTPS</span>
+<div class="banner kwn"><b>بروتوكول HTTP منقول عبر اتصال TLS مؤمَّن</b>. يوفر TLS <b>سرية البيانات وسلامتها أثناء النقل</b>، ويساعد المتصفح على <b>التحقق من هوية الخادم واسم النطاق</b>. وتسمى خطوات إنشاء الاتصال الآمن <b>مصافحة TLS</b>.</div>
+<div class="note-line"><span class="tag">للفهم</span><span class="lead">ببساطة</span><b>HTTP</b> هو البروتوكول اللي بينظّم طلبات المتصفح وردود الخادم، و<b>TLS</b> بيحمي الاتصال. لما <b>HTTP</b> يشتغل عبر اتصال <b>TLS</b> مؤمَّن، بنسميه <b>HTTPS</b>.</div>
+<h2 class="sec"><span class="num">2</span><span class="dot">·</span> مراحل اتصال HTTPS</h2>
+<span class="chip">مصافحة TLS <bdi class="nw">(Transport Layer Security)</bdi></span>
+<div class="quote"><span class="qmark">”</span>تجري <b>المصادقة بالشهادة الرقمية</b> و<b>اشتقاق مفاتيح الجلسة</b> داخل <b>مصافحة TLS نفسها</b>، ثم يستخدم <b>التشفير المتماثل</b> لحماية بيانات الاتصال <b>بكفاءة</b>.</div>
+<div class="stg keep"><div class="sh"><span>المرحلة · ما يحدث</span><span>آلية الحماية الأساسية</span></div><div class="sc"><span class="sn">1</span><div class="sx"><h4>مصافحة TLS: التحقق من الشهادة</h4><p>أثناء المصافحة <b>يرسل الخادم شهادته الرقمية</b>، ويتحقق المتصفح من <b>صلاحيتها وسلسلة الثقة وملاءمتها لاسم الموقع</b>.</p></div><div class="mc pk"><svg viewBox="0 0 24 24" fill="none" stroke="#2e4a78" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="12" r="4.3"/><path d="M11.8 12H21.5M18.5 12v3.2M21 12v2.4"/></svg><b>التشفير بالمفتاح العام</b></div></div><div class="sc"><span class="sn">2</span><div class="sx"><h4>مصافحة TLS: اشتقاق مفاتيح الجلسة</h4><p>وفي المصافحة نفسها <b>يتفاوض الطرفان على أسرار مشتركة تُشتق منها مفاتيح الجلسة</b>، باستخدام <b>آليات مفتاح عام مناسبة لإصدار TLS ومجموعة التشفير</b>.</p></div><div class="mc pk"><svg viewBox="0 0 24 24" fill="none" stroke="#2e4a78" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="12" r="4.3"/><path d="M11.8 12H21.5M18.5 12v3.2M21 12v2.4"/></svg><b>التشفير بالمفتاح العام</b></div></div><div class="sc"><span class="sn">3</span><div class="sx"><h4>تبادل البيانات</h4><p><b>تُحمى بيانات الجلسة بالتشفير المتماثل وآليات سلامة البيانات</b>.</p></div><div class="mc sy"><svg viewBox="0 0 24 24" fill="none" stroke="#a9670f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="12" r="4.3"/><path d="M11.8 12H21.5M18.5 12v3.2M21 12v2.4"/></svg><b>التشفير المتماثل</b></div></div></div>
+<div class="note-line"><span class="tag">للفهم</span><span class="lead">خُد بالك</span>المرحلتين <b>1</b> و<b>2</b> بيحصلوا <b>جوّه المصافحة</b>، أما <b>تبادل البيانات</b> فبيحصل <b>بعد اكتمال المصافحة</b> — ومش جزء منها.</div>
+<div class="fig keep hf"><div class="hfh"><div class="nd s"><b>خادم الويب</b><small>(مع المفتاح الخاص)</small></div><div class="nd b"><b>المتصفح</b><small>(العميل)</small></div></div><div class="hfb"><div class="hs"><div class="pl"><span><i>1</i>مصافحة TLS: الشهادة الرقمية والمفتاح العام</span></div><div class="ar"><i class="hl"></i></div><p>أثناء المصافحة يرسل الخادم شهادته، ويتحقق المتصفح من صلاحيتها وسلسلة الثقة وملاءمتها لاسم الموقع.</p></div><div class="hs"><div class="pl"><span><i>2</i>مصافحة TLS: معاملات تبادل المفاتيح</span></div><div class="ar"><i class="hr"></i><i class="hl"></i></div><p>يتبادل الطرفان معاملات تبادل المفاتيح، ويشتق كل طرف مفتاح الجلسة لديه دون إرسال المفتاح نفسه عبر الشبكة.</p></div><div class="hs"><div class="pl"><span><i>3</i>تبادل البيانات: بيانات محمية بمفاتيح الجلسة</span></div><div class="ar g"><i class="hr"></i><i class="hl"></i></div><p>تُحمى بيانات الجلسة بالتشفير المتماثل وآليات سلامة البيانات.</p></div></div><div class="hff"><b>المفتاح العام:</b> للمصادقة والاتفاق الآمن على مفاتيح الجلسة · <b>التشفير المتماثل:</b> لحماية بيانات الجلسة بسرعة.</div><div class="cap">تدفق اتصال HTTPS</div></div>
+<div class="quote"><span class="qmark">”</span>تستخدم <b>مصافحة TLS</b> الشهادات وآليات <b>المفتاح العام</b> للمصادقة والاتفاق الآمن على <b>مفاتيح الجلسة</b>. وبعد إنشاء المفاتيح، يُستخدم <b>التشفير المتماثل</b> لحماية البيانات <b>بسرعة وكفاءة</b>.</div>
+<div class="fig keep kp" style="position:relative"><span class="fx abs">للفهم</span>
+  <div class="kg">
+    <div class="kc pk"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#2e4a78" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="12" r="4.3"/><path d="M11.8 12H21.5M18.5 12v3.2M21 12v2.4"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="#e29433" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="12" r="4.3"/><path d="M11.8 12H21.5M18.5 12v3.2M21 12v2.4"/></svg></span><div class="kt"><h4>التشفير بالمفتاح العام</h4><p>زوج من المفاتيح المرتبطة: <b>عام وخاص</b></p><p>للمصادقة والاتفاق الآمن على مفاتيح الجلسة</p></div><span class="tg">الأمان</span></div>
+    <div class="kc sy"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#a9670f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="12" r="4.3"/><path d="M11.8 12H21.5M18.5 12v3.2M21 12v2.4"/></svg></span><div class="kt"><h4>التشفير المتماثل</h4><p><b>مفتاح الجلسة</b> يحمي البيانات</p><p>بسرعة وكفاءة بعد المصافحة</p></div><span class="tg">الكفاءة</span></div>
+  </div>
+  <div class="cap">اتنين مختلفين — وكل واحد ليه شغلانة</div>
+</div>
+<div class="note-line"><span class="tag">للفهم</span><span class="lead">طب ليه اتنين مش واحد؟</span>دي <b>بالظبط</b> إجابة سؤال نمط الامتحان في الدرس. المفتاح العام <b>بيحلّ مشكلة الثقة</b>: إزاي أتأكد إني بكلم الخادم الصح وأتفق معاه على مفتاح <b>من غير ما أبعت المفتاح نفسه على الشبكة</b> — فاللي بيعترض الاتصال مش هيلاقي المفتاح. لكنه <b>أبطأ</b>. والتشفير المتماثل <b>أسرع وأكفأ</b>، فهو اللي بيشيل شغل الجلسة كلها بعد ما المصافحة تخلص. يعني: <b>الشهادات وآليات المفتاح العام للمصادقة والاتفاق الآمن على مفاتيح الجلسة، والتشفير المتماثل لحماية بيانات الجلسة بكفاءة</b>.</div>
+<div class="box cream keep" style="margin-top:9pt">
+  <h3>ملاحظة مهمة: الحماية تقلل المخاطر ولا تضمن موثوقية المحتوى</h3>
+  <ul>
+    <li>الوسائل دي <b>تقلل المخاطر</b>، لكنها <b>لا تعني أن محتوى الموقع موثوق</b>.</li>
+    <li>ولا تعني إن <b>الحماية مطلقة</b>.</li>
+  </ul>
+</div>
+<div class="part p2"><span>الجزء الثاني</span></div>
+<hr class="rule">
+<h2 class="sec"><span class="num">3</span><span class="dot">·</span> المصادقة الثنائية (2FA) والمصادقة متعددة العوامل (MFA)</h2>
+<span class="chip">المصادقة الثنائية <bdi class="nw">(2FA – Two-Factor Authentication)</bdi></span>
+<div class="banner kwn"><b>استخدام عاملين مستقلين من فئتين مختلفتين لإثبات الهوية</b>.</div>
+<span class="chip" style="margin-top:8pt">المصادقة متعددة العوامل <bdi class="nw">(MFA – Multi-Factor Authentication)</bdi></span>
+<div class="banner"><b>استخدام عاملين أو أكثر من فئات مختلفة</b>، مثل <b>المعرفة والحيازة والسمات الحيوية</b>.</div>
+<div class="sf" style="margin-top:9pt">
+  <div class="quote"><span class="qmark">”</span>تستخدم <b>المصادقة الثنائية <bdi>(2FA)</bdi></b> <b>عاملين مختلفين لإثبات الهوية</b>. أما <b>المصادقة متعددة العوامل <bdi>(MFA)</bdi></b> فتستخدم <b>عاملين أو أكثر من فئات</b> مثل <b>المعرفة والحيازة والسمات الحيوية</b>.</div>
+  <div class="im"><img src="assets/u2/l21_2fa.jpg" alt=""><div class="icap">تستخدم المصادقة الثنائية عاملين مستقلين من فئتين مختلفتين.</div></div>
+</div>
+<div class="fig keep fac" style="position:relative"><span class="fx abs">للفهم</span><div class="fg3"><div class="fc"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.4"/><path d="M9.4 9.4a2.7 2.7 0 1 1 3.8 2.5c-.8.4-1.2 1-1.2 1.9v.5"/><circle cx="12" cy="17.2" r="1" fill="#22375c" stroke="none"/></svg></span><h4>المعرفة</h4><p>حاجة <b>تعرفها</b></p><small>كلمة المرور، السؤال السري</small><span class="tg">تعرفه</span></div><div class="fc"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6.3" y="2.4" width="11.4" height="19.2" rx="2.4"/><rect x="9" y="6.2" width="6" height="5" rx="1"/><path d="M10 17.6h4"/></svg></span><h4>الحيازة</h4><p>حاجة <b>تمتلكها</b></p><small>الهاتف، بطاقة الدخول، بطاقة <bdi class="nw">IC</bdi>، كلمة مرور لمرة واحدة</small><span class="tg">تملكه</span></div><div class="fc"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5.2 15.5c.4-1.3.6-2.7.6-4.2a6.2 6.2 0 0 1 12.4 0c0 2.6-.3 5-1 7.2"/><path d="M8.7 18.8c.8-2.3 1.1-4.8 1.1-7.3a2.2 2.2 0 0 1 4.4 0c0 3.3-.4 6.3-1.3 9"/><path d="M12 11.6c0 3.4-.4 6.6-1.4 9.4"/><path d="M4 7.8A9 9 0 0 1 20 7.8"/></svg></span><h4>السمات الحيوية</h4><p>سمة حيوية <b>تميّزك</b></p><small>بصمة الإصبع، التعرف على الوجه</small><span class="tg">إنت</span></div></div><div class="fn"><b>الحيازة</b> معناها <b>إثبات إنك ماسك الوسيلة</b> – بطاقة فعلية أو جهاز بيولّد رمز. <b>كتابة رقم البطاقة لوحدها مش إثبات حيازة</b>، ومش كفاية تعتبر العملية مصادقة ثنائية.</div></div>
+<div class="quote"><span class="qmark">”</span><b>يقلل استخدام عامل مستقل ثانٍ احتمال الدخول غير المصرح به إذا كُشفت كلمة المرور</b>. فبعد إدخال كلمة المرور، قد يُطلب <b>رمز من تطبيق مصادقة أو جهاز يملكه المستخدم</b>؛ وعندئذ <b>لا تكفي معرفة كلمة المرور وحدها للدخول</b>.</div>
+<div class="note-line"><span class="tag">للفهم</span><span class="lead">ببساطة</span>الفكرة كلها في كلمة <b>«فئتين مختلفتين»</b>. <b>كلمتين مرور مش <bdi class="nw">2FA</bdi></b> – لأن الاتنين من فئة <b>المعرفة</b>. الكتاب بيسمّي ده <b>مصادقة متعددة الخطوات باستخدام نفس العامل</b>، مش مصادقة ثنائية. والسؤال ده موجود في بنك الأسئلة.</div>
+<h2 class="sec"><span class="num">4</span><span class="dot">·</span> استخدام المصادقة في الخدمات الفعلية</h2>
+<div class="quote kwn">توضح الأمثلة التالية <b>استخدام عاملين من فئتين مختلفتين</b> في خدمات متنوعة.</div>
+<table class="t svt keep">
+  <thead><tr><th style="width:150pt">الخدمة</th><th>أمثلة على المصادقة المستخدمة</th></tr></thead>
+  <tbody>
+    <tr><td class="k">الخدمات المصرفية عبر الإنترنت</td><td>كلمة المرور <span class="fk f1">(المعرفة)</span> + كلمة المرور لمرة واحدة <span class="fk f2">(الحيازة)</span></td></tr>
+    <tr><td class="k">تسجيل الدخول إلى وسائل التواصل الاجتماعي</td><td>كلمة المرور <span class="fk f1">(المعرفة)</span> + المصادقة عبر الرسائل القصيرة <bdi class="nw">SMS</bdi> <span class="fk f2">(الحيازة)</span></td></tr>
+    <tr><td class="k">الدخول إلى مبنى مؤمَّن</td><td>بطاقة دخول <span class="fk f2">(الحيازة)</span> + بصمة إصبع <span class="fk f3">(السمات الحيوية)</span></td></tr>
+    <tr><td class="k">التسوق الإلكتروني</td><td>كلمة المرور <span class="fk f1">(المعرفة)</span> + التحقق من هوية بطاقة الائتمان <span class="fk f2">(الحيازة)</span></td></tr>
+  </tbody>
+</table>
+<div class="note-line"><span class="tag">للفهم</span><span class="lead">طب ليه؟</span>لاحظ إن <b>كل صف</b> في الجدول ده <b>فئتين مختلفتين</b> – مش عاملين من نفس الفئة. ده مش صدفة، ده <b>تعريف <bdi class="nw">2FA</bdi></b> وهو بيتطبّق.</div>
+<div class="part p3"><span>الجزء الثالث</span></div>
+<hr class="rule">
+<h2 class="sec"><span class="num">5</span><span class="dot">·</span> تركيبات تقنيات الأمان</h2>
+<div class="quote"><span class="qmark">”</span>يتحقق الاتصال والخدمات الآمنة <b>ليس من خلال تقنية واحدة</b>، بل من خلال <b>الجمع بين عدة تقنيات أمان</b>.</div>
+<div class="tx keep"><div class="tl"><div class="th"><span>التقنية</span><span>التأثير</span></div><div class="tr"><div class="tn"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10.5" rx="2.2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.7" r="1.3" fill="#22375c" stroke="none"/></svg></span><div><b>التشفير</b><small>(بالمفتاح المتناظر والمفتاح العام)</small></div></div><div class="te"><p><b>يمنع قراءة محتوى الاتصال من قِبل أطراف ثالثة</b></p><span class="tg">محدش يقرا</span></div></div><div class="tr"><div class="tn"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18.5c2.2-7 4.2-8.6 5.4-4.2 1 3.8 2.6 4.6 4.6-.6"/><path d="M3 21.3h18"/><path d="M17.6 3.6l2.8 2.8-3.4 3.4-2.8-2.8z"/></svg></span><div><b>التوقيع الرقمي</b></div></div><div class="te"><p><b>يدعم التحقق من سلامة البيانات وهوية الموقّع</b>. ويوفر دليلًا يدعم <b>عدم التنصل</b> عندما يتطلب النظام ذلك</p><span class="tg">محدش عدّل</span></div></div><div class="tr"><div class="tn"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.8" y="3.5" width="18.4" height="12.5" rx="2"/><path d="M6.6 7.8h7.4M6.6 11h4.4"/><circle cx="16.2" cy="15.6" r="2.9" fill="#fff"/><path d="M14.6 18.1l-.9 3.5 2.5-1.3 2.5 1.3-.9-3.5"/></svg></span><div><b>الشهادة الرقمية</b></div></div><div class="te"><p><b>تساعد المتصفح على التحقق من هوية الخادم واسم النطاق</b> الذي يتصل به.</p><span class="tg">إنت بتكلم مين</span></div></div><div class="tr"><div class="tn"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="8.5" height="11.5" rx="1.7"/><path d="M5 10h3.5"/><rect x="13" y="3" width="8.5" height="18" rx="1.9"/><path d="M15.6 6h3.3"/><circle cx="17.25" cy="17.6" r=".85" fill="#22375c" stroke="none"/></svg></span><div><b>المصادقة الثنائية <bdi>(2FA)</bdi></b></div></div><div class="te"><p><b>تقلل احتمال تسجيل الدخول غير المصرح به</b>.</p><span class="tg">مين اللي داخل</span></div></div></div><div class="im"><img src="assets/u2/l21_cert.jpg" alt=""><div class="icap">الشهادة الرقمية تساعد المتصفح على التحقق من هوية الخادم وارتباط الشهادة باسم النطاق الذي يتصل به.</div></div></div>
+<div class="fig keep thr" style="position:relative"><span class="fx abs">للفهم</span><div class="th2"><span class="a">التهديد</span><i class="ar"><svg viewBox="0 0 44 12" fill="none" stroke="#e29433" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M42 6H5"/><path d="M10 1.5 4 6l6 4.5"/></svg></i><span class="b">التقنية المناسبة لتقليل خطره</span></div><div class="tgr"><div class="trw"><div class="t1">التنصت على محتوى الاتصال</div><i class="ar"><svg viewBox="0 0 44 12" fill="none" stroke="#e29433" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M42 6H5"/><path d="M10 1.5 4 6l6 4.5"/></svg></i><div class="t2">التشفير</div></div><div class="trw"><div class="t1">التلاعب بالبيانات وانتحال الشخصية</div><i class="ar"><svg viewBox="0 0 44 12" fill="none" stroke="#e29433" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M42 6H5"/><path d="M10 1.5 4 6l6 4.5"/></svg></i><div class="t2">التوقيع الرقمي</div></div><div class="trw"><div class="t1">موقع مزيف ينتحل هوية الخادم</div><i class="ar"><svg viewBox="0 0 44 12" fill="none" stroke="#e29433" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M42 6H5"/><path d="M10 1.5 4 6l6 4.5"/></svg></i><div class="t2">الشهادة الرقمية</div></div><div class="trw"><div class="t1">دخول غير مصرح به بكلمة مرور مسرّبة</div><i class="ar"><svg viewBox="0 0 44 12" fill="none" stroke="#e29433" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M42 6H5"/><path d="M10 1.5 4 6l6 4.5"/></svg></i><div class="t2">المصادقة الثنائية</div></div></div><div class="cap">كل طبقة بتقلّل خطر مختلف — والجمع بينهم هو الحماية</div></div>
+<h2 class="sec"><span class="num">6</span><span class="dot">·</span> مثال: شراء منتج عبر الإنترنت</h2>
+<div class="quote">على سبيل المثال، عند <b>شراء منتج عبر التسوق الإلكتروني</b>، يتم <b>الجمع بين هذه التقنيات</b> واستخدامها على النحو التالي:</div>
+<div class="steps keep"><div class="s"><span class="n">1</span><h4>تدخل الموقع — يبدأ إنشاء اتصال HTTPS آمن</h4><p>عندما تدخل إلى الموقع، <b>يبدأ اتصال HTTPS</b>، ويمنع <b>(التشفير)</b> قراءة محتوى الاتصال من قِبل أطراف ثالثة.</p></div><div class="s"><span class="n">2</span><h4>المتصفح يتأكد إنت بتكلم مين</h4><p><b>يتحقق المتصفح من الشهادة الرقمية واسم النطاق</b> للتأكد من <b>هوية الخادم</b> الذي يتصل به.</p></div><div class="s"><span class="n">3</span><h4>تسجيل الدخول — عاملين مش واحد</h4><p>عند تسجيل الدخول، تقلل <b>المصادقة الثنائية <bdi>(2FA)</bdi></b> احتمال <b>الدخول غير المصرح به</b> باستخدام <b>عاملين مستقلين</b>.</p></div><div class="s"><span class="n">4</span><h4>إرسال تفاصيل الطلب — سرية وسلامة</h4><p>أثناء إرسال تفاصيل الطلب، <b>يحمي TLS سرية البيانات وسلامتها أثناء النقل</b>. ويُستخدم <b>التوقيع الرقمي</b> لإثبات التوقيع على بيانات أو رسائل محددة <b>عندما يتطلب النظام ذلك</b>.</p></div></div>
+<div class="quote"><span class="qmark">”</span>يتيح <b>الجمع بين تقنيات الحماية</b> تقليل مخاطر عدة تهديدات، مثل <b>التنصت</b> و<b>التلاعب</b> و<b>انتحال الهوية</b> و<b>الدخول غير المصرح به</b>، <b>من دون افتراض أن أي تقنية تمنع الخطر منعًا مطلقًا</b>.</div>
+<div class="kidea keep"><div class="kh">الفكرة الرئيسة</div><p><b>لا يأتي الأمان عبر الإنترنت من تقنية واحدة</b>، بل من <b>الجمع بين التشفير والشهادات والتوقيعات والمصادقة</b> بحيث تتم معالجة تهديدات كثيرة في آن واحد.</p></div>
+<div class="box cream keep">
+  <h3>خلي بالك من العبارات دي</h3>
+  <ul>
+    <li>الوسائل دي <b>«تقلل المخاطر»</b> – «لكنها <b>لا تعني أن محتوى الموقع موثوق أو أن الحماية مطلقة</b>».</li>
+    <li><b>«من دون افتراض أن أي تقنية تمنع الخطر منعًا مطلقًا»</b>.</li>
+    <li>التوقيع الرقمي يوفر دليلًا يدعم عدم التنصل <b>«عندما يتطلب النظام ذلك»</b> – مش دايمًا.</li>
+    <li>«تؤدي الشهادات والتوقيعات الرقمية <b>وظائف مختلفة بحسب النظام</b>».</li>
+    <li>مفاتيح الجلسة تُشتق <b>«باستخدام آليات مفتاح عام مناسبة لإصدار TLS ومجموعة التشفير»</b>.</li>
+    <li>الحماية الفعالة <b>«طبقات تقلل المخاطر»</b> – <b>«ولا تعتمد على تقنية واحدة أو ضمان مطلق»</b>.</li>
+  </ul>
+</div>
+<div class="box plain keep">
+  <h3>مثال من حياتنا<span class="fx">للفهم</span></h3>
+  <p>لما تطبيق البنك ينشئ اتصالًا آمنًا بخادم البنك، بيتحقق من <b>شهادة الخادم</b> وبيتم إنشاء <b>مفاتيح الجلسة</b>. وبعد كده، البيانات المتبادلة عبر الاتصال بتتحمى <b>بالتشفير المتماثل</b> و<b>آليات سلامة البيانات</b>.</p>
+  <p>وبعدين كتبت <b>كلمة المرور</b> (معرفة)، وجالك <b>رمز على الموبايل</b> (حيازة) – دي <b><bdi class="nw">2FA</bdi></b>: <b>فئتين مختلفتين</b>. ولو حد عرف كلمة المرور، لسه <b>مش كفاية</b> يدخل من غير الجهاز اللي معاك.</p>
+  <p><b>وبرضه:</b> كل ده <b>بيقلّل الخطر</b> – مش بيلغيه. الكتاب واقف يقول: <b>من دون افتراض أن أي تقنية تمنع الخطر منعًا مطلقًا</b>.</p>
+</div>
+<div class="big">سؤال على نمط الامتحان — ونموذج إجابته</div>
+<hr class="rule">
+<div class="exam keep">
+  <div class="hd"><span class="n">1</span><span class="t">سؤال على نمط الامتحان</span><span class="m">[<span class="num">6</span> درجات]</span></div>
+  <div class="qt">اشرح لماذا يستخدم TLS آليات المفتاح العام للمصادقة والاتفاق الآمن على مفاتيح الجلسة، ثم يستخدم التشفير المتماثل لحماية بيانات الجلسة.</div>
+  <div class="hint"><b>استعن بـ:</b> الأمان والكفاءة.</div>
+</div>
+<h3 class="sub">سؤال على نمط الامتحان — إجابة نموذجية</h3>
+<div class="box white split"><h3>نموذج إجابة مقترح لسؤال الـ<span class="num">6</span> درجات<span class="fx">للفهم</span></h3><ol style="counter-reset:n 0"><li><b>المشكلة في البداية – الثقة:</b> يحتاج المتصفح إلى التأكد من أنه يتصل <b>بالخادم الصحيح</b>، وأن مفاتيح الحماية تُحدَّد دون أن تتسرّب؛ وهذا دور <b>آليات المفتاح العام</b>.</li></ol><ol style="counter-reset:n 1"><li><b>المصادقة:</b> أثناء <b>مصافحة TLS</b> يرسل الخادم <b>شهادته الرقمية</b>، ويتحقق المتصفح من <b>صلاحيتها وسلسلة الثقة وملاءمتها لاسم الموقع</b>.</li></ol><ol style="counter-reset:n 2"><li><b>الاتفاق الآمن على المفاتيح:</b> يتفاوض الطرفان على <b>أسرار مشتركة</b> تُشتق منها <b>مفاتيح الجلسة</b> – و<b>يشتق كل طرف مفتاحه دون إرسال المفتاح نفسه عبر الشبكة</b>.</li></ol><ol style="counter-reset:n 3"><li><b>لماذا لا نكمل بالمفتاح العام؟ – الكفاءة:</b> تبادل <b>جميع</b> البيانات بالتشفير بالمفتاح العام <b>سيكون بطيئًا</b>.</li></ol><ol style="counter-reset:n 4"><li><b>الحل:</b> بعد إنشاء المفاتيح يُستخدم <b>التشفير المتماثل</b> لحماية <b>بيانات الجلسة بسرعة وكفاءة</b>، مع <b>آليات سلامة البيانات</b>.</li></ol><ol style="counter-reset:n 5"><li><b>الخلاصة:</b> <b>الشهادات وآليات المفتاح العام للمصادقة والاتفاق الآمن على مفاتيح الجلسة، والتشفير المتماثل لحماية بيانات الجلسة بكفاءة</b> – والاثنان يعملان معًا، لا أحدهما بدل الآخر.</li></ol><div class="tip"><span class="l">ركّز:</span> التلميح سمّى كلمتين – <b>الأمان</b> و<b>الكفاءة</b>. الإجابة القوية بتربط كل نوع تشفير بكلمة منهم بوضوح.</div></div>
+<h2 class="sec"><span class="num"></span>إجابة السؤال الرئيسي</h2>
+<div class="mq">
+  <div class="lab">السؤال</div>
+  <div class="qq">كيف تعمل تقنيات التشفير والمصادقة معًا للحفاظ على أمان الاتصال والخدمات عبر الإنترنت؟</div>
+</div>
+<div class="quote"><span class="qmark">”</span>تناول السؤال الرئيسي كيفية تعاون التشفير والمصادقة لحماية الاتصال والخدمات. <b>يستخدم HTTPS بروتوكول HTTP عبر اتصال TLS مؤمّن</b>؛ فتساعد <b>الشهادات وآليات المفتاح العام على المصادقة وإنشاء مفاتيح جلسة</b>، ثم <b>يحمي التشفير المتماثل بيانات الجلسة بكفاءة</b>. وتقلل <b>المصادقة الثنائية</b> احتمال الدخول غير المصرح به <b>باستخدام عاملين مستقلين</b>. كما تؤدي <b>الشهادات والتوقيعات الرقمية وظائف مختلفة بحسب النظام</b>. وتتكون الحماية الفعالة من <b>طبقات تقلل المخاطر</b>، <b>ولا تعتمد على تقنية واحدة أو ضمان مطلق</b>.</div>
+<div class="terms keep">
+  <div class="th"><h3>مصطلحات أساسية</h3></div>
+  <div class="t2 c3">
+    <div><b>التشفير</b> – يحافظ على خصوصية المحتوى.</div>
+    <div><b>التشفير بالمفتاح العام</b> – يشارك المفتاح بأمان.</div>
+    <div><b>التشفير المتماثل</b> – يتبادل البيانات بسرعة.</div>
+  </div>
+  <div class="t2">
+    <div class="full"><b>HTTPS</b> – نظام لإجراء اتصالات الويب بأمان (التشفير، واكتشاف التلاعب، والتحقق من الطرف المقابل).</div>
+    <div><b>المصادقة الثنائية <bdi>(2FA – Two-Factor Authentication)</bdi></b> – استخدام عاملين مستقلين من فئتين مختلفتين لإثبات الهوية.<br>– تقلل احتمال تسجيل الدخول غير المصرح به.</div>
+    <div><b>المصادقة متعددة العوامل <bdi>(MFA – Multi-Factor Authentication)</bdi></b> – استخدام عاملين أو أكثر من فئات مختلفة، مثل المعرفة والحيازة والسمات الحيوية.</div>
+    <div><b>التوقيع الرقمي</b> – يكتشف التلاعب وانتحال الشخصية، ويوفر دليلًا يدعم عدم التنصل.</div>
+    <div><b>الشهادة الرقمية</b> – تساعد المتصفح على التحقق من هوية الخادم وارتباط الشهادة باسم النطاق.</div>
+  </div>
+</div>
+<div class="dark keep">
+  <h3>الخلاصة في دقيقة</h3>
+  <p class="rem"><b>تذكّر:</b> تستخدم مصافحة HTTPS آليات المفتاح العام للمصادقة والاتفاق الآمن على أسرار مشتركة تُشتق منها مفاتيح الجلسة، ثم تُحمى بيانات الجلسة بالتشفير المتماثل بسرعة. تحافظ الخدمات على أمانها من خلال تكديس التشفير والشهادات والتوقيعات والمصادقة الثنائية <bdi>(2FA)</bdi>.</p>
+  <div class="g2">
+    <ul>
+      <li><b><bdi>HTTPS</bdi>:</b> <bdi>HTTP</bdi> منقول عبر <bdi>TLS</bdi> مؤمَّن — سرية وسلامة أثناء النقل + التحقق من هوية الخادم واسم النطاق.</li>
+      <li><b>ليه الاتنين؟</b> مفتاح عام <b>للأمان</b> (مصادقة واتفاق على المفاتيح) · متماثل <b>للكفاءة</b> (سرعة حماية الجلسة).</li>
+      <li><b>الطبقات:</b> تشفير (محدش يقرا) · توقيع رقمي (محدش عدّل + دليل عدم التنصل عند الحاجة) · شهادة رقمية (إنت بتكلم مين) · <bdi>2FA</bdi> (مين اللي داخل).</li>
+    </ul>
+    <ul>
+      <li><b>المراحل:</b> <span class="num">1</span> التحقق من الشهادة · <span class="num">2</span> اشتقاق مفاتيح الجلسة (الاتنين <b>جوّه</b> المصافحة، بمفتاح عام) · <b>وبعدها</b> تبادل البيانات (متماثل).</li>
+      <li><b><bdi>2FA</bdi>:</b> عاملان <b>مستقلان</b> من <b>فئتين مختلفتين</b> — معرفة · حيازة · سمات حيوية. وكلمتا مرور = عامل واحد مكرر.</li>
+      <li><b>التحفّظ:</b> الحماية <b>طبقات تقلل المخاطر</b> – <b>مش ضمان مطلق</b>، ومش دليل إن محتوى الموقع موثوق.</li>
+    </ul>
+  </div>
+</div>
+<div class="check keep kwn">
+  <h3>اتأكد إنك قادر على</h3>
+  <div class="g2">
+    <ul>
+      <li><span>أعرف تعريف <b>HTTPS</b> وعلاقته بـ<b>TLS</b>.</span></li>
+      <li><span>أعرف <b>ليه</b> TLS بيستخدم النوعين – <b>الأمان</b> و<b>الكفاءة</b>.</span></li>
+      <li><span>أفرّق بين <b>الشهادة الرقمية</b> و<b>التوقيع الرقمي</b>: كل واحد بيتحقق من إيه؟</span></li>
+      <li><span>أعرف <b>تحفّظ الكتاب</b>: الحماية طبقات تقلل المخاطر، مش ضمان مطلق.</span></li>
+    </ul>
+    <ul>
+      <li><span>أقدر أرتّب <b>مراحل اتصال HTTPS التلاتة</b> وأقول <b>آلية الحماية</b> في كل مرحلة.</span></li>
+      <li><span>أعرف تعريف <b>2FA</b> و<b>MFA</b> و<b>التلات فئات</b>، وأعرف ليه <b>كلمتين مرور مش 2FA</b>.</span></li>
+      <li><span>أقدر أوصّل <b>كل تهديد</b> بالتقنية اللي بتقلّله.</span></li>
+    </ul>
+  </div>
+</div>
+<div class="endline">أكواد مع زياد — أ/ زياد السعدني · مذكرة البرمجة والذكاء الاصطناعي — تانية ثانوي <span class="num">2026/2027</span> · الوحدة الثانية — الدرس <span class="num">2-1</span></div>
+<div class="pb"></div>
+<div class="band" style="height:55pt;padding-right:12pt">
+  <div class="badge"><span class="n">2-1</span></div>
+  <h1 style="text-align:right;margin-right:12pt;font-size:14pt">لخّص الدرس بأسلوبك</h1>
+</div>
+<div class="instr"><span class="fx fl">للفهم</span>اقفل المذكرة وحاول تلخّص الدرس من غير ما تبصّ: اكتب أهم <b>المصطلحات</b>، و<b>الفكرة الأساسية</b>، و<b>النقطة اللي لسه محتاجة مراجعة</b>. بعد كده افتح المذكرة وقارن اللي كتبته.</div>
+<div class="lines"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+
+<!-- ===================== بنك الأسئلة ===================== -->
+<div class="pb"></div>
+<div class="band">
+  <div class="badge"><span class="l">الدرس</span><span class="n">2-1</span></div>
+  <h1>تقنيات التشفير والمصادقة</h1>
+  <div class="who"><div class="t"><span class="u">الوحدة الثانية</span><span class="k">بنك الأسئلة</span></div><img src="assets/avatar.png" alt=""></div>
+</div>
+<div class="qstats"><div><b class="num">12</b><span>أسئلة الكتاب</span></div><div><b class="num">30</b><span>اختر</span></div><div><b class="num">12</b><span>أكمل</span></div><div><b class="num">12</b><span>صح وخطأ</span></div><div><b class="num">9</b><span>تصنيف وقارن</span></div><div><b class="num">9</b><span>علّل</span></div><div><b class="num">11</b><span>مقالي وأنشطة</span></div><div><b class="num">31</b><span class="tq">تقييمات</span></div></div>
+<h2 class="cat kwn">أسئلة الكتاب<span class="cnt">12</span></h2>
+<div class="qcard split "><h4><span class="n">01</span><span class="tt">·&nbsp;المثال المحلول — الجزء الأول</span></h4><p class="qi">ضع علامة ○ أمام كل عبارة (أ - د) إذا كانت صحيحة، أو علامة × إذا كانت خاطئة.</p><ul class="tf"><li><b>أ</b><span class="t">يستخدم اتصال HTTPS كلًّا من التشفير بالمفتاح العام والتشفير المتماثل.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><b>ب</b><span class="t">يتبادل اتصال HTTPS جميع البيانات باستخدام التشفير بالمفتاح العام.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><b>ج</b><span class="t">المصادقة الثنائية <bdi>(2FA)</bdi> تستخدم عاملين مستقلين من فئتين مختلفتين لإثبات الهوية.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><b>د</b><span class="t">من أمثلة المصادقة الثنائية <bdi>(2FA)</bdi>، تعيين كلمتي مرور.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li></ul></div>
+<div class="qcard split "><h4><span class="n">02</span><span class="tt">·&nbsp;المثال المحلول — الجزء الثاني</span></h4><p class="qi">طابق كل تهديد (أ - ج) بأنسب تقنية أمان من الخيارات التالية (أ - ج).</p><div class="match"><div class="mb"><h5>التهديد</h5><ol class="la"><li><b>أ</b><span>أريد منع قراءة محتوى الاتصال من قِبل أطراف ثالثة.</span><span class="ab"></span></li><li><b>ب</b><span>أريد التحقق من أن رسالة موقّعة لم يتم تعديلها، وأنها صدرت عن الموقّع المزعوم.</span><span class="ab"></span></li><li><b>ج</b><span>أريد التحقق من أن الطرف المقابل في الاتصال حقيقي.</span><span class="ab"></span></li></ol></div><div class="mb"><h5>الخيارات</h5><ul class="op c1"><li><b>أ‌</b>التشفير</li><li><b>ب‌</b>التوقيع الرقمي</li><li><b>ج‌</b>الشهادة الرقمية</li></ul></div></div></div>
+<div class="qcard sol keep"><h4><span class="ck">✓</span> الحل — المثال المحلول</h4><div class="sg"><div><div class="sp">(1)</div><div class="sr"><b>أ</b><span>يستخدم اتصال HTTPS آليات المفتاح العام للمصادقة والاتفاق الآمن على مفاتيح الجلسة، ثم التشفير المتماثل لحماية بيانات الجلسة. لذلك، ○.</span></div><div class="sr"><b>ب</b><span>تبادل جميع البيانات باستخدام التشفير بالمفتاح العام سيكون بطيئًا، لذا يُستخدم التشفير المتماثل لتبادل البيانات. لذلك، ×.</span></div><div class="sr"><b>ج</b><span>تعريف صحيح للمصادقة الثنائية باستخدام عاملين مختلفين. لذلك، ○.</span></div><div class="sr"><b>د</b><span>حتى لو تم تعيين كلمتي مرور، فإن كلتيهما من عامل "المعرفة"، وبالتالي لا يشكل ذلك مصادقة ثنائية باستخدام عاملين مختلفين (بل هو مصادقة متعددة الخطوات باستخدام نفس العامل). لذلك، ×.</span></div></div><div><div class="sp">(2)</div><div class="sr"><b>أ:</b><span>منع قراءة محتوى الاتصال هو التشفير. <i>أ</i></span></div><div class="sr"><b>ب:</b><span>التحقق من سلامة رسالة موقّعة وهوية موقّعها هو التوقيع الرقمي. <i>ب</i></span></div><div class="sr"><b>ج:</b><span>التحقق من صحة الطرف المقابل في الاتصال هو الشهادة الرقمية. <i>ج</i></span></div></div></div></div>
+<div class="qcard split "><h4><span class="n">03</span><span class="tt">·&nbsp;تدرّب — أجب عن الأسئلة التالية</span><span class="tq">تقييمات</span></h4><div class="qq"><span class="k">1</span><p>ما دور الشهادة الرقمية وآليات المفتاح العام في بدء اتصال TLS آمن؟</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="qq"><span class="k">2</span><p>ما نوع التشفير المستخدم لحماية بيانات الجلسة بعد إنشاء مفاتيحها؟ <span class="bl" style="width:110pt"></span></p></div><div class="qq"><span class="k">3</span><p>اشرح باختصار كيف يستخدم HTTPS الشهادات وآليات المفتاح العام لبدء اتصال آمن، ثم يستخدم مفاتيح جلسة متماثلة لحماية البيانات.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="qcard split "><h4><span class="n">04</span><span class="tt">·&nbsp;تدرّب — عوامل المصادقة · واختيار</span></h4><div class="qq"><span class="k">1</span><p>لكل خدمة (أ - د)، بيّن أي مجموعة من عوامل المصادقة تُستخدم: <b>أ</b> المعرفة + الحيازة، <b>ب</b> المعرفة + السمات الحيوية، <b>ج</b> السمات الحيوية + الحيازة.</p></div><ul class="cl"><li><span class="k">أ</span><span class="t">كلمة مرور + كلمة مرور لمرة واحدة</span><span class="ab"></span></li><li><span class="k">ب</span><span class="t">كلمة مرور + مصادقة ببصمة الإصبع</span><span class="ab"></span></li><li><span class="k">ج</span><span class="t">كلمة مرور + مصادقة عبر الرسائل القصيرة <bdi class="nw">SMS</bdi></span><span class="ab"></span></li><li><span class="k">د</span><span class="t">التعرف على الوجه + بطاقة <bdi class="nw">IC</bdi> (بطاقة ذكية تحمل شريحة مدمجة تخزّن بيانات الهوية)</span><span class="ab"></span></li></ul><div class="qq"><span class="k">2</span><p>من بين الخيارات التالية (أ - د)، اختر الخيار الذي <b>لا يمثل وصفًا مناسبًا</b> لتركيبات تقنيات الأمان.</p></div><ul class="op c1"><li><b>أ‌</b>التشفير تقنية تمنع قراءة محتوى الاتصال من قِبل أطراف ثالثة.</li><li><b>ب‌</b>التوقيعات الرقمية تقنية تُحسّن سرعة الاتصال.</li><li><b>ج‌</b>الشهادات الرقمية نظام للتحقق من أن الطرف المقابل في الاتصال حقيقي.</li><li><b>د‌</b>من خلال الجمع بين عدة تقنيات أمان، يمكن معالجة تهديدات متنوعة.</li></ul></div>
+<div class="qcard split "><h4><span class="n">05</span><span class="tt">·&nbsp;سؤال على نمط الامتحان</span><span class="mk">[<span class="num">6</span> درجات]</span><span class="tq">تقييمات</span></h4><p class="qs">اشرح لماذا يستخدم TLS آليات المفتاح العام للمصادقة والاتفاق الآمن على مفاتيح الجلسة، ثم يستخدم التشفير المتماثل لحماية بيانات الجلسة.</p><div class="hint"><b>عناصر الإجابة</b> <b>استعن بـ:</b> الأمان والكفاءة.</div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="qcard split "><h4><span class="n">06</span><span class="tt">·&nbsp;تمارين — اقرأ الفقرة ثم أجب</span></h4><p class="qi">اقرأ الفقرة التالية وأجب عن كل سؤال.</p><p class="qs rd">عند بدء اتصال HTTPS ينفذ الطرفان مصافحة TLS. وفي أثنائها يرسل الخادم شهادته الرقمية إلى المتصفح، فيتحقق المتصفح من صلاحيتها وملاءمتها لاسم الموقع. ثم يتفق الطرفان – في المصافحة نفسها – على إعدادات الحماية وتُشتق مفاتيح الجلسة. وبعد اكتمال المصافحة تُحمى بيانات الجلسة بالتشفير المتماثل وآليات سلامة البيانات.</p><div class="qq"><span class="k">1</span><p>استخرج من الفقرة ثلاث خطوات مرتبة لإنشاء اتصال HTTPS آمن.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="qq"><span class="k">2</span><p>اشرح بإيجاز سبب استخدام مفاتيح جلسة متماثلة لحماية كميات البيانات المتبادلة بعد المصافحة.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="qcard split "><h4><span class="n">07</span><span class="tt">·&nbsp;تمارين — التهديد والتقنية · واختيار</span></h4><div class="qq"><span class="k">1</span><p>لكل تهديد (أ - د)، بيّن التقنية المستخدمة أساسًا لمعالجته: <b>أ</b> التشفير، <b>ب</b> التوقيع الرقمي، <b>ج</b> الشهادة الرقمية، <b>د</b> المصادقة الثنائية <bdi>(2FA)</bdi>.</p></div><ul class="cl"><li><span class="k">أ</span><span class="t">تسربت كلمة مرور وحدث تسجيل دخول غير مصرح به.</span><span class="ab"></span></li><li><span class="k">ب</span><span class="t">تم تعديل البيانات أثناء الاتصال.</span><span class="ab"></span></li><li><span class="k">ج</span><span class="t">تم توجيه مستخدم إلى موقع إلكتروني مزيف.</span><span class="ab"></span></li><li><span class="k">د</span><span class="t">تم اعتراض محتوى الاتصال من قِبل طرف ثالث.</span><span class="ab"></span></li></ul><div class="qq"><span class="k">2</span><p>من بين الخيارات التالية (أ - د)، اختر الخيار الذي <b>لا يمثل مثالًا مناسبًا</b> للمصادقة الثنائية باستخدام عاملين مختلفين.</p></div><ul class="op c2"><li><b>أ‌</b>كلمة مرور + إشعار على الهاتف الذكي</li><li><b>ب‌</b>كلمة مرور + سؤال سري</li><li><b>ج‌</b>مصادقة ببصمة الإصبع + بطاقة <bdi class="nw">IC</bdi></li><li><b>د‌</b>كلمة مرور + مصادقة عبر الرسائل القصيرة <bdi class="nw">SMS</bdi></li></ul></div>
+<h2 class="cat kwn">اختر الإجابة الصحيحة<span class="cnt">30</span></h2>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">1</span><span class="tq">تقييمات</span><p>HTTPS – حسب الكتاب – هو:</p></div><ul class="op c2"><li><b>أ‌</b>شهادة يصدرها المتصفح</li><li><b>ب‌</b>بروتوكول جديد يحل محل HTTP ويلغي الحاجة إليه</li><li><b>ج‌</b>نوع من كلمات المرور</li><li><b>د‌</b>بروتوكول HTTP منقول عبر اتصال TLS مؤمَّن</li></ul></div><div class="mq"><div class="qq"><span class="k">2</span><p>يوفر TLS:</p></div><ul class="op c2"><li><b>أ‌</b>سرعة تحميل أعلى للصفحات على كل الأجهزة</li><li><b>ب‌</b>سرية البيانات وسلامتها أثناء النقل</li><li><b>ج‌</b>نسخًا احتياطية للبيانات</li><li><b>د‌</b>ترجمة المحتوى</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">3</span><span class="tq">تقييمات</span><p>تسمى خطوات إنشاء الاتصال الآمن:</p></div><ul class="op c2"><li><b>أ‌</b>مصافحة TLS</li><li><b>ب‌</b>الشهادة الرقمية</li><li><b>ج‌</b>التوقيع الرقمي</li><li><b>د‌</b>المصادقة الثنائية</li></ul></div><div class="mq"><div class="qq"><span class="k">4</span><p>أثناء المصافحة، يرسل الخادم إلى المتصفح:</p></div><ul class="op c2"><li><b>أ‌</b>كلمة مرور المستخدم</li><li><b>ب‌</b>مفتاحه الخاص</li><li><b>ج‌</b>مفتاح الجلسة</li><li><b>د‌</b>شهادته الرقمية</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">5</span><p>يتحقق المتصفح من الشهادة من حيث:</p></div><ul class="op c2"><li><b>أ‌</b>صلاحيتها وسلسلة الثقة وملاءمتها لاسم الموقع</li><li><b>ب‌</b>لونها وحجمها</li><li><b>ج‌</b>سرعة الخادم</li><li><b>د‌</b>عدد زوار الموقع وسرعة تحميل صفحاته</li></ul></div><div class="mq"><div class="qq"><span class="k">6</span><p>آلية الحماية الأساسية في مرحلة <b>التحقق من الشهادة</b> هي:</p></div><ul class="op c2"><li><b>أ‌</b>التشفير المتماثل</li><li><b>ب‌</b>المصادقة الثنائية</li><li><b>ج‌</b>التشفير بالمفتاح العام</li><li><b>د‌</b>التوقيع الرقمي وعدم التنصل</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">7</span><p>آلية الحماية الأساسية في مرحلة <b>اشتقاق مفاتيح الجلسة</b> هي:</p></div><ul class="op c2"><li><b>أ‌</b>التشفير المتماثل</li><li><b>ب‌</b>التشفير بالمفتاح العام</li><li><b>ج‌</b>التوقيع الرقمي</li><li><b>د‌</b>بصمة الإصبع والتعرف على الوجه</li></ul></div><div class="mq"><div class="qq"><span class="k">8</span><span class="tq">تقييمات</span><p>آلية الحماية الأساسية في مرحلة <b>تبادل البيانات</b> هي:</p></div><ul class="op c2"><li><b>أ‌</b>التشفير بالمفتاح العام</li><li><b>ب‌</b>التشفير المتماثل</li><li><b>ج‌</b>الشهادة الرقمية</li><li><b>د‌</b>المصادقة الثنائية</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">9</span><span class="tq">تقييمات</span><p>يستخدم التشفير بالمفتاح العام:</p></div><ul class="op c2"><li><b>أ‌</b>زوجًا من المفاتيح المرتبطة: عامًا وخاصًا</li><li><b>ب‌</b>مفتاحًا واحدًا مشتركًا يعرفه الطرفان فقط</li><li><b>ج‌</b>ثلاثة مفاتيح متتالية</li><li><b>د‌</b>كلمة مرور لمرة واحدة</li></ul></div><div class="mq"><div class="qq"><span class="k">10</span><p>حسب الكتاب، مفتاح الجلسة:</p></div><ul class="op c2"><li><b>أ‌</b>يرسله الخادم عبر الشبكة</li><li><b>ب‌</b>يكتبه المستخدم يدويًا</li><li><b>ج‌</b>يشتقه كل طرف لديه دون إرسال المفتاح نفسه عبر الشبكة</li><li><b>د‌</b>يوجد داخل الشهادة الرقمية ويُرسل معها إلى المتصفح</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">11</span><p>لماذا لا تُتبادل <b>جميع</b> البيانات باستخدام التشفير بالمفتاح العام؟</p></div><ul class="op c2"><li><b>أ‌</b>لأن ذلك سيكون بطيئًا</li><li><b>ب‌</b>لأنه غير آمن</li><li><b>ج‌</b>لأنه يحتاج إلى إنترنت أسرع</li><li><b>د‌</b>لأن المتصفح لا يدعمه</li></ul></div><div class="mq"><div class="qq"><span class="k">12</span><span class="tq">تقييمات</span><p>المصادقة الثنائية <bdi>(2FA)</bdi> هي استخدام:</p></div><ul class="op c2"><li><b>أ‌</b>عاملين مستقلين من فئتين مختلفتين</li><li><b>ب‌</b>كلمتي مرور مختلفتين في الطول والحروف</li><li><b>ج‌</b>متصفحين مختلفين</li><li><b>د‌</b>جهازين متصلين بالإنترنت</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">13</span><span class="tq">تقييمات</span><p>المصادقة متعددة العوامل <bdi>(MFA)</bdi> هي استخدام:</p></div><ul class="op c2"><li><b>أ‌</b>عامل واحد قوي</li><li><b>ب‌</b>عاملين أو أكثر من فئات مختلفة</li><li><b>ج‌</b>ثلاثة عوامل على الأقل من الفئة نفسها</li><li><b>د‌</b>كلمة مرور طويلة</li></ul></div><div class="mq"><div class="qq"><span class="k">14</span><span class="tq">تقييمات</span><p>فئات عوامل المصادقة التي يذكرها الكتاب هي:</p></div><ul class="op c2"><li><b>أ‌</b>التشفير والتوقيع والشهادة</li><li><b>ب‌</b>السرعة والدقة والتكلفة</li><li><b>ج‌</b>المعرفة والحيازة والسمات الحيوية</li><li><b>د‌</b>الخادم والعميل والشبكة</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">15</span><p>كلمة المرور تنتمي إلى فئة:</p></div><ul class="op c2"><li><b>أ‌</b>الحيازة</li><li><b>ب‌</b>السمات الحيوية</li><li><b>ج‌</b>المعرفة</li><li><b>د‌</b>الشهادات</li></ul></div><div class="mq"><div class="qq"><span class="k">16</span><span class="tq">تقييمات</span><p>كلمة المرور لمرة واحدة تُرسل إلى جهاز المستخدم تنتمي إلى فئة:</p></div><ul class="op c2"><li><b>أ‌</b>الحيازة</li><li><b>ب‌</b>المعرفة</li><li><b>ج‌</b>السمات الحيوية</li><li><b>د‌</b>الشفافية</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">17</span><span class="tq">تقييمات</span><p>بصمة الإصبع والتعرف على الوجه ينتميان إلى فئة:</p></div><ul class="op c2"><li><b>أ‌</b>المعرفة</li><li><b>ب‌</b>الحيازة</li><li><b>ج‌</b>السمات الحيوية</li><li><b>د‌</b>التشفير</li></ul></div><div class="mq"><div class="qq"><span class="k">18</span><span class="tq">تقييمات</span><p>تعيين <b>كلمتي مرور</b> لا يُعد مصادقة ثنائية لأن:</p></div><ul class="op c2"><li><b>أ‌</b>الخادم لا يخزنها</li><li><b>ب‌</b>كلمات المرور ضعيفة دائمًا</li><li><b>ج‌</b>المتصفح لا يقبلها</li><li><b>د‌</b>كلتيهما من عامل المعرفة</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">19</span><p>«بطاقة دخول + بصمة إصبع» في مبنى مؤمَّن تمثل:</p></div><ul class="op c2"><li><b>أ‌</b>الحيازة + السمات الحيوية</li><li><b>ب‌</b>المعرفة + الحيازة</li><li><b>ج‌</b>المعرفة + السمات الحيوية</li><li><b>د‌</b>عاملين من فئة واحدة هي الحيازة</li></ul></div><div class="mq"><div class="qq"><span class="k">20</span><span class="tq">تقييمات</span><p>«كلمة المرور + كلمة مرور لمرة واحدة» في الخدمات المصرفية تمثل:</p></div><ul class="op c2"><li><b>أ‌</b>الحيازة + السمات الحيوية</li><li><b>ب‌</b>المعرفة + الحيازة</li><li><b>ج‌</b>المعرفة + المعرفة</li><li><b>د‌</b>السمات الحيوية + المعرفة</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">21</span><span class="tq">تقييمات</span><p>تأثير <b>التشفير</b> حسب جدول الكتاب هو أنه:</p></div><ul class="op c2"><li><b>أ‌</b>يمنع نسيان كلمة المرور</li><li><b>ب‌</b>يزيد سرعة الاتصال</li><li><b>ج‌</b>يمنع قراءة محتوى الاتصال من قِبل أطراف ثالثة</li><li><b>د‌</b>يساعد المتصفح على التحقق من هوية الخادم</li></ul></div><div class="mq"><div class="qq"><span class="k">22</span><span class="tq">تقييمات</span><p>تأثير <b>التوقيع الرقمي</b> حسب جدول الكتاب هو أنه:</p></div><ul class="op c2"><li><b>أ‌</b>يسرّع المصافحة</li><li><b>ب‌</b>يشفّر بيانات الجلسة بعد اكتمال المصافحة مباشرة</li><li><b>ج‌</b>يقلل احتمال تسجيل الدخول غير المصرح به</li><li><b>د‌</b>يدعم التحقق من سلامة البيانات وهوية الموقِّع</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">23</span><span class="tq">تقييمات</span><p>مصطلح <b>عدم التنصل</b> يرتبط في الدرس بـ:</p></div><ul class="op c2"><li><b>أ‌</b>الشهادة الرقمية</li><li><b>ب‌</b>التوقيع الرقمي</li><li><b>ج‌</b>التشفير المتماثل</li><li><b>د‌</b>المصادقة الثنائية</li></ul></div><div class="mq"><div class="qq"><span class="k">24</span><span class="tq">تقييمات</span><p>الشهادة الرقمية تساعد المتصفح على التحقق من:</p></div><ul class="op c2"><li><b>أ‌</b>حجم الصفحة</li><li><b>ب‌</b>سرعة الاتصال</li><li><b>ج‌</b>قوة كلمة مرور المستخدم قبل تسجيل الدخول</li><li><b>د‌</b>هوية الخادم واسم النطاق الذي يتصل به</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">25</span><p>تأثير <b>المصادقة الثنائية</b> حسب جدول الكتاب هو أنها:</p></div><ul class="op c2"><li><b>أ‌</b>تقلل احتمال تسجيل الدخول غير المصرح به</li><li><b>ب‌</b>تمنع قراءة محتوى الاتصال</li><li><b>ج‌</b>تتحقق من هوية الخادم واسم النطاق الذي يتصل به المتصفح</li><li><b>د‌</b>تسرّع تبادل البيانات</li></ul></div><div class="mq"><div class="qq"><span class="k">26</span><p>يوفر التوقيع الرقمي دليلًا يدعم عدم التنصل:</p></div><ul class="op c2"><li><b>أ‌</b>في كل اتصال دائمًا</li><li><b>ب‌</b>عندما يتطلب النظام ذلك</li><li><b>ج‌</b>فقط في المصافحة</li><li><b>د‌</b>فقط عند تسجيل الدخول ببصمة الإصبع</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">27</span><p>الجمع بين تقنيات الحماية يقلل مخاطر تهديدات مثل:</p></div><ul class="op c2"><li><b>أ‌</b>امتلاء القرص الصلب</li><li><b>ب‌</b>انقطاع الكهرباء وتلف الأجهزة</li><li><b>ج‌</b>بطء الإنترنت</li><li><b>د‌</b>التنصت والتلاعب وانتحال الهوية والدخول غير المصرح به</li></ul></div><div class="mq"><div class="qq"><span class="k">28</span><span class="tq">تقييمات</span><p>حسب الكتاب، تتكون الحماية الفعالة من:</p></div><ul class="op c2"><li><b>أ‌</b>تقنية واحدة قوية تمنع كل التهديدات منعًا مطلقًا</li><li><b>ب‌</b>كلمة مرور طويلة فقط</li><li><b>ج‌</b>طبقات تقلل المخاطر، ولا تعتمد على تقنية واحدة أو ضمان مطلق</li><li><b>د‌</b>إيقاف الاتصال بالإنترنت</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">29</span><p>حسب الكتاب، استخدام HTTPS:</p></div><ul class="op c2"><li><b>أ‌</b>يعني أن محتوى الموقع موثوق</li><li><b>ب‌</b>يقلل المخاطر لكنه لا يعني أن محتوى الموقع موثوق ولا أن الحماية مطلقة</li><li><b>ج‌</b>يضمن عدم اختراق الحساب</li><li><b>د‌</b>يغني عن المصادقة</li></ul></div><div class="mq"><div class="qq"><span class="k">30</span><p>في مثال التسوق الإلكتروني، ما الذي يتأكد من <b>هوية الخادم</b>؟</p></div><ul class="op c2"><li><b>أ‌</b>المصادقة الثنائية عند تسجيل الدخول</li><li><b>ب‌</b>التشفير المتماثل لبيانات الطلب أثناء الإرسال</li><li><b>ج‌</b>التوقيع الرقمي</li><li><b>د‌</b>التحقق من الشهادة الرقمية واسم النطاق</li></ul></div></div>
+<h2 class="cat kwn">أكمل<span class="cnt">12</span></h2>
+<div class="hint kwn"><b>ملحوظة</b> اكتب المصطلح كامل وصحيح الإملاء. ولو المصطلح ليه اختصار إنجليزي، اكتبه جنبه كطريقة تساعدك تثبّت المصطلح.</div>
+<div class="frow"><div><span class="k">1</span><p>بروتوكول HTTP منقول عبر اتصال TLS مؤمَّن هو <span class="bl" style="width:70pt"></span></p></div><div><span class="k">2</span><p>خطوات إنشاء الاتصال الآمن تسمى <span class="bl" style="width:70pt"></span></p></div></div>
+<div class="frow"><div><span class="k">3</span><p>التشفير الذي يستخدم زوجًا من المفاتيح المرتبطة هو <span class="bl" style="width:70pt"></span></p></div><div><span class="k">4</span><p>التشفير الذي يحمي بيانات الجلسة بسرعة وكفاءة هو التشفير <span class="bl" style="width:70pt"></span></p></div></div>
+<div class="frow"><div><span class="k">5</span><p><span class="bl" style="width:70pt"></span> تساعد المتصفح على التحقق من هوية الخادم واسم النطاق</p></div><div><span class="k">6</span><p><span class="bl" style="width:65pt"></span> يكتشف التلاعب وانتحال الشخصية ويوفر دليلًا يدعم <span class="bl" style="width:60pt"></span></p></div></div>
+<div class="frow"><div><span class="k">7</span><p>استخدام عاملين مستقلين من فئتين مختلفتين لإثبات الهوية هو <span class="bl" style="width:70pt"></span></p></div><div><span class="k">8</span><p>استخدام عاملين أو أكثر من فئات مختلفة هو <span class="bl" style="width:70pt"></span></p></div></div>
+<div class="frow"><div><span class="k">9</span><p>فئات عوامل المصادقة هي: المعرفة و<span class="bl" style="width:60pt"></span> و<span class="bl" style="width:60pt"></span></p></div><div><span class="k">10</span><p>يشتق كل طرف مفتاح الجلسة لديه دون <span class="bl" style="width:70pt"></span> عبر الشبكة</p></div></div>
+<div class="frow"><div><span class="k">11</span><p>يوفر TLS <span class="bl" style="width:55pt"></span> البيانات و<span class="bl" style="width:55pt"></span> أثناء النقل</p></div><div><span class="k">12</span><p>كلمة المرور لمرة واحدة تنتمي إلى فئة <span class="bl" style="width:70pt"></span></p></div></div>
+<h2 class="cat kwn">صح وخطأ<span class="cnt">12</span></h2>
+<ul class="tfb"><li><span class="k">1</span><span class="t">مصافحة TLS هي خطوات إنشاء الاتصال الآمن.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">2</span><span class="t">يرسل الخادم مفتاحه الخاص إلى المتصفح أثناء المصافحة.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">3</span><span class="t">يشتق كل طرف مفتاح الجلسة لديه دون إرسال المفتاح نفسه عبر الشبكة.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li></ul>
+<ul class="tfb"><li><span class="k">4</span><span class="t">المصادقة الثنائية تستخدم عاملين من الفئة نفسها.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">5</span><span class="t">«كلمة مرور + سؤال سري» مثال مناسب على المصادقة الثنائية.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">6</span><span class="t">«بصمة الإصبع + بطاقة <bdi class="nw">IC</bdi>» مثال على المصادقة الثنائية بعاملين من فئتين مختلفتين.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li></ul>
+<ul class="tfb"><li><span class="k">7</span><span class="t">التوقيعات الرقمية تقنية تُحسّن سرعة الاتصال.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">8</span><span class="t">الشهادة الرقمية تساعد على التحقق من هوية الخادم واسم النطاق.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">9</span><span class="t">يوفر التوقيع الرقمي دليلًا يدعم عدم التنصل عندما يتطلب النظام ذلك.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li></ul>
+<ul class="tfb"><li><span class="k">10</span><span class="t">استخدام HTTPS يعني أن محتوى الموقع موثوق.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">11</span><span class="t">يتحقق الأمان من خلال تقنية واحدة قوية بدلًا من الجمع بين عدة تقنيات.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">12</span><span class="t">يقلل استخدام عامل مستقل ثانٍ احتمال الدخول غير المصرح به إذا كُشفت كلمة المرور.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li></ul>
+<div class="pb"></div>
+<h2 class="cat kwn">تصنيف وقارن<span class="cnt">9</span></h2>
+<div class="qcard split "><h4><span class="n">01</span><span class="tt">·&nbsp;العامل ده من أنهي فئة؟</span></h4><p class="qi">اكتب <b>م</b> للمعرفة، أو <b>ح</b> للحيازة، أو <b>س</b> للسمات الحيوية.</p><ul class="cl"><li><span class="k">1</span><span class="t">كلمة المرور</span><span class="ab"></span></li><li><span class="k">2</span><span class="t">بصمة الإصبع</span><span class="ab"></span></li><li><span class="k">3</span><span class="t">كلمة مرور لمرة واحدة على الهاتف</span><span class="ab"></span></li><li><span class="k">4</span><span class="t">بطاقة الدخول</span><span class="ab"></span></li><li><span class="k">5</span><span class="t">السؤال السري</span><span class="ab"></span></li><li><span class="k">6</span><span class="t">التعرف على الوجه</span><span class="ab"></span></li></ul></div>
+<div class="qcard split "><h4><span class="n">02</span><span class="tt">·&nbsp;دي مصادقة ثنائية ولا لأ؟</span></h4><p class="qi">اكتب <b>✓</b> لو دي <bdi class="nw">2FA</bdi> بعاملين من فئتين مختلفتين، أو <b>✗</b> لو لأ — واكتب جنبها <b>رمز فئة كل عامل</b> (م / ح / س) زي الكارت اللي فات.</p><ul class="cl"><li><span class="k">1</span><span class="t">كلمة مرور + رمز من تطبيق مصادقة</span><span class="ab w"></span></li><li><span class="k">2</span><span class="t">كلمة مرور + كلمة مرور ثانية</span><span class="ab w"></span></li><li><span class="k">3</span><span class="t">بطاقة دخول + بصمة إصبع</span><span class="ab w"></span></li><li><span class="k">4</span><span class="t">سؤال سري + كلمة مرور</span><span class="ab w"></span></li></ul></div>
+<div class="qcard split "><h4><span class="n">03</span><span class="tt">·&nbsp;طابق كل مرحلة بآلية حمايتها</span></h4><p class="qi">الخيار ممكن يتكرر.</p><div class="match"><div class="mb"><h5>المرحلة</h5><ol><li><span>تبادل البيانات</span><span class="ab"></span></li><li><span>مصافحة TLS – التحقق من الشهادة</span><span class="ab"></span></li><li><span>مصافحة TLS – اشتقاق مفاتيح الجلسة</span><span class="ab"></span></li></ol></div><div class="mb"><h5>الآلية</h5><ul class="op c1"><li><b>أ‌</b>التشفير بالمفتاح العام</li><li><b>ب‌</b>التشفير المتماثل</li></ul></div></div></div>
+<div class="qcard split "><h4><span class="n">04</span><span class="tt">·&nbsp;طابق كل تقنية بتأثيرها</span></h4><div class="match"><div class="mb"><h5>التأثير</h5><ol><li><span>يمنع قراءة محتوى الاتصال من قِبل أطراف ثالثة</span><span class="ab"></span></li><li><span>يدعم التحقق من سلامة البيانات وهوية الموقّع</span><span class="ab"></span></li><li><span>تساعد المتصفح على التحقق من هوية الخادم واسم النطاق</span><span class="ab"></span></li><li><span>تقلل احتمال تسجيل الدخول غير المصرح به</span><span class="ab"></span></li></ol></div><div class="mb"><h5>التقنية</h5><ul class="op c1"><li><b>أ‌</b>المصادقة الثنائية</li><li><b>ب‌</b>الشهادة الرقمية</li><li><b>ج‌</b>التشفير</li><li><b>د‌</b>التوقيع الرقمي</li></ul></div></div></div>
+<div class="qcard split "><h4><span class="n">05</span><span class="tt">·&nbsp;رتّب خطوات الاتصال الآمن</span></h4><p class="qi">رتّب الخطوات التالية من <span class="num">1</span> إلى <span class="num">4</span> كما تحدث فعليًا.</p><ul class="cl"><li><span class="k">أ</span><span class="t">تُحمى بيانات الجلسة بالتشفير المتماثل وآليات سلامة البيانات</span><span class="ab"></span></li><li><span class="k">ب</span><span class="t">يتفاوض الطرفان على أسرار مشتركة وتُشتق منها مفاتيح الجلسة</span><span class="ab"></span></li><li><span class="k">ج</span><span class="t">يبدأ المتصفح اتصال HTTPS بالموقع</span><span class="ab"></span></li><li><span class="k">د</span><span class="t">يرسل الخادم شهادته الرقمية ويتحقق المتصفح منها</span><span class="ab"></span></li></ul></div>
+<div class="qcard split "><h4><span class="n">06</span><span class="tt">·&nbsp;قارن بين التشفير بالمفتاح العام والتشفير المتماثل</span><span class="tq">تقييمات</span></h4><table class="cmp tall"><thead><tr><th>وجه المقارنة</th><th>التشفير بالمفتاح العام</th><th>التشفير المتماثل</th></tr></thead><tbody><tr><td class="k">متى يُستخدم</td><td></td><td></td></tr><tr><td class="k">لماذا</td><td></td><td></td></tr></tbody></table></div>
+<div class="qcard split "><h4><span class="n">07</span><span class="tt">·&nbsp;قارن بين الشهادة الرقمية والتوقيع الرقمي</span><span class="tq">تقييمات</span></h4><table class="cmp tall"><thead><tr><th>وجه المقارنة</th><th>الشهادة الرقمية</th><th>التوقيع الرقمي</th></tr></thead><tbody><tr><td class="k">الوظيفة</td><td></td><td></td></tr><tr><td class="k">التهديد الذي تعالجه</td><td></td><td></td></tr></tbody></table></div>
+<div class="qcard split "><h4><span class="n">08</span><span class="tt">·&nbsp;قارن بين المصادقة الثنائية <bdi>(2FA)</bdi> والمصادقة متعددة العوامل <bdi>(MFA)</bdi></span><span class="tq">تقييمات</span></h4><table class="cmp tall"><thead><tr><th>وجه المقارنة</th><th>المصادقة الثنائية <bdi>(2FA)</bdi></th><th>المصادقة متعددة العوامل <bdi>(MFA)</bdi></th></tr></thead><tbody><tr><td class="k">عدد العوامل</td><td></td><td></td></tr><tr><td class="k">الفئات</td><td></td><td></td></tr></tbody></table></div>
+<div class="qcard split "><h4><span class="n">09</span><span class="tt">·&nbsp;قارن بين <bdi class="nw">2FA</bdi> حقيقية وعاملين من الفئة نفسها</span></h4><table class="cmp tall"><thead><tr><th>وجه المقارنة</th><th><bdi class="nw">2FA</bdi> حقيقية</th><th>عاملان من الفئة نفسها</th></tr></thead><tbody><tr><td class="k">مثال</td><td></td><td></td></tr><tr><td class="k">لماذا الفرق مهم</td><td></td><td></td></tr></tbody></table></div>
+<h2 class="cat kwn">علّل<span class="cnt">9</span></h2>
+<div class="why split"><div class="qq"><span class="k">1</span><span class="tq">تقييمات</span><p>لا يُستخدم التشفير بالمفتاح العام لتبادل جميع بيانات الجلسة.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">2</span><p>لا يكفي التشفير المتماثل وحده لبدء اتصال آمن مع موقع لم تتعامل معه من قبل.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">3</span><p>يتحقق المتصفح من <b>ملاءمة الشهادة لاسم الموقع</b> وليس من صلاحيتها فقط.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">4</span><p>لا يُرسل مفتاح الجلسة نفسه عبر الشبكة.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">5</span><p>تعيين كلمتي مرور لا يُعد مصادقة ثنائية.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">6</span><p>لا يُعد التوقيع الرقمي بديلًا عن الشهادة الرقمية.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">7</span><p>يقول الكتاب إن التوقيع الرقمي يوفر دليلًا يدعم عدم التنصل «عندما يتطلب النظام ذلك» ولا يقول «دائمًا».</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">8</span><span class="tq">تقييمات</span><p>وجود HTTPS في موقع لا يعني أن محتواه موثوق.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">9</span><span class="tq">تقييمات</span><p>يُعد الجمع بين عدة تقنيات أمان أفضل من الاعتماد على تقنية واحدة.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="qcard split "><h4><span class="n">01</span><span class="tt">·&nbsp;طبّق ما تعلمته — متجر إلكتروني صغير</span></h4><p class="qs">يريد متجر إلكتروني صغير تأمين تسجيل دخول العملاء والدفع معًا. بالاستعانة بما تعلمته، <b>سمِّ تقنيتي أمان</b> يجب أن يستخدمهما <b>وبيّن أين تساعد كل منهما</b>، ثم <b>حدّد تهديدًا واحدًا قد يظل قائمًا</b>.</p><div class="hint"><b>عناصر الإجابة</b> <b>تقنيتان بالاسم</b> · <b>أين</b> تساعد كل واحدة بالتحديد · <b>تهديد يظل قائمًا</b> – والكتاب نفسه بيقول إن التقنيات دي <b>لا تمنع الخطر منعًا مطلقًا</b>.</div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="qcard split "><h4><span class="n">02</span><span class="tt">·&nbsp;فكّر كمهندس — ابحث ثم قرر</span></h4><p class="qs">تعمل إحدى المدارس في مدينتك على إنشاء بوابة إلكترونية يتحقق من خلالها الطلاب من درجاتهم ويدفعون الرسوم. عليك أن تختار طريقة تسجيل دخول الطلاب. أيهما الخيار الأفضل لهذه الخدمة؟</p><p class="qs"><b>(1) اجمع البيانات.</b> اسأل عشرة من زملائك في الصف عن طرق تسجيل الدخول التي يستخدمونها ويثقون بها (كلمة مرور، كلمة مرور لمرة واحدة، رسائل قصيرة، بصمة إصبع أو وجه). سجّل النتائج في جدول وحدد الإجابة الأكثر شيوعًا.</p><table class="cmp"><thead><tr><th>طريقة تسجيل الدخول</th><th>عدد الزملاء</th><th>ملاحظة</th></tr></thead><tbody><tr><td class="k">كلمة مرور</td><td></td><td></td></tr><tr><td class="k">كلمة مرور لمرة واحدة</td><td></td><td></td></tr><tr><td class="k">رسائل قصيرة <bdi class="nw">SMS</bdi></td><td></td><td></td></tr><tr><td class="k">بصمة إصبع أو وجه</td><td></td><td></td></tr></tbody></table></div>
+<div class="qcard split cont"><p class="qs"><b>(2) حلّل أصحاب المصلحة.</b> لكل فئة – طالب، والمدرسة، وطالب لا يملك هاتفًا ذكيًا – دوّن فائدة واحدة وعيبًا واحدًا لاشتراط عامل ثانٍ.</p><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><p class="qs"><b>(3) قرّر.</b> أوصِ بطريقة تسجيل دخول واحدة للبوابة، وقدّم سببين بناءً على استطلاعك وجدولك. في أزواج، قارن توصياتك واتفقا معًا على أقوى سبب واحد قبل تدوينه. <b>قدّم دليلًا على إجابتك.</b></p><p class="chx"><span>☐ كلمة مرور فقط</span><span>☐ كلمة مرور بالإضافة إلى كلمة مرور لمرة واحدة تُرسل إلى الهاتف</span></p><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="hint"><b>عناصر الإجابة</b> تلميح الكتاب: <b>إذا عُرفت كلمة المرور، فكيف يساعد عامل ثانٍ مستقل - مثل تطبيق مصادقة أو مفتاح أمان - في حماية الحساب؟</b> ولاحظ إن السؤال طالب <b>بدليل</b> على إجابتك، يعني رقم من جدولك.</div></div>
+<div class="why ess split"><div class="qq"><span class="k">3</span><span class="tq">تقييمات</span><p>اشرح <b>مراحل اتصال HTTPS الثلاث</b>، وبيّن <b>آلية الحماية الأساسية</b> في كل مرحلة.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why ess split"><div class="qq"><span class="k">4</span><span class="tq">تقييمات</span><p>«لا يأتي الأمان عبر الإنترنت من تقنية واحدة.» اشرح هذه العبارة مستعينًا بمثال <b>شراء منتج عبر الإنترنت</b> كما يعرضه الكتاب.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">5</span><span class="tq">تقييمات</span><p>وضّح بمثال عملي كيف تُستخدم المصادقة الثنائية في تسجيل الدخول إلى حسابات وسائل التواصل الاجتماعي أو الخدمات المصرفية.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">6</span><span class="tq">تقييمات</span><p>قارن بين فئات عوامل المصادقة المختلفة (المعرفة، الحيازة، السمات الحيوية) مع ذكر مثال لكل فئة منها.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">7</span><span class="tq">تقييمات</span><p>اشرح بالتفصيل كيف تساهم الشهادات الرقمية وسلسلة الثقة في تمكين المتصفح من التحقق من صحة الشهادة وملاءمتها لاسم موقع الخادم.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">8</span><span class="tq">تقييمات</span><p>تكلّم باختصار عن التوقيع الرقمي مبيّنًا خصائصه، وكيف يساعد في اكتشاف التلاعب وانتحال الشخصية وتوفير دليل يدعم عدم التنصل.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">9</span><span class="tq">تقييمات</span><p><b>توقّف وفكّر:</b> إذا تسربت كلمة المرور، لماذا يمكن لعامل ثانٍ يُرسل إلى الهاتف أن يظل يحمي الحساب؟</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">10</span><p><b>فكّر وتحدَّ – تأمّل:</b> على أيٍّ من هذه الحمايات تعتمد أكثر عندما تتصل بالإنترنت؟ · <b>وتحدَّ:</b> اقترح إجراء أمان إضافيًا واحدًا يمكن لمتجر إلكتروني إضافته، وتهديدًا واحدًا سيظل غير مزال.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">11</span><p><b>اختبر فهمك:</b> أجب عن أسئلة هذا البنك <b>دون الرجوع</b> إلى الشرح، ثم راجع إجاباتك.</p></div><div class="wl"><i></i></div></div>
+</main>
+</body>
+</html>

@@ -1,0 +1,1159 @@
+<!doctype html>
+<!--
+  أكواد مع زياد — مذكرة تانية ثانوي — الدرس 3-2 (الشرح + بنك الأسئلة) — مصدر HTML قابل للتعديل
+  - كل المحتوى جوه <main class="flow"> بالترتيب. عند فتح الملف بيتوزع تلقائيًا على صفحات A4
+    (أي حاجة مش داخلة بتنزل للصفحة اللي بعدها)، والهيدر والفوتر والعلامة المائية والترقيم بيتضافوا لوحدهم.
+  - عشان تبدأ صفحة جديدة إجباري: <div class="pb"></div>
+  - العناوين (.part / .rule / h2.sec / .big / h3.sub / .chip / أي عنصر عليه class="kwn") بتفضل لازقة في اللي بعدها.
+  - اسم الدرس ورقم أول صفحة وإجمالي صفحات الوحدة في <body data-lesson data-start data-total>.
+  - الطباعة لـPDF من المتصفح: Cmd+P → الهوامش None → تفعيل Background graphics.
+  - الستايل كله جوه <style> في نفس الملف. الخطوط في fonts/ والصور في assets/ — لازم يفضلوا جنب الملف.
+  - لو المتصفح مفعّل «أقل حجم للخط»، الصفحة بتعرف لوحدها وبتحمي التصميم (السكريبت immunize).
+-->
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>الدرس 3-2 — طرق اتصال تطبيقات الويب</title>
+<style>
+/* ===== أكواد مع زياد — مذكرة تانية ثانوي — ستايل الشرح (إعادة بناء HTML) ===== */
+
+@font-face{font-family:'Baloo Bhaijaan 2';font-weight:400 800;src:url(fonts/BalooBhaijaan2.ttf) format('truetype')}
+@font-face{font-family:'DejaVuArr';font-weight:700;src:url(fonts/DejaVuSans-Bold.ttf) format('truetype');unicode-range:U+2190-21FF}
+
+:root{
+  --navy:#17263f; --navy2:#22375c; --blue:#2e4a78; --gold:#e29433; --gold2:#a9670f; --gold3:#dd860f;
+  --text:#33445f; --text2:#1c2a44; --muted:#4e5f7c; --muted2:#6e7f9c;
+  --line:#dce5f1; --line2:#d7e4f5; --bg:#eef4fc; --bg2:#f1f6fc;
+  --cream:#fbf4de; --cream2:#fdf3e2; --creamb:#eee0b8; --creamb2:#efce9c;
+  --green:#22375c; --green2:#3fa97c; --greenb:#bfe0d1; --greenbg:#eaf6f0;
+  --red:#c0453a; --teal:#3e9ccb;
+}
+
+@page{ size:210mm 297mm; margin:0 }
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:'Baloo Bhaijaan 2';font-weight:500;font-size:9.9pt;line-height:1.5;color:var(--text);direction:rtl;text-align:right;background:#e6eaf0;padding:18pt 0}
+b,strong{font-weight:700;color:var(--navy2)}
+p{margin:0}
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+.num{direction:ltr;unicode-bidi:isolate}
+
+/* ---------- الصفحة A4 (sheet) ---------- */
+.page{position:relative;width:210mm;height:297mm;margin:0 auto 18pt auto;background:#fff;overflow:hidden;box-shadow:0 2pt 14pt rgba(23,38,63,.18)}
+.sheet{position:absolute;left:0;top:0;width:210mm;height:297mm;background:#fff;overflow:hidden;transform-origin:0 0}
+.sheet .content{position:absolute;top:31.5pt;left:31.6pt;right:31.6pt;bottom:36.4pt}
+.sheet .hdr{position:absolute;top:0;left:0;right:0;height:31.5pt;font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:7.2pt;line-height:1}
+.sheet .hdr .r{position:absolute;right:25.4pt;top:17.6pt;color:var(--navy);white-space:nowrap}
+.sheet .hdr .l{position:absolute;left:39.7pt;top:17.6pt;color:var(--gold2);white-space:nowrap}
+.sheet .hdr::after{content:'';position:absolute;left:0;right:0;top:27.8pt;height:.7pt;background:var(--gold)}
+.sheet .ftr{position:absolute;bottom:0;left:0;right:0;height:36.4pt;font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:7.39pt;line-height:1;color:var(--muted)}
+.sheet .ftr img{position:absolute;right:28.2pt;top:10.7pt;width:10.5pt;height:10.5pt;border-radius:50%}
+.sheet .ftr .r{position:absolute;right:43.2pt;top:11.9pt;white-space:nowrap}
+.sheet .ftr .r b{color:var(--navy);font-weight:700}
+.sheet .ftr .sep{margin:0 5pt;color:#9aa8bd}
+.sheet .ftr .pn{position:absolute;left:45pt;top:11.5pt;font-family:'Baloo Bhaijaan 2';font-weight:600;font-size:7.39pt;color:var(--navy);direction:ltr}
+/* العلامة المائية */
+.sheet .wm{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:5}
+.sheet .wm .big{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-30deg);font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:62pt;white-space:nowrap;color:transparent;-webkit-text-stroke:.9pt rgba(23,38,63,.10);line-height:1}
+.sheet .wm .tile{position:absolute;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:19pt;white-space:nowrap;color:transparent;-webkit-text-stroke:.6pt rgba(23,38,63,.085);transform:rotate(-30deg);line-height:1}
+@media print{
+  body{background:#fff;padding:0}
+  .page{margin:0;box-shadow:none;break-after:page;page-break-after:always}
+  .page:last-of-type{break-after:auto;page-break-after:auto}
+}
+
+/* ---------- شريط رأس الدرس ---------- */
+.band{background:var(--navy);border-right:3pt solid var(--gold);border-radius:8pt;height:62.5pt;display:flex;align-items:center;padding:0 12pt 0 14pt;position:relative;margin-bottom:10pt}
+.band .badge{width:41.5pt;height:39pt;border-radius:6pt;background:rgba(255,255,255,.09);border:1pt solid rgba(255,255,255,.18);display:flex;flex-direction:column;align-items:center;justify-content:center;flex:none}
+.band .badge .l{font-family:'Baloo Bhaijaan 2';font-weight:600;font-size:7.4pt;color:#a9bdd8;line-height:1}
+.band .badge .n{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:15pt;color:var(--gold);line-height:1.1;direction:ltr}
+.band h1{flex:1;margin:0;text-align:center;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:15.4pt;color:#fff;letter-spacing:.2pt}
+.band .who{display:flex;align-items:center;gap:9pt;flex:none}
+.band .who .t{display:flex;flex-direction:column;justify-content:center;gap:1pt}
+.band .who .u{font-family:'Baloo Bhaijaan 2';font-weight:600;font-size:8pt;color:#a9bdd8;line-height:1.3}
+.band .who .k{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:8.6pt;color:#fff;line-height:1.3}
+.band .who img{width:42.75pt;height:42.75pt;border-radius:7pt;border:1pt solid rgba(255,255,255,.25);display:block}
+
+/* ---------- صندوقا المقدمة وأهداف التعلم ---------- */
+.two{display:flex;gap:11.6pt;align-items:stretch;margin-bottom:6.5pt}
+.two .intro{flex:0 0 297pt;background:#fff;border:.75pt solid var(--line);border-radius:8pt;padding:12pt 11.6pt 11pt 11.6pt;position:relative}
+.two .goals{flex:1;background:#fff;border:.75pt solid var(--line);border-right:2.5pt solid var(--gold);border-radius:8pt;padding:9pt 11pt 8pt 12pt}
+.intro h3{margin:0 0 4pt 0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11.8pt;line-height:1.45;color:var(--gold)}
+.intro .body{font-size:9.49pt;line-height:15.4pt;color:var(--text2)}
+.intro .body p{margin:0}
+.intro .body p+p{margin-top:0}
+.intro .body ul{margin:0;padding:0 12pt 0 0;list-style:none}
+.intro .body li{position:relative}
+.intro .body li::before{content:'';position:absolute;right:-9pt;top:5.6pt;width:3.6pt;height:3.6pt;border-radius:50%;background:var(--gold)}
+.intro .body b{color:var(--navy2)}
+.intro .robot{float:left;width:35.3pt;height:46.2pt;margin:2pt 0 3pt 12pt}
+.intro .robot svg{width:100%;height:100%;display:block}
+.intro .foot{display:flex;justify-content:flex-start;margin-top:8pt}
+.pill-dark{display:inline-flex;align-items:center;gap:6pt;background:var(--navy);color:#fff;border-radius:9pt;padding:0 9pt 0 12pt;height:18pt;font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:8.6pt;line-height:1}
+.pill-dark::before{content:'';width:6.5pt;height:6.5pt;border-radius:50%;background:var(--gold);flex:none}
+.goals h3{margin:0 0 7pt 0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.6pt;color:var(--gold);line-height:1.5}
+.goals .g{display:flex;align-items:center;gap:8pt;padding:9pt 0 9.5pt 0}
+.goals .g+.g{border-top:.75pt dashed var(--line)}
+.goals .g .tag{flex:none;width:41.3pt;height:16.5pt;border-radius:8.5pt;background:var(--cream2);border:.75pt solid var(--creamb2);display:flex;align-items:center;justify-content:center;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:8.8pt;color:var(--gold2);line-height:1}
+.goals .g .x{flex:1;font-size:9.19pt;line-height:15pt;color:var(--text);text-align:right}
+
+/* ---------- ملاحظة «للفهم» بخلفية ---------- */
+.note-box{position:relative;background:var(--bg);border:.75pt dashed var(--line2);border-radius:6pt;padding:6pt 11pt 5pt 12pt;font-size:9.3pt;line-height:14.7pt;color:var(--text);margin-bottom:6pt}
+.note-box .tag,.note-line .tag{position:absolute;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:7.6pt;color:var(--blue);background:#fff;border:.75pt solid var(--blue);border-radius:7pt;height:13.5pt;line-height:12pt;padding:0 6pt;display:inline-block}
+.note-box .tag{position:static;display:inline-block;margin-left:5pt;vertical-align:1pt}
+/* ملاحظة «للفهم» بخط منقّط علوي والشارة على الشمال */
+.note-line{position:relative;border-top:.75pt dashed var(--line);padding:5pt 0 0 0;margin-top:9pt;font-size:9.8pt;line-height:15.4pt;color:var(--text)}
+.note-line .tag{left:0;top:-6.7pt}
+.note-line .lead{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.8pt;color:var(--gold);margin-left:4pt}
+.note-line b{color:var(--navy2)}
+
+/* ---------- الشبكة الرباعية (الكروت بتكبر على قد محتواها) ---------- */
+.map{display:grid;grid-template-columns:1fr 132pt 1fr;grid-template-rows:auto auto;column-gap:20pt;row-gap:7pt;background:#fff;border:.75pt solid var(--line);border-radius:8pt;padding:7pt 8.5pt;margin-bottom:9pt}
+.map .cell{background:#fff;border:.75pt solid var(--line);border-radius:6pt;border-top-width:3pt;padding:4pt 8pt 5pt 8pt}
+.map .cell h4{margin:0 0 1pt 0;font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:9.9pt;line-height:1.5}
+.map .cell ul{margin:0;padding:0 9pt 0 0;list-style:none;font-size:8.9pt;line-height:14pt;color:var(--text)}
+.map .cell li{position:relative;margin-bottom:1.5pt}
+.map .cell li::before{content:'•';position:absolute;right:-9pt;top:0;color:var(--text)}
+.map .cell .en{direction:ltr;unicode-bidi:isolate;font-weight:600;color:var(--muted)}
+.map .c1{grid-column:1;grid-row:1;border-top-color:var(--navy2)} .map .c1 h4{color:var(--navy2)}
+.map .c2{grid-column:1;grid-row:2;border-top-color:var(--navy2)} .map .c2 h4{color:var(--navy2)}
+.map .c3{grid-column:3;grid-row:1;border-top-color:var(--navy2)} .map .c3 h4{color:var(--navy2)}
+.map .c4{grid-column:3;grid-row:2;border-top-color:var(--gold)} .map .c4 h4{color:var(--gold2)}
+.map .hub{grid-column:2;grid-row:1 / 3;align-self:center;position:relative;min-height:48.7pt;background:var(--navy);border-radius:8pt;color:#fff;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11pt;line-height:1.35;display:flex;align-items:center;justify-content:center;text-align:center;padding:6pt 8pt}
+.map .hub .lk{position:absolute;width:20pt;height:16pt}
+.map .hub .lk.r1{left:100%;top:-6pt} .map .hub .lk.r2{left:100%;bottom:-6pt}
+.map .hub .lk.l1{right:100%;top:-6pt} .map .hub .lk.l2{right:100%;bottom:-6pt}
+.arr{font-family:'DejaVuArr','Baloo Bhaijaan 2'}
+
+/* ---------- الفكرة الأساسية + السؤال الرئيسي ---------- */
+.iq{display:flex;gap:10pt;align-items:stretch;margin-bottom:6pt}
+.iq .q{flex:0 0 261.7pt;border-top:.75pt solid var(--line2);border-bottom:.75pt solid var(--line2);padding:8pt 8pt 8pt 4pt;text-align:center}
+.iq .q .lab{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:9.2pt;color:var(--gold2);line-height:1.5}
+.iq .q .qq{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:10.6pt;color:var(--navy);line-height:1.45;margin-top:1pt}
+.iq .idea{flex:1;position:relative;background:var(--cream);border:.75pt solid var(--creamb);border-radius:6pt;padding:7pt 12pt 7pt 30pt;font-size:10pt;line-height:15.5pt;color:var(--text2)}
+.iq .idea b{color:var(--navy2)}
+.qmark{position:absolute;left:7pt;top:-4pt;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:30pt;color:var(--creamb);line-height:1}
+
+/* ---------- عناوين ---------- */
+.big{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:15pt;color:var(--navy);text-align:center;line-height:1.4;margin:4pt 0 2pt 0}
+.content>.big{padding:4pt 14pt;background:#eef2f8;border-radius:9pt;border-right:3pt solid #e29433;margin:4pt 0 6pt 0}
+.content>.big+hr.rule{display:none}
+.part{display:flex;justify-content:center;margin:4pt 0 0 0}
+.part span{display:inline-block;border-radius:7pt;padding:0 8pt;height:14.2pt;line-height:13pt;font-weight:700;font-size:8.8pt}
+.part.p1 span{background:var(--bg);border:.75pt solid var(--line2);color:var(--blue)}
+.part.p2 span{background:var(--bg);border:.75pt solid var(--line2);color:var(--blue)}
+.part.p3 span{background:var(--bg);border:.75pt solid var(--line2);color:var(--blue)}
+.rule{border:0;border-top:.75pt solid var(--line);margin:9pt 0 0 0}
+h2.sec{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:13.4pt;color:var(--navy);line-height:1.35;margin:9pt 0 8pt 0;padding:6pt 14pt;background:#eef2f8;border-radius:9pt;border-right:3pt solid var(--gold);break-after:avoid}
+h2.sec.g,h2.sec.t{border-right-color:var(--gold)}
+h2.sec .dot{color:var(--navy);margin:0 3pt}
+
+/* ---------- اقتباس الكتاب ---------- */
+.quote{position:relative;background:var(--cream);border-left:.75pt solid var(--creamb);border-radius:6pt;padding:7.5pt 12pt 7.5pt 34pt;font-size:10.5pt;line-height:16.5pt;color:var(--text);margin-bottom:9pt}
+.quote b{color:var(--navy2)}
+
+/* ---------- شارة عنوان صغيرة + بانر التعريف ---------- */
+.chip{display:inline-block;background:var(--bg2);border-radius:6pt;padding:0 12pt;height:21pt;line-height:20pt;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:10.4pt;color:var(--navy);margin-bottom:5pt}
+.banner{background:var(--navy);color:#fff;padding:9pt 16pt 8pt 22pt;margin:0 0 0 68pt;font-size:9.9pt;line-height:15.3pt;clip-path:polygon(0.3% 6%,3% 2%,12% 0,30% 3%,52% 0,70% 2%,88% 0,100% 4%,99.6% 60%,100% 100%,80% 97%,62% 100%,40% 96%,20% 100%,6% 97%,0 100%,1% 40%)}
+.banner b{color:#ffd08a}
+
+/* ---------- الأعمدة الثلاثة بالأيقونات ---------- */
+.cols3{display:flex;gap:16pt;align-items:flex-start;margin:6pt 0 12pt 0}
+.cols3 .c{flex:1;text-align:center}
+.cols3 .ic{height:95pt;display:flex;align-items:center;justify-content:center}
+.cols3 .ic svg{height:92pt;width:auto}
+.cols3 h4{margin:6pt 0 0 0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:12.6pt;color:var(--navy);line-height:1.45}
+.cols3 .en{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:7.6pt;color:var(--gold2);letter-spacing:1.4pt;line-height:1.3;direction:ltr}
+.cols3 .bar{width:31.5pt;height:2.3pt;border-radius:2pt;background:var(--gold);margin:7pt auto 8pt auto}
+.cols3 .d{font-size:9.7pt;line-height:15.7pt;color:var(--text);text-align:center;padding:0 2pt}
+.cols3 .d b{color:var(--navy2)}
+.tagp{display:inline-block;background:var(--bg);border:.75pt solid var(--line2);border-radius:7pt;padding:0 8pt;height:14.2pt;line-height:13pt;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:7.8pt;color:var(--blue);margin-top:5pt}
+
+/* ---------- الطبقات الثلاث: كروت + جدول (تصميم زياد 24 سبتمبر) ---------- */
+.l3{position:relative;overflow:hidden;padding:6pt 0 2pt 0;margin-bottom:6pt;--or:#e29433;--orl:#f5f7fb;--orb:#dde5ef;--orp:#eef2f8;--bl:#2e4a78;--bll:#f5f7fb;--blb:#dde5ef;--blp:#eef2f8}
+.l3 .dec{position:absolute;pointer-events:none;z-index:0}
+.l3 .d1{left:-60pt;top:-50pt;width:150pt;height:150pt;border-radius:50%;background:#eef4fb}
+.l3 .d2{right:-40pt;top:-58pt;width:110pt;height:110pt;border-radius:50%;background:#f1f6fc;border:.8pt solid #f3c98d;border-color:transparent transparent #f3c98d #f3c98d;transform:rotate(-20deg)}
+.l3 .d3{right:78pt;top:14pt;width:12pt;height:12pt;border-radius:50%;background:#fbe3c2}
+.l3 .dots{left:14pt;top:12pt;width:34pt;height:20pt;background-image:radial-gradient(#c9d6e6 .9pt,transparent 1pt);background-size:6.5pt 6.5pt}
+.l3>*:not(.dec){position:relative;z-index:1}
+.l3-title{display:flex;align-items:center;justify-content:center;gap:10pt;margin:0 0 10pt 0}
+.l3-title h3{margin:0;background:#eef2f8;border-radius:14pt;padding:3pt 20pt 4pt 20pt;font-weight:800;font-size:15pt;line-height:1.35;color:var(--navy);position:relative}
+.l3-title h3::after{content:'';position:absolute;left:50%;transform:translateX(-50%);bottom:-4pt;width:48pt;height:3.2pt;border-radius:2pt;background:#e29433}
+.l3-title .spk{width:12pt;height:16pt;position:relative}
+.l3-title .spk::before,.l3-title .spk::after{content:'';position:absolute;height:2.2pt;border-radius:1pt;background:#e29433}
+.l3-title .spk.r::before{width:7pt;right:1pt;top:3pt;transform:rotate(-50deg)} .l3-title .spk.r::after{width:7pt;right:3pt;top:11pt}
+.l3-title .spk.l::before{width:7pt;left:1pt;top:3pt;transform:rotate(50deg)} .l3-title .spk.l::after{width:7pt;left:3pt;top:11pt}
+.l3-cards{display:flex;gap:8pt;margin-bottom:8pt}
+.l3c{flex:1;border-radius:10pt;border:.75pt solid;padding:8pt 9pt 9pt 9pt;text-align:center;display:flex;flex-direction:column;align-items:center}
+.l3c.warm{background:var(--orl);border-color:var(--orb)} .l3c.cool{background:var(--bll);border-color:var(--blb)}
+.l3c .halo{position:relative;width:62pt;height:62pt;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:4pt}
+.l3c.warm .halo{background:#eef2f8} .l3c.cool .halo{background:#eef2f8}
+.l3c .halo>svg:not(.sp){width:40pt;height:auto}
+.l3c .halo .sp{position:absolute;left:-18pt;top:6pt;width:98pt;height:40pt}
+.l3c h4{margin:0;font-weight:800;font-size:12pt;line-height:1.35;color:var(--navy)}
+.l3c .bar{width:26pt;height:2.4pt;border-radius:2pt;background:#e29433;margin:4pt 0 6pt 0}
+.l3c p{flex:1;font-size:9.8pt;line-height:15.2pt;color:var(--text2);margin:0 0 7pt 0}
+.l3c p b{color:var(--navy2)}
+.l3c .pill{display:inline-flex;align-items:center;gap:5pt;border-radius:11pt;padding:0 12pt;height:21pt;font-weight:700;font-size:9.4pt;line-height:1}
+.l3c.warm .pill{background:var(--orp);color:#a9670f} .l3c.cool .pill{background:var(--blp);color:#2e4a78}
+.l3c .pill svg{width:11pt;height:11pt;flex:none}
+table.l3t{width:100%;border-collapse:separate;border-spacing:0;border:.75pt solid var(--blb);border-radius:9pt;overflow:hidden;font-size:9.6pt;line-height:14.8pt;color:var(--text2)}
+table.l3t th{background:#f5f7fb;font-weight:700;font-size:10pt;color:var(--navy);text-align:center;padding:5pt 8pt 4pt 8pt;border-bottom:.75pt solid var(--blb)}
+table.l3t th+th,table.l3t td+td{border-right:.75pt solid #dde5ef}
+table.l3t td{padding:6pt 10pt;vertical-align:middle;border-top:.75pt solid #dde5ef}
+table.l3t tr:first-child td{border-top:0}
+table.l3t tr.warm td{background:#f5f7fb} table.l3t tr.cool td{background:#f5f7fb}
+table.l3t td.k{font-weight:800;font-size:11pt;color:var(--navy);white-space:nowrap}
+table.l3t td.k .ic{display:inline-flex;align-items:center;justify-content:center;width:32pt;height:32pt;border-radius:50%;margin-left:8pt;vertical-align:middle}
+table.l3t tr.warm td.k .ic{background:#eef2f8} table.l3t tr.cool td.k .ic{background:#eef2f8}
+table.l3t td.k .ic svg{width:20pt;height:auto}
+table.l3t td b{color:var(--navy2)}
+table.l3t ul{margin:0;padding:0 11pt 0 0;list-style:none}
+table.l3t li{position:relative;line-height:15pt}
+table.l3t li::before{content:'';position:absolute;right:-10pt;top:5.6pt;width:4.2pt;height:4.2pt;border-radius:50%}
+table.l3t tr.warm li::before{background:#e29433} table.l3t tr.cool li::before{background:#2e4a78}
+
+/* ---------- الجداول ---------- */
+table.t{width:100%;border-collapse:separate;border-spacing:0;border:.75pt solid var(--line);border-radius:8pt;overflow:hidden;font-size:9.9pt;line-height:14.3pt;color:var(--text);margin-bottom:8pt}
+table.t th{background:var(--bg);font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:9.6pt;color:var(--navy);text-align:right;padding:5pt 10pt 4pt 10pt;border-bottom:.75pt solid var(--line2);box-shadow:0 .75pt 0 var(--line);line-height:1.5;vertical-align:middle}
+table.t th .sub{display:block;font-size:8.8pt;color:var(--muted2);font-weight:700;line-height:1.3}
+table.t td{padding:6.5pt 10pt 5.5pt 10pt;vertical-align:top;border-top:.75pt solid var(--line)}
+table.t tr:first-child td{border-top:0}
+table.t tbody tr:nth-child(even) td{background:var(--bg)}
+table.t td b{color:var(--navy2)}
+table.t td.k{font-weight:700;color:var(--navy2);white-space:nowrap}
+table.t.t4 td.k{white-space:normal}
+table.t.t4 th,table.t.t4 td{text-align:right}
+
+/* ---------- الأشكال ---------- */
+.fig{background:#fff;border:.75pt solid var(--line);border-radius:8pt;padding:12pt 9.5pt 6pt 9.5pt;margin-bottom:8pt}
+.fig .cap{border-top:.75pt dashed var(--line);margin-top:8pt;padding-top:5pt;text-align:center;font-family:'Baloo Bhaijaan 2';font-weight:600;font-size:8.8pt;color:var(--text);line-height:1.5}
+/* الشكل 3.1.1 */
+.layers .lay{border:.75pt solid #c9d9ee;background:#e8f0fb;border-radius:10pt;height:52pt;display:flex;align-items:center;padding:0 18pt 0 24pt;gap:14pt}
+.layers .lay.mid{background:var(--cream2);border-color:var(--creamb2)}
+.layers .lay .n{flex:0 0 118pt;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:12.8pt;color:var(--navy);line-height:1.2;text-align:center}
+.layers .lay .n small{display:block;font-size:9.2pt;font-weight:700;color:var(--gold2);letter-spacing:1pt;direction:ltr;margin-top:1pt}
+.layers .lay .n.g{color:var(--gold2)}
+.layers .lay .d{flex:1;text-align:center;font-size:11pt;line-height:1.35;color:var(--text)}
+.layers .lay .d em{display:block;font-style:normal;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11pt;color:var(--gold2);margin-top:1pt}
+.layers .arrows{height:24pt;position:relative}
+.layers .arrows .a{position:absolute;top:2pt;width:14pt;height:20pt}
+.layers .arrows .down{right:75pt} .layers .arrows .up{left:118pt}
+/* الشكل 3.1.2 */
+.seq{position:relative;height:238pt}
+.seq .hd{position:absolute;top:3pt;height:37pt;border-radius:9pt;display:flex;align-items:center;justify-content:center;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11.5pt;color:var(--navy);background:#e8f0fb;border:.75pt solid #c9d9ee}
+.seq .hd.mid{background:var(--cream2);border-color:var(--creamb2);color:var(--gold2)}
+.seq .h1{right:6pt;width:128pt} .seq .h2{left:196pt;width:126pt} .seq .h3{left:6pt;width:126pt}
+.seq svg{position:absolute;left:0;top:0;width:100%;height:100%}
+.seq .st{position:absolute;font-size:10.1pt;color:var(--text);line-height:1.3;white-space:nowrap}
+.seq .st.g{color:var(--gold2)} .seq .st.b{color:var(--blue)}
+.seq .no{position:absolute;right:20pt;width:18.4pt;height:18.4pt;border-radius:50%;background:var(--gold3);color:#fff;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.6pt;display:flex;align-items:center;justify-content:center;line-height:1}
+
+/* ---------- الخطوات الست ---------- */
+.steps{position:relative;padding-right:22pt;margin:0 0 6pt 0}
+.steps::before{content:'';position:absolute;right:6pt;top:8pt;bottom:14pt;width:1.5pt;background:var(--gold);border-radius:1pt}
+.steps .s{position:relative;padding:0 0 12.5pt 0}
+.steps .s .n{position:absolute;right:-22.7pt;top:3pt;width:13.5pt;height:13.5pt;border-radius:50%;background:var(--gold);color:#fff;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:8.2pt;display:flex;align-items:center;justify-content:center;line-height:1}
+.steps .s h4{margin:0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:10.6pt;color:var(--navy);line-height:1.5}
+.steps .s p{font-size:9.9pt;line-height:14.5pt;color:var(--text)}
+
+/* ---------- صناديق ملوّنة ---------- */
+.box{border-radius:8pt;padding:8pt 12pt 8pt 12pt;margin-bottom:8pt;border:.75pt solid}
+.box h3{margin:0 0 3pt 0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.9pt;line-height:1.5}
+.box.cream{background:var(--cream);border-color:var(--creamb)} .box.cream h3{color:var(--gold2)}
+.box.green{background:var(--greenbg);border-color:var(--greenb)} .box.green h3{color:var(--green);font-size:10pt}
+.box.white{background:#fff;border-color:var(--greenb)} .box.white h3{color:var(--green);font-size:10.5pt}
+.box p,.box li{font-size:10.5pt;line-height:16.5pt;color:var(--text)}
+.box p+p{margin-top:3pt}
+.box ul{margin:0;padding:0 14pt 0 0;list-style:none}
+.box ul li{position:relative}
+.box ul li::before{content:'•';position:absolute;right:-12pt;top:0;color:var(--gold2)}
+.box ol{margin:0;padding:0 16pt 0 0;list-style:none;counter-reset:n}
+.box ol li{position:relative;counter-increment:n;margin-bottom:3pt}
+.box ol li::before{content:counter(n) '.';position:absolute;right:-16pt;top:0;color:var(--text)}
+.tip{background:var(--cream2);border:.75pt solid #f2dcbb;border-right:3pt solid var(--gold);border-radius:6pt;padding:6pt 12pt 6pt 12pt;margin:6pt 0 2pt 0;font-size:9.4pt;line-height:15pt;color:var(--text2)}
+.tip .l{font-weight:700;color:var(--gold2)}
+
+/* ---------- سؤال على نمط الامتحان ---------- */
+.exam{background:var(--cream);border:.75pt solid var(--creamb);border-radius:8pt;padding:7pt 11pt 9pt 11pt;margin-bottom:8pt}
+.exam .hd{display:flex;align-items:center;gap:7pt;margin-bottom:4pt}
+.exam .hd .n{width:18.8pt;height:16.5pt;border-radius:4pt;background:var(--navy);color:#fff;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.4pt;display:flex;align-items:center;justify-content:center;line-height:1}
+.exam .hd .t{flex:1;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:10.4pt;color:var(--navy);line-height:1.5}
+.exam .hd .m{background:#fff;border-radius:7pt;padding:0 7pt;height:14.2pt;line-height:13.5pt;font-weight:700;font-size:8.4pt;color:var(--gold2)}
+.exam .qt{font-weight:700;font-size:10.5pt;line-height:16pt;color:var(--navy2);margin:2pt 0 6pt 0}
+.exam .hint{background:var(--bg);border:.75pt solid var(--line2);border-radius:5pt;padding:3pt 9pt;font-size:9.4pt;line-height:15pt;color:var(--text)}
+.exam .hint b{color:var(--navy2)}
+h3.sub{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11.2pt;color:var(--navy);margin:8pt 0 6pt 0;line-height:1.4;padding:5pt 14pt;background:#eef2f8;border-radius:9pt;border-right:3pt solid var(--gold);break-after:avoid}
+
+
+/* ---------- إجابة السؤال الرئيسي ---------- */
+.mq{border-top:.75pt solid var(--line2);border-bottom:.75pt solid var(--line2);text-align:center;padding:6pt 0 7pt 0;margin:0 0 8pt 0}
+.mq .lab{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:9.2pt;color:var(--gold2);line-height:1.5}
+.mq .qq{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:13pt;color:var(--navy);line-height:1.45}
+
+/* ---------- الخلاصة في دقيقة ---------- */
+.dark{background:var(--navy);border-radius:8pt;padding:8pt 12pt 6pt 12pt;color:#fff;margin-bottom:8pt}
+.dark h3{margin:0 0 4pt 0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.8pt;color:#f1c88b;line-height:1.5}
+.dark .g2{display:flex;gap:18pt}
+.dark ul{flex:1;margin:0;padding:0 12pt 0 0;list-style:none;font-size:9pt;line-height:14.2pt;color:#fff}
+.dark li{position:relative;margin-bottom:3.5pt}
+.dark li::before{content:'•';position:absolute;right:-11pt;top:0;color:#fff}
+.dark b{color:#ffd9a0}
+
+/* ---------- اتأكد إنك قادر على ---------- */
+.check{background:#fff;border:.75pt solid var(--line);border-radius:8pt;padding:8pt 13pt 6pt 13pt;margin-bottom:6pt}
+.check h3{margin:0;padding-bottom:5pt;border-bottom:.75pt solid var(--line);font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.8pt;color:var(--navy);line-height:1.5}
+.check .g2{display:flex;gap:16pt;margin-top:6pt}
+.check ul{flex:1;margin:0;padding:0;list-style:none}
+.check li{display:flex;gap:7pt;align-items:flex-start;font-size:9pt;line-height:14.2pt;color:var(--text);margin-bottom:5pt}
+.check li::before{content:'';flex:none;width:12pt;height:12pt;border-radius:3pt;background:#fffbf4;border:.75pt solid var(--gold);margin-top:.5pt}
+.check b{color:var(--navy2)}
+.endline{border-top:.75pt solid var(--line);margin-top:0;padding-top:3pt;text-align:center;font-size:8.6pt;color:var(--muted2);line-height:1.5}
+
+/* ---------- صفحة التلخيص ---------- */
+.instr{background:var(--bg);border:.75pt solid var(--line2);border-radius:6pt;padding:5pt 12pt;font-size:9.2pt;line-height:15.4pt;color:var(--text);margin-bottom:18pt}
+.instr b{color:var(--navy2)}
+.lines div{height:26.6pt;border-bottom:.75pt solid var(--line)}
+
+
+/* ===================================================================
+   توزيع تلقائي: المحتوى بيتكتب في .flow والسكريبت بيوزّعه على .sheet
+   =================================================================== */
+.flow{width:532.7pt;margin:0 auto;background:#fff}
+.pb{display:none}
+
+/* ===================================================================
+   تصميمات زياد (24 سبتمبر) — القسم 3 (رحلة الطلب) · التعاون التسلسلي · القسم 4 · القسم 5
+   =================================================================== */
+.ctitle{text-align:center;margin:4pt 0 8pt 0;padding:6pt 14pt;background:#eef2f8;border-radius:9pt;border-right:3pt solid #e29433}
+.ctitle h2{margin:0;font-weight:800;font-size:16pt;color:var(--navy);line-height:1.3}
+.ctitle .st{font-weight:500;font-size:10.5pt;color:var(--muted2);line-height:1.35}
+.quote.q2{border:.75pt solid #dde5ef;border-radius:9pt;background:#fbf6e8;font-size:10.4pt;line-height:16pt}
+.quote.q2 .exl{color:#a9670f;font-weight:700;text-decoration:underline;text-underline-offset:2pt}
+.panel{border-radius:11pt;background:#f5f7fb;padding:0 6pt 6pt 6pt;margin-bottom:8pt}
+.panel .ph{font-weight:700;font-size:11pt;color:var(--navy);padding:5pt 7pt 4pt 7pt;line-height:1.4}
+.panel .pbody{background:#fff;border-radius:9pt;padding:7pt}
+/* المسار العام */
+.path{display:flex;align-items:center;justify-content:space-between}
+.path .pc{width:61pt;height:68pt;border-radius:8pt;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:3pt 2pt}
+.path .pc svg{width:23pt;height:23pt;margin-bottom:4pt}
+.path .pc b{font-weight:800;font-size:8.4pt;color:var(--navy);line-height:1.2}
+.path .pc small{font-weight:500;font-size:7.6pt;color:var(--muted);line-height:1.3;margin-top:1pt}
+.path .pc.b{background:#f5f7fb} .path .pc.o{background:#f5f7fb} .path .pc.p{background:#f5f7fb} .path .pc.g{background:#f5f7fb}
+.path .ar{flex:none;color:#e29433;font-family:'DejaVuArr';font-weight:700;font-size:10.5pt;line-height:1}
+/* الخطوات بالتفصيل */
+.steps2 .stp{display:flex;align-items:center;gap:10pt;border-radius:9pt;padding:5pt 10pt;margin-bottom:5pt;min-height:43pt}
+.steps2 .stp:last-child{margin-bottom:0}
+.steps2 .stp.cool{background:#f5f7fb} .steps2 .stp.warm{background:#f5f7fb}
+.steps2 .stp .n{flex:none;width:21pt;height:21pt;border-radius:50%;background:#e29433;color:#fff;font-weight:800;font-size:11.5pt;display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 0 0 2.2pt #fff}
+.steps2 .stp .tx{flex:1}
+.steps2 .stp h4{margin:0;font-weight:700;font-size:10.8pt;color:var(--navy);line-height:1.35}
+.steps2 .stp p{font-size:9.7pt;line-height:15pt;color:var(--text2)}
+.steps2 .stp .ic{flex:none;width:46pt;display:flex;justify-content:center;align-items:center}
+.steps2 .stp .ic>svg{width:40pt;height:auto}
+.steps2 .stp .dbret{display:flex;align-items:center;gap:2pt}
+.steps2 .stp .dbret svg:first-child{width:13pt;height:8pt} .steps2 .stp .dbret svg:last-child{width:26pt;height:28pt}
+/* شرائط المعلومة */
+.info{display:flex;align-items:center;gap:12pt;border-radius:9pt;border:.75pt solid;padding:7pt 14pt;margin-bottom:8pt}
+.info .lab{flex:none;display:flex;align-items:center;gap:5pt;font-weight:800;font-size:12pt;line-height:1;padding-left:12pt;border-left:1pt solid}
+.info .lab svg{width:21pt;height:21pt}
+.info p{flex:1;font-size:9.8pt;line-height:14.5pt;color:var(--text2)}
+.info.green{background:#f5f7fb;border-color:#dde5ef} .info.green .lab{color:#a9670f;border-color:#dde5ef}
+.info.gray{background:#f5f7fb;border-color:#dde5ef} .info.gray .lab{color:var(--navy);font-size:14pt;padding:0 14pt 0 16pt;border-color:#dde5ef}
+.info.blue{background:#f5f7fb;border-color:#dde5ef} .info.blue .lab{color:#2e4a78;border-color:transparent;padding-left:4pt}
+
+/* ---------- كيفية تعاون الطبقات الثلاث (رسم تسلسلي) ---------- */
+.sqsub{display:flex;align-items:center;justify-content:space-between;margin:0 2pt 8pt 2pt}
+.sqsub .st{font-size:11pt;color:var(--text);font-weight:600;line-height:1.4}
+.sqsub .legend{display:flex;gap:12pt;font-size:9pt;color:var(--text);font-weight:600}
+.sqsub .legend span{display:inline-flex;align-items:center;gap:4pt}
+.sqsub .legend svg{width:26pt;height:8pt}
+.sqh{display:flex;align-items:flex-end;justify-content:space-between;margin:4pt 0 8pt 0}
+.sqh h3{margin:0;font-weight:800;font-size:19pt;color:var(--navy);line-height:1.3}
+.sqh .st{font-size:11pt;color:var(--text);font-weight:500;line-height:1.4}
+.sqh .legend{display:flex;gap:12pt;font-size:9pt;color:var(--text);font-weight:600;padding-bottom:3pt}
+.sqh .legend span{display:inline-flex;align-items:center;gap:4pt}
+.sqh .legend svg{width:26pt;height:8pt}
+.sq{position:relative;width:532pt;height:264pt;margin-bottom:8pt}
+.sq .hd{position:absolute;top:0;width:110pt;height:26pt;border-radius:5pt;border:.75pt solid #dde5ef;background:#f5f7fb;color:var(--navy);font-weight:700;font-size:10pt;display:flex;align-items:center;justify-content:center;line-height:1;z-index:2}
+.sq .hd.u{background:#2e4a78;border-color:#2e4a78;color:#fff}
+.sq svg.lines{position:absolute;left:0;top:0;width:532pt;height:264pt}
+.sq .lb{position:absolute;transform:translateX(-50%);font-size:9pt;line-height:11pt;color:var(--text2);text-align:center;white-space:nowrap;font-weight:500}
+.sq .nb{position:absolute;width:14pt;height:14pt;border-radius:50%;color:#fff;font-weight:800;font-size:8.4pt;display:flex;align-items:center;justify-content:center;line-height:1;transform:translate(-50%,-50%)}
+.sq .nb.r{background:#2e4a78} .sq .nb.o{background:#e29433}
+
+/* ---------- القسم 4: الخدمات ---------- */
+.tbar{background:#eef2f8;border-radius:9pt;border-right:3pt solid #e29433;padding:6pt 14pt;margin:4pt 0 8pt 0}
+.tbar h2{margin:0;font-weight:800;font-size:13.4pt;color:var(--navy);line-height:1.35}
+.warn{display:flex;align-items:center;gap:10pt;background:#fbf6e8;border:.75pt solid #dde5ef;border-radius:9pt;padding:6pt 12pt;margin-bottom:8pt;font-size:10pt;line-height:14.5pt;color:var(--text2)}
+.warn .ex{flex:none;width:20pt;height:20pt;border-radius:50%;background:#e29433;color:#fff;font-weight:800;font-size:12pt;display:flex;align-items:center;justify-content:center;line-height:1}
+.svc{display:grid;grid-template-columns:88pt 1fr 1fr 1fr;border:.75pt solid #dde5ef;border-radius:10pt;overflow:hidden;margin-bottom:6pt;background:#fff}
+.svc .nm{background:#f5f7fb;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8pt 6pt;gap:6pt}
+.svc .nm .ci{width:42pt;height:42pt;border-radius:50%;background:#eef2f8;display:flex;align-items:center;justify-content:center}
+.svc .nm .ci svg{width:25pt;height:25pt}
+.svc .nm h4{margin:0;font-weight:700;font-size:10.8pt;color:var(--navy);line-height:1.25}
+.svc .col{padding:5pt 7pt 4pt 7pt;border-right:.75pt solid #dde5ef}
+.svc .ch{display:flex;align-items:center;gap:6pt;border-radius:7pt;padding:3pt 7pt;margin-bottom:4pt}
+.svc .ch svg{width:20pt;height:20pt;flex:none}
+.svc .ch b{display:block;font-weight:800;font-size:10pt;line-height:1.25;color:var(--navy)}
+.svc .ch small{display:block;font-weight:700;font-size:8.2pt;color:#8795ab;line-height:1.25}
+.svc .col.f .ch{background:#f5f7fb} .svc .col.b .ch{background:#f5f7fb} .svc .col.b .ch b{color:#a9670f} .svc .col.d .ch{background:#f5f7fb}
+.svc ul{margin:0;padding:0 11pt 0 0;list-style:none;font-size:9.2pt;line-height:14.6pt;color:var(--text2)}
+.svc li{position:relative;margin-bottom:2.5pt}
+.svc li::before{content:'';position:absolute;right:-10pt;top:4.7pt;width:4.2pt;height:4.2pt;border-radius:50%}
+.svc .col.f li::before{background:#2e4a78} .svc .col.b li::before{background:#e29433} .svc .col.d li::before{background:#98a4b5}
+.simply{display:flex;align-items:stretch;background:#fbf6e8;border:.75pt solid #dde5ef;border-radius:9pt;overflow:hidden;margin-bottom:8pt}
+.simply .lab{flex:none;display:flex;align-items:center;gap:5pt;background:#eef2f8;color:#a9670f;font-weight:800;font-size:11pt;padding:0 14pt}
+.simply .lab svg{width:18pt;height:18pt}
+.simply p{flex:1;padding:6pt 12pt;font-size:9.8pt;line-height:14.5pt;color:var(--text2)}
+
+/* ---------- القسم 5: نفس النموذج في خدمات مختلفة ---------- */
+.ntitle{margin:4pt 0 7pt 0}
+.ntitle h2{margin:0;font-weight:800;font-size:18pt;color:var(--navy);line-height:1.35}
+.ntitle h2 .n5{color:#e29433;margin-left:7pt}
+.ntitle .st{font-size:10pt;color:var(--muted);line-height:1.5;font-weight:500}
+.exw{background:#f5f7fb;border:.75pt solid #f1e0b0;border-radius:11pt;padding:7pt 9.2pt 4pt 9.2pt;margin-bottom:8pt}
+.exw .eh{display:flex;align-items:center;gap:9pt;margin-bottom:6pt}
+.exw .eh .tag{display:inline-flex;align-items:center;gap:6pt;background:#eef2f8;border-radius:12pt;padding:1pt 12pt 1pt 5pt;font-weight:800;font-size:12.5pt;color:#a9670f;line-height:1.4}
+.exw .eh .tag svg{width:20pt;height:18pt}
+.exw .eh .sub{font-size:9.6pt;color:var(--text2);font-weight:600}
+.exg{display:grid;grid-template-columns:92pt 16pt 110pt 16pt 136pt 16pt 1fr;align-items:stretch}
+.exg .arrs{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12pt}
+.exg .arrs svg{width:16pt;height:9pt}
+.ecard{background:#fff;border:.75pt solid #dde5ef;border-radius:9pt;overflow:hidden;display:flex;flex-direction:column}
+.ecard .eh2{display:flex;align-items:center;gap:5pt;padding:4pt 7pt;font-weight:800;font-size:10.2pt;line-height:1.3}
+.ecard .eh2 svg{width:17pt;height:17pt;flex:none}
+.ecard.f .eh2{background:#f5f7fb;color:var(--navy)} .ecard.b .eh2{background:#eef2f8;color:#a9670f} .ecard.d .eh2{background:#f5f7fb;color:#2e4a78}
+.ecard.b{border-color:#dde5ef} .ecard.d{border-color:#dde5ef}
+.ecard .eb{padding:6pt 6pt 6pt 6pt;font-size:8.5pt;line-height:13.2pt;color:var(--text2);flex:1}
+.ecard ul{margin:0;padding:0 9pt 0 0;list-style:none}
+.ecard li{position:relative;margin-bottom:2pt}
+.ecard ul.dots li::before{content:'';position:absolute;right:-8pt;top:4.4pt;width:3.6pt;height:3.6pt;border-radius:50%;background:#2e4a78}
+.ecard .mock{background:#f5f7fb;border-radius:6pt;padding:5pt;margin-bottom:6pt}
+.msearch{display:flex;align-items:center;height:17pt;background:#fff;border:.75pt solid #dde5ef;border-radius:5pt;overflow:hidden}
+.msearch .q{flex:1;padding:0 6pt;font-weight:600;font-size:8.4pt;color:var(--navy)}
+.msearch .go{width:18pt;height:100%;background:#2e4a78;display:flex;align-items:center;justify-content:center}
+.msearch .go svg{width:10pt;height:10pt}
+.ecard .mock .ghost{height:4pt;border-radius:2pt;background:#dde4ee;margin-top:5pt;width:70%}
+.ecard .chk{display:flex;gap:4pt;align-items:center;background:#f5f7fb;border-radius:6pt;padding:4pt 5pt;margin-bottom:5pt}
+.ecard .chk ul{flex:1;padding:0}
+.ecard .chk li{display:flex;align-items:center;gap:4pt;margin-bottom:2.5pt}
+.ecard .chk li svg{width:9pt;height:9pt;flex:none}
+.ecard .chk .gr svg{width:21pt;height:21pt}
+.ecard .rules{border:.9pt dashed #dde5ef;border-radius:6pt;padding:4pt 5pt}
+.ecard .rules b{display:block;font-weight:800;font-size:8.6pt;color:var(--navy);margin-bottom:1pt}
+.ecard .rules li::before{content:'';position:absolute;right:-8pt;top:4.4pt;width:3.6pt;height:3.6pt;border-radius:50%;background:#2e4a78}
+.ecard .dr{display:flex;align-items:center;gap:6pt;background:#f5f7fb;border-radius:6pt;padding:4pt 5pt;margin-bottom:4pt}
+.ecard .dr:last-child{margin-bottom:0}
+.ecard .dr svg{width:15pt;height:15pt;flex:none}
+.ecard .dr b{display:block;font-weight:800;font-size:8.6pt;color:var(--navy);line-height:1.25}
+.ecard .dr small{display:block;font-size:7.4pt;color:var(--muted);line-height:1.3}
+.phonecol{display:flex;flex-direction:column;gap:5pt}
+.ucard{background:#f5f7fb;border-radius:8pt;padding:5pt 6pt;display:flex;gap:5pt;align-items:flex-start}
+.ucard .n1{width:15pt;height:15pt;border-radius:50%;background:#2e4a78;color:#fff;font-weight:800;font-size:8.6pt;display:flex;align-items:center;justify-content:center;flex:none;line-height:1}
+.ucard b{display:block;font-weight:800;font-size:10pt;color:#2e4a78;line-height:1.25}
+.ucard small{display:block;font-size:7.8pt;color:var(--text2);line-height:1.35}
+.phone{flex:1;background:#22375c;border-radius:13pt;padding:5pt 4pt}
+.phone .scr{background:#fff;border-radius:9pt;height:100%;padding:5pt 5pt;font-size:6.8pt;color:var(--text2);line-height:1.3}
+.phone .loc{display:flex;align-items:center;gap:2pt;font-weight:700;color:var(--navy);margin-bottom:4pt}
+.phone .loc svg{width:8pt;height:8pt} .phone .loc .dd{font-size:6pt;color:var(--muted)}
+.phone .ms{display:flex;align-items:center;height:14pt;border:.6pt solid #dde5ef;border-radius:5pt;overflow:hidden;margin-bottom:4pt}
+.phone .ms .q{flex:1;padding:0 4pt;font-weight:700;color:var(--navy)}
+.phone .ms .go{width:15pt;height:100%;background:#22375c;display:flex;align-items:center;justify-content:center}
+.phone .ms .go svg{width:8pt;height:8pt}
+.phone .chips{display:flex;gap:2pt;margin-bottom:4pt}
+.phone .chips span{border-radius:5pt;background:#eef2f7;padding:0 3.5pt;font-size:6pt;line-height:9pt}
+.phone .chips span.on{background:#6b7486;color:#fff}
+.phone .ri{display:flex;align-items:center;gap:4pt;background:#fff;border:.5pt solid #eef1f5;border-radius:5pt;padding:2.5pt;margin-bottom:3pt;box-shadow:0 .6pt 1.5pt rgba(23,38,63,.08)}
+.phone .ri .th svg{width:20pt;height:20pt;display:block}
+.phone .ri .rn b{display:block;font-weight:800;font-size:7pt;color:var(--navy)}
+.phone .ri .rn i{font-style:normal;font-weight:700;font-size:6.6pt;color:var(--text)} .phone .ri .rn em{font-style:normal;color:#e29433}
+.ret{position:relative;height:28pt}
+.ret svg{position:absolute;left:0;top:0;width:512.7pt;height:30pt}
+.ret .rl{position:absolute;left:280pt;top:4.5pt;transform:translateX(-50%);background:#2e4a78;color:#fff;border-radius:6pt;padding:0 9pt;font-weight:700;font-size:8.2pt;line-height:15pt;white-space:nowrap}
+.probs{background:#fdf2f2;border:.75pt solid #f3d3d3;border-radius:11pt;padding:6pt 10pt 8pt 10pt;margin-bottom:8pt}
+.probs .ph2{display:flex;align-items:center;gap:6pt;font-weight:800;font-size:13pt;color:#b3261e;margin-bottom:5pt;line-height:1.3}
+.probs .ph2 svg{width:20pt;height:18pt}
+.probs .pg{display:grid;grid-template-columns:1.3fr 1fr;gap:8pt}
+.pcard{background:#fff;border:.75pt solid #f3d9d9;border-radius:9pt;padding:6pt 9pt;display:flex;gap:8pt;align-items:center}
+.pcard>div{flex:1}
+.pcard>svg{width:30pt;height:30pt;flex:none}
+.pcard h5{margin:0 0 2pt 0;font-weight:800;font-size:10.4pt;color:#b3261e;line-height:1.35}
+.pcard ul{margin:0;padding:0 10pt 0 0;list-style:none;font-size:9pt;line-height:14.2pt;color:var(--text2)}
+.pcard li{position:relative} .pcard li::before{content:'•';position:absolute;right:-9pt;color:#b3261e}
+.others{background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:11pt;padding:6pt 10pt 8pt 10pt;margin-bottom:8pt}
+.others .ph2{font-weight:800;font-size:13pt;color:var(--navy);margin-bottom:5pt;line-height:1.3}
+.others .og{display:grid;grid-template-columns:repeat(3,1fr);gap:7pt}
+.ocard{background:#fff;border:.75pt solid #dde5ef;border-radius:9pt;padding:6pt 7pt;display:flex;gap:5pt;align-items:center}
+.ocard .ot{flex:1}
+.ocard h5{display:flex;align-items:center;gap:4pt;margin:0 0 2pt 0;font-weight:800;font-size:10.2pt;color:var(--navy);line-height:1.3}
+.ocard h5 svg{width:15pt;height:15pt}
+.ocard ul{margin:0;padding:0 9pt 0 0;list-style:none;font-size:8.4pt;line-height:13.2pt;color:var(--text2)}
+.ocard li{position:relative} .ocard li::before{content:'•';position:absolute;right:-8pt;color:var(--muted)}
+.ocard .mk{flex:none;width:46pt}
+.mk i{display:block;height:3pt;border-radius:2pt;background:#dde4ee;margin-top:3pt}
+.bankm .ph3{background:#22375c;border-radius:7pt;padding:3pt}
+.bankm .ph3 small,.bankm .ph3 b{display:block;background:#fff;text-align:center;line-height:1.3}
+.bankm .ph3 small{font-size:5.6pt;color:var(--muted);border-radius:5pt 5pt 0 0;padding-top:3pt}
+.bankm .ph3 b{font-size:6.6pt;font-weight:800;color:var(--navy);padding-bottom:3pt}
+.bankm .ph3 i{background:#3a4458}
+.vidm .pl{background:#22375c;border-radius:4pt;overflow:hidden;line-height:0}
+.vidm .pl svg{width:100%;height:auto;display:block}
+.shopm{text-align:center}
+.shopm .pr{background:#f5f7fb;border-radius:5pt;padding:4pt 0;line-height:0}
+.shopm .pr svg{width:22pt;height:20pt}
+.shopm .btn{display:block;margin-top:3pt;background:#e29433;color:#fff;border-radius:3pt;font-weight:700;font-size:5.6pt;line-height:9pt}
+
+/* ---------- مثال من حياتنا تحت الرسم التسلسلي (الصورة 3) ---------- */
+.ex3{position:relative;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:11pt;padding:0 9pt 8pt 9pt;margin-bottom:8pt;overflow:hidden}
+.ex3 .fk{position:absolute;left:12pt;top:6pt;width:24pt;height:32pt}
+.ex3 .fk svg{width:100%;height:100%}
+.ex3 .e3h{display:flex;justify-content:flex-start;margin:0 -9pt 0 0}
+.ex3 .e3h h3{margin:0;background:#eef2f8;border-radius:0 0 0 18pt;padding:3pt 14pt 4pt 22pt;font-weight:800;font-size:12pt;color:#2e4a78;line-height:1.35}
+.ex3 .e3s{font-size:9.6pt;color:var(--text2);font-weight:500;margin:4pt 2pt 7pt 0}
+.e3g{display:grid;grid-template-columns:98pt 18pt 1fr 18pt 1fr 18pt 1fr;align-items:stretch}
+.e3g .garr{display:flex;align-items:center;justify-content:center}
+.e3g .garr svg{width:15pt;height:10pt}
+.e3c{background:#fff;border:.75pt solid #dde5ef;border-radius:8pt;padding:6pt 6pt 7pt 6pt;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.e3c h5{margin:0 0 5pt 0;font-weight:800;font-size:10.4pt;color:var(--navy);line-height:1.3}
+.e3c .ico{height:36pt;display:flex;align-items:center;justify-content:center;margin-bottom:6pt}
+.e3c .ico svg{height:34pt;width:auto}
+.e3c p{font-size:8.8pt;line-height:13.8pt;color:var(--text2)}
+.p3col{display:flex;flex-direction:column;align-items:center;gap:5pt}
+.phone.p3{width:78pt;flex:none;border-radius:12pt;padding:4pt 3.5pt;background:#22375c}
+.phone.p3 .scr{padding:0 0 4pt 0;overflow:hidden;border-radius:9pt}
+.phone.p3 .hero{height:34pt;background:#eef2f8;display:flex;align-items:center;justify-content:center;margin-bottom:-6pt}
+.phone.p3 .hero svg{width:40pt;height:40pt;margin-top:8pt}
+.phone.p3 .ms{position:relative;margin:0 4pt 4pt 4pt;background:#fff;border-color:#dde5ef;box-shadow:0 .8pt 2pt rgba(23,38,63,.15);height:13pt}
+.phone.p3 .ms .go{width:13pt;background:transparent}
+.phone.p3 .ms .q{font-size:6.6pt}
+.phone.p3 .ri{margin:0 4pt 3pt 4pt;padding:2pt}
+.phone.p3 .ri .th svg{width:17pt;height:17pt}
+.phone.p3 .ri .bars{flex:1}
+.phone.p3 .ri .bars i{display:block;height:2.8pt;border-radius:2pt;background:#dde4ee;margin:2pt 0}
+.phone.p3 .ri .bars i+i{width:60%}
+.ucard2{display:flex;align-items:center;gap:5pt;background:#fff;border:.75pt solid #dde5ef;border-radius:7pt;padding:4pt 7pt}
+.ucard2 .n1{width:14pt;height:14pt;border-radius:50%;background:#2e4a78;color:#fff;font-weight:800;font-size:8.4pt;display:flex;align-items:center;justify-content:center;flex:none;line-height:1}
+.ucard2 b{font-weight:800;font-size:8.8pt;color:var(--navy);line-height:1.3}
+.e3r{position:relative;height:31pt;margin-bottom:5pt}
+.e3r svg.rp{position:absolute;left:0;top:0;width:100%;height:24pt}
+.e3r .rl{position:absolute;left:199pt;transform:translateX(-50%);top:13pt;display:inline-flex;align-items:center;gap:5pt;background:#fff;border:.75pt solid #dde5ef;border-radius:11pt;padding:2pt 11pt;font-weight:600;font-size:9pt;color:var(--text2);line-height:1.3;white-space:nowrap}
+.e3r .rl svg{width:11pt;height:11pt}
+.e3p{display:flex;align-items:center;gap:14pt;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:9pt;padding:6pt 14pt;margin-bottom:6pt}
+.e3p .pt{flex:none;display:flex;align-items:center;gap:6pt}
+.e3p .pt svg{width:24pt;height:22pt}
+.e3p .pt b{font-weight:800;font-size:12pt;color:#a9670f}
+.e3p ul{flex:1;margin:0;padding:0 11pt 0 0;list-style:none;font-size:9.4pt;line-height:14pt;color:var(--text2)}
+.e3p li{position:relative} .e3p li::before{content:'';position:absolute;right:-10pt;top:5pt;width:4.2pt;height:4.2pt;border-radius:50%;background:#e29433}
+.e3t{display:flex;align-items:center;gap:8pt;background:#f5f7fb;border-radius:9pt;padding:5pt 12pt}
+.e3t svg{width:18pt;height:18pt;flex:none}
+.e3t p{font-size:9.4pt;line-height:13.5pt;color:var(--text2)}
+
+/* المسار العام على 3 سطور (طلب · معالجة · نتيجة) */
+.path3{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;justify-items:center;column-gap:7pt;row-gap:2pt}
+.path3 .pc{width:100%;min-height:38pt;border-radius:8pt;background:#f5f7fb;border:.75pt solid #dde5ef;display:flex;flex-direction:row;align-items:center;gap:8pt;padding:5pt 10pt;text-align:right}
+.path3 .pc svg{width:22pt;height:22pt;flex:none}
+.path3 .pc .tt{display:flex;flex-direction:column}
+.path3 .pc b{font-weight:700;font-size:9.8pt;color:var(--navy);line-height:1.3}
+.path3 .pc small{font-weight:500;font-size:8.8pt;color:var(--muted);line-height:1.35}
+.path3 .ar{flex:none;color:#e29433;font-family:'DejaVuArr';font-weight:700;font-size:11pt;line-height:1}
+.path3 .pdown{color:#e29433;font-family:'DejaVuArr';font-weight:700;font-size:11pt;line-height:1.2}
+
+/* ---------- علامة «للفهم» (أي حاجة مش من الكتاب) ---------- */
+.fx{display:inline-block;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:7.6pt;color:var(--blue);background:#fff;border:.75pt solid var(--blue);border-radius:7pt;line-height:12pt;padding:0 6pt;margin-right:7pt;vertical-align:2pt;white-space:nowrap}
+.fx.abs{position:absolute;top:-7pt;left:12pt;margin:0;z-index:3}
+.fx.fl{float:left;margin:1pt 8pt 2pt 0;vertical-align:0}
+.map,.info,.simply{position:relative}
+.simply{overflow:visible}
+.simply .lab{border-radius:0 9pt 9pt 0}
+.dark h3 .fx{background:#fff}
+/* ---------- توقّف وفكّر (من الكتاب) ---------- */
+.stop{background:#fbf6e8;border:.75pt solid #eee0b8;border-right:3pt solid #e29433;border-radius:9pt;padding:6pt 12pt 7pt 12pt;margin-bottom:6pt}
+.stop .sh{display:flex;align-items:center;gap:5pt;margin-bottom:2pt}
+.stop .sh svg{width:17pt;height:17pt}
+.stop .sh b{font-weight:800;font-size:11pt;color:var(--gold2)}
+.stop p{font-size:10pt;line-height:15.5pt;color:var(--text2);font-weight:600}
+
+/* ===================== بنك الأسئلة ===================== */
+.qstats{display:grid;grid-template-columns:repeat(8,1fr);border:.75pt solid #dde5ef;border-radius:9pt;overflow:hidden;margin-bottom:12pt;background:#fff}
+.qstats>div{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6pt 2pt 5pt 2pt;border-left:.75pt solid #eef2f8}
+.qstats>div:last-child{border-left:0}
+.qstats b{font-weight:800;font-size:14pt;color:var(--navy);line-height:1.2}
+.qstats span{font-weight:600;font-size:8.6pt;color:var(--muted);line-height:1.3}
+h2.cat{display:flex;align-items:center;gap:6pt;font-weight:800;font-size:13.4pt;color:var(--navy);line-height:1.4;margin:10pt 0 7pt 0;padding:5pt 14pt;border-right:3pt solid #e29433;background:#eef2f8;border-radius:9pt}
+h2.cat .cnt{margin-right:auto;font-weight:700;font-size:8.6pt;color:var(--gold2);background:#fbf6e8;border:.75pt solid #eee0b8;border-radius:7pt;line-height:13pt;padding:0 7pt}
+h2.cat .fx{vertical-align:0}
+.qcard{background:#fff;border:.75pt solid #dde5ef;border-right:3pt solid #e29433;border-radius:9pt;padding:7pt 11pt 8pt 11pt;margin-bottom:8pt}
+.qcard.cont{border-top-right-radius:0}
+.qcard h4{display:flex;align-items:center;margin:0 0 4pt 0;font-weight:800;font-size:10.8pt;color:var(--gold2);line-height:1.4}
+.qcard h4 .n{direction:ltr;unicode-bidi:isolate;margin-left:3pt}
+.qcard h4 .mk{margin-right:auto;font-weight:700;font-size:8.4pt;color:var(--navy2);background:#fff;border:.75pt solid #dde5ef;border-radius:7pt;padding:0 7pt;line-height:14pt}
+.qi,.qs,.para{font-size:9.8pt;line-height:15.6pt;color:var(--text2);margin:0 0 5pt 0}
+.qs b,.qi b,.para b{color:var(--navy2)}
+.para{line-height:20pt}
+.bl{display:inline-block;border-bottom:1pt dotted #8a9ab3;height:11pt;vertical-align:-1pt;margin:0 3pt}
+.ab{display:inline-block;flex:none;width:26pt;height:14pt;border:1pt solid #b9c6d8;border-radius:4pt;background:#fff;margin-right:6pt}
+.ab.w{width:62pt}
+.qq{display:flex;gap:7pt;align-items:flex-start;margin:4pt 0 4pt 0}
+.qq .k,.cl .k,.sa .k,.frow .k,.tfb .k{flex:none;display:inline-flex;align-items:center;justify-content:center;width:16pt;height:16pt;border-radius:50%;background:#fbf6e8;border:.75pt solid #eee0b8;font-weight:800;font-size:8.6pt;color:var(--gold2);line-height:1}
+.qq p{flex:1;font-size:9.8pt;line-height:15pt;color:var(--text2)}
+.qq p b{color:var(--navy2)}
+ul.op{margin:2pt 0 6pt 0;padding:0 17pt 0 0;list-style:none;display:grid;gap:1pt 14pt}
+ul.op.c1{grid-template-columns:1fr} ul.op.c2{grid-template-columns:1fr 1fr} ul.op.c3{grid-template-columns:repeat(3,1fr)}
+ul.op li{font-size:9.4pt;line-height:14.2pt;color:var(--text2)}
+ul.op li{display:flex;align-items:flex-start;gap:6pt}
+ul.op li b{display:inline-flex;flex:none;align-items:center;justify-content:center;width:15pt;height:15pt;padding-bottom:1pt;margin-top:-.3pt;border-radius:50%;background:#eef2f8;border:.75pt solid #dde5ef;font-weight:800;font-size:8.2pt;color:var(--navy2);line-height:1}
+ul.tf{margin:2pt 0 0 0;padding:0;list-style:none}
+ul.tf li,ul.tfb li{display:flex;align-items:center;gap:8pt;padding:3.5pt 4pt;border-top:.75pt solid #eef2f8;font-size:9.6pt;line-height:14.4pt;color:var(--text2)}
+ul.tf li:first-child{border-top:0}
+ul.tf li b{display:inline-flex;flex:none;align-items:center;justify-content:center;width:15pt;height:15pt;padding-bottom:1pt;border-radius:50%;background:#eef2f8;border:.75pt solid #dde5ef;font-weight:800;font-size:8.2pt;color:var(--navy2);line-height:1}
+ul.tf .t,ul.tfb .t{flex:1}
+.pr{flex:none;font-weight:600;color:#8a9ab3;letter-spacing:1pt}
+ul.tfb{margin:0 0 7pt 0;padding:0;list-style:none;background:#fff;border:.75pt solid #dde5ef;border-radius:8pt;overflow:hidden}
+ul.tfb li{border-top:0;border-bottom:.75pt solid #e3e9f1;padding:6pt 10pt}
+ul.tfb li:last-child{border-bottom:0}
+ul.tfb li:nth-child(even){background:#f8fafc}
+.match{display:grid;grid-template-columns:1.35fr 1fr;gap:10pt;margin-top:3pt}
+.match .mb{border:.75pt solid #dde5ef;border-radius:8pt;padding:6pt 10pt 7pt 10pt;background:#fbfcfe}
+.match h5{margin:0 0 3pt 0;font-weight:800;font-size:10pt;color:var(--navy);line-height:1.4}
+.match ol{margin:0;padding:0 14pt 0 0;font-size:9.4pt;line-height:14.5pt;color:var(--text2)}
+.match ol li{margin-bottom:3pt}
+.match ol li span{margin-left:6pt}
+.match ol li .ab{vertical-align:-3pt;margin-right:0}
+.sa{display:grid;grid-template-columns:1fr 1fr;gap:7pt}
+.sa>div{border:.75pt solid #e3e9f1;border-radius:7pt;padding:5pt 8pt;background:#fbfcfe}
+.sa>div,.frow>div{display:flex;gap:7pt;align-items:flex-start}
+.sa p,.frow p{flex:1;font-size:9.6pt;line-height:17pt;color:var(--text2)}
+ul.cl{margin:3pt 0 5pt 0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:0 18pt}
+ul.cl li{display:flex;align-items:center;gap:7pt;padding:5pt 0;border-bottom:.75pt solid #e3e9f1;font-size:9.6pt;line-height:14pt;color:var(--text2)}
+ul.cl li .t{flex:1}
+.mrow{display:grid;grid-template-columns:1fr 1fr;gap:7pt;margin-bottom:7pt}
+.mq{border:.75pt solid #dde5ef;border-radius:8pt;background:#fff;padding:5pt 9pt 5pt 9pt}
+.mq .qq{margin:0 0 4pt 0}
+.mq ul.op{margin:0;padding:4pt 0 0 0;border-top:.75pt dashed #e3e9f1;gap:3pt 10pt}
+.mrow .mq ul.op{margin-bottom:2pt}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:7pt;margin-bottom:7pt}
+.frow>div{border:.75pt solid #dde5ef;border-radius:8pt;background:#fff;padding:6pt 9pt}
+.hint{background:#fbf6e8;border:.75pt solid #eee0b8;border-radius:7pt;padding:4pt 10pt;font-size:9pt;line-height:14pt;color:var(--text2);margin:2pt 0 4pt 0}
+.hint>b:first-child{font-weight:800;color:var(--gold2);margin-left:5pt}
+.hint b{color:var(--navy2)}
+.wl i{display:block;height:17pt;border-bottom:.75pt dotted #b9c6d8}
+.why{border:.75pt solid #dde5ef;border-radius:8pt;background:#fff;padding:6pt 10pt 7pt 10pt;margin-bottom:7pt}
+.why .wl{margin-right:23pt}
+table.cmp{width:100%;border-collapse:separate;border-spacing:0;border:.75pt solid #dde5ef;border-radius:8pt;overflow:hidden;margin:4pt 0 8pt 0;font-size:9.6pt;line-height:14pt}
+table.cmp th{background:#eef2f8;font-weight:800;color:var(--navy);text-align:right;padding:4pt 10pt;border-bottom:.75pt solid #dde5ef}
+table.cmp td{height:22pt;padding:3pt 10pt;border-top:.75pt solid #eef2f8;border-left:.75pt solid #eef2f8}
+table.cmp th+th{border-right:.75pt solid #dde5ef}
+table.cmp td.k{width:118pt;font-weight:700;color:var(--navy2);background:#fbfcfe}
+table.cmp.tall td{height:38pt}
+.qcard table.cmp{margin-bottom:2pt}
+.chx{display:flex;flex-wrap:wrap;gap:4pt 18pt;font-size:9.4pt;line-height:14pt;color:var(--text2);margin:2pt 0 2pt 0}
+.drawbox{height:150pt;margin:4pt 0 0 23pt;border:1pt dashed #b9c6d8;border-radius:8pt;background:#fbfcfe}
+.why.cont{border-top-right-radius:0;border-top-left-radius:0;padding-top:2pt}
+/* ---------- علامة «تقييمات» ---------- */
+.mq,.why,.qcard{position:relative}
+.tq{position:absolute;top:-6.5pt;left:10pt;z-index:3;display:inline-block;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:7.6pt;color:#17263f;background:#e29433;border-radius:7pt;line-height:12pt;padding:0 6pt;white-space:nowrap}
+.qstats .tq{position:static;margin-top:2pt;font-size:8pt;line-height:13pt}
+.content>.tqtop{margin-top:9pt}
+.tqin .tq{top:-3.2pt}
+/* ===== صناديق الكتاب الجانبية: الفكرة الرئيسة · مصطلحات أساسية · تذكّر · الحل · تعليق الصورة ===== */
+.kidea{background:#22375c;border-right:3pt solid #e29433;border-radius:9pt;padding:8pt 14pt 9pt 14pt;margin:12pt 0 9pt 0}
+.kidea .kh{font-weight:800;font-size:9.8pt;line-height:15pt;color:#f1c88b;margin-bottom:2pt}
+.kidea p{font-size:10.4pt;line-height:17pt;color:#fff;margin:0}
+.kidea p b{color:#ffd08a}
+.terms{background:#fff;border:.75pt solid #dde5ef;border-radius:8pt;padding:6pt 12pt 7pt 12pt;margin:0 0 8pt 0}
+.terms .th{display:flex;align-items:center;gap:10pt;margin:0 0 5pt 0;padding-bottom:4pt;border-bottom:.75pt solid #dde5ef}
+.terms h3{flex:none;margin:0;font-weight:800;font-size:9.8pt;line-height:1.5;color:var(--navy)}
+.terms .t3{flex:1;display:flex;gap:6pt}
+.terms .t3 span{flex:1;background:#f5f7fb;border-radius:6pt;padding:1pt 6pt;text-align:center;font-size:9.2pt;line-height:14pt;white-space:nowrap;color:var(--text)}
+.terms .t2{display:grid;grid-template-columns:1fr 1fr;gap:5pt 6pt}
+.terms .t2 div{background:#f5f7fb;border-radius:6pt;padding:3pt 9pt;font-size:9.3pt;line-height:14.5pt;color:var(--text)}
+.terms b{color:#a9670f;font-weight:800}
+.dark .rem{font-size:9.3pt;line-height:14.5pt;color:#fff;margin:0 0 5pt 0;padding-bottom:5pt;border-bottom:.75pt solid rgba(255,255,255,.2)}
+.dark .rem b{color:#f1c88b}
+.qcard.sol .ck{display:inline-flex;align-items:center;justify-content:center;width:14pt;height:14pt;border-radius:50%;background:#e29433;color:#fff;font-size:9pt;margin-left:3pt}
+.qcard.sol .sg{display:grid;grid-template-columns:1.5fr 1fr;gap:14pt}
+.qcard.sol .sp{font-weight:800;color:var(--navy2);font-size:9.6pt;line-height:15pt;margin-bottom:2pt}
+.qcard.sol .sr{display:flex;gap:6pt;font-size:9.6pt;line-height:15pt;color:var(--text);margin-bottom:2pt}
+.qcard.sol .sr b{flex:none;min-width:12pt;color:#a9670f;font-weight:800}
+.qcard.sol .sr i{font-style:normal;font-weight:800;color:#a9670f}
+.terms .t2+.t2{margin-top:5pt}
+.terms .t2.c3{grid-template-columns:1fr 1fr 1fr}
+.terms .t2 .full{grid-column:1/-1}
+.icap{margin:5pt 0 8pt 0;padding-top:4pt;border-top:.75pt dashed #dde5ef;text-align:center;font-size:8.8pt;line-height:13pt;color:var(--muted)}
+
+/* ---------- إضافات الدرس 3-2 ---------- */
+.box.plain p{text-wrap:pretty}
+.code{direction:ltr;text-align:left;background:#17263f;color:#e8eef7;border-radius:9pt;padding:10pt 16pt;margin:4pt 0 8pt 0;font-family:Menlo,'DejaVu Sans Mono',Consolas,monospace;font-size:10pt;line-height:17pt;white-space:pre;unicode-bidi:isolate}
+.code .ck{color:#a9c8ec} .code .cs{color:#f1c88b} .code .cn{color:#f1c88b}
+.box.plain{background:#f5f7fb;border-color:#dde5ef} .box.plain h3{color:var(--navy)}
+.fig .cs{display:flex;align-items:stretch;gap:10pt}
+.fig .cs .node{flex:0 0 150pt;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:10pt;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:9pt 8pt;text-align:center}
+.fig .cs .node.srv{background:#fbf6e8;border-color:#eee0b8}
+.fig .cs .node h4{margin:0;font-weight:800;font-size:13pt;color:var(--navy);line-height:1.3}
+.fig .cs .node.srv h4{color:var(--gold2)}
+.fig .cs .node small{font-weight:700;font-size:7.8pt;letter-spacing:1.2pt;color:var(--muted2);direction:ltr}
+.fig .cs .node .ic svg{width:34pt;height:30pt;margin:6pt 0 5pt 0}
+.fig .cs .node p{font-size:9.4pt;color:var(--text);line-height:1.4}
+.fig .cs .mid{flex:1;display:flex;flex-direction:column;justify-content:center;gap:12pt}
+.fig .cs .lane{display:flex;flex-direction:column;align-items:center;gap:2pt}
+.fig .cs .lane b{font-weight:800;font-size:11pt;color:var(--navy)} .fig .cs .lane.r b{color:var(--gold2)}
+.fig .cs .lane svg{width:100%;height:11pt}
+.fig .cs .lane .en{direction:ltr;font-weight:700;font-size:9pt;color:var(--muted)}
+.fig .one{text-align:center;font-size:9.6pt;color:var(--text);margin-top:8pt}
+.box.split ol{margin-bottom:0}
+.box.split ol li{margin-bottom:4pt}
+.box.cont{border-top-left-radius:0;border-top-right-radius:0;padding-top:4pt}
+.intro .body p+p{margin-top:4pt}
+.map .cell li{text-wrap:pretty}
+</style>
+<script>
+// ===== 1) توزيع المحتوى على صفحات A4 =====
+function paginate(){
+  const flow = document.querySelector('.flow');
+  const blocks = [...flow.children];
+  let content;
+  // كل صفحة = .page بمقاس A4، وجواها .sheet مرسومة ×3 ومتصغّرة ÷3
+  // (عشان إعداد «أقل حجم للخط» في المتصفح مايكبّرش الخطوط الصغيرة ويبوّظ التصميم)
+  const newSheet = () => {
+    const p = document.createElement('section'); p.className = 'page';
+    const s = document.createElement('div'); s.className = 'sheet';
+    content = document.createElement('div'); content.className = 'content';
+    s.appendChild(content); p.appendChild(s); flow.before(p);
+  };
+  const KWN = el => el.matches('.part, hr.rule, h2.sec, .big, h3.sub, .chip, .kwn');
+  const over = () => { const last = content.lastElementChild; if (!last) return false;
+    return last.getBoundingClientRect().bottom > content.getBoundingClientRect().bottom + 0.5; };
+  // كارت أطول من المساحة الفاضية: نسيب أوله هنا ونكمّل الباقي في الصفحة الجاية (عند حدود أجزائه)
+  // سؤال (نصه + مكان إجابته أو اختياراته) ما يتقسمش على صفحتين: التقسيم في كروت الأسئلة
+  // (.why و.qcard) مسموح بس قبل بداية سؤال جديد (.qq / .qi / .qs). لو مفيش نقطة زي كده، الكارت كله ينزل.
+  const QSTART = x => x && x.matches('.qq, .qi, .qs');
+  const trySplit = (el, loose) => {
+    const cont = el.cloneNode(false); cont.classList.add('cont');
+    const keep = (el.firstElementChild && /^H[34]$/.test(el.firstElementChild.tagName)) || el.classList.contains('why') ? 2 : 1;
+    const mv = () => cont.insertBefore(el.lastElementChild, cont.firstChild);
+    const back = () => { while (cont.firstChild) el.appendChild(cont.firstChild); return false; };
+    while (over() && el.children.length > keep) mv();
+    const strict = !loose && el.matches('.why, .qcard');
+    if (strict) {
+      for (let ch = true; ch; ) { ch = false;
+        while (el.children.length > keep && cont.children.length && !QSTART(cont.firstElementChild)) { mv(); ch = true; }
+        while (el.children.length > 1 && cont.children.length && QSTART(el.lastElementChild)) { mv(); ch = true; }
+      }
+      if (cont.children.length && !QSTART(cont.firstElementChild)) return back();
+    } else {
+      // نص السؤال ما يفضلش لوحده في آخر الصفحة: ينزل مع اختياراته
+      while (el.children.length > 1 && cont.children.length && el.lastElementChild.matches('.qq, .qi, .qs')) mv();
+    }
+    if (el.children.length < keep) return back();
+    if (over() || !cont.children.length) return back();
+    newSheet(); content.appendChild(cont);
+    if (over()) trySplit(cont) || trySplit(cont, true);
+    return true;
+  };
+  newSheet();
+  for (let i = 0; i < blocks.length; ) {
+    const el = blocks[i];
+    if (el.classList.contains('pb')) { if (content.children.length) newSheet(); i++; continue; }
+    const group = [el]; let j = i;
+    while (KWN(blocks[j]) && j + 1 < blocks.length && !blocks[j + 1].classList.contains('pb')) { j++; group.push(blocks[j]); }
+    // عنوان قسم في البنك (زي «علّل») مايفضلش في آخر الصفحة ومعاه سؤال واحد بس: بياخد معاه السؤال اللي بعده
+    if (group[0].matches('h2.cat') && group[group.length - 1].matches('.why') && j + 1 < blocks.length && blocks[j + 1].matches('.why')) { j++; group.push(blocks[j]); }
+    const wasEmpty = content.children.length === 0;
+    group.forEach(g => content.appendChild(g));
+    const last = group[group.length - 1];
+    if (over()) {
+      if (last.classList.contains('split') && trySplit(last)) { /* اتقسم */ }
+      else if (!wasEmpty) { newSheet(); group.forEach(g => content.appendChild(g)); if (over() && last.classList.contains('split')) trySplit(last) || trySplit(last, true); }
+    }
+    i = j + 1;
+  }
+  flow.remove();
+}
+// ===== 2) الإطار: هيدر + فوتر + علامة مائية + ترقيم =====
+// علامة «تقييمات» فوق أول سؤال في الصفحة بتلمس خط الهيدر: ننزّل السؤال سنة بعد الترقيم.
+// لو الصفحة مليانة، ناخد المسافة من الفراغات اللي بين الأسئلة في نفس الصفحة (أقل من 1pt لكل فراغ).
+function tqTop(){
+  const k = (typeof K === 'number' && K > 0) ? K : 1;
+  const overBy = c => c.lastElementChild.getBoundingClientRect().bottom - c.getBoundingClientRect().bottom;
+  document.querySelectorAll('.content').forEach(c => {
+    const f = c.firstElementChild; if (!f || !f.querySelector('.tq')) return;
+    f.classList.add('tqtop');
+    let d = overBy(c); if (d <= 0) return;
+    const kids = [...c.children].slice(0, -1);
+    const per = (d + 1) * k / kids.length;
+    kids.forEach(e => { e.dataset.mb = e.style.marginBottom; e.style.marginBottom = Math.max(0, parseFloat(getComputedStyle(e).marginBottom) - per) + 'px'; });
+    if (overBy(c) > 0.5) { kids.forEach(e => { e.style.marginBottom = e.dataset.mb; }); f.classList.remove('tqtop'); f.classList.add('tqin'); }
+    kids.forEach(e => delete e.dataset.mb);
+  });
+}
+function frame(){
+  const B = document.body.dataset, START = +B.start || 1, TOTAL = B.total;
+  const LESSON = B.lesson.replace(/(\d+-\d+)/g, '<span class="num">$1</span>');
+  const tiles = [];
+  for (let r = 0; r < 7; r++) for (let c = 0; c < 3; c++) {
+    const x = -20 + c * 215 + (r % 2) * 60, y = -30 + r * 135;
+    tiles.push(`<span class="tile" style="left:${x * K}pt;top:${y * K}pt">زياد السعدني</span>`);
+  }
+  document.querySelectorAll('.sheet').forEach((s, k) => {
+    s.dataset.page = START + k;
+    s.insertAdjacentHTML('afterbegin', `<div class="hdr"><span class="r">${LESSON}</span><span class="l">أكواد مع زياد</span></div>`);
+    s.insertAdjacentHTML('beforeend', `<div class="ftr"><img src="assets/badge.png" alt=""><span class="r"><b>أكواد مع زياد</b><span class="sep">|</span>أ/ زياد السعدني<span class="sep">|</span><span class="num">fb.com/61592749346697</span><span class="sep">|</span>واتساب <span class="num">01124840835</span></span><span class="pn">${START + k} / ${TOTAL}</span></div><div class="wm">${tiles.join('')}<span class="big">زياد السعدني</span></div>`);
+  });
+}
+// ===== 0) لو المتصفح مفعّل «أقل حجم للخط» (Minimum font size) بيكبّر الخطوط الصغيرة ويبوّظ التصميم.
+// الحل: نكبّر كل المقاسات ×K ونصغّر الصفحة ÷K بـ transform (الـtransform مابيتأثرش بالإعداد ده).
+let K = 1;
+function immunize(){
+  const t = document.createElement('span'); t.style.fontSize = '1px'; t.textContent = 'x';
+  document.body.appendChild(t); const mc = parseFloat(getComputedStyle(t).fontSize); t.remove();
+  const wid = px => { const s = document.createElement('span');
+    s.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;font-family:sans-serif;font-size:' + px + 'px';
+    s.textContent = 'abcdefghij'; document.body.appendChild(s); const w = s.getBoundingClientRect().width; s.remove(); return w; };
+  const mr = 4 * wid(4) / (wid(40) / 10);   // الحجم الفعلي اللي اترسم بيه نص طالب 4px
+  // بدون الإعداد: نص الـ4px بيترسم ≈4px (ممكن يزيد شوية من التقريب) — فمانعتبرهوش مفعّل غير لو أكبر من 6px
+  const m = Math.max(mc, mr > 6 ? mr : 0);
+  if (!(m > 1.5)) return;
+  K = Math.max(2, Math.ceil(m / 7));
+  const sc = v => v.replace(/(-?\d*\.?\d+)(pt|px|mm)\b/g, (_, n, u) => (parseFloat(n) * K).toFixed(3) + u);
+  const walk = rules => { for (const r of rules) {
+    if (r instanceof CSSMediaRule) { walk(r.cssRules); continue; }
+    if (!(r instanceof CSSStyleRule)) continue;
+    if (/^(html|body|\.page|html,\s*body)$/.test(r.selectorText.trim())) continue;
+    for (let i = 0; i < r.style.length; i++) { const p = r.style[i], v = r.style.getPropertyValue(p);
+      if (/\d(pt|px|mm)/.test(v)) r.style.setProperty(p, sc(v), r.style.getPropertyPriority(p)); }
+  } };
+  for (const s of document.styleSheets) { try { walk(s.cssRules); } catch (e) {} }
+  document.querySelectorAll('.flow [style]').forEach(el => { el.style.cssText = sc(el.style.cssText); });
+  // الطريقة 1 (Chrome): zoom = 1/K — الصفحة بتفضل بمقاسها الحقيقي فالطباعة سليمة.
+  // الطريقة 2 (احتياطي): transform: scale(1/K) — لو المتصفح بيطبّق الحد الأدنى بعد الـzoom.
+  const probe = css => { const w = document.createElement('div'); w.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;' + css;
+    const s = document.createElement('span'); s.style.fontSize = (6 * K) + 'px'; s.textContent = 'abcdefghij';
+    w.appendChild(s); document.body.appendChild(w); const r = s.getBoundingClientRect().width; w.remove(); return r; };
+  const big = probe(''), zoomed = probe('zoom:' + (1 / K));
+  const zoomOK = Math.abs(zoomed - big / K) < 1.5;
+  const st = document.createElement('style');
+  st.textContent = zoomOK ? `.sheet{zoom:${1 / K}}` : `.sheet{transform:scale(${1 / K})}`;
+  document.head.appendChild(st); document.body.dataset.mode = zoomOK ? 'zoom' : 'transform';
+}
+window.addEventListener('load', async () => {
+  const F = "'Baloo Bhaijaan 2'";
+  await Promise.all([500, 600, 700, 800].map(w => document.fonts.load(`${w} 10pt ${F}`, 'أبجد')));
+  await document.fonts.ready;
+  immunize(); paginate(); tqTop(); frame();
+  document.body.dataset.ready = '1'; document.body.dataset.k = K;
+});
+</script>
+</head>
+<body data-lesson="الدرس 3-2 — طرق اتصال تطبيقات الويب" data-start="23" data-total="58">
+<main class="flow">
+<div class="band">
+  <div class="badge"><span class="l">الدرس</span><span class="n">3-2</span></div>
+  <h1>طرق اتصال تطبيقات الويب</h1>
+  <div class="who">
+    <div class="t"><span class="u">الوحدة الثالثة</span><span class="k">الشرح والمراجعة</span></div>
+    <img src="assets/avatar.png" alt="">
+  </div>
+</div>
+<div class="two">
+  <div class="intro">
+    <h3>إنت بتدوس .. ومين اللي بيرد؟</h3>
+    <div class="body">
+      <img class="robot" src="assets/robot.svg" alt="">
+      <p>الدرس اللي فات قسّم التطبيق لتلات طبقات.<br>الدرس ده بيركّز على طريقة تبادل الطلبات والاستجابات<br>بين <b>العميل</b> و<b>الخادم</b>.</p>
+      <p>لما تدوس على رابط، المتصفح بيبعت <b>الطلب</b>،<br>والخادم بيرجّع <b>الاستجابة</b>.<br>وفيه قواعد بتحكم التبادل ده.</p>
+      <p>هتعرف يعني إيه <b>GET</b> و<b>POST</b>، وإيه معنى الأرقام اللي بتشوفها زي <span class="num">404</span>.<br>وليه <b>HTTPS</b> مش زي <b>HTTP</b>، وإيه دور <b>API</b> و<b>JSON</b>.</p>
+      <p>ركّز في وظيفة كل اختصار والفرق بينه وبين المصطلحات القريبة منه،<br>لأن الفروق دي واردة في الأسئلة.</p>
+    </div>
+    <div class="foot"><span class="pill-dark">يلا بينا يا صديقي نبدأ</span></div>
+  </div>
+  <div class="goals">
+    <h3>أهداف التعلم</h3>
+    <div class="g"><span class="tag">اشرح</span><span class="x">نموذج العميل والخادم ودورة الطلب والاستجابة.</span></div>
+    <div class="g"><span class="tag">ميّز</span><span class="x">بين HTTP وHTTPS، واستخدم GET وPOST في سياقات مناسبة.</span></div>
+    <div class="g"><span class="tag">فسّر</span><span class="x">رموز حالة HTTP الشائعة، واشرح دور API وJSON في تبادل البيانات.</span></div>
+    <div class="g"><span class="tag">صمّم</span><span class="x">طريقة اتصال مناسبة لمهمة في تطبيق ويب، وبرّر اختيارك.</span></div>
+  </div>
+</div>
+<div class="note-box"><span class="tag">للفهم</span>أي جزء عليه علامة «للفهم» هو شرح أو رسم إضافي للتوضيح، ومش مطلوب حفظه كنص من الكتاب.</div>
+<div class="map">
+  <div class="cell c1"><h4>العميل والخادم</h4><ul>
+    <li>العميل — الجانب الذي يطلب البيانات أو المعالجة</li>
+    <li>الخادم — يستقبل الطلبات ويعالجها ويعيد الاستجابات</li>
+    <li>أمثلة العميل: متصفح الويب · تطبيق الهاتف</li></ul></div>
+  <div class="cell c2"><h4>HTTP وHTTPS</h4><ul>
+    <li>HTTP — بروتوكول ينظّم تبادل الطلبات والاستجابات بين العميل والخادم.</li>
+    <li><bdi>HTTPS</bdi> — <bdi>HTTP</bdi> عبر اتصال TLS آمن.</li>
+    <li>TLS يساعد على حماية سرية البيانات وسلامتها، ويساعد العميل على التحقق من هوية الخادم.</li></ul></div>
+  <div class="hub">كيف تتواصل<br>تطبيقات الويب؟
+    <svg class="lk r1" viewBox="0 0 20 16"><path d="M0 14 C7 14 10 3 17 3" fill="none" stroke="#22375c" stroke-width="1.55" stroke-linecap="round"/><circle cx="17.5" cy="3" r="2" fill="#22375c"/></svg>
+    <svg class="lk r2" viewBox="0 0 20 16"><path d="M0 2 C7 2 10 13 17 13" fill="none" stroke="#e29433" stroke-width="1.55" stroke-linecap="round"/><circle cx="17.5" cy="13" r="2" fill="#e29433"/></svg>
+    <svg class="lk l1" viewBox="0 0 20 16"><path d="M20 14 C13 14 10 3 3 3" fill="none" stroke="#2e4a78" stroke-width="1.55" stroke-linecap="round"/><circle cx="2.5" cy="3" r="2" fill="#2e4a78"/></svg>
+    <svg class="lk l2" viewBox="0 0 20 16"><path d="M20 2 C13 2 10 13 3 13" fill="none" stroke="#a9670f" stroke-width="1.55" stroke-linecap="round"/><circle cx="2.5" cy="13" r="2" fill="#a9670f"/></svg>
+  </div>
+  <div class="cell c3"><h4>الطلب والاستجابة</h4><ul>
+    <li>GET يُستخدم عادةً لطلب أو استرجاع بيانات أو مورد.</li>
+    <li>POST يُستخدم عادةً لإرسال بيانات إلى الخادم.</li>
+    <li>رمز الحالة: <span class="num">200</span> نجاح · <span class="num">404</span> غير موجود · <span class="num">500</span> خطأ في الخادم</li></ul></div>
+  <div class="cell c4"><h4>API وJSON</h4><ul>
+    <li>API — واجهة وقواعد تتيح لبرنامج التواصل مع برنامج أو خدمة أخرى.</li>
+    <li>JSON — صيغة نصية لتمثيل وتبادل البيانات المهيكلة.</li></ul></div>
+</div>
+<div class="iq">
+  <div class="q">
+    <div class="lab">السؤال الرئيسي — الدرس كله بيجاوب عليه</div>
+    <div class="qq">كيف يتواصل العميل والخادم لتشغيل تطبيق الويب، وما القواعد والرسائل التي يستخدمانها؟</div>
+  </div>
+  <div class="idea"><span class="qmark">”</span><b>الفكرة الأساسية:</b> تعمل تطبيقات الويب من خلال <b>إرسال العميل للطلبات</b> و<b>إرجاع الخادم للاستجابات</b>، باستخدام <b>بروتوكولات (HTTP/HTTPS)</b> و<b>غالبًا واجهات برمجة تطبيقات</b> تتبادل البيانات بصيغ مثل <b>JSON</b>.</div>
+</div>
+<div class="part p1"><span>الجزء الأول</span></div>
+<hr class="rule">
+<h2 class="sec"><span class="num">1</span><span class="dot">·</span> العميل والخادم</h2>
+<span class="chip">العميل <bdi class="nw">(client)</bdi></span>
+<div class="banner"><b>برنامج أو جهاز يرسل طلبًا إلى خدمة أخرى</b>؛ ومن أمثلته <b>متصفح الويب</b> و<b>تطبيق الهاتف</b>. وهو <b>الجانب الذي يطلب البيانات أو المعالجة</b>.</div>
+<span class="chip" style="margin-top:8pt">الخادم <bdi class="nw">(server)</bdi></span>
+<div class="banner"><b>الجانب الذي يستقبل الطلبات من العملاء، ويعالجها، ويعيد الاستجابات</b>.</div>
+<div class="quote" style="margin-top:9pt"><span class="qmark">”</span>تعتمد <b>كثير من تطبيقات الويب</b> على <b>إرسال العميل طلبًا</b> و<b>إعادة الخادم استجابة</b>.</div>
+<div class="fig keep">
+  <div class="cs">
+    <div class="node"><h4>العميل</h4><small>CLIENT</small><span class="ic"><svg viewBox="0 0 24 22" fill="none" stroke="#2e4a78" stroke-width="1.9" stroke-linecap="round"><rect x="1.5" y="1.5" width="21" height="14" rx="2" fill="#e3eefa"/><line x1="12" y1="15.5" x2="12" y2="19.5"/><line x1="7.5" y1="20" x2="16.5" y2="20"/></svg></span><p>متصفح · تطبيق هاتف</p></div>
+    <div class="mid">
+      <div class="lane"><b>طلب</b><svg viewBox="0 0 150 12"><line x1="148" y1="6" x2="10" y2="6" stroke="#22375c" stroke-width="2.2"/><path d="M12 0.5 1 6 12 11.5z" fill="#22375c"/></svg><span class="en">GET / POST</span></div>
+      <div class="lane r"><b>استجابة</b><svg viewBox="0 0 150 12"><line x1="2" y1="6" x2="140" y2="6" stroke="#e29433" stroke-width="2.2"/><path d="M138 0.5 149 6 138 11.5z" fill="#e29433"/></svg><span class="en">200 / 404 / 500</span></div>
+    </div>
+    <div class="node srv"><h4>الخادم</h4><small>SERVER</small><span class="ic"><svg viewBox="0 0 24 24"><rect x="2.5" y="2.5" width="19" height="8.5" rx="2.4" fill="none" stroke="#a9670f" stroke-width="1.8"/><rect x="2.5" y="13" width="19" height="8.5" rx="2.4" fill="none" stroke="#a9670f" stroke-width="1.8"/><line x1="14" y1="6.75" x2="18" y2="6.75" stroke="#a9670f" stroke-width="1.8" stroke-linecap="round"/><line x1="14" y1="17.25" x2="18" y2="17.25" stroke="#a9670f" stroke-width="1.8" stroke-linecap="round"/></svg></span><p>يعالج ويعيد استجابة</p></div>
+  </div>
+  <p class="one">يطلب العميل البيانات أو المعالجة، ويعالج الخادم الطلب ويعيد استجابة.</p>
+  <div class="cap">الشكل <span class="num">3.2.1</span> — اتصال العميل بالخادم</div>
+</div>
+<div class="note-line"><span class="tag">للفهم</span><span class="lead">ببساطة</span><b>«عميل» و«خادم» مش أجهزة — دول أدوار.</b> نفس الجهاز ممكن يكون عميل في موقف وخادم في موقف تاني. اللي بيحدد الدور هو: <b>مين بيبعت الطلب</b> و<b>مين بيرد</b>.</div>
+<h2 class="sec"><span class="num">2</span><span class="dot">·</span> HTTP وHTTPS</h2>
+<span class="chip">HTTP (بروتوكول نقل النص التشعبي)</span>
+<div class="banner"><b>بروتوكول يستخدم لتبادل الرسائل بين عميل وخادم على الويب</b>.</div>
+<div class="quote" style="margin-top:9pt;text-wrap:pretty"><span class="qmark">”</span><b>HTTPS</b> — <b>استخدام HTTP عبر اتصال <bdi>TLS (Transport Layer Security)</bdi> آمن</b>.<br>يساعد <b>TLS</b> على <b>حماية سرية الاتصال وسلامته</b>، وعلى <b>مصادقة الخادم</b>، بحيث <b>لا يستطيع المتجسس قراءة المحتوى أو تعديله بسهولة أثناء النقل</b>.<br>والمواقع التي تبدأ عناوينها بـ <b dir="ltr">https://</b> تستخدم اتصال <b>HTTPS</b>.</div>
+<div class="note-line"><span class="tag">للفهم</span><span class="lead">طب ليه؟</span>لأن الكلام في <b>HTTP</b> العادي بيمشي <b>مكشوف</b>. وعشان كده صفحة تسجيل الدخول <b>لازم</b> تكون <b>HTTPS</b>: إنت بتبعت <b>كلمة مرور</b>، و<b>HTTP ما بيشفّرش المحتوى بنفسه</b> — فاللي <b>يقدر يعترض حركة الاتصال</b> ممكن يقراها. و<b>HTTPS</b> بيحمي البيانات أثناء النقل باستخدام <b>TLS</b>. (الدرس <span class="num">2-1</span> شرح آلية TLS نفسها بالتفصيل.)</div>
+<div class="part p2"><span>الجزء الثاني</span></div>
+<hr class="rule">
+<h2 class="sec"><span class="num">3</span><span class="dot">·</span> طلبات HTTP والاستجابات</h2>
+<div class="quote"><span class="qmark">”</span>تتضمن <b>الطلبات المرسلة من العميل إلى الخادم</b> معلومات تسمى <b>طريقة طلب HTTP</b> توضح <b>«نوع العملية المطلوبة»</b>.</div>
+<table class="t keep kwn">
+  <thead><tr><th style="width:80pt">الأسلوب</th><th style="width:220pt">الدور</th><th>أمثلة</th></tr></thead>
+  <tbody>
+    <tr><td class="k">GET</td><td><b>يُستخدم عادةً لطلب مورد أو بيانات من الخادم</b></td><td>عرض صفحة ويب، استرجاع نتائج البحث</td></tr>
+    <tr><td class="k">POST</td><td><b>يُستخدم عادةً لإرسال بيانات ليعالجها الخادم</b></td><td>إرسال معلومات تسجيل الدخول، إرسال محتويات نموذج</td></tr>
+  </tbody>
+</table>
+<div class="icap">طلب <bdi>HTTP</bdi> واحد، واستجابة مطابقة واحدة.</div>
+<div class="note-line"><span class="tag">للفهم</span><span class="lead">ببساطة</span>قاعدة تفرّق بينهم: <b>GET</b> بيُستخدم عادةً لما <b>تطلب</b> حاجة من الخادم، زي صفحة أو نتايج بحث. و<b>POST</b> بيُستخدم عادةً لما <b>تبعت بيانات</b> عشان الخادم يعالجها، زي بيانات تسجيل الدخول أو نموذج. وخُد بالك من كلمة <b>«عادةً»</b> في التعريفين — الكتاب مابيقولش <b>«دايمًا»</b>.</div>
+<h2 class="sec"><span class="num">4</span><span class="dot">·</span> رموز الحالة</h2>
+<div class="quote"><span class="qmark">”</span>تتضمن <b>الاستجابات المرسلة من الخادم إلى العميل رقمًا يشير إلى نتيجة المعالجة</b>، يسمى <b>رمز حالة HTTP</b>.</div>
+<table class="t keep">
+  <thead><tr><th style="width:80pt">رمز الحالة</th><th>المعنى</th></tr></thead>
+  <tbody>
+    <tr><td class="k"><span class="num">200</span></td><td><b>نجاح</b> (تمت معالجة الطلب بنجاح)</td></tr>
+    <tr><td class="k"><span class="num">404</span></td><td><b>المورد المطلوب غير موجود بهذا العنوان</b></td></tr>
+    <tr><td class="k"><span class="num">500</span></td><td><b>خطأ داخلي في الخادم</b> منعه من إكمال الطلب؛ <b>ولا يحدد الرمز وحده السبب التفصيلي</b></td></tr>
+  </tbody>
+</table>
+<div class="box plain keep"><h3>للفهم — مش للحفظ</h3><p>خُد بالك: <b>وجود بيانات في الطلب لوحده مش بيخلّيه POST</b> — ممكن رقم الجلوس يتبعت جوّه عنوان طلب <b>GET</b> لاسترجاع النتيجة. الطريقة بتعتمد على <b>العملية وتصميم الموقع</b>، و<b>POST</b> بتُستخدم لإرسال بيانات <b>يعالجها</b> الخادم زي نموذج تسجيل.</p></div>
+<div class="note-line"><span class="tag">للفهم</span><span class="lead">طب ليه؟</span>لأن الرقم بيقولك <b>مين عنده المشكلة</b>. <b><span class="num">404</span></b> يعني الطلب وصل والخادم شغّال — بس <b>العنوان غلط أو المورد مش موجود</b>. أما <b><span class="num">500</span></b> فمعناه المشكلة <b>في الخادم نفسه</b> — والكتاب بيحذّر: <b>الرمز وحده ما بيحددش السبب التفصيلي</b>.</div>
+<div class="part p3"><span>الجزء الثالث</span></div>
+<hr class="rule">
+<h2 class="sec"><span class="num">5</span><span class="dot">·</span> واجهة برمجة التطبيقات (API)</h2>
+<span class="chip">واجهة برمجة التطبيقات <bdi class="nw">(API - Application Programming Interface)</bdi></span>
+<div class="banner"><b>مجموعة قواعد واضحة تسمح لبرنامج بطلب بيانات أو وظائف من برنامج آخر</b>. وهي <b>واجهة أو عقد محدد للتواصل بين البرمجيات</b>.<br>وقد <b>ترسل الواجهة الأمامية طلبات إلى خدمة خلفية عبر API</b> وتستقبل منها البيانات.</div>
+<h2 class="sec" style="margin-top:14pt"><span class="num">6</span><span class="dot">·</span> صيغة JSON</h2>
+<div class="quote"><span class="qmark">”</span>قد تعيد <b>API</b> بيانات بصيغة <b>JSON</b> (JavaScript Object Notation)، وهي <b>صيغة نصية شائعة لتمثيل وتبادل البيانات المهيكلة</b> باستخدام <b>كائنات ومصفوفات وقيم بسيطة</b>، <b>وتدعمها لغات وأدوات برمجية كثيرة</b>.</div>
+<pre class="code" dir="ltr">{
+  <span class="ck">"city"</span>: <span class="cs">"Cairo"</span>,
+  <span class="ck">"temperature"</span>: <span class="cn">31</span>
+}</pre>
+<div class="note-line"><span class="tag">للفهم</span><span class="lead">ببساطة</span>اقراها كده: كل سطر فيه <b>مفتاح (key)</b> وبعده نقطتين وبعدهم <b>قيمة (value)</b>. هنا <b dir="ltr">"city"</b> مفتاح وقيمته <b dir="ltr">"Cairo"</b>، و<b dir="ltr">"temperature"</b> مفتاح وقيمته <span class="num">31</span>. لاحظ: القيمة النصية بين علامتي تنصيص، والرقم من غيرها. <b>ودي بالظبط اللي نشاط «اقرأ البيانات» في الكتاب بيطلبها منك.</b></div>
+<div class="simply" style="margin-top:12pt"><span class="fx abs">للفهم</span><span class="lab"><svg viewBox="0 0 24 24" fill="none" stroke="#e29433" stroke-width="1.7" stroke-linecap="round"><path d="M8.2 14.5a5.6 5.6 0 1 1 7.6 0c-.9.8-1.3 1.6-1.3 2.6h-5c0-1-.4-1.8-1.3-2.6z" fill="#fde2b8"/><line x1="9.6" y1="19.6" x2="14.4" y2="19.6"/><line x1="10.4" y1="22" x2="13.6" y2="22"/><line x1="12" y1="1" x2="12" y2="2.6"/><line x1="3.2" y1="4.6" x2="4.4" y2="5.8"/><line x1="20.8" y1="4.6" x2="19.6" y2="5.8"/><line x1="1" y1="11" x2="2.6" y2="11"/><line x1="21.4" y1="11" x2="23" y2="11"/></svg>ببساطة</span><p><b>التلاتة مع بعض في جملة:</b> <b>HTTP</b> هو <b>اللغة</b> اللي بيتكلموا بيها · <b>API</b> هو <b>العقد</b> اللي بيحدد إيه المسموح تطلبه · <b>JSON</b> هو <b>شكل البيانات</b> اللي بترجع. تلات حاجات مختلفة — والامتحان بيحب يخلط بينهم.</p></div>
+<div class="kidea keep"><div class="kh">الفكرة الرئيسة</div><p>يتواصل تطبيق الويب <b>كتبادل منظم</b>: <b>يطلب العميل ويستجيب الخادم</b>، باستخدام بروتوكول <bdi>(HTTP/HTTPS)</bdi>، وطريقة طلب <bdi class="nw">HTTP (GET/POST)</bdi>، ورمز حالة، وغالبًا واجهة برمجة تطبيقات تعيد البيانات بصيغة <bdi>JSON</bdi>.</p></div>
+<div class="box cream keep">
+  <h3>خلي بالك من العبارات دي</h3>
+  <ul>
+    <li><b>GET «يُستخدم عادةً»</b> لطلب مورد · و<b>POST «يُستخدم عادةً»</b> لإرسال بيانات — يعني مش شرط دايمًا.</li>
+    <li>رمز <span class="num">500</span>: <b>«ولا يحدد الرمز وحده السبب التفصيلي»</b>.</li>
+    <li><b>TLS</b> يجعل المتجسس <b>«لا يستطيع قراءة المحتوى أو تعديله بسهولة»</b> — بسهولة، مش «مستحيل».</li>
+    <li>نموذج الطلب والاستجابة أساسي <b>«مع وجود وسائل اتصال أخرى عند الحاجة»</b>.</li>
+    <li><b>«قد»</b> تعيد <b>API</b> بيانات بصيغة <b>JSON</b> — يعني مش لازم.</li>
+    <li>في إجابة السؤال الرئيسي: <b>«وقد تستخدم التطبيقات وسائل أخرى عند الحاجة»</b>.</li>
+  </ul>
+</div>
+<div class="box plain keep">
+  <h3>مثال من حياتنا<span class="fx">للفهم</span></h3>
+  <p>بتفتح موقع نتيجة الامتحانات. أول ما تكتب العنوان وتضغط إدخال: المتصفح (العميل) بيبعت طلب بأسلوب <b>GET</b> — «هات لي الصفحة دي». الخادم بيرد <b>باستجابة</b> ومعاها <b>رمز حالة <span class="num">200</span></b> يعني تمام.</p>
+  <p>بعدين بتكتب رقم جلوسك في الخانة وتدوس «بحث» — ده برضه طلب <b>GET</b> غالبًا، لأنك <b>بتسترجع نتيجة</b>، زي «استرجاع نتائج البحث» في جدول الكتاب. أما لو بتملى <b>استمارة تسجيل</b> وتدوس «إرسال»، فده <b>POST</b> عادةً، لأنك <b>بتبعت بيانات عشان الخادم يعالجها</b>.</p>
+  <p>ولو كتبت عنوان صفحة غلط هيرجّعلك <b><span class="num">404</span></b> — <b>الخادم شغّال</b>، بس <b>الصفحة مش موجودة</b>. ولو الموقع نفسه فيه عطل، هتشوف <b><span class="num">500</span></b>.</p>
+  <p>وطول الوقت ده، لو الموقع بيبدأ بـ <b dir="ltr">https://</b> يبقى الاتصال ماشي على <b>TLS</b> — رقم جلوسك مش ماشي مكشوف على الشبكة.</p>
+</div>
+<div class="big">سؤال على نمط الامتحان — ونموذج إجابته</div>
+<hr class="rule">
+<div class="exam keep">
+  <div class="hd"><span class="n">1</span><span class="t">سؤال على نمط الامتحان</span><span class="m">[<span class="num">6</span> درجات]</span></div>
+  <div class="qt">اشرح خطوة بخطوة ما يحدث عندما يطلب المتصفح صفحة ويب ويستجيب الخادم.</div>
+  <div class="hint"><b>أشِر إلى:</b> <b>العميل</b>، <b>الطلب</b>، <b>طريقة طلب HTTP</b>، <b>الاستجابة</b>، <b>رمز حالة HTTP</b>.</div>
+</div>
+<h3 class="sub">سؤال على نمط الامتحان — إجابة نموذجية</h3>
+<div class="box white split">
+  <h3>نموذج إجابة مقترح لسؤال الـ<span class="num">6</span> درجات<span class="fx">للفهم</span></h3>
+  <ol style="counter-reset:n 0"><li><b>العميل:</b> المتصفح هو <b>العميل</b> — <b>الجانب الذي يطلب البيانات أو المعالجة</b>.</li></ol>
+  <ol style="counter-reset:n 1"><li><b>الطلب:</b> يرسل المتصفح <b>طلبًا</b> إلى الخادم عبر بروتوكول <b>HTTP</b> (أو <b>HTTPS</b> إذا كان الاتصال عبر <b>TLS</b> آمن).</li></ol>
+  <ol style="counter-reset:n 2"><li><b>طريقة الطلب:</b> يتضمن الطلب <b>طريقة طلب HTTP</b> توضح <b>نوع العملية المطلوبة</b> — وهنا <b>GET</b> لأنه <b>يطلب موردًا</b> (صفحة الويب).</li></ol>
+  <ol style="counter-reset:n 3"><li><b>المعالجة:</b> يستقبل <b>الخادم</b> الطلب <b>ويعالجه</b>.</li></ol>
+  <ol style="counter-reset:n 4"><li><b>الاستجابة:</b> يعيد الخادم <b>استجابة</b> تحتوي على المحتوى المطلوب.</li></ol>
+  <ol style="counter-reset:n 5"><li><b>رمز الحالة:</b> تتضمن الاستجابة <b>رمز حالة HTTP</b> يشير إلى نتيجة المعالجة — <b><span class="num">200</span></b> عند النجاح، أو <b><span class="num">404</span></b> إذا لم يكن المورد موجودًا، أو <b><span class="num">500</span></b> عند خطأ داخلي في الخادم. ثم <b>يعرض المتصفح</b> الصفحة.</li></ol>
+  <div class="tip"><span class="l">ركّز:</span> التلميح سمّى <b>خمسة عناصر</b> بالاسم — العميل · الطلب · طريقة الطلب · الاستجابة · رمز الحالة. تأكّد إن <b>الخمسة كلهم</b> ظاهرين في إجابتك بالترتيب.</div>
+</div>
+<h2 class="sec"><span class="num"></span>إجابة السؤال الرئيسي</h2>
+<div class="mq">
+  <div class="lab">السؤال</div>
+  <div class="qq">كيف يتواصل العميل والخادم لتشغيل تطبيق الويب، وما القواعد والرسائل التي يستخدمانها؟</div>
+</div>
+<div class="quote"><span class="qmark">”</span>في كثير من الحالات <b>يرسل العميل طلبًا ويعيد الخادم استجابة وفق قواعد HTTP</b>، <b>وقد تستخدم التطبيقات وسائل أخرى عند الحاجة</b>. يحدد <b>HTTP طريقة تبادل الرسائل</b>، ويستخدم <b>HTTPS اتصال TLS آمنًا</b>. وتوضح <b>طريقة HTTP</b> الغرض من الطلب؛ فيستخدم <b>GET</b> عادةً لطلب مورد أو بيانات، و<b>POST</b> لإرسال بيانات ليعالجها الخادم. و<b>تبين رموز الحالة نتيجة معالجة الطلب</b>. وقد تستخدم التطبيقات <b>واجهة برمجة تطبيقات (API)</b> وقواعد واضحة لتبادل البيانات، <b>وربما تمثلها بصيغة JSON</b> النصية المهيكلة.</div>
+<div class="terms keep">
+  <div class="th"><h3>مصطلحات أساسية</h3></div>
+  <div class="t2">
+    <div><b>العميل</b> – الجانب الذي يطلب البيانات أو المعالجة.</div>
+    <div><b>الخادم</b> – الجانب الذي يعالج الطلبات ويعيد الاستجابات.</div>
+    <div><b>طريقة طلب <bdi>HTTP</bdi></b> – يوضح ما هو مطلوب (<bdi>GET</bdi>، <bdi>POST</bdi>).</div>
+    <div><b>رمز حالة <bdi>HTTP</bdi></b> – يبلغ عن النتيجة (<span class="num">200</span>، <span class="num">404</span>، <span class="num">500</span>).</div>
+    <div><b>API</b> – تتيح لبرمجيات مختلفة تبادل البيانات.</div>
+    <div><b>JSON</b> – صيغة بيانات قابلة للقراءة.</div>
+  </div>
+</div>
+<div class="dark keep">
+  <h3>الخلاصة في دقيقة</h3>
+  <p class="rem"><b>تذكّر:</b> العميل يطلب، والخادم يستجيب – عبر <bdi>HTTP/HTTPS</bdi>، بأسلوب <bdi>(GET/POST)</bdi>، ورمز حالة، وغالبًا واجهة برمجة تطبيقات تعيد بيانات <bdi>JSON</bdi>.</p>
+  <div class="g2">
+    <ul>
+      <li><b>العميل يطلب · الخادم يستجيب</b> — والأدوار مش أجهزة.</li>
+      <li><b>API:</b> قواعد تسمح لبرنامج بطلب بيانات أو وظائف من آخر · <b>JSON:</b> صيغة نصية للبيانات المهيكلة.</li>
+    </ul>
+    <ul>
+      <li><b>HTTP:</b> بروتوكول تبادل الرسائل · <b>HTTPS:</b> نفسه <b>عبر TLS آمن</b>.</li>
+      <li><b>رمز الحالة:</b> <span class="num">200</span> نجاح · <span class="num">404</span> المورد غير موجود · <span class="num">500</span> خطأ داخلي في الخادم (ولا يحدد السبب التفصيلي).</li>
+      <li><b>التحفّظ:</b> نموذج الطلب والاستجابة أساسي <b>مع وجود وسائل اتصال أخرى عند الحاجة</b>.</li>
+    </ul>
+  </div>
+</div>
+<div class="check keep kwn">
+  <h3>اتأكد إنك قادر على</h3>
+  <div class="g2">
+    <ul>
+      <li><span>أعرف تعريف <b>العميل</b> و<b>الخادم</b> وأمثلة على كل واحد.</span></li>
+      <li><span>أعرف <b>GET</b> و<b>POST</b> وأقدر أصنّف أي إجراء عليهم.</span></li>
+      <li><span>أعرف <b>API</b> و<b>JSON</b> ومابلخبطش بينهم.</span></li>
+      <li><span>أقدر أشرح <b>خطوة بخطوة</b> رحلة طلب صفحة ويب.</span></li>
+    </ul>
+    <ul>
+      <li><span>أفرّق بين <b>HTTP</b> و<b>HTTPS</b> وأعرف دور <b>TLS</b>.</span></li>
+      <li><span>أحفظ <b>التلات رموز</b> ومعناها، وأعرف إن <span class="num">500</span> <b>ما بيحددش السبب التفصيلي</b>.</span></li>
+      <li><span>أقدر أقرا <b>مفتاح وقيمة</b> من مقطع <b>JSON</b>.</span></li>
+    </ul>
+  </div>
+</div>
+<div class="endline">أكواد مع زياد — أ/ زياد السعدني · مذكرة البرمجة والذكاء الاصطناعي — تانية ثانوي <span class="num">2026/2027</span> · الوحدة الثالثة — الدرس <span class="num">3-2</span></div>
+<div class="pb"></div>
+<div class="band" style="height:55pt;padding-right:12pt">
+  <div class="badge"><span class="n">3-2</span></div>
+  <h1 style="text-align:right;margin-right:12pt;font-size:14pt">لخّص الدرس بأسلوبك</h1>
+</div>
+<div class="instr"><span class="fx fl">للفهم</span>اقفل المذكرة وحاول تلخّص الدرس من غير ما تبصّ: اكتب أهم <b>المصطلحات</b>، و<b>الفكرة الأساسية</b>، و<b>النقطة اللي لسه محتاجة مراجعة</b>. بعد كده افتح المذكرة وقارن اللي كتبته.</div>
+<div class="lines"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+
+<!-- ===================== بنك الأسئلة ===================== -->
+<div class="pb"></div>
+<div class="band">
+  <div class="badge"><span class="l">الدرس</span><span class="n">3-2</span></div>
+  <h1>طرق اتصال تطبيقات الويب</h1>
+  <div class="who"><div class="t"><span class="u">الوحدة الثالثة</span><span class="k">بنك الأسئلة</span></div><img src="assets/avatar.png" alt=""></div>
+</div>
+<div class="qstats"><div><b class="num">13</b><span>أسئلة الكتاب</span></div><div><b class="num">28</b><span>اختر</span></div><div><b class="num">12</b><span>أكمل</span></div><div><b class="num">12</b><span>صح وخطأ</span></div><div><b class="num">7</b><span>تصنيف وقارن</span></div><div><b class="num">7</b><span>علّل</span></div><div><b class="num">24</b><span>مقالي وأنشطة</span></div><div><b class="num">29</b><span class="tq">تقييمات</span></div></div>
+<h2 class="cat kwn">أسئلة الكتاب<span class="cnt">13</span></h2>
+<div class="qcard split "><h4><span class="n">01</span> · المثال المحلول — الجزء الأول</h4><p class="qi">ضع علامة على كل عبارة (أ - د) بـ○ إذا كانت صحيحة أو × إذا كانت خاطئة.</p><ul class="tf"><li><b>أ</b><span class="t">العميل هو الجانب الذي يطلب البيانات أو المعالجة من الخادم، والخادم هو الجانب الذي يعيد الاستجابة.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><b>ب</b><span class="t">HTTPS هو استخدام HTTP عبر اتصال محمي بـTLS.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><b>ج</b><span class="t">أسلوب GET مخصص لإرسال البيانات إلى الخادم.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><b>د</b><span class="t">رمز حالة HTTP <span class="num">404</span> يشير إلى أن المورد المطلوب غير موجود.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li></ul></div>
+<div class="qcard split "><h4><span class="n">02</span> · المثال المحلول — الجزء الثاني</h4><p class="qi">طابق كل وصف (1 - 3) مع المصطلح الأنسب من الخيارات أدناه (أ - ج).</p><div class="match"><div class="mb"><h5>الأوصاف</h5><ol><li><span>بروتوكول اتصال لتبادل البيانات بين متصفحات الويب والخوادم</span><span class="ab"></span></li><li><span>واجهة أو مجموعة قواعد محددة تتيح لبرنامج طلب بيانات أو وظائف من برنامج أو خدمة أخرى</span><span class="ab"></span></li><li><span>بروتوكول اتصال يضيف تشفيرًا إلى HTTP</span><span class="ab"></span></li></ol></div><div class="mb"><h5>الخيارات</h5><ul class="op c1"><li><b>أ‌</b>HTTP</li><li><b>ب‌</b>API</li><li><b>ج‌</b>HTTPS</li></ul></div></div></div>
+<div class="qcard sol keep"><h4><span class="ck">✓</span> الحل — المثال المحلول</h4><div class="sg"><div><div class="sp">(1)</div><div class="sr"><b>أ</b><span>وصف صحيح لأدوار العميل والخادم. لذلك، ○.</span></div><div class="sr"><b>ب</b><span>يستخدم HTTPS بروتوكول HTTP عبر اتصال محمي بـTLS. لذلك، ○.</span></div><div class="sr"><b>ج</b><span>يُستخدم GET عادةً لطلب مورد أو بيانات، ويُستخدم POST عادةً لإرسال بيانات إلى الخادم لمعالجتها؛ فالعبارة تعكس الاستخدام المعتاد. لذلك، ×.</span></div><div class="sr"><b>د</b><span><span class="num">404</span> رمز حالة يشير إلى أن المورد المطلوب غير موجود (وقد تكون صفحة مفقودة مثالًا على ذلك). لذلك، ○.</span></div></div><div><div class="sp">(2)</div><div class="sr"><b>1:</b><span>بروتوكول اتصال الويب هو HTTP. <i>أ</i></span></div><div class="sr"><b>2:</b><span>الواجهة أو القواعد المحددة التي تتيح لبرنامج طلب بيانات أو وظائف من آخر هي API. <i>ب</i></span></div><div class="sr"><b>3:</b><span>HTTP مع إضافة التشفير هو HTTPS. <i>ج</i></span></div></div></div></div>
+<div class="qcard split "><h4><span class="n">03</span> · تدرّب — أجب عن الأسئلة التالية</h4><div class="sa"><div><span class="k">1</span><p>ما المصطلح الخاص بالجانب الذي يطلب البيانات أو المعالجة من الخادم (مثل متصفح الويب)؟ <span class="bl" style="width:80pt"></span></p></div><div><span class="k">2</span><p>ما المصطلح الخاص بالجانب الذي يستقبل الطلبات من العملاء، ويعالجها، ويعيد الاستجابات؟ <span class="bl" style="width:80pt"></span></p></div><div><span class="k">3</span><p>ما البروتوكول المستخدم للوصول إلى الويب عبر اتصال TLS آمن؟ <span class="bl" style="width:80pt"></span></p></div><div><span class="k">4</span><p>ما المصطلح الخاص بطريقة طلب HTTP لاسترجاع البيانات من الخادم؟ <span class="bl" style="width:80pt"></span></p></div><div><span class="k">5</span><p>ما المصطلح الخاص بنظام تبادل البيانات بين برمجيات مختلفة؟ <span class="bl" style="width:80pt"></span></p></div></div></div>
+<div class="qcard split "><h4><span class="n">04</span> · تدرّب — اختيار</h4><div class="qq"><span class="k">1</span><p>من بين الخيارات التالية (أ - د)، اختر <b>التركيبة غير المناسبة</b> بين رمز حالة HTTP والمعنى.</p></div><ul class="op c2"><li><b>أ‌</b><span class="num">200</span> – تمت معالجة الطلب بنجاح</li><li><b>ب‌</b><span class="num">404</span> – المورد المطلوب غير موجود</li><li><b>ج‌</b><span class="num">500</span> – تمت معالجة الطلب بنجاح</li><li><b>د‌</b><span class="num">500</span> – حدثت مشكلة في جانب الخادم</li></ul><div class="qq"><span class="k">2</span><p>من بين الخيارات التالية (أ - د)، اختر الخيار الذي يصف <b>واجهة برمجة التطبيقات (API)</b> بأنسب شكل.</p></div><ul class="op c2"><li><b>أ‌</b>تقنية لتعديل مظهر صفحات الويب</li><li><b>ب‌</b>نظام لتبادل البيانات بين برمجيات مختلفة</li><li><b>ج‌</b>تقنية لتشفير البيانات وإرسالها بأمان</li><li><b>د‌</b>طريقة طلب HTTP لاسترجاع البيانات من الخادم</li></ul></div>
+<div class="qcard split "><h4><span class="n">05</span> · سؤال على نمط الامتحان<span class="mk">[<span class="num">6</span> درجات]</span></h4><p class="qs">اشرح خطوة بخطوة ما يحدث عندما يطلب المتصفح صفحة ويب ويستجيب الخادم.</p><div class="hint"><b>عناصر الإجابة</b> <b>أشِر إلى:</b> <b>العميل</b>، <b>الطلب</b>، <b>طريقة طلب HTTP</b>، <b>الاستجابة</b>، <b>رمز حالة HTTP</b>.</div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="qcard split "><h4><span class="n">06</span> · تمارين — اقرأ الفقرة ثم املأ الفراغات</h4><p class="para">يعتمد كثير من تطبيقات الويب على الاتصال بين (<b>1</b>) <span class="bl" style="width:75pt"></span>، الذي يرسل طلبًا، و(<b>2</b>) <span class="bl" style="width:75pt"></span>، الذي يستقبل الطلب ويعالجه ويعيد استجابة. ويستخدم الويب بروتوكولًا يسمى (<b>3</b>) <span class="bl" style="width:75pt"></span> لتبادل الرسائل. ويسمى استخدام (<b>3</b>) عبر اتصال TLS آمن (<b>4</b>) <span class="bl" style="width:75pt"></span>.</p></div>
+<div class="qcard split "><h4><span class="n">07</span> · تمارين — الأسلوب المستخدم · واختيار</h4><div class="qq"><span class="k">1</span><p>لكل من العمليات (1 - 4)، حدد طريقة طلب HTTP المستخدمة: <b>أ</b> GET، <b>ب</b> POST.</p></div><ul class="cl"><li><span class="k">1</span><span class="t">عرض صفحة ويب</span><span class="ab"></span></li><li><span class="k">2</span><span class="t">إدخال معرّف وكلمة مرور في نموذج تسجيل الدخول وإرسالهما</span><span class="ab"></span></li><li><span class="k">3</span><span class="t">عرض نتائج البحث</span><span class="ab"></span></li><li><span class="k">4</span><span class="t">إرسال محتويات نموذج التواصل</span><span class="ab"></span></li></ul><div class="qq"><span class="k">2</span><p>من بين الخيارات التالية (أ - د)، اختر الخيار الذي يصف HTTPS <b>بأنسب شكل</b>.</p></div><ul class="op c1"><li><b>أ‌</b>أسلوب لاسترجاع البيانات من الخادم</li><li><b>ب‌</b>نظام لتبادل البيانات بين برمجيات مختلفة</li><li><b>ج‌</b>بروتوكول يستخدم HTTP عبر اتصال محمي بـTLS</li><li><b>د‌</b>رمز حالة يشير إلى حدوث مشكلة في جانب الخادم</li></ul></div>
+<h2 class="cat kwn">اختر الإجابة الصحيحة<span class="cnt">28</span></h2>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">1</span><span class="tq">تقييمات</span><p>«برنامج أو جهاز يرسل طلبًا إلى خدمة أخرى» هو:</p></div><ul class="op c2"><li><b>أ‌</b>الخادم</li><li><b>ب‌</b>العميل</li><li><b>ج‌</b>البروتوكول</li><li><b>د‌</b>رمز الحالة</li></ul></div><div class="mq"><div class="qq"><span class="k">2</span><p>«الجانب الذي يستقبل الطلبات ويعالجها ويعيد الاستجابات» هو:</p></div><ul class="op c2"><li><b>أ‌</b>العميل</li><li><b>ب‌</b>الخادم</li><li><b>ج‌</b>API</li><li><b>د‌</b>JSON</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">3</span><p>من أمثلة العميل التي يذكرها الكتاب:</p></div><ul class="op c2"><li><b>أ‌</b>متصفح الويب وتطبيق الهاتف</li><li><b>ب‌</b>قاعدة البيانات</li><li><b>ج‌</b>جدار الحماية</li><li><b>د‌</b>الشهادة الرقمية</li></ul></div><div class="mq"><div class="qq"><span class="k">4</span><p>«بروتوكول يستخدم لتبادل الرسائل بين عميل وخادم على الويب» هو:</p></div><ul class="op c2"><li><b>أ‌</b>TLS</li><li><b>ب‌</b>JSON</li><li><b>ج‌</b>API</li><li><b>د‌</b>HTTP</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">5</span><span class="tq">تقييمات</span><p>HTTPS هو:</p></div><ul class="op c2"><li><b>أ‌</b>بروتوكول جديد بديل لـHTTP</li><li><b>ب‌</b>استخدام HTTP عبر اتصال TLS آمن</li><li><b>ج‌</b>طريقة طلب</li><li><b>د‌</b>رمز حالة</li></ul></div><div class="mq"><div class="qq"><span class="k">6</span><p>يساعد TLS على:</p></div><ul class="op c2"><li><b>أ‌</b>ترتيب نتائج البحث</li><li><b>ب‌</b>زيادة سرعة التحميل</li><li><b>ج‌</b>حماية سرية الاتصال وسلامته ومصادقة الخادم</li><li><b>د‌</b>تصميم الصفحات</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">7</span><p>المواقع التي تبدأ عناوينها بـ <b dir="ltr">https://</b>:</p></div><ul class="op c2"><li><b>أ‌</b>لا تحتاج خادمًا</li><li><b>ب‌</b>تستخدم اتصال HTTPS</li><li><b>ج‌</b>تعمل بدون متصفح</li><li><b>د‌</b>لا تستخدم HTTP إطلاقًا</li></ul></div><div class="mq"><div class="qq"><span class="k">8</span><p>«معلومات في الطلب توضح نوع العملية المطلوبة» هي:</p></div><ul class="op c2"><li><b>أ‌</b>رمز حالة HTTP</li><li><b>ب‌</b>عنوان الموقع</li><li><b>ج‌</b>صيغة JSON</li><li><b>د‌</b>طريقة طلب HTTP</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">9</span><span class="tq">تقييمات</span><p>GET يُستخدم عادةً لـ:</p></div><ul class="op c2"><li><b>أ‌</b>طلب مورد أو بيانات من الخادم</li><li><b>ب‌</b>إرسال بيانات ليعالجها الخادم</li><li><b>ج‌</b>تشفير الاتصال</li><li><b>د‌</b>تخزين البيانات</li></ul></div><div class="mq"><div class="qq"><span class="k">10</span><span class="tq">تقييمات</span><p>POST يُستخدم عادةً لـ:</p></div><ul class="op c2"><li><b>أ‌</b>طلب صفحة ويب</li><li><b>ب‌</b>عرض نتائج البحث</li><li><b>ج‌</b>إرسال بيانات ليعالجها الخادم</li><li><b>د‌</b>إغلاق الاتصال</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">11</span><span class="tq">تقييمات</span><p>«إرسال معلومات تسجيل الدخول» مثال على أسلوب:</p></div><ul class="op c2"><li><b>أ‌</b>GET</li><li><b>ب‌</b>TLS</li><li><b>ج‌</b>JSON</li><li><b>د‌</b>POST</li></ul></div><div class="mq"><div class="qq"><span class="k">12</span><span class="tq">تقييمات</span><p>«استرجاع نتائج البحث» مثال على أسلوب:</p></div><ul class="op c2"><li><b>أ‌</b>POST</li><li><b>ب‌</b>API</li><li><b>ج‌</b>GET</li><li><b>د‌</b>HTTPS</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">13</span><p>«رقم في الاستجابة يشير إلى نتيجة المعالجة» هو:</p></div><ul class="op c2"><li><b>أ‌</b>طريقة طلب HTTP</li><li><b>ب‌</b>عنوان المورد</li><li><b>ج‌</b>مفتاح JSON</li><li><b>د‌</b>رمز حالة HTTP</li></ul></div><div class="mq"><div class="qq"><span class="k">14</span><span class="tq">تقييمات</span><p>رمز الحالة <span class="num">200</span> معناه:</p></div><ul class="op c2"><li><b>أ‌</b>نجاح</li><li><b>ب‌</b>المورد غير موجود</li><li><b>ج‌</b>خطأ في الخادم</li><li><b>د‌</b>إعادة توجيه</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">15</span><span class="tq">تقييمات</span><p>رمز الحالة <span class="num">404</span> معناه:</p></div><ul class="op c2"><li><b>أ‌</b>خطأ داخلي في الخادم</li><li><b>ب‌</b>نجاح المعالجة</li><li><b>ج‌</b>المورد المطلوب غير موجود بهذا العنوان</li><li><b>د‌</b>الاتصال غير مشفّر</li></ul></div><div class="mq"><div class="qq"><span class="k">16</span><span class="tq">تقييمات</span><p>رمز الحالة <span class="num">500</span> معناه:</p></div><ul class="op c2"><li><b>أ‌</b>الطلب مرفوض لعدم الصلاحية</li><li><b>ب‌</b>المورد غير موجود</li><li><b>ج‌</b>تمت المعالجة بنجاح</li><li><b>د‌</b>خطأ داخلي في الخادم منعه من إكمال الطلب</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">17</span><p>حسب الكتاب، رمز <span class="num">500</span>:</p></div><ul class="op c2"><li><b>أ‌</b>يحدد السبب التفصيلي دائمًا</li><li><b>ب‌</b>يعني أن العميل مخطئ</li><li><b>ج‌</b>لا يحدد وحده السبب التفصيلي</li><li><b>د‌</b>يعني أن الاتصال بطيء</li></ul></div><div class="mq"><div class="qq"><span class="k">18</span><span class="tq">تقييمات</span><p>«مجموعة قواعد واضحة تسمح لبرنامج بطلب بيانات أو وظائف من برنامج آخر» هي:</p></div><ul class="op c2"><li><b>أ‌</b>API</li><li><b>ب‌</b>JSON</li><li><b>ج‌</b>TLS</li><li><b>د‌</b>GET</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">19</span><p>يصف الكتاب API بأنها:</p></div><ul class="op c2"><li><b>أ‌</b>لغة برمجة</li><li><b>ب‌</b>واجهة أو عقد محدد للتواصل بين البرمجيات</li><li><b>ج‌</b>نوع من الخوادم</li><li><b>د‌</b>صيغة صور</li></ul></div><div class="mq"><div class="qq"><span class="k">20</span><span class="tq">تقييمات</span><p>JSON هي:</p></div><ul class="op c2"><li><b>أ‌</b>رمز حالة</li><li><b>ب‌</b>بروتوكول اتصال</li><li><b>ج‌</b>صيغة نصية لتمثيل وتبادل البيانات المهيكلة</li><li><b>د‌</b>نوع من قواعد البيانات</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">21</span><span class="tq">تقييمات</span><p>تستخدم JSON في تمثيل البيانات:</p></div><ul class="op c2"><li><b>أ‌</b>كائنات ومصفوفات وقيم بسيطة</li><li><b>ب‌</b>صورًا وفيديوهات فقط</li><li><b>ج‌</b>جداول قواعد بيانات فقط</li><li><b>د‌</b>صفحات HTML</li></ul></div><div class="mq"><div class="qq"><span class="k">22</span><p>في المقطع <b dir="ltr">"city": "Cairo"</b>، كلمة <b dir="ltr">"city"</b> تُسمى:</p></div><ul class="op c2"><li><b>أ‌</b>قيمة</li><li><b>ب‌</b>مفتاح</li><li><b>ج‌</b>مصفوفة</li><li><b>د‌</b>رمز حالة</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">23</span><p>أيٌّ مما يلي <b>لا يمثّل</b> تركيبة صحيحة؟</p></div><ul class="op c2"><li><b>أ‌</b><span class="num">500</span> – تمت المعالجة بنجاح</li><li><b>ب‌</b><span class="num">404</span> – المورد غير موجود</li><li><b>ج‌</b><span class="num">200</span> – نجاح</li><li><b>د‌</b><span class="num">500</span> – مشكلة في جانب الخادم</li></ul></div><div class="mq"><div class="qq"><span class="k">24</span><span class="tq">تقييمات</span><p>صفحة تسجيل الدخول يجب أن تستخدم:</p></div><ul class="op c2"><li><b>أ‌</b>HTTPS</li><li><b>ب‌</b>HTTP العادي</li><li><b>ج‌</b>GET فقط</li><li><b>د‌</b>JSON فقط</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">25</span><p>الفكرة الرئيسة تصف اتصال تطبيق الويب بأنه:</p></div><ul class="op c2"><li><b>أ‌</b>اتصال مباشر بين المتصفحات</li><li><b>ب‌</b>بث مستمر بلا طلبات</li><li><b>ج‌</b>نسخ ملفات يدويًا</li><li><b>د‌</b>تبادل منظم: يطلب العميل ويستجيب الخادم</li></ul></div><div class="mq"><div class="qq"><span class="k">26</span><p>حسب الكتاب، نموذج الطلب والاستجابة:</p></div><ul class="op c2"><li><b>أ‌</b>يخص تطبيقات الهاتف فقط</li><li><b>ب‌</b>الطريقة الوحيدة الممكنة</li><li><b>ج‌</b>قديم ولم يعد يُستخدم</li><li><b>د‌</b>أساسي في كثير من تطبيقات الويب، مع وجود وسائل اتصال أخرى عند الحاجة</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">27</span><p>لو استقبل المتصفح رمز <span class="num">404</span>، فالمشكلة على الأرجح في:</p></div><ul class="op c2"><li><b>أ‌</b>سرعة الإنترنت</li><li><b>ب‌</b>كهرباء الخادم</li><li><b>ج‌</b>العنوان أو المورد المطلوب</li><li><b>د‌</b>نوع المتصفح</li></ul></div><div class="mq"><div class="qq"><span class="k">28</span><p>خدمة طقس تعيد توقعات اليوم عند إرسال طلب – الأسلوب المناسب للعميل هو:</p></div><ul class="op c2"><li><b>أ‌</b>POST</li><li><b>ب‌</b>GET</li><li><b>ج‌</b>TLS</li><li><b>د‌</b><span class="num">404</span></li></ul></div></div>
+<h2 class="cat kwn">أكمل<span class="cnt">12</span></h2>
+<div class="hint"><b>ملحوظة</b> اكتب المصطلح كامل وصحيح الإملاء. ولو المصطلح ليه اختصار إنجليزي، اكتبه جنبه كطريقة تساعدك تثبّت المصطلح.</div>
+<div class="frow"><div><span class="k">1</span><p>الجانب الذي يطلب البيانات أو المعالجة هو <span class="bl" style="width:70pt"></span></p></div><div><span class="k">2</span><p>الجانب الذي يعالج الطلبات ويعيد الاستجابات هو <span class="bl" style="width:70pt"></span></p></div></div>
+<div class="frow"><div><span class="k">3</span><p>البروتوكول المستخدم لتبادل الرسائل بين عميل وخادم على الويب هو <span class="bl" style="width:70pt"></span></p></div><div><span class="k">4</span><p>استخدام HTTP عبر اتصال TLS آمن يُسمى <span class="bl" style="width:70pt"></span></p></div></div>
+<div class="frow"><div><span class="k">5</span><p>المعلومات التي توضح نوع العملية المطلوبة تُسمى <span class="bl" style="width:70pt"></span></p></div><div><span class="k">6</span><p>الأسلوب المستخدم عادةً لطلب مورد أو بيانات هو <span class="bl" style="width:70pt"></span></p></div></div>
+<div class="frow"><div><span class="k">7</span><p>الأسلوب المستخدم عادةً لإرسال بيانات ليعالجها الخادم هو <span class="bl" style="width:70pt"></span></p></div><div><span class="k">8</span><p>الرقم الذي يشير إلى نتيجة المعالجة في الاستجابة يُسمى <span class="bl" style="width:70pt"></span></p></div></div>
+<div class="frow"><div><span class="k">9</span><p>الرمز <span class="num">404</span> يعني <span class="bl" style="width:60pt"></span> والرمز <span class="num">500</span> يعني <span class="bl" style="width:60pt"></span></p></div><div><span class="k">10</span><p>مجموعة القواعد التي تسمح لبرنامج بطلب بيانات أو وظائف من برنامج آخر هي <span class="bl" style="width:70pt"></span></p></div></div>
+<div class="frow"><div><span class="k">11</span><p>الصيغة النصية الشائعة لتمثيل وتبادل البيانات المهيكلة هي <span class="bl" style="width:70pt"></span></p></div><div><span class="k">12</span><p>يساعد TLS على حماية <span class="bl" style="width:55pt"></span> الاتصال و<span class="bl" style="width:55pt"></span> وعلى مصادقة الخادم</p></div></div>
+<h2 class="cat kwn">صح وخطأ<span class="cnt">12</span></h2>
+<ul class="tfb"><li><span class="k">1</span><span class="t">متصفح الويب وتطبيق الهاتف من أمثلة العميل.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">2</span><span class="t">أسلوب POST يُستخدم عادةً لطلب صفحة ويب من الخادم.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">3</span><span class="t">يساعد TLS على حماية سرية الاتصال وسلامته.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li></ul>
+<ul class="tfb"><li><span class="k">4</span><span class="t">رمز الحالة <span class="num">404</span> يعني أن الخادم توقّف عن العمل.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">5</span><span class="t">رمز الحالة <span class="num">500</span> يحدد وحده السبب التفصيلي للمشكلة.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">6</span><span class="t">API تقنية لتشفير البيانات وإرسالها بأمان.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li></ul>
+<ul class="tfb"><li><span class="k">7</span><span class="t">JSON صيغة نصية لتمثيل وتبادل البيانات المهيكلة.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">8</span><span class="t">«إرسال محتويات نموذج التواصل» يستخدم أسلوب POST.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">9</span><span class="t">«عرض نتائج البحث» يستخدم أسلوب POST.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li></ul>
+<ul class="tfb"><li><span class="k">10</span><span class="t">يجعل TLS قراءة المحتوى أو تعديله أثناء النقل مستحيلًا تمامًا.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">11</span><span class="t">نموذج الطلب والاستجابة أساسي في كثير من تطبيقات الويب، مع وجود وسائل اتصال أخرى عند الحاجة.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">12</span><span class="t">قد ترسل الواجهة الأمامية طلبات إلى خدمة خلفية عبر API وتستقبل منها البيانات.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li></ul>
+<h2 class="cat kwn">تصنيف وقارن<span class="cnt">7</span></h2>
+<div class="qcard split "><h4><span class="n">01</span> · GET ولا POST؟</h4><p class="qi">اكتب <b>GET</b> أو <b>POST</b> أمام كل إجراء حسب الاستخدام المعتاد له.</p><ul class="cl"><li><span class="k">1</span><span class="t">فتح صفحة أخبار</span><span class="ab w"></span></li><li><span class="k">2</span><span class="t">إرسال تعليق على منشور</span><span class="ab w"></span></li><li><span class="k">3</span><span class="t">تحميل سجل درجات طالب</span><span class="ab w"></span></li><li><span class="k">4</span><span class="t">إرسال بيانات التسجيل في مسابقة</span><span class="ab w"></span></li><li><span class="k">5</span><span class="t">استرجاع قائمة المنتجات</span><span class="ab w"></span></li><li><span class="k">6</span><span class="t">رفع صورة على حسابك</span><span class="ab w"></span></li></ul></div>
+<div class="qcard split "><h4><span class="n">02</span> · الرمز ده معناه إيه؟</h4><p class="qi">اكتب رمز الحالة المناسب: <span class="num">200</span> · <span class="num">404</span> · <span class="num">500</span>.</p><ul class="cl"><li><span class="k">1</span><span class="t">الصفحة ظهرت والمحتوى كامل</span><span class="ab w"></span></li><li><span class="k">2</span><span class="t">العنوان اللي كتبته مش موجود على الموقع</span><span class="ab w"></span></li><li><span class="k">3</span><span class="t">عطل داخلي منع الخادم من إكمال الطلب</span><span class="ab w"></span></li><li><span class="k">4</span><span class="t">رابط قديم لمقال اتشال من الموقع</span><span class="ab w"></span></li></ul></div>
+<div class="qcard split "><h4><span class="n">03</span> · طابق كل مصطلح بتعريفه</h4><div class="match"><div class="mb"><h5>التعريف</h5><ol><li><span>بروتوكول لتبادل الرسائل بين عميل وخادم على الويب</span><span class="ab"></span></li><li><span>استخدام البروتوكول السابق عبر اتصال TLS آمن</span><span class="ab"></span></li><li><span>قواعد تسمح لبرنامج بطلب بيانات أو وظائف من برنامج آخر</span><span class="ab"></span></li><li><span>صيغة نصية لتمثيل وتبادل البيانات المهيكلة</span><span class="ab"></span></li><li><span>رقم يشير إلى نتيجة معالجة الطلب</span><span class="ab"></span></li></ol></div><div class="mb"><h5>المصطلح</h5><ul class="op c1"><li><b>أ‌</b>API</li><li><b>ب‌</b>رمز حالة HTTP</li><li><b>ج‌</b>HTTP</li><li><b>د‌</b>JSON</li><li><b>هـ‌</b>HTTPS</li></ul></div></div></div>
+<div class="qcard split "><h4><span class="n">04</span> · مين المسؤول عن المشكلة؟</h4><p class="qi">اكتب <b>ع</b> لو المشكلة على الأرجح من ناحية <b>العميل/العنوان</b>، و<b>خ</b> لو من ناحية <b>الخادم</b>.</p><ul class="cl"><li><span class="k">1</span><span class="t">رمز <span class="num">404</span> بعد ضغط رابط قديم</span><span class="ab"></span></li><li><span class="k">2</span><span class="t">رمز <span class="num">500</span> عند إرسال النموذج</span><span class="ab"></span></li><li><span class="k">3</span><span class="t">خطأ إملائي في عنوان الصفحة</span><span class="ab"></span></li><li><span class="k">4</span><span class="t">عطل داخلي منع إكمال الطلب</span><span class="ab"></span></li></ul></div>
+<div class="qcard split "><h4><span class="n">05</span> · قارن بين GET وPOST</h4><table class="cmp tall"><thead><tr><th>وجه المقارنة</th><th>GET</th><th>POST</th></tr></thead><tbody><tr><td class="k">الدور</td><td></td><td></td></tr><tr><td class="k">مثال من الكتاب</td><td></td><td></td></tr></tbody></table></div>
+<div class="qcard split "><h4><span class="n">06</span> · قارن بين HTTP وHTTPS</h4><table class="cmp tall"><thead><tr><th>وجه المقارنة</th><th>HTTP</th><th>HTTPS</th></tr></thead><tbody><tr><td class="k">التعريف</td><td></td><td></td></tr><tr><td class="k">الحماية</td><td></td><td></td></tr></tbody></table></div>
+<div class="qcard split "><h4><span class="n">07</span> · قارن بين API وJSON</h4><table class="cmp tall"><thead><tr><th>وجه المقارنة</th><th>API</th><th>JSON</th></tr></thead><tbody><tr><td class="k">ما هو</td><td></td><td></td></tr></tbody></table></div>
+<h2 class="cat kwn">علّل<span class="cnt">7</span></h2>
+<div class="why split"><div class="qq"><span class="k">1</span><p>لا يصحّ القول إن GET مخصص لإرسال البيانات إلى الخادم.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">2</span><p>رمز الحالة <span class="num">404</span> لا يعني أن الخادم متوقف.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">3</span><p>لا يكفي رمز <span class="num">500</span> وحده لمعرفة سبب المشكلة.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">4</span><p>تحتاج البرمجيات المختلفة إلى API لتتبادل البيانات.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">5</span><p>تُعد JSON صيغة مناسبة لتبادل البيانات بين خدمات مختلفة.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">6</span><p>يقول الكتاب إن TLS يجعل قراءة المحتوى أو تعديله «بسهولة» غير ممكن – ولا يقول «مستحيل».</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">7</span><p>معرفة رمز الحالة تساعدك في تحديد <b>مكان</b> المشكلة قبل محاولة إصلاحها.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="qcard split "><h4><span class="n">01</span> · طبّق ما تعلمته — خدمة الطقس</h4><p class="qs">تقدم خدمة الطقس واجهة برمجة تطبيقات تعيد توقعات اليوم عندما يرسل العميل طلبًا. باستخدام ما تعلمته، اذكر <b>طريقة طلب HTTP</b> التي سيستخدمها العميل لاسترجاع التوقعات، و<b>لماذا يجب أن تستخدم الخدمة HTTPS</b>. ووضّح <b>ميزة واحدة</b> لاستقبال البيانات بصيغة <b>JSON</b>.</p><div class="hint"><b>عناصر الإجابة</b> <b>الأسلوب + سببه</b> · <b>سبب HTTPS</b> مربوط بحماية الاتصال · <b>ميزة واحدة</b> لـJSON من تعريف الكتاب.</div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="qcard split "><h4><span class="n">02</span> · فكّر كمهندس — ابحث ثم قرر</h4><p class="qs">تريد مدرسة في مدينتك تطبيق ويب يسجّل فيه الطلاب الدخول، ويعرضون جدولهم الدراسي، ويحمّلون ملف <b>PDF</b>. أنت تخطط لكيفية تواصل العميل والخادم.</p><p class="qs"><b>(1) اختر الأسلوب.</b> لثلاثة إجراءات، حدد ما إذا كان <b>GET</b> أو <b>POST</b> هو الأنسب، وبالنسبة للإجراء الأخير حدد ما إذا كانت <b>واجهة برمجة تطبيقات</b> متضمنة.</p><table class="cmp"><thead><tr><th>الإجراء</th><th>GET / POST</th><th>ملاحظة</th></tr></thead><tbody><tr><td class="k">تحميل سجل درجات الطالب</td><td></td><td></td></tr><tr><td class="k">إرسال نموذج تسجيل الدخول</td><td></td><td></td></tr><tr><td class="k">طلب الجدول الدراسي لليوم من نظام مدرسة أخرى</td><td></td><td></td></tr></tbody></table></div>
+<div class="qcard split cont"><p class="qs"><b>(2) اختر البروتوكول.</b> حدد ما إذا كان يجب أن يستخدم تسجيل الدخول <b>HTTP</b> أو <b>HTTPS</b>، واذكر السبب.</p><div class="wl"><i></i></div><div class="wl"><i></i></div><p class="qs"><b>(3) قرّر.</b> أوصِ بتصميم الاتصال واذكر سببين. في أزواج، قارنوا اختياراتكم للأسلوب واتفقوا معًا على الإجراء الذي يجب أن يستخدم POST.</p><p class="chx"><span>☐ إرسال كل شيء عبر HTTP العادي</span><span>☐ استخدام HTTPS والأسلوب المناسب لكل إجراء</span></p><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="hint"><b>عناصر الإجابة</b> تلميح الكتاب: <b>يُستخدم GET عادةً لطلب مورد أو بيانات، وPOST لإرسال بيانات ليعالجها الخادم. ويحمي HTTPS محتوى الاتصال عبر TLS أثناء النقل.</b> ولاحظ إن السؤال طالب <b>بدليل</b> على إجابتك.</div></div>
+<div class="why ess split"><div class="qq"><span class="k">3</span><span class="tq">تقييمات</span><p>وضّح الفرق بين <b>HTTP</b> و<b>HTTPS</b>، وبيّن دور <b>TLS</b> في الفرق ده.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why ess split"><div class="qq"><span class="k">4</span><p>اشرح الفرق بين <b>API</b> و<b>JSON</b>، ووضّح كيف يشتغلان معًا في تطبيق ويب.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why ess split"><div class="qq"><span class="k">5</span><p>موقع مدرسة يظهر للطلاب رمز <b><span class="num">500</span></b> عند إرسال نموذج التسجيل، بينما تفتح باقي الصفحات بشكل طبيعي. حلّل أين المشكلة على الأرجح.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">6</span><span class="tq">تقييمات</span><p>وضّح ما هو نموذج العميل (Client) والخادم (Server).</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">7</span><span class="tq">تقييمات</span><p>صمّم رسمًا تخطيطيًا توضح فيه كيفية التواصل بين العميل والخادم.</p></div><div class="drawbox"></div></div>
+<div class="why split"><div class="qq"><span class="k">8</span><span class="tq">تقييمات</span><p>وضّح الفرق بين طلب GET وطلب POST مع مثال لكل منهما.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">9</span><span class="tq">تقييمات</span><p>ميّز بين استخدام طريقة GET وطريقة POST، وحدّد مواقف مناسبة لكل منهما.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">10</span><span class="tq">تقييمات</span><p>فسّر معنى رمز الحالة <span class="num">200</span> في HTTP.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">11</span><span class="tq">تقييمات</span><p>ماذا يعني رمز الحالة <span class="num">404</span>؟ ومتى يظهر؟</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">12</span><span class="tq">تقييمات</span><p>ما دور رمز الحالة <span class="num">500</span> في الاتصال بين العميل والخادم؟</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">13</span><span class="tq">تقييمات</span><p>ما هو الـAPI؟ وكيف يساعد في تطوير تطبيقات الويب؟</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">14</span><span class="tq">تقييمات</span><p>فسّر دور واجهات برمجة التطبيقات (API) في ربط تطبيقات مختلفة، مع مثال عملي.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">15</span><span class="tq">تقييمات</span><p>اشرح لماذا يُعتبر نموذج الطلب والاستجابة أساسيًا في تطبيقات الويب، مع ذكر مثال عملي.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">16</span><span class="tq">تقييمات</span><p>صمّم طريقة اتصال مناسبة لمهمة في تطبيق ويب (مثل تسجيل مستخدم جديد).</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">17</span><span class="tq">تقييمات</span><p>اشرح كيف يتعامل الخادم مع الطلبات الواردة من العميل، وما الذي يحدث إذا كان الطلب غير صحيح أو غير موجود.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">18</span><span class="tq">تقييمات</span><p>اشرح كيف تُستخدم صيغة JSON في تبادل البيانات، ولماذا تُعتبر مناسبة لتطبيقات الويب.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">19</span><span class="tq">تقييمات</span><p>اقترح سيناريو لتطبيق ويب يحتاج إلى استخدام طريقة POST، ووضّح سبب اختيارك لها.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">20</span><span class="tq">تقييمات</span><p><b>توقّف وفكّر:</b> لماذا يجب أن تستخدم صفحة تسجيل الدخول HTTPS بدلًا من HTTP العادي؟</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">21</span><p><b>توقّف وفكّر:</b> إذا استقبل المتصفح رمز حالة HTTP <span class="num">404</span>، ماذا يجب أن يخبر المستخدم – وأي جانب كانت به المشكلة؟</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="qcard split "><h4><span class="n">22</span> · اقرأ البيانات (JSON)</h4><p class="qi">تأمّل هذه البيانات بصيغة JSON، ثم حدّد: <b>مفتاحًا (key) واحدًا</b>، و<b>القيمة (value) المقابلة له</b>.</p><pre class="code" dir="ltr">{
+  <span class="ck">"city"</span>: <span class="cs">"Cairo"</span>,
+  <span class="ck">"temperature"</span>: <span class="cn">31</span>
+}</pre><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">23</span><p><b>فكّر وتحدَّ – تأمّل:</b> عندما تفشل صفحة في التحميل، أي رمز حالة سيساعدك أكثر على فهم السبب، وماذا سيخبرك؟ · <b>وتحدَّ:</b> اذكر تطبيقًا واحدًا تستخدمه وصف طلبًا واحدًا يرسله والاستجابة التي يتوقعها.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">24</span><p><b>اختبر فهمك:</b> أجب عن أسئلة هذا البنك <b>دون الرجوع</b> إلى الشرح، ثم راجع إجاباتك.</p></div><div class="wl"><i></i></div></div>
+</main>
+</body>
+</html>
