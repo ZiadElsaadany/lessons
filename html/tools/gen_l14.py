@@ -263,12 +263,17 @@ PRN = [("العدالة", "عدم التمييز ظلمًا ضد أي شخص أ�
        ("المساءلة", "تحديد الجهات المسؤولة عن النظام وقراراته وآثاره، وإمكان محاسبتها وفق أدوارها")]
 A('<table class="t prt keep"><thead><tr><th style="width:130pt">المبدأ</th><th>الوصف</th></tr></thead><tbody>'
   + "".join(f'<tr><td class="k">{p}</td><td>{d}</td></tr>' for p, d in PRN) + '</tbody></table>')
-PFIG = [("scale", "العدالة", "عدم التمييز ظلمًا ضد أي شخص أو مجموعة", "حد اتظلم؟"),
-        ("eye", "الشفافية", "إظهار عملية اتخاذ القرار وآليات العمل بوضوح", "واضح إزاي؟"),
-        ("shield", "حماية الخصوصية", "التعامل المناسب مع المعلومات الشخصية", "بياناتي راحت فين؟"),
-        ("chat", "المساءلة", "تحديد الجهات المسؤولة وإمكان محاسبتها", "مين يتحاسب؟")]
-A('<div class="fig p4 keep"><div class="p4h">المبادئ الأربعة لأخلاقيات الذكاء الاصطناعي</div><div class="p4g">' + "".join(
-    f'<div><span class="pi">{ic(i, "#22375c", 1.7)}</span><h4>{t}</h4><p>{d}</p><span class="pq">{FX}{q}</span></div>' for i, t, d, q in PFIG)
+PFIG = [("scale", "العدالة", "عدم التمييز ظلمًا ضد أي شخص أو مجموعة", "حد اتظلم؟",
+         "نفس الإجابة تاخد نفس الدرجة، مهما كان اسم الطالب أو مدرسته."),
+        ("eye", "الشفافية", "إظهار عملية اتخاذ القرار وآليات العمل بوضوح", "واضح إزاي؟",
+         "الطالب يعرف النظام بيصحّح على أساس إيه، وإيه حدوده."),
+        ("shield", "حماية الخصوصية", "التعامل المناسب مع المعلومات الشخصية", "بياناتي راحت فين؟",
+         "درجات الطالب وبياناته مايشوفهاش غير اللي ليه حق يشوفها."),
+        ("chat", "المساءلة", "تحديد الجهات المسؤولة وإمكان محاسبتها", "مين يتحاسب؟",
+         "لو النظام غلط في درجة، معروف مين يراجعها ويصلّحها.")]
+A('<div class="fig p4 keep"><div class="p4h">المبادئ الأربعة لأخلاقيات الذكاء الاصطناعي</div>'
+  + '<div class="p4s"><em>مثال للتبسيط:</em> نظام ذكاء اصطناعي بيصحّح امتحانات المدرسة — كل مبدأ شكله إيه فيه؟</div><div class="p4g">' + "".join(
+    f'<div><span class="pi">{ic(i, "#22375c", 1.7)}</span><h4>{t}</h4><p>{d}</p><span class="pq">{FX}{q}</span><small class="px">{x}</small></div>' for i, t, d, q, x in PFIG)
   + '</div><div class="cap">أربعة مبادئ أساسية يركز عليها هذا الدرس.</div></div>')
 A('<div class="simply"><span class="fx abs">للفهم</span><span class="lab">' + BULB + 'ببساطة</span><p>أربع أسئلة تساعدك تفتكر معنى المبادئ: <b>هل في حد اتظلم؟</b> دي العدالة. <b>هل فيه معلومات واضحة عن النظام واستخدامه وحدوده؟</b> دي الشفافية. <b>إزاي البيانات الشخصية بتتستخدم وبتتحمى؟</b> دي حماية الخصوصية. <b>ومين يمكن محاسبته وفق دوره؟</b> دي المساءلة. اربط كل سؤال بتعريف المبدأ، وبعدها طبّقه على الموقف.</p></div>')
 A(recall(["عدالة", "شفافية", "حماية الخصوصية", "مساءلة"]))
@@ -722,6 +727,9 @@ table.prt td.k{font-weight:800;color:var(--navy);white-space:nowrap}
 .p4g p{flex:1;font-size:8.9pt;line-height:13.4pt;color:var(--muted);text-wrap:pretty}
 .p4g .pq{display:inline-flex;align-items:center;gap:4pt;background:#fbf6e8;border:.75pt solid #eee0b8;border-radius:8pt;padding:0 7pt;font-weight:700;font-size:8.2pt;line-height:15pt;color:#a9670f;white-space:nowrap;padding:0 5pt}
 .p4g .pq .fx{font-size:6.8pt;height:11pt;line-height:10pt;padding:0 4pt}
+.p4s{text-align:center;font-size:9.4pt;line-height:14pt;color:var(--text2);margin:-3pt 0 8pt 0}
+.p4s em,.p4g .px em{font-style:normal;font-weight:800;color:#a9670f}
+.p4g .px{align-self:stretch;min-height:46pt;box-sizing:content-box;margin-top:5pt;padding-top:5pt;border-top:.75pt dashed #dde5ef;font-size:8.9pt;line-height:13.4pt;color:var(--text);text-wrap:pretty}
 .content>.fig.src4:first-child,.content>.fig.cz:first-child,.content>.fig.wh:first-child,.content>.fig.p3f:first-child{margin-top:7pt}
 
 /* ثبّت الصفحة + رسومات الموقف (1-4) */
