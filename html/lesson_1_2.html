@@ -1,0 +1,1244 @@
+<!doctype html>
+<!--
+  أكواد مع زياد — مذكرة تانية ثانوي — الدرس 1-2 (الشرح + بنك الأسئلة) — مصدر HTML قابل للتعديل
+  - كل المحتوى جوه <main class="flow"> بالترتيب. عند فتح الملف بيتوزع تلقائيًا على صفحات A4
+    (أي حاجة مش داخلة بتنزل للصفحة اللي بعدها)، والهيدر والفوتر والعلامة المائية والترقيم بيتضافوا لوحدهم.
+  - عشان تبدأ صفحة جديدة إجباري: <div class="pb"></div>
+  - العناوين (.part / .rule / h2.sec / .big / h3.sub / .chip / أي عنصر عليه class="kwn") بتفضل لازقة في اللي بعدها.
+  - اسم الدرس ورقم أول صفحة وإجمالي صفحات الوحدة في <body data-lesson data-start data-total>.
+  - الطباعة لـPDF من المتصفح: Cmd+P → الهوامش None → تفعيل Background graphics.
+  - الستايل كله جوه <style> في نفس الملف. الخطوط في fonts/ والصور في assets/ — لازم يفضلوا جنب الملف.
+  - لو المتصفح مفعّل «أقل حجم للخط»، الصفحة بتعرف لوحدها وبتحمي التصميم (السكريبت immunize).
+-->
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>الدرس 1-2 — كيف يعمل الذكاء الاصطناعي</title>
+<style>
+/* ===== أكواد مع زياد — مذكرة تانية ثانوي — ستايل الشرح (إعادة بناء HTML) ===== */
+
+@font-face{font-family:'Baloo Bhaijaan 2';font-weight:400 800;src:url(fonts/BalooBhaijaan2.ttf) format('truetype')}
+@font-face{font-family:'DejaVuArr';font-weight:700;src:url(fonts/DejaVuSans-Bold.ttf) format('truetype');unicode-range:U+2190-21FF}
+
+:root{
+  --navy:#17263f; --navy2:#22375c; --blue:#2e4a78; --gold:#e29433; --gold2:#a9670f; --gold3:#dd860f;
+  --text:#33445f; --text2:#1c2a44; --muted:#4e5f7c; --muted2:#6e7f9c;
+  --line:#dce5f1; --line2:#d7e4f5; --bg:#eef4fc; --bg2:#f1f6fc;
+  --cream:#fbf4de; --cream2:#fdf3e2; --creamb:#eee0b8; --creamb2:#efce9c;
+  --green:#22375c; --green2:#3fa97c; --greenb:#bfe0d1; --greenbg:#eaf6f0;
+  --red:#c0453a; --teal:#3e9ccb;
+}
+
+@page{ size:210mm 297mm; margin:0 }
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:'Baloo Bhaijaan 2';font-weight:500;font-size:9.9pt;line-height:1.5;color:var(--text);direction:rtl;text-align:right;background:#e6eaf0;padding:18pt 0}
+b,strong{font-weight:700;color:var(--navy2)}
+p{margin:0}
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+.num{direction:ltr;unicode-bidi:isolate}
+
+/* ---------- الصفحة A4 (sheet) ---------- */
+.page{position:relative;width:210mm;height:297mm;margin:0 auto 18pt auto;background:#fff;overflow:hidden;box-shadow:0 2pt 14pt rgba(23,38,63,.18)}
+.sheet{position:absolute;left:0;top:0;width:210mm;height:297mm;background:#fff;overflow:hidden;transform-origin:0 0}
+.sheet .content{position:absolute;top:31.5pt;left:31.6pt;right:31.6pt;bottom:36.4pt}
+.sheet .hdr{position:absolute;top:0;left:0;right:0;height:31.5pt;font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:7.2pt;line-height:1}
+.sheet .hdr .r{position:absolute;right:25.4pt;top:17.6pt;color:var(--navy);white-space:nowrap}
+.sheet .hdr .l{position:absolute;left:39.7pt;top:17.6pt;color:var(--gold2);white-space:nowrap}
+.sheet .hdr::after{content:'';position:absolute;left:0;right:0;top:27.8pt;height:.7pt;background:var(--gold)}
+.sheet .ftr{position:absolute;bottom:0;left:0;right:0;height:36.4pt;font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:7.39pt;line-height:1;color:var(--muted)}
+.sheet .ftr img{position:absolute;right:28.2pt;top:10.7pt;width:10.5pt;height:10.5pt;border-radius:50%}
+.sheet .ftr .r{position:absolute;right:43.2pt;top:11.9pt;white-space:nowrap}
+.sheet .ftr .r b{color:var(--navy);font-weight:700}
+.sheet .ftr .sep{margin:0 5pt;color:#9aa8bd}
+.sheet .ftr .pn{position:absolute;left:45pt;top:11.5pt;font-family:'Baloo Bhaijaan 2';font-weight:600;font-size:7.39pt;color:var(--navy);direction:ltr}
+/* العلامة المائية */
+.sheet .wm{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:5}
+.sheet .wm .big{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-30deg);font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:62pt;white-space:nowrap;color:transparent;-webkit-text-stroke:.9pt rgba(23,38,63,.10);line-height:1}
+.sheet .wm .tile{position:absolute;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:19pt;white-space:nowrap;color:transparent;-webkit-text-stroke:.6pt rgba(23,38,63,.085);transform:rotate(-30deg);line-height:1}
+@media print{
+  body{background:#fff;padding:0}
+  .page{margin:0;box-shadow:none;break-after:page;page-break-after:always}
+  .page:last-of-type{break-after:auto;page-break-after:auto}
+}
+
+/* ---------- شريط رأس الدرس ---------- */
+.band{background:var(--navy);border-right:3pt solid var(--gold);border-radius:8pt;height:62.5pt;display:flex;align-items:center;padding:0 12pt 0 14pt;position:relative;margin-bottom:10pt}
+.band .badge{width:41.5pt;height:39pt;border-radius:6pt;background:rgba(255,255,255,.09);border:1pt solid rgba(255,255,255,.18);display:flex;flex-direction:column;align-items:center;justify-content:center;flex:none}
+.band .badge .l{font-family:'Baloo Bhaijaan 2';font-weight:600;font-size:7.4pt;color:#a9bdd8;line-height:1}
+.band .badge .n{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:15pt;color:var(--gold);line-height:1.1;direction:ltr}
+.band h1{flex:1;margin:0;text-align:center;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:15.4pt;color:#fff;letter-spacing:.2pt}
+.band .who{display:flex;align-items:center;gap:9pt;flex:none}
+.band .who .t{display:flex;flex-direction:column;justify-content:center;gap:1pt}
+.band .who .u{font-family:'Baloo Bhaijaan 2';font-weight:600;font-size:8pt;color:#a9bdd8;line-height:1.3}
+.band .who .k{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:8.6pt;color:#fff;line-height:1.3}
+.band .who img{width:42.75pt;height:42.75pt;border-radius:7pt;border:1pt solid rgba(255,255,255,.25);display:block}
+
+/* ---------- صندوقا المقدمة وأهداف التعلم ---------- */
+.two{display:flex;gap:11.6pt;align-items:stretch;margin-bottom:6.5pt}
+.two .intro{flex:0 0 297pt;background:#fff;border:.75pt solid var(--line);border-radius:8pt;padding:12pt 11.6pt 11pt 11.6pt;position:relative}
+.two .goals{flex:1;background:#fff;border:.75pt solid var(--line);border-right:2.5pt solid var(--gold);border-radius:8pt;padding:9pt 11pt 8pt 12pt}
+.intro h3{margin:0 0 4pt 0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11.8pt;line-height:1.45;color:var(--gold)}
+.intro .body{font-size:9.49pt;line-height:15.4pt;color:var(--text2)}
+.intro .body p{margin:0}
+.intro .body p+p{margin-top:0}
+.intro .body ul{margin:0;padding:0 12pt 0 0;list-style:none}
+.intro .body li{position:relative}
+.intro .body li::before{content:'';position:absolute;right:-9pt;top:5.6pt;width:3.6pt;height:3.6pt;border-radius:50%;background:var(--gold)}
+.intro .body b{color:var(--navy2)}
+.intro .robot{float:left;width:35.3pt;height:46.2pt;margin:2pt 0 3pt 12pt}
+.intro .robot svg{width:100%;height:100%;display:block}
+.intro .foot{display:flex;justify-content:flex-start;margin-top:8pt}
+.pill-dark{display:inline-flex;align-items:center;gap:6pt;background:var(--navy);color:#fff;border-radius:9pt;padding:0 9pt 0 12pt;height:18pt;font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:8.6pt;line-height:1}
+.pill-dark::before{content:'';width:6.5pt;height:6.5pt;border-radius:50%;background:var(--gold);flex:none}
+.goals h3{margin:0 0 7pt 0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.6pt;color:var(--gold);line-height:1.5}
+.goals .g{display:flex;align-items:center;gap:8pt;padding:9pt 0 9.5pt 0}
+.goals .g+.g{border-top:.75pt dashed var(--line)}
+.goals .g .tag{flex:none;width:41.3pt;height:16.5pt;border-radius:8.5pt;background:var(--cream2);border:.75pt solid var(--creamb2);display:flex;align-items:center;justify-content:center;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:8.8pt;color:var(--gold2);line-height:1}
+.goals .g .x{flex:1;font-size:9.19pt;line-height:15pt;color:var(--text);text-align:right}
+
+/* ---------- ملاحظة «للفهم» بخلفية ---------- */
+.note-box{position:relative;background:var(--bg);border:.75pt dashed var(--line2);border-radius:6pt;padding:6pt 11pt 5pt 12pt;font-size:9.3pt;line-height:14.7pt;color:var(--text);margin-bottom:6pt}
+.note-box .tag,.note-line .tag{position:absolute;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:7.6pt;color:var(--blue);background:#fff;border:.75pt solid var(--blue);border-radius:7pt;height:13.5pt;line-height:12pt;padding:0 6pt;display:inline-block}
+.note-box .tag{position:static;display:inline-block;margin-left:5pt;vertical-align:1pt}
+/* ملاحظة «للفهم» بخط منقّط علوي والشارة على الشمال */
+.note-line{position:relative;border-top:.75pt dashed var(--line);padding:5pt 0 0 0;margin-top:9pt;font-size:9.8pt;line-height:15.4pt;color:var(--text)}
+.note-line .tag{left:0;top:-6.7pt}
+.note-line .lead{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.8pt;color:var(--gold);margin-left:4pt}
+.note-line b{color:var(--navy2)}
+
+/* ---------- الشبكة الرباعية (الكروت بتكبر على قد محتواها) ---------- */
+.map{display:grid;grid-template-columns:1fr 132pt 1fr;grid-template-rows:auto auto;column-gap:20pt;row-gap:7pt;background:#fff;border:.75pt solid var(--line);border-radius:8pt;padding:7pt 8.5pt;margin-bottom:9pt}
+.map .cell{background:#fff;border:.75pt solid var(--line);border-radius:6pt;border-top-width:3pt;padding:4pt 8pt 5pt 8pt}
+.map .cell h4{margin:0 0 1pt 0;font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:9.9pt;line-height:1.5}
+.map .cell ul{margin:0;padding:0 9pt 0 0;list-style:none;font-size:8.9pt;line-height:14pt;color:var(--text)}
+.map .cell li{position:relative;margin-bottom:1.5pt}
+.map .cell li::before{content:'•';position:absolute;right:-9pt;top:0;color:var(--text)}
+.map .cell .en{direction:ltr;unicode-bidi:isolate;font-weight:600;color:var(--muted)}
+.map .c1{grid-column:1;grid-row:1;border-top-color:var(--navy2)} .map .c1 h4{color:var(--navy2)}
+.map .c2{grid-column:1;grid-row:2;border-top-color:var(--navy2)} .map .c2 h4{color:var(--navy2)}
+.map .c3{grid-column:3;grid-row:1;border-top-color:var(--navy2)} .map .c3 h4{color:var(--navy2)}
+.map .c4{grid-column:3;grid-row:2;border-top-color:var(--gold)} .map .c4 h4{color:var(--gold2)}
+.map .hub{grid-column:2;grid-row:1 / 3;align-self:center;position:relative;min-height:48.7pt;background:var(--navy);border-radius:8pt;color:#fff;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11pt;line-height:1.35;display:flex;align-items:center;justify-content:center;text-align:center;padding:6pt 8pt}
+.map .hub .lk{position:absolute;width:20pt;height:16pt}
+.map .hub .lk.r1{left:100%;top:-6pt} .map .hub .lk.r2{left:100%;bottom:-6pt}
+.map .hub .lk.l1{right:100%;top:-6pt} .map .hub .lk.l2{right:100%;bottom:-6pt}
+.arr{font-family:'DejaVuArr','Baloo Bhaijaan 2'}
+
+/* ---------- الفكرة الأساسية + السؤال الرئيسي ---------- */
+.iq{display:flex;gap:10pt;align-items:stretch;margin-bottom:6pt}
+.iq .q{flex:0 0 261.7pt;border-top:.75pt solid var(--line2);border-bottom:.75pt solid var(--line2);padding:8pt 8pt 8pt 4pt;text-align:center}
+.iq .q .lab{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:9.2pt;color:var(--gold2);line-height:1.5}
+.iq .q .qq{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:10.6pt;color:var(--navy);line-height:1.45;margin-top:1pt}
+.iq .idea{flex:1;position:relative;background:var(--cream);border:.75pt solid var(--creamb);border-radius:6pt;padding:7pt 12pt 7pt 30pt;font-size:10pt;line-height:15.5pt;color:var(--text2)}
+.iq .idea b{color:var(--navy2)}
+.qmark{position:absolute;left:7pt;top:-4pt;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:30pt;color:var(--creamb);line-height:1}
+
+/* ---------- عناوين ---------- */
+.big{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:15pt;color:var(--navy);text-align:center;line-height:1.4;margin:4pt 0 2pt 0}
+.content>.big{padding:4pt 14pt;background:#eef2f8;border-radius:9pt;border-right:3pt solid #e29433;margin:4pt 0 6pt 0}
+.content>.big+hr.rule{display:none}
+.part{display:flex;justify-content:center;margin:4pt 0 0 0}
+.part span{display:inline-block;border-radius:7pt;padding:0 8pt;height:14.2pt;line-height:13pt;font-weight:700;font-size:8.8pt}
+.part.p1 span{background:var(--bg);border:.75pt solid var(--line2);color:var(--blue)}
+.part.p2 span{background:var(--bg);border:.75pt solid var(--line2);color:var(--blue)}
+.part.p3 span{background:var(--bg);border:.75pt solid var(--line2);color:var(--blue)}
+.rule{border:0;border-top:.75pt solid var(--line);margin:9pt 0 0 0}
+h2.sec{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:13.4pt;color:var(--navy);line-height:1.35;margin:9pt 0 8pt 0;padding:6pt 14pt;background:#eef2f8;border-radius:9pt;border-right:3pt solid var(--gold);break-after:avoid}
+h2.sec.g,h2.sec.t{border-right-color:var(--gold)}
+h2.sec .dot{color:var(--navy);margin:0 3pt}
+
+/* ---------- اقتباس الكتاب ---------- */
+.quote{position:relative;background:var(--cream);border-left:.75pt solid var(--creamb);border-radius:6pt;padding:7.5pt 12pt 7.5pt 34pt;font-size:10.5pt;line-height:16.5pt;color:var(--text);margin-bottom:9pt}
+.quote b{color:var(--navy2)}
+
+/* ---------- شارة عنوان صغيرة + بانر التعريف ---------- */
+.chip{display:inline-block;background:var(--bg2);border-radius:6pt;padding:0 12pt;height:21pt;line-height:20pt;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:10.4pt;color:var(--navy);margin-bottom:5pt}
+.banner{background:var(--navy);color:#fff;padding:9pt 16pt 8pt 22pt;margin:0 0 0 68pt;font-size:9.9pt;line-height:15.3pt;clip-path:polygon(0.3% 6%,3% 2%,12% 0,30% 3%,52% 0,70% 2%,88% 0,100% 4%,99.6% 60%,100% 100%,80% 97%,62% 100%,40% 96%,20% 100%,6% 97%,0 100%,1% 40%)}
+.banner b{color:#ffd08a}
+
+/* ---------- الأعمدة الثلاثة بالأيقونات ---------- */
+.cols3{display:flex;gap:16pt;align-items:flex-start;margin:6pt 0 12pt 0}
+.cols3 .c{flex:1;text-align:center}
+.cols3 .ic{height:95pt;display:flex;align-items:center;justify-content:center}
+.cols3 .ic svg{height:92pt;width:auto}
+.cols3 h4{margin:6pt 0 0 0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:12.6pt;color:var(--navy);line-height:1.45}
+.cols3 .en{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:7.6pt;color:var(--gold2);letter-spacing:1.4pt;line-height:1.3;direction:ltr}
+.cols3 .bar{width:31.5pt;height:2.3pt;border-radius:2pt;background:var(--gold);margin:7pt auto 8pt auto}
+.cols3 .d{font-size:9.7pt;line-height:15.7pt;color:var(--text);text-align:center;padding:0 2pt}
+.cols3 .d b{color:var(--navy2)}
+.tagp{display:inline-block;background:var(--bg);border:.75pt solid var(--line2);border-radius:7pt;padding:0 8pt;height:14.2pt;line-height:13pt;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:7.8pt;color:var(--blue);margin-top:5pt}
+
+/* ---------- الطبقات الثلاث: كروت + جدول (تصميم زياد 24 سبتمبر) ---------- */
+.l3{position:relative;overflow:hidden;padding:6pt 0 2pt 0;margin-bottom:6pt;--or:#e29433;--orl:#f5f7fb;--orb:#dde5ef;--orp:#eef2f8;--bl:#2e4a78;--bll:#f5f7fb;--blb:#dde5ef;--blp:#eef2f8}
+.l3 .dec{position:absolute;pointer-events:none;z-index:0}
+.l3 .d1{left:-60pt;top:-50pt;width:150pt;height:150pt;border-radius:50%;background:#eef4fb}
+.l3 .d2{right:-40pt;top:-58pt;width:110pt;height:110pt;border-radius:50%;background:#f1f6fc;border:.8pt solid #f3c98d;border-color:transparent transparent #f3c98d #f3c98d;transform:rotate(-20deg)}
+.l3 .d3{right:78pt;top:14pt;width:12pt;height:12pt;border-radius:50%;background:#fbe3c2}
+.l3 .dots{left:14pt;top:12pt;width:34pt;height:20pt;background-image:radial-gradient(#c9d6e6 .9pt,transparent 1pt);background-size:6.5pt 6.5pt}
+.l3>*:not(.dec){position:relative;z-index:1}
+.l3-title{display:flex;align-items:center;justify-content:center;gap:10pt;margin:0 0 10pt 0}
+.l3-title h3{margin:0;background:#eef2f8;border-radius:14pt;padding:3pt 20pt 4pt 20pt;font-weight:800;font-size:15pt;line-height:1.35;color:var(--navy);position:relative}
+.l3-title h3::after{content:'';position:absolute;left:50%;transform:translateX(-50%);bottom:-4pt;width:48pt;height:3.2pt;border-radius:2pt;background:#e29433}
+.l3-title .spk{width:12pt;height:16pt;position:relative}
+.l3-title .spk::before,.l3-title .spk::after{content:'';position:absolute;height:2.2pt;border-radius:1pt;background:#e29433}
+.l3-title .spk.r::before{width:7pt;right:1pt;top:3pt;transform:rotate(-50deg)} .l3-title .spk.r::after{width:7pt;right:3pt;top:11pt}
+.l3-title .spk.l::before{width:7pt;left:1pt;top:3pt;transform:rotate(50deg)} .l3-title .spk.l::after{width:7pt;left:3pt;top:11pt}
+.l3-cards{display:flex;gap:8pt;margin-bottom:8pt}
+.l3c{flex:1;border-radius:10pt;border:.75pt solid;padding:8pt 9pt 9pt 9pt;text-align:center;display:flex;flex-direction:column;align-items:center}
+.l3c.warm{background:var(--orl);border-color:var(--orb)} .l3c.cool{background:var(--bll);border-color:var(--blb)}
+.l3c .halo{position:relative;width:62pt;height:62pt;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:4pt}
+.l3c.warm .halo{background:#eef2f8} .l3c.cool .halo{background:#eef2f8}
+.l3c .halo>svg:not(.sp){width:40pt;height:auto}
+.l3c .halo .sp{position:absolute;left:-18pt;top:6pt;width:98pt;height:40pt}
+.l3c h4{margin:0;font-weight:800;font-size:12pt;line-height:1.35;color:var(--navy)}
+.l3c .bar{width:26pt;height:2.4pt;border-radius:2pt;background:#e29433;margin:4pt 0 6pt 0}
+.l3c p{flex:1;font-size:9.8pt;line-height:15.2pt;color:var(--text2);margin:0 0 7pt 0}
+.l3c p b{color:var(--navy2)}
+.l3c .pill{display:inline-flex;align-items:center;gap:5pt;border-radius:11pt;padding:0 12pt;height:21pt;font-weight:700;font-size:9.4pt;line-height:1}
+.l3c.warm .pill{background:var(--orp);color:#a9670f} .l3c.cool .pill{background:var(--blp);color:#2e4a78}
+.l3c .pill svg{width:11pt;height:11pt;flex:none}
+table.l3t{width:100%;border-collapse:separate;border-spacing:0;border:.75pt solid var(--blb);border-radius:9pt;overflow:hidden;font-size:9.6pt;line-height:14.8pt;color:var(--text2)}
+table.l3t th{background:#f5f7fb;font-weight:700;font-size:10pt;color:var(--navy);text-align:center;padding:5pt 8pt 4pt 8pt;border-bottom:.75pt solid var(--blb)}
+table.l3t th+th,table.l3t td+td{border-right:.75pt solid #dde5ef}
+table.l3t td{padding:6pt 10pt;vertical-align:middle;border-top:.75pt solid #dde5ef}
+table.l3t tr:first-child td{border-top:0}
+table.l3t tr.warm td{background:#f5f7fb} table.l3t tr.cool td{background:#f5f7fb}
+table.l3t td.k{font-weight:800;font-size:11pt;color:var(--navy);white-space:nowrap}
+table.l3t td.k .ic{display:inline-flex;align-items:center;justify-content:center;width:32pt;height:32pt;border-radius:50%;margin-left:8pt;vertical-align:middle}
+table.l3t tr.warm td.k .ic{background:#eef2f8} table.l3t tr.cool td.k .ic{background:#eef2f8}
+table.l3t td.k .ic svg{width:20pt;height:auto}
+table.l3t td b{color:var(--navy2)}
+table.l3t ul{margin:0;padding:0 11pt 0 0;list-style:none}
+table.l3t li{position:relative;line-height:15pt}
+table.l3t li::before{content:'';position:absolute;right:-10pt;top:5.6pt;width:4.2pt;height:4.2pt;border-radius:50%}
+table.l3t tr.warm li::before{background:#e29433} table.l3t tr.cool li::before{background:#2e4a78}
+
+/* ---------- الجداول ---------- */
+table.t{width:100%;border-collapse:separate;border-spacing:0;border:.75pt solid var(--line);border-radius:8pt;overflow:hidden;font-size:9.9pt;line-height:14.3pt;color:var(--text);margin-bottom:8pt}
+table.t th{background:var(--bg);font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:9.6pt;color:var(--navy);text-align:right;padding:5pt 10pt 4pt 10pt;border-bottom:.75pt solid var(--line2);box-shadow:0 .75pt 0 var(--line);line-height:1.5;vertical-align:middle}
+table.t th .sub{display:block;font-size:8.8pt;color:var(--muted2);font-weight:700;line-height:1.3}
+table.t td{padding:6.5pt 10pt 5.5pt 10pt;vertical-align:top;border-top:.75pt solid var(--line)}
+table.t tr:first-child td{border-top:0}
+table.t tbody tr:nth-child(even) td{background:var(--bg)}
+table.t td b{color:var(--navy2)}
+table.t td.k{font-weight:700;color:var(--navy2);white-space:nowrap}
+table.t.t4 td.k{white-space:normal}
+table.t.t4 th,table.t.t4 td{text-align:right}
+
+/* ---------- الأشكال ---------- */
+.fig{background:#fff;border:.75pt solid var(--line);border-radius:8pt;padding:12pt 9.5pt 6pt 9.5pt;margin-bottom:8pt}
+.fig .cap{border-top:.75pt dashed var(--line);margin-top:8pt;padding-top:5pt;text-align:center;font-family:'Baloo Bhaijaan 2';font-weight:600;font-size:8.8pt;color:var(--text);line-height:1.5}
+/* الشكل 3.1.1 */
+.layers .lay{border:.75pt solid #c9d9ee;background:#e8f0fb;border-radius:10pt;height:52pt;display:flex;align-items:center;padding:0 18pt 0 24pt;gap:14pt}
+.layers .lay.mid{background:var(--cream2);border-color:var(--creamb2)}
+.layers .lay .n{flex:0 0 118pt;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:12.8pt;color:var(--navy);line-height:1.2;text-align:center}
+.layers .lay .n small{display:block;font-size:9.2pt;font-weight:700;color:var(--gold2);letter-spacing:1pt;direction:ltr;margin-top:1pt}
+.layers .lay .n.g{color:var(--gold2)}
+.layers .lay .d{flex:1;text-align:center;font-size:11pt;line-height:1.35;color:var(--text)}
+.layers .lay .d em{display:block;font-style:normal;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11pt;color:var(--gold2);margin-top:1pt}
+.layers .arrows{height:24pt;position:relative}
+.layers .arrows .a{position:absolute;top:2pt;width:14pt;height:20pt}
+.layers .arrows .down{right:75pt} .layers .arrows .up{left:118pt}
+/* الشكل 3.1.2 */
+.seq{position:relative;height:238pt}
+.seq .hd{position:absolute;top:3pt;height:37pt;border-radius:9pt;display:flex;align-items:center;justify-content:center;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11.5pt;color:var(--navy);background:#e8f0fb;border:.75pt solid #c9d9ee}
+.seq .hd.mid{background:var(--cream2);border-color:var(--creamb2);color:var(--gold2)}
+.seq .h1{right:6pt;width:128pt} .seq .h2{left:196pt;width:126pt} .seq .h3{left:6pt;width:126pt}
+.seq svg{position:absolute;left:0;top:0;width:100%;height:100%}
+.seq .st{position:absolute;font-size:10.1pt;color:var(--text);line-height:1.3;white-space:nowrap}
+.seq .st.g{color:var(--gold2)} .seq .st.b{color:var(--blue)}
+.seq .no{position:absolute;right:20pt;width:18.4pt;height:18.4pt;border-radius:50%;background:var(--gold3);color:#fff;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.6pt;display:flex;align-items:center;justify-content:center;line-height:1}
+
+/* ---------- الخطوات الست ---------- */
+.steps{position:relative;padding-right:22pt;margin:0 0 6pt 0}
+.steps::before{content:'';position:absolute;right:6pt;top:8pt;bottom:14pt;width:1.5pt;background:var(--gold);border-radius:1pt}
+.steps .s{position:relative;padding:0 0 12.5pt 0}
+.steps .s .n{position:absolute;right:-22.7pt;top:3pt;width:13.5pt;height:13.5pt;border-radius:50%;background:var(--gold);color:#fff;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:8.2pt;display:flex;align-items:center;justify-content:center;line-height:1}
+.steps .s h4{margin:0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:10.6pt;color:var(--navy);line-height:1.5}
+.steps .s p{font-size:9.9pt;line-height:14.5pt;color:var(--text)}
+
+/* ---------- صناديق ملوّنة ---------- */
+.box{border-radius:8pt;padding:8pt 12pt 8pt 12pt;margin-bottom:8pt;border:.75pt solid}
+.box h3{margin:0 0 3pt 0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.9pt;line-height:1.5}
+.box.cream{background:var(--cream);border-color:var(--creamb)} .box.cream h3{color:var(--gold2)}
+.box.green{background:var(--greenbg);border-color:var(--greenb)} .box.green h3{color:var(--green);font-size:10pt}
+.box.white{background:#fff;border-color:var(--greenb)} .box.white h3{color:var(--green);font-size:10.5pt}
+.box p,.box li{font-size:10.5pt;line-height:16.5pt;color:var(--text)}
+.box p+p{margin-top:3pt}
+.box ul{margin:0;padding:0 14pt 0 0;list-style:none}
+.box ul li{position:relative}
+.box ul li::before{content:'•';position:absolute;right:-12pt;top:0;color:var(--gold2)}
+.box ol{margin:0;padding:0 16pt 0 0;list-style:none;counter-reset:n}
+.box ol li{position:relative;counter-increment:n;margin-bottom:3pt}
+.box ol li::before{content:counter(n) '.';position:absolute;right:-16pt;top:0;color:var(--text)}
+.tip{background:var(--cream2);border:.75pt solid #f2dcbb;border-right:3pt solid var(--gold);border-radius:6pt;padding:6pt 12pt 6pt 12pt;margin:6pt 0 2pt 0;font-size:9.4pt;line-height:15pt;color:var(--text2)}
+.tip .l{font-weight:700;color:var(--gold2)}
+
+/* ---------- سؤال على نمط الامتحان ---------- */
+.exam{background:var(--cream);border:.75pt solid var(--creamb);border-radius:8pt;padding:7pt 11pt 9pt 11pt;margin-bottom:8pt}
+.exam .hd{display:flex;align-items:center;gap:7pt;margin-bottom:4pt}
+.exam .hd .n{width:18.8pt;height:16.5pt;border-radius:4pt;background:var(--navy);color:#fff;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.4pt;display:flex;align-items:center;justify-content:center;line-height:1}
+.exam .hd .t{flex:1;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:10.4pt;color:var(--navy);line-height:1.5}
+.exam .hd .m{background:#fff;border-radius:7pt;padding:0 7pt;height:14.2pt;line-height:13.5pt;font-weight:700;font-size:8.4pt;color:var(--gold2)}
+.exam .qt{font-weight:700;font-size:10.5pt;line-height:16pt;color:var(--navy2);margin:2pt 0 6pt 0}
+.exam .hint{background:var(--bg);border:.75pt solid var(--line2);border-radius:5pt;padding:3pt 9pt;font-size:9.4pt;line-height:15pt;color:var(--text)}
+.exam .hint b{color:var(--navy2)}
+h3.sub{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11.2pt;color:var(--navy);margin:8pt 0 6pt 0;line-height:1.4;padding:5pt 14pt;background:#eef2f8;border-radius:9pt;border-right:3pt solid var(--gold);break-after:avoid}
+
+
+/* ---------- إجابة السؤال الرئيسي ---------- */
+.mq{border-top:.75pt solid var(--line2);border-bottom:.75pt solid var(--line2);text-align:center;padding:6pt 0 7pt 0;margin:0 0 8pt 0}
+.mq .lab{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:9.2pt;color:var(--gold2);line-height:1.5}
+.mq .qq{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:13pt;color:var(--navy);line-height:1.45}
+
+/* ---------- الخلاصة في دقيقة ---------- */
+.dark{background:var(--navy);border-radius:8pt;padding:8pt 12pt 6pt 12pt;color:#fff;margin-bottom:8pt}
+.dark h3{margin:0 0 4pt 0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.8pt;color:#f1c88b;line-height:1.5}
+.dark .g2{display:flex;gap:18pt}
+.dark ul{flex:1;margin:0;padding:0 12pt 0 0;list-style:none;font-size:9pt;line-height:14.2pt;color:#fff}
+.dark li{position:relative;margin-bottom:3.5pt}
+.dark li::before{content:'•';position:absolute;right:-11pt;top:0;color:#fff}
+.dark b{color:#ffd9a0}
+
+/* ---------- اتأكد إنك قادر على ---------- */
+.check{background:#fff;border:.75pt solid var(--line);border-radius:8pt;padding:8pt 13pt 6pt 13pt;margin-bottom:6pt}
+.check h3{margin:0;padding-bottom:5pt;border-bottom:.75pt solid var(--line);font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.8pt;color:var(--navy);line-height:1.5}
+.check .g2{display:flex;gap:16pt;margin-top:6pt}
+.check ul{flex:1;margin:0;padding:0;list-style:none}
+.check li{display:flex;gap:7pt;align-items:flex-start;font-size:9pt;line-height:14.2pt;color:var(--text);margin-bottom:5pt}
+.check li::before{content:'';flex:none;width:12pt;height:12pt;border-radius:3pt;background:#fffbf4;border:.75pt solid var(--gold);margin-top:.5pt}
+.check b{color:var(--navy2)}
+.endline{border-top:.75pt solid var(--line);margin-top:0;padding-top:3pt;text-align:center;font-size:8.6pt;color:var(--muted2);line-height:1.5}
+
+/* ---------- صفحة التلخيص ---------- */
+.instr{background:var(--bg);border:.75pt solid var(--line2);border-radius:6pt;padding:5pt 12pt;font-size:9.2pt;line-height:15.4pt;color:var(--text);margin-bottom:18pt}
+.instr b{color:var(--navy2)}
+.lines div{height:26.6pt;border-bottom:.75pt solid var(--line)}
+
+
+/* ===================================================================
+   توزيع تلقائي: المحتوى بيتكتب في .flow والسكريبت بيوزّعه على .sheet
+   =================================================================== */
+.flow{width:532.7pt;margin:0 auto;background:#fff}
+.pb{display:none}
+
+/* ===================================================================
+   تصميمات زياد (24 سبتمبر) — القسم 3 (رحلة الطلب) · التعاون التسلسلي · القسم 4 · القسم 5
+   =================================================================== */
+.ctitle{text-align:center;margin:4pt 0 8pt 0;padding:6pt 14pt;background:#eef2f8;border-radius:9pt;border-right:3pt solid #e29433}
+.ctitle h2{margin:0;font-weight:800;font-size:16pt;color:var(--navy);line-height:1.3}
+.ctitle .st{font-weight:500;font-size:10.5pt;color:var(--muted2);line-height:1.35}
+.quote.q2{border:.75pt solid #dde5ef;border-radius:9pt;background:#fbf6e8;font-size:10.4pt;line-height:16pt}
+.quote.q2 .exl{color:#a9670f;font-weight:700;text-decoration:underline;text-underline-offset:2pt}
+.panel{border-radius:11pt;background:#f5f7fb;padding:0 6pt 6pt 6pt;margin-bottom:8pt}
+.panel .ph{font-weight:700;font-size:11pt;color:var(--navy);padding:5pt 7pt 4pt 7pt;line-height:1.4}
+.panel .pbody{background:#fff;border-radius:9pt;padding:7pt}
+/* المسار العام */
+.path{display:flex;align-items:center;justify-content:space-between}
+.path .pc{width:61pt;height:68pt;border-radius:8pt;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:3pt 2pt}
+.path .pc svg{width:23pt;height:23pt;margin-bottom:4pt}
+.path .pc b{font-weight:800;font-size:8.4pt;color:var(--navy);line-height:1.2}
+.path .pc small{font-weight:500;font-size:7.6pt;color:var(--muted);line-height:1.3;margin-top:1pt}
+.path .pc.b{background:#f5f7fb} .path .pc.o{background:#f5f7fb} .path .pc.p{background:#f5f7fb} .path .pc.g{background:#f5f7fb}
+.path .ar{flex:none;color:#e29433;font-family:'DejaVuArr';font-weight:700;font-size:10.5pt;line-height:1}
+/* الخطوات بالتفصيل */
+.steps2 .stp{display:flex;align-items:center;gap:10pt;border-radius:9pt;padding:5pt 10pt;margin-bottom:5pt;min-height:43pt}
+.steps2 .stp:last-child{margin-bottom:0}
+.steps2 .stp.cool{background:#f5f7fb} .steps2 .stp.warm{background:#f5f7fb}
+.steps2 .stp .n{flex:none;width:21pt;height:21pt;border-radius:50%;background:#e29433;color:#fff;font-weight:800;font-size:11.5pt;display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 0 0 2.2pt #fff}
+.steps2 .stp .tx{flex:1}
+.steps2 .stp h4{margin:0;font-weight:700;font-size:10.8pt;color:var(--navy);line-height:1.35}
+.steps2 .stp p{font-size:9.7pt;line-height:15pt;color:var(--text2)}
+.steps2 .stp .ic{flex:none;width:46pt;display:flex;justify-content:center;align-items:center}
+.steps2 .stp .ic>svg{width:40pt;height:auto}
+.steps2 .stp .dbret{display:flex;align-items:center;gap:2pt}
+.steps2 .stp .dbret svg:first-child{width:13pt;height:8pt} .steps2 .stp .dbret svg:last-child{width:26pt;height:28pt}
+/* شرائط المعلومة */
+.info{display:flex;align-items:center;gap:12pt;border-radius:9pt;border:.75pt solid;padding:7pt 14pt;margin-bottom:8pt}
+.info .lab{flex:none;display:flex;align-items:center;gap:5pt;font-weight:800;font-size:12pt;line-height:1;padding-left:12pt;border-left:1pt solid}
+.info .lab svg{width:21pt;height:21pt}
+.info p{flex:1;font-size:9.8pt;line-height:14.5pt;color:var(--text2)}
+.info.green{background:#f5f7fb;border-color:#dde5ef} .info.green .lab{color:#a9670f;border-color:#dde5ef}
+.info.gray{background:#f5f7fb;border-color:#dde5ef} .info.gray .lab{color:var(--navy);font-size:14pt;padding:0 14pt 0 16pt;border-color:#dde5ef}
+.info.blue{background:#f5f7fb;border-color:#dde5ef} .info.blue .lab{color:#2e4a78;border-color:transparent;padding-left:4pt}
+
+/* ---------- كيفية تعاون الطبقات الثلاث (رسم تسلسلي) ---------- */
+.sqsub{display:flex;align-items:center;justify-content:space-between;margin:0 2pt 8pt 2pt}
+.sqsub .st{font-size:11pt;color:var(--text);font-weight:600;line-height:1.4}
+.sqsub .legend{display:flex;gap:12pt;font-size:9pt;color:var(--text);font-weight:600}
+.sqsub .legend span{display:inline-flex;align-items:center;gap:4pt}
+.sqsub .legend svg{width:26pt;height:8pt}
+.sqh{display:flex;align-items:flex-end;justify-content:space-between;margin:4pt 0 8pt 0}
+.sqh h3{margin:0;font-weight:800;font-size:19pt;color:var(--navy);line-height:1.3}
+.sqh .st{font-size:11pt;color:var(--text);font-weight:500;line-height:1.4}
+.sqh .legend{display:flex;gap:12pt;font-size:9pt;color:var(--text);font-weight:600;padding-bottom:3pt}
+.sqh .legend span{display:inline-flex;align-items:center;gap:4pt}
+.sqh .legend svg{width:26pt;height:8pt}
+.sq{position:relative;width:532pt;height:264pt;margin-bottom:8pt}
+.sq .hd{position:absolute;top:0;width:110pt;height:26pt;border-radius:5pt;border:.75pt solid #dde5ef;background:#f5f7fb;color:var(--navy);font-weight:700;font-size:10pt;display:flex;align-items:center;justify-content:center;line-height:1;z-index:2}
+.sq .hd.u{background:#2e4a78;border-color:#2e4a78;color:#fff}
+.sq svg.lines{position:absolute;left:0;top:0;width:532pt;height:264pt}
+.sq .lb{position:absolute;transform:translateX(-50%);font-size:9pt;line-height:11pt;color:var(--text2);text-align:center;white-space:nowrap;font-weight:500}
+.sq .nb{position:absolute;width:14pt;height:14pt;border-radius:50%;color:#fff;font-weight:800;font-size:8.4pt;display:flex;align-items:center;justify-content:center;line-height:1;transform:translate(-50%,-50%)}
+.sq .nb.r{background:#2e4a78} .sq .nb.o{background:#e29433}
+
+/* ---------- القسم 4: الخدمات ---------- */
+.tbar{background:#eef2f8;border-radius:9pt;border-right:3pt solid #e29433;padding:6pt 14pt;margin:4pt 0 8pt 0}
+.tbar h2{margin:0;font-weight:800;font-size:13.4pt;color:var(--navy);line-height:1.35}
+.warn{display:flex;align-items:center;gap:10pt;background:#fbf6e8;border:.75pt solid #dde5ef;border-radius:9pt;padding:6pt 12pt;margin-bottom:8pt;font-size:10pt;line-height:14.5pt;color:var(--text2)}
+.warn .ex{flex:none;width:20pt;height:20pt;border-radius:50%;background:#e29433;color:#fff;font-weight:800;font-size:12pt;display:flex;align-items:center;justify-content:center;line-height:1}
+.svc{display:grid;grid-template-columns:88pt 1fr 1fr 1fr;border:.75pt solid #dde5ef;border-radius:10pt;overflow:hidden;margin-bottom:6pt;background:#fff}
+.svc .nm{background:#f5f7fb;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8pt 6pt;gap:6pt}
+.svc .nm .ci{width:42pt;height:42pt;border-radius:50%;background:#eef2f8;display:flex;align-items:center;justify-content:center}
+.svc .nm .ci svg{width:25pt;height:25pt}
+.svc .nm h4{margin:0;font-weight:700;font-size:10.8pt;color:var(--navy);line-height:1.25}
+.svc .col{padding:5pt 7pt 4pt 7pt;border-right:.75pt solid #dde5ef}
+.svc .ch{display:flex;align-items:center;gap:6pt;border-radius:7pt;padding:3pt 7pt;margin-bottom:4pt}
+.svc .ch svg{width:20pt;height:20pt;flex:none}
+.svc .ch b{display:block;font-weight:800;font-size:10pt;line-height:1.25;color:var(--navy)}
+.svc .ch small{display:block;font-weight:700;font-size:8.2pt;color:#8795ab;line-height:1.25}
+.svc .col.f .ch{background:#f5f7fb} .svc .col.b .ch{background:#f5f7fb} .svc .col.b .ch b{color:#a9670f} .svc .col.d .ch{background:#f5f7fb}
+.svc ul{margin:0;padding:0 11pt 0 0;list-style:none;font-size:9.2pt;line-height:14.6pt;color:var(--text2)}
+.svc li{position:relative;margin-bottom:2.5pt}
+.svc li::before{content:'';position:absolute;right:-10pt;top:4.7pt;width:4.2pt;height:4.2pt;border-radius:50%}
+.svc .col.f li::before{background:#2e4a78} .svc .col.b li::before{background:#e29433} .svc .col.d li::before{background:#98a4b5}
+.simply{display:flex;align-items:stretch;background:#fbf6e8;border:.75pt solid #dde5ef;border-radius:9pt;overflow:hidden;margin-bottom:8pt}
+.simply .lab{flex:none;display:flex;align-items:center;gap:5pt;background:#eef2f8;color:#a9670f;font-weight:800;font-size:11pt;padding:0 14pt}
+.simply .lab svg{width:18pt;height:18pt}
+.simply p{flex:1;padding:6pt 12pt;font-size:9.8pt;line-height:14.5pt;color:var(--text2)}
+
+/* ---------- القسم 5: نفس النموذج في خدمات مختلفة ---------- */
+.ntitle{margin:4pt 0 7pt 0}
+.ntitle h2{margin:0;font-weight:800;font-size:18pt;color:var(--navy);line-height:1.35}
+.ntitle h2 .n5{color:#e29433;margin-left:7pt}
+.ntitle .st{font-size:10pt;color:var(--muted);line-height:1.5;font-weight:500}
+.exw{background:#f5f7fb;border:.75pt solid #f1e0b0;border-radius:11pt;padding:7pt 9.2pt 4pt 9.2pt;margin-bottom:8pt}
+.exw .eh{display:flex;align-items:center;gap:9pt;margin-bottom:6pt}
+.exw .eh .tag{display:inline-flex;align-items:center;gap:6pt;background:#eef2f8;border-radius:12pt;padding:1pt 12pt 1pt 5pt;font-weight:800;font-size:12.5pt;color:#a9670f;line-height:1.4}
+.exw .eh .tag svg{width:20pt;height:18pt}
+.exw .eh .sub{font-size:9.6pt;color:var(--text2);font-weight:600}
+.exg{display:grid;grid-template-columns:92pt 16pt 110pt 16pt 136pt 16pt 1fr;align-items:stretch}
+.exg .arrs{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12pt}
+.exg .arrs svg{width:16pt;height:9pt}
+.ecard{background:#fff;border:.75pt solid #dde5ef;border-radius:9pt;overflow:hidden;display:flex;flex-direction:column}
+.ecard .eh2{display:flex;align-items:center;gap:5pt;padding:4pt 7pt;font-weight:800;font-size:10.2pt;line-height:1.3}
+.ecard .eh2 svg{width:17pt;height:17pt;flex:none}
+.ecard.f .eh2{background:#f5f7fb;color:var(--navy)} .ecard.b .eh2{background:#eef2f8;color:#a9670f} .ecard.d .eh2{background:#f5f7fb;color:#2e4a78}
+.ecard.b{border-color:#dde5ef} .ecard.d{border-color:#dde5ef}
+.ecard .eb{padding:6pt 6pt 6pt 6pt;font-size:8.5pt;line-height:13.2pt;color:var(--text2);flex:1}
+.ecard ul{margin:0;padding:0 9pt 0 0;list-style:none}
+.ecard li{position:relative;margin-bottom:2pt}
+.ecard ul.dots li::before{content:'';position:absolute;right:-8pt;top:4.4pt;width:3.6pt;height:3.6pt;border-radius:50%;background:#2e4a78}
+.ecard .mock{background:#f5f7fb;border-radius:6pt;padding:5pt;margin-bottom:6pt}
+.msearch{display:flex;align-items:center;height:17pt;background:#fff;border:.75pt solid #dde5ef;border-radius:5pt;overflow:hidden}
+.msearch .q{flex:1;padding:0 6pt;font-weight:600;font-size:8.4pt;color:var(--navy)}
+.msearch .go{width:18pt;height:100%;background:#2e4a78;display:flex;align-items:center;justify-content:center}
+.msearch .go svg{width:10pt;height:10pt}
+.ecard .mock .ghost{height:4pt;border-radius:2pt;background:#dde4ee;margin-top:5pt;width:70%}
+.ecard .chk{display:flex;gap:4pt;align-items:center;background:#f5f7fb;border-radius:6pt;padding:4pt 5pt;margin-bottom:5pt}
+.ecard .chk ul{flex:1;padding:0}
+.ecard .chk li{display:flex;align-items:center;gap:4pt;margin-bottom:2.5pt}
+.ecard .chk li svg{width:9pt;height:9pt;flex:none}
+.ecard .chk .gr svg{width:21pt;height:21pt}
+.ecard .rules{border:.9pt dashed #dde5ef;border-radius:6pt;padding:4pt 5pt}
+.ecard .rules b{display:block;font-weight:800;font-size:8.6pt;color:var(--navy);margin-bottom:1pt}
+.ecard .rules li::before{content:'';position:absolute;right:-8pt;top:4.4pt;width:3.6pt;height:3.6pt;border-radius:50%;background:#2e4a78}
+.ecard .dr{display:flex;align-items:center;gap:6pt;background:#f5f7fb;border-radius:6pt;padding:4pt 5pt;margin-bottom:4pt}
+.ecard .dr:last-child{margin-bottom:0}
+.ecard .dr svg{width:15pt;height:15pt;flex:none}
+.ecard .dr b{display:block;font-weight:800;font-size:8.6pt;color:var(--navy);line-height:1.25}
+.ecard .dr small{display:block;font-size:7.4pt;color:var(--muted);line-height:1.3}
+.phonecol{display:flex;flex-direction:column;gap:5pt}
+.ucard{background:#f5f7fb;border-radius:8pt;padding:5pt 6pt;display:flex;gap:5pt;align-items:flex-start}
+.ucard .n1{width:15pt;height:15pt;border-radius:50%;background:#2e4a78;color:#fff;font-weight:800;font-size:8.6pt;display:flex;align-items:center;justify-content:center;flex:none;line-height:1}
+.ucard b{display:block;font-weight:800;font-size:10pt;color:#2e4a78;line-height:1.25}
+.ucard small{display:block;font-size:7.8pt;color:var(--text2);line-height:1.35}
+.phone{flex:1;background:#22375c;border-radius:13pt;padding:5pt 4pt}
+.phone .scr{background:#fff;border-radius:9pt;height:100%;padding:5pt 5pt;font-size:6.8pt;color:var(--text2);line-height:1.3}
+.phone .loc{display:flex;align-items:center;gap:2pt;font-weight:700;color:var(--navy);margin-bottom:4pt}
+.phone .loc svg{width:8pt;height:8pt} .phone .loc .dd{font-size:6pt;color:var(--muted)}
+.phone .ms{display:flex;align-items:center;height:14pt;border:.6pt solid #dde5ef;border-radius:5pt;overflow:hidden;margin-bottom:4pt}
+.phone .ms .q{flex:1;padding:0 4pt;font-weight:700;color:var(--navy)}
+.phone .ms .go{width:15pt;height:100%;background:#22375c;display:flex;align-items:center;justify-content:center}
+.phone .ms .go svg{width:8pt;height:8pt}
+.phone .chips{display:flex;gap:2pt;margin-bottom:4pt}
+.phone .chips span{border-radius:5pt;background:#eef2f7;padding:0 3.5pt;font-size:6pt;line-height:9pt}
+.phone .chips span.on{background:#6b7486;color:#fff}
+.phone .ri{display:flex;align-items:center;gap:4pt;background:#fff;border:.5pt solid #eef1f5;border-radius:5pt;padding:2.5pt;margin-bottom:3pt;box-shadow:0 .6pt 1.5pt rgba(23,38,63,.08)}
+.phone .ri .th svg{width:20pt;height:20pt;display:block}
+.phone .ri .rn b{display:block;font-weight:800;font-size:7pt;color:var(--navy)}
+.phone .ri .rn i{font-style:normal;font-weight:700;font-size:6.6pt;color:var(--text)} .phone .ri .rn em{font-style:normal;color:#e29433}
+.ret{position:relative;height:28pt}
+.ret svg{position:absolute;left:0;top:0;width:512.7pt;height:30pt}
+.ret .rl{position:absolute;left:280pt;top:4.5pt;transform:translateX(-50%);background:#2e4a78;color:#fff;border-radius:6pt;padding:0 9pt;font-weight:700;font-size:8.2pt;line-height:15pt;white-space:nowrap}
+.probs{background:#fdf2f2;border:.75pt solid #f3d3d3;border-radius:11pt;padding:6pt 10pt 8pt 10pt;margin-bottom:8pt}
+.probs .ph2{display:flex;align-items:center;gap:6pt;font-weight:800;font-size:13pt;color:#b3261e;margin-bottom:5pt;line-height:1.3}
+.probs .ph2 svg{width:20pt;height:18pt}
+.probs .pg{display:grid;grid-template-columns:1.3fr 1fr;gap:8pt}
+.pcard{background:#fff;border:.75pt solid #f3d9d9;border-radius:9pt;padding:6pt 9pt;display:flex;gap:8pt;align-items:center}
+.pcard>div{flex:1}
+.pcard>svg{width:30pt;height:30pt;flex:none}
+.pcard h5{margin:0 0 2pt 0;font-weight:800;font-size:10.4pt;color:#b3261e;line-height:1.35}
+.pcard ul{margin:0;padding:0 10pt 0 0;list-style:none;font-size:9pt;line-height:14.2pt;color:var(--text2)}
+.pcard li{position:relative} .pcard li::before{content:'•';position:absolute;right:-9pt;color:#b3261e}
+.others{background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:11pt;padding:6pt 10pt 8pt 10pt;margin-bottom:8pt}
+.others .ph2{font-weight:800;font-size:13pt;color:var(--navy);margin-bottom:5pt;line-height:1.3}
+.others .og{display:grid;grid-template-columns:repeat(3,1fr);gap:7pt}
+.ocard{background:#fff;border:.75pt solid #dde5ef;border-radius:9pt;padding:6pt 7pt;display:flex;gap:5pt;align-items:center}
+.ocard .ot{flex:1}
+.ocard h5{display:flex;align-items:center;gap:4pt;margin:0 0 2pt 0;font-weight:800;font-size:10.2pt;color:var(--navy);line-height:1.3}
+.ocard h5 svg{width:15pt;height:15pt}
+.ocard ul{margin:0;padding:0 9pt 0 0;list-style:none;font-size:8.4pt;line-height:13.2pt;color:var(--text2)}
+.ocard li{position:relative} .ocard li::before{content:'•';position:absolute;right:-8pt;color:var(--muted)}
+.ocard .mk{flex:none;width:46pt}
+.mk i{display:block;height:3pt;border-radius:2pt;background:#dde4ee;margin-top:3pt}
+.bankm .ph3{background:#22375c;border-radius:7pt;padding:3pt}
+.bankm .ph3 small,.bankm .ph3 b{display:block;background:#fff;text-align:center;line-height:1.3}
+.bankm .ph3 small{font-size:5.6pt;color:var(--muted);border-radius:5pt 5pt 0 0;padding-top:3pt}
+.bankm .ph3 b{font-size:6.6pt;font-weight:800;color:var(--navy);padding-bottom:3pt}
+.bankm .ph3 i{background:#3a4458}
+.vidm .pl{background:#22375c;border-radius:4pt;overflow:hidden;line-height:0}
+.vidm .pl svg{width:100%;height:auto;display:block}
+.shopm{text-align:center}
+.shopm .pr{background:#f5f7fb;border-radius:5pt;padding:4pt 0;line-height:0}
+.shopm .pr svg{width:22pt;height:20pt}
+.shopm .btn{display:block;margin-top:3pt;background:#e29433;color:#fff;border-radius:3pt;font-weight:700;font-size:5.6pt;line-height:9pt}
+
+/* ---------- مثال من حياتنا تحت الرسم التسلسلي (الصورة 3) ---------- */
+.ex3{position:relative;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:11pt;padding:0 9pt 8pt 9pt;margin-bottom:8pt;overflow:hidden}
+.ex3 .fk{position:absolute;left:12pt;top:6pt;width:24pt;height:32pt}
+.ex3 .fk svg{width:100%;height:100%}
+.ex3 .e3h{display:flex;justify-content:flex-start;margin:0 -9pt 0 0}
+.ex3 .e3h h3{margin:0;background:#eef2f8;border-radius:0 0 0 18pt;padding:3pt 14pt 4pt 22pt;font-weight:800;font-size:12pt;color:#2e4a78;line-height:1.35}
+.ex3 .e3s{font-size:9.6pt;color:var(--text2);font-weight:500;margin:4pt 2pt 7pt 0}
+.e3g{display:grid;grid-template-columns:98pt 18pt 1fr 18pt 1fr 18pt 1fr;align-items:stretch}
+.e3g .garr{display:flex;align-items:center;justify-content:center}
+.e3g .garr svg{width:15pt;height:10pt}
+.e3c{background:#fff;border:.75pt solid #dde5ef;border-radius:8pt;padding:6pt 6pt 7pt 6pt;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.e3c h5{margin:0 0 5pt 0;font-weight:800;font-size:10.4pt;color:var(--navy);line-height:1.3}
+.e3c .ico{height:36pt;display:flex;align-items:center;justify-content:center;margin-bottom:6pt}
+.e3c .ico svg{height:34pt;width:auto}
+.e3c p{font-size:8.8pt;line-height:13.8pt;color:var(--text2)}
+.p3col{display:flex;flex-direction:column;align-items:center;gap:5pt}
+.phone.p3{width:78pt;flex:none;border-radius:12pt;padding:4pt 3.5pt;background:#22375c}
+.phone.p3 .scr{padding:0 0 4pt 0;overflow:hidden;border-radius:9pt}
+.phone.p3 .hero{height:34pt;background:#eef2f8;display:flex;align-items:center;justify-content:center;margin-bottom:-6pt}
+.phone.p3 .hero svg{width:40pt;height:40pt;margin-top:8pt}
+.phone.p3 .ms{position:relative;margin:0 4pt 4pt 4pt;background:#fff;border-color:#dde5ef;box-shadow:0 .8pt 2pt rgba(23,38,63,.15);height:13pt}
+.phone.p3 .ms .go{width:13pt;background:transparent}
+.phone.p3 .ms .q{font-size:6.6pt}
+.phone.p3 .ri{margin:0 4pt 3pt 4pt;padding:2pt}
+.phone.p3 .ri .th svg{width:17pt;height:17pt}
+.phone.p3 .ri .bars{flex:1}
+.phone.p3 .ri .bars i{display:block;height:2.8pt;border-radius:2pt;background:#dde4ee;margin:2pt 0}
+.phone.p3 .ri .bars i+i{width:60%}
+.ucard2{display:flex;align-items:center;gap:5pt;background:#fff;border:.75pt solid #dde5ef;border-radius:7pt;padding:4pt 7pt}
+.ucard2 .n1{width:14pt;height:14pt;border-radius:50%;background:#2e4a78;color:#fff;font-weight:800;font-size:8.4pt;display:flex;align-items:center;justify-content:center;flex:none;line-height:1}
+.ucard2 b{font-weight:800;font-size:8.8pt;color:var(--navy);line-height:1.3}
+.e3r{position:relative;height:31pt;margin-bottom:5pt}
+.e3r svg.rp{position:absolute;left:0;top:0;width:100%;height:24pt}
+.e3r .rl{position:absolute;left:199pt;transform:translateX(-50%);top:13pt;display:inline-flex;align-items:center;gap:5pt;background:#fff;border:.75pt solid #dde5ef;border-radius:11pt;padding:2pt 11pt;font-weight:600;font-size:9pt;color:var(--text2);line-height:1.3;white-space:nowrap}
+.e3r .rl svg{width:11pt;height:11pt}
+.e3p{display:flex;align-items:center;gap:14pt;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:9pt;padding:6pt 14pt;margin-bottom:6pt}
+.e3p .pt{flex:none;display:flex;align-items:center;gap:6pt}
+.e3p .pt svg{width:24pt;height:22pt}
+.e3p .pt b{font-weight:800;font-size:12pt;color:#a9670f}
+.e3p ul{flex:1;margin:0;padding:0 11pt 0 0;list-style:none;font-size:9.4pt;line-height:14pt;color:var(--text2)}
+.e3p li{position:relative} .e3p li::before{content:'';position:absolute;right:-10pt;top:5pt;width:4.2pt;height:4.2pt;border-radius:50%;background:#e29433}
+.e3t{display:flex;align-items:center;gap:8pt;background:#f5f7fb;border-radius:9pt;padding:5pt 12pt}
+.e3t svg{width:18pt;height:18pt;flex:none}
+.e3t p{font-size:9.4pt;line-height:13.5pt;color:var(--text2)}
+
+/* المسار العام على 3 سطور (طلب · معالجة · نتيجة) */
+.path3{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;justify-items:center;column-gap:7pt;row-gap:2pt}
+.path3 .pc{width:100%;min-height:38pt;border-radius:8pt;background:#f5f7fb;border:.75pt solid #dde5ef;display:flex;flex-direction:row;align-items:center;gap:8pt;padding:5pt 10pt;text-align:right}
+.path3 .pc svg{width:22pt;height:22pt;flex:none}
+.path3 .pc .tt{display:flex;flex-direction:column}
+.path3 .pc b{font-weight:700;font-size:9.8pt;color:var(--navy);line-height:1.3}
+.path3 .pc small{font-weight:500;font-size:8.8pt;color:var(--muted);line-height:1.35}
+.path3 .ar{flex:none;color:#e29433;font-family:'DejaVuArr';font-weight:700;font-size:11pt;line-height:1}
+.path3 .pdown{color:#e29433;font-family:'DejaVuArr';font-weight:700;font-size:11pt;line-height:1.2}
+
+/* ---------- علامة «للفهم» (أي حاجة مش من الكتاب) ---------- */
+.fx{display:inline-block;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:7.6pt;color:var(--blue);background:#fff;border:.75pt solid var(--blue);border-radius:7pt;line-height:12pt;padding:0 6pt;margin-right:7pt;vertical-align:2pt;white-space:nowrap}
+.fx.abs{position:absolute;top:-7pt;left:12pt;margin:0;z-index:3}
+.fx.fl{float:left;margin:1pt 8pt 2pt 0;vertical-align:0}
+.map,.info,.simply{position:relative}
+.simply{overflow:visible}
+.simply .lab{border-radius:0 9pt 9pt 0}
+.dark h3 .fx{background:#fff}
+/* ---------- توقّف وفكّر (من الكتاب) ---------- */
+.stop{background:#fbf6e8;border:.75pt solid #eee0b8;border-right:3pt solid #e29433;border-radius:9pt;padding:6pt 12pt 7pt 12pt;margin-bottom:6pt}
+.stop .sh{display:flex;align-items:center;gap:5pt;margin-bottom:2pt}
+.stop .sh svg{width:17pt;height:17pt}
+.stop .sh b{font-weight:800;font-size:11pt;color:var(--gold2)}
+.stop p{font-size:10pt;line-height:15.5pt;color:var(--text2);font-weight:600}
+
+/* ===================== بنك الأسئلة ===================== */
+.qstats{display:grid;grid-template-columns:repeat(8,1fr);border:.75pt solid #dde5ef;border-radius:9pt;overflow:hidden;margin-bottom:12pt;background:#fff}
+.qstats>div{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6pt 2pt 5pt 2pt;border-left:.75pt solid #eef2f8}
+.qstats>div:last-child{border-left:0}
+.qstats b{font-weight:800;font-size:14pt;color:var(--navy);line-height:1.2}
+.qstats span{font-weight:600;font-size:8.6pt;color:var(--muted);line-height:1.3}
+h2.cat{display:flex;align-items:center;gap:6pt;font-weight:800;font-size:13.4pt;color:var(--navy);line-height:1.4;margin:10pt 0 7pt 0;padding:5pt 14pt;border-right:3pt solid #e29433;background:#eef2f8;border-radius:9pt}
+h2.cat .cnt{margin-right:auto;font-weight:700;font-size:8.6pt;color:var(--gold2);background:#fbf6e8;border:.75pt solid #eee0b8;border-radius:7pt;line-height:13pt;padding:0 7pt}
+h2.cat .fx{vertical-align:0}
+.qcard{background:#fff;border:.75pt solid #dde5ef;border-right:3pt solid #e29433;border-radius:9pt;padding:7pt 11pt 8pt 11pt;margin-bottom:8pt}
+.qcard.cont{border-top-right-radius:0}
+.qcard h4{display:flex;align-items:center;margin:0 0 4pt 0;font-weight:800;font-size:10.8pt;color:var(--gold2);line-height:1.4}
+.qcard h4 .n{direction:ltr;unicode-bidi:isolate;margin-left:3pt}
+.qcard h4 .mk{margin-right:auto;font-weight:700;font-size:8.4pt;color:var(--navy2);background:#fff;border:.75pt solid #dde5ef;border-radius:7pt;padding:0 7pt;line-height:14pt}
+.qi,.qs,.para{font-size:9.8pt;line-height:15.6pt;color:var(--text2);margin:0 0 5pt 0}
+.qs b,.qi b,.para b{color:var(--navy2)}
+.para{line-height:20pt}
+.bl{display:inline-block;border-bottom:1pt dotted #8a9ab3;height:11pt;vertical-align:-1pt;margin:0 3pt}
+.ab{display:inline-block;flex:none;width:26pt;height:14pt;border:1pt solid #b9c6d8;border-radius:4pt;background:#fff;margin-right:6pt}
+.ab.w{width:62pt}
+.qq{display:flex;gap:7pt;align-items:flex-start;margin:4pt 0 4pt 0}
+.qq .k,.cl .k,.sa .k,.frow .k,.tfb .k{flex:none;display:inline-flex;align-items:center;justify-content:center;width:16pt;height:16pt;border-radius:50%;background:#fbf6e8;border:.75pt solid #eee0b8;font-weight:800;font-size:8.6pt;color:var(--gold2);line-height:1}
+.qq p{flex:1;font-size:9.8pt;line-height:15pt;color:var(--text2)}
+.qq p b{color:var(--navy2)}
+ul.op{margin:2pt 0 6pt 0;padding:0 17pt 0 0;list-style:none;display:grid;gap:1pt 14pt}
+ul.op.c1{grid-template-columns:1fr} ul.op.c2{grid-template-columns:1fr 1fr} ul.op.c3{grid-template-columns:repeat(3,1fr)}
+ul.op li{font-size:9.4pt;line-height:14.2pt;color:var(--text2)}
+ul.op li{display:flex;align-items:flex-start;gap:6pt}
+ul.op li b{display:inline-flex;flex:none;align-items:center;justify-content:center;width:15pt;height:15pt;padding-bottom:1pt;margin-top:-.3pt;border-radius:50%;background:#eef2f8;border:.75pt solid #dde5ef;font-weight:800;font-size:8.2pt;color:var(--navy2);line-height:1}
+ul.tf{margin:2pt 0 0 0;padding:0;list-style:none}
+ul.tf li,ul.tfb li{display:flex;align-items:center;gap:8pt;padding:3.5pt 4pt;border-top:.75pt solid #eef2f8;font-size:9.6pt;line-height:14.4pt;color:var(--text2)}
+ul.tf li:first-child{border-top:0}
+ul.tf li b{display:inline-flex;flex:none;align-items:center;justify-content:center;width:15pt;height:15pt;padding-bottom:1pt;border-radius:50%;background:#eef2f8;border:.75pt solid #dde5ef;font-weight:800;font-size:8.2pt;color:var(--navy2);line-height:1}
+ul.tf .t,ul.tfb .t{flex:1}
+.pr{flex:none;font-weight:600;color:#8a9ab3;letter-spacing:1pt}
+ul.tfb{margin:0 0 7pt 0;padding:0;list-style:none;background:#fff;border:.75pt solid #dde5ef;border-radius:8pt;overflow:hidden}
+ul.tfb li{border-top:0;border-bottom:.75pt solid #e3e9f1;padding:6pt 10pt}
+ul.tfb li:last-child{border-bottom:0}
+ul.tfb li:nth-child(even){background:#f8fafc}
+.match{display:grid;grid-template-columns:1.35fr 1fr;gap:10pt;margin-top:3pt}
+.match .mb{border:.75pt solid #dde5ef;border-radius:8pt;padding:6pt 10pt 7pt 10pt;background:#fbfcfe}
+.match h5{margin:0 0 3pt 0;font-weight:800;font-size:10pt;color:var(--navy);line-height:1.4}
+.match ol{margin:0;padding:0 14pt 0 0;font-size:9.4pt;line-height:14.5pt;color:var(--text2)}
+.match ol li{margin-bottom:3pt}
+.match ol li span{margin-left:6pt}
+.match ol li .ab{vertical-align:-3pt;margin-right:0}
+.sa{display:grid;grid-template-columns:1fr 1fr;gap:7pt}
+.sa>div{border:.75pt solid #e3e9f1;border-radius:7pt;padding:5pt 8pt;background:#fbfcfe}
+.sa>div,.frow>div{display:flex;gap:7pt;align-items:flex-start}
+.sa p,.frow p{flex:1;font-size:9.6pt;line-height:17pt;color:var(--text2)}
+ul.cl{margin:3pt 0 5pt 0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:0 18pt}
+ul.cl li{display:flex;align-items:center;gap:7pt;padding:5pt 0;border-bottom:.75pt solid #e3e9f1;font-size:9.6pt;line-height:14pt;color:var(--text2)}
+ul.cl li .t{flex:1}
+.mrow{display:grid;grid-template-columns:1fr 1fr;gap:7pt;margin-bottom:7pt}
+.mq{border:.75pt solid #dde5ef;border-radius:8pt;background:#fff;padding:5pt 9pt 5pt 9pt}
+.mq .qq{margin:0 0 4pt 0}
+.mq ul.op{margin:0;padding:4pt 0 0 0;border-top:.75pt dashed #e3e9f1;gap:3pt 10pt}
+.mrow .mq ul.op{margin-bottom:2pt}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:7pt;margin-bottom:7pt}
+.frow>div{border:.75pt solid #dde5ef;border-radius:8pt;background:#fff;padding:6pt 9pt}
+.hint{background:#fbf6e8;border:.75pt solid #eee0b8;border-radius:7pt;padding:4pt 10pt;font-size:9pt;line-height:14pt;color:var(--text2);margin:2pt 0 4pt 0}
+.hint>b:first-child{font-weight:800;color:var(--gold2);margin-left:5pt}
+.hint b{color:var(--navy2)}
+.wl i{display:block;height:17pt;border-bottom:.75pt dotted #b9c6d8}
+.why{border:.75pt solid #dde5ef;border-radius:8pt;background:#fff;padding:6pt 10pt 7pt 10pt;margin-bottom:7pt}
+.why .wl{margin-right:23pt}
+table.cmp{width:100%;border-collapse:separate;border-spacing:0;border:.75pt solid #dde5ef;border-radius:8pt;overflow:hidden;margin:4pt 0 8pt 0;font-size:9.6pt;line-height:14pt}
+table.cmp th{background:#eef2f8;font-weight:800;color:var(--navy);text-align:right;padding:4pt 10pt;border-bottom:.75pt solid #dde5ef}
+table.cmp td{height:22pt;padding:3pt 10pt;border-top:.75pt solid #eef2f8;border-left:.75pt solid #eef2f8}
+table.cmp th+th{border-right:.75pt solid #dde5ef}
+table.cmp td.k{width:118pt;font-weight:700;color:var(--navy2);background:#fbfcfe}
+table.cmp.tall td{height:38pt}
+.qcard table.cmp{margin-bottom:2pt}
+.chx{display:flex;flex-wrap:wrap;gap:4pt 18pt;font-size:9.4pt;line-height:14pt;color:var(--text2);margin:2pt 0 2pt 0}
+.drawbox{height:150pt;margin:4pt 0 0 23pt;border:1pt dashed #b9c6d8;border-radius:8pt;background:#fbfcfe}
+.why.cont{border-top-right-radius:0;border-top-left-radius:0;padding-top:2pt}
+/* ---------- علامة «تقييمات» ---------- */
+.mq,.why,.qcard{position:relative}
+.tq{position:absolute;top:-6.5pt;left:10pt;z-index:3;display:inline-block;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:7.6pt;color:#17263f;background:#e29433;border-radius:7pt;line-height:12pt;padding:0 6pt;white-space:nowrap}
+.qstats .tq{position:static;margin-top:2pt;font-size:8pt;line-height:13pt}
+.content>.tqtop{margin-top:9pt}
+.tqin .tq{top:-3.2pt}
+/* ===== صناديق الكتاب الجانبية: الفكرة الرئيسة · مصطلحات أساسية · تذكّر · الحل · تعليق الصورة ===== */
+.kidea{background:#22375c;border-right:3pt solid #e29433;border-radius:9pt;padding:8pt 14pt 9pt 14pt;margin:12pt 0 9pt 0}
+.kidea .kh{font-weight:800;font-size:9.8pt;line-height:15pt;color:#f1c88b;margin-bottom:2pt}
+.kidea p{font-size:10.4pt;line-height:17pt;color:#fff;margin:0}
+.kidea p b{color:#ffd08a}
+.terms{background:#fff;border:.75pt solid #dde5ef;border-radius:8pt;padding:6pt 12pt 7pt 12pt;margin:0 0 8pt 0}
+.terms .th{display:flex;align-items:center;gap:10pt;margin:0 0 5pt 0;padding-bottom:4pt;border-bottom:.75pt solid #dde5ef}
+.terms h3{flex:none;margin:0;font-weight:800;font-size:9.8pt;line-height:1.5;color:var(--navy)}
+.terms .t3{flex:1;display:flex;gap:6pt}
+.terms .t3 span{flex:1;background:#f5f7fb;border-radius:6pt;padding:1pt 6pt;text-align:center;font-size:9.2pt;line-height:14pt;white-space:nowrap;color:var(--text)}
+.terms .t2{display:grid;grid-template-columns:1fr 1fr;gap:5pt 6pt}
+.terms .t2 div{background:#f5f7fb;border-radius:6pt;padding:3pt 9pt;font-size:9.3pt;line-height:14.5pt;color:var(--text)}
+.terms b{color:#a9670f;font-weight:800}
+.dark .rem{font-size:9.3pt;line-height:14.5pt;color:#fff;margin:0 0 5pt 0;padding-bottom:5pt;border-bottom:.75pt solid rgba(255,255,255,.2)}
+.dark .rem b{color:#f1c88b}
+.qcard.sol .ck{display:inline-flex;align-items:center;justify-content:center;width:14pt;height:14pt;border-radius:50%;background:#e29433;color:#fff;font-size:9pt;margin-left:3pt}
+.qcard.sol .sg{display:grid;grid-template-columns:1.5fr 1fr;gap:14pt}
+.qcard.sol .sp{font-weight:800;color:var(--navy2);font-size:9.6pt;line-height:15pt;margin-bottom:2pt}
+.qcard.sol .sr{display:flex;gap:6pt;font-size:9.6pt;line-height:15pt;color:var(--text);margin-bottom:2pt}
+.qcard.sol .sr b{flex:none;min-width:12pt;color:#a9670f;font-weight:800}
+.qcard.sol .sr i{font-style:normal;font-weight:800;color:#a9670f}
+.terms .t2+.t2{margin-top:5pt}
+.terms .t2.c3{grid-template-columns:1fr 1fr 1fr}
+.terms .t2 .full{grid-column:1/-1}
+.icap{margin:5pt 0 8pt 0;padding-top:4pt;border-top:.75pt dashed #dde5ef;text-align:center;font-size:8.8pt;line-height:13pt;color:var(--muted)}
+
+/* ---------- إضافات الدرس 1-2 ---------- */
+.banner,.quote,.box p,.box li,.note-line,.pnl p,p.lead,.qcard .qs,.qq p,.why p,.cx p,.terms .t2 div{text-wrap:pretty}
+.intro .body p+p{margin-top:4pt}
+.intro .trip{text-align:center;color:var(--navy2)}
+.map .cell li{text-wrap:pretty}
+.map.m2 .cell h4{display:flex;align-items:flex-start;gap:5pt;line-height:1.4;margin-bottom:2pt}
+.map.m2 .cell h4 .mn{flex:none;display:inline-flex;align-items:center;justify-content:center;width:13pt;height:13pt;border-radius:50%;background:var(--navy2);color:#fff;font-size:7.8pt;font-weight:800;margin-top:1.5pt}
+.map.m2 .cell .imp{font-size:8.7pt;line-height:13.5pt;color:var(--text);margin-top:3pt;padding-top:3pt;border-top:.75pt dashed #e3e9f1}
+.map.m2 .cell .imp b{color:var(--gold2);font-weight:800}
+.map.m2 .cell li b{color:var(--navy2);font-weight:700}
+.map.m2{grid-template-columns:1fr 104pt 1fr;column-gap:15pt}
+.map.m2 .hub{font-size:10.4pt;padding:6pt 5pt;text-align:center}
+.nw{white-space:nowrap}
+.fig{position:relative}
+.arr{font-family:'DejaVuArr','Baloo Bhaijaan 2';font-weight:700;color:#e29433}
+p.lead{font-size:10.2pt;line-height:16.6pt;color:var(--text);margin:0 0 8pt 0}
+p.lead b{color:var(--navy2)}
+.bridge{position:relative;background:#eef2f8;border-radius:9pt;padding:5pt 12pt;margin:0 0 9pt 0;text-align:center;font-size:9.6pt;line-height:15pt;color:var(--text2)}
+.bridge .fx{margin:0 0 0 7pt;vertical-align:1pt}
+.banner .bx{display:block;margin-top:2pt;font-style:italic;font-weight:600;opacity:.92}
+.box.plain{background:#f5f7fb;border-color:#dde5ef} .box.plain h3{color:var(--navy)}
+.box.kx{border-right:3pt solid #e29433}
+.cmpw{position:relative}
+/* صورة / رسم من الكتاب جنب نص */
+.sf{display:grid;grid-template-columns:1fr 206pt;gap:12pt;align-items:center;margin:0 0 9pt 0}
+.sf .quote{margin:0}
+.im{background:#fff;border:.75pt solid #dde5ef;border-radius:9pt;padding:5pt 5pt 0 5pt}
+.im img{display:block;width:100%;height:auto;border-radius:6pt}
+.im .icap{margin:4pt 2pt 4pt 2pt;text-wrap:pretty}
+/* ثلاثة أمثلة يومية */
+.ex3c{display:grid;grid-template-columns:repeat(3,1fr);gap:5pt;padding:3pt 0 0 0}
+.ex3c>div{display:flex;flex-direction:column;align-items:center;gap:3pt;border:.75pt solid #dde5ef;border-radius:8pt;padding:7pt 3pt 8pt 3pt;text-align:center}
+.ex3c svg{width:40pt;height:40pt;display:block}
+.ex3c b{font-weight:800;font-size:8.6pt;line-height:12pt;color:var(--navy)}
+/* ضيقة النطاق */
+.sf.nar{grid-template-columns:176pt 1fr;align-items:stretch;margin-top:10pt}
+.sf.nar .im{display:flex;flex-direction:column;justify-content:center}
+.pnl{position:relative;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:8pt;padding:8pt 11pt 8pt 11pt}
+.pnl h5{margin:0 0 6pt 0;font-weight:800;font-size:10.4pt;color:var(--navy);line-height:1.45}
+.pnl .pf{margin-top:6pt;padding-top:5pt;border-top:.75pt dashed #dde5ef;text-align:center;font-size:9.5pt;line-height:14.6pt;color:var(--text2)}
+.nrw{display:flex;flex-direction:column;gap:5pt}
+.nrw>div{display:flex;align-items:center;gap:7pt;background:#fff;border:.75pt solid #dde5ef;border-radius:8pt;padding:5pt 9pt}
+.nrw .ni{flex:none;width:24pt;height:24pt;border-radius:50%;background:#eef2f8;display:flex;align-items:center;justify-content:center}
+.nrw .ni svg{width:14pt;height:14pt}
+.nrw b{flex:none;width:92pt;font-weight:800;font-size:9.6pt;color:var(--navy)}
+.nrw i{font-style:normal;font-size:10pt}
+.nrw .ok{flex:none;width:15pt;height:15pt;border-radius:50%;background:#22375c;display:flex;align-items:center;justify-content:center}
+.nrw .ok svg{width:9pt;height:9pt}
+.nrw small{flex:1;font-size:9.2pt;font-weight:600;color:var(--text2)}
+.pnl .ps2{margin-top:6pt;font-size:9.3pt;line-height:14.6pt;color:var(--text)}
+.pnl .ps2 .sl,.cx .sl{color:var(--gold2);font-weight:800;margin-left:3pt}
+/* صورة الكتاب الكبيرة */
+figure.bimg{margin:0 auto 8pt auto;width:78%;background:#fff;border:.75pt solid #dde5ef;border-radius:9pt;padding:5pt 5pt 0 5pt}
+figure.bimg img{display:block;width:100%;height:auto;border-radius:6pt}
+figure.bimg .icap{margin:4pt 2pt 5pt 2pt;text-align:center}
+/* قواعد مقابل أنماط */
+.rvp{position:relative;background:#fff;border:.75pt solid #dde5ef;border-radius:9pt;padding:12pt 11pt 6pt 11pt;margin:4pt 0 4pt 0}
+.rv{display:grid;grid-template-columns:1fr 44pt 1fr;align-items:stretch}
+.rv .rc{background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:9pt;padding:7pt 11pt 8pt 11pt;display:flex;flex-direction:column}
+.rv .rc.pt{background:#fbf6e8;border-color:#eee0b8;align-items:center;text-align:center}
+.rv h5{display:flex;align-items:center;gap:6pt;margin:0 0 6pt 0;font-weight:800;font-size:10.4pt;color:var(--navy);line-height:1.4}
+.rv .rc.pt h5{color:#a9670f}
+.rv h5 span svg{width:17pt;height:17pt;display:block}
+.rv .ru{background:#fff;border:.75pt solid #dde5ef;border-radius:7pt;padding:4pt 9pt;margin:0 0 5pt 0;font-size:9.4pt;line-height:14.2pt;color:var(--text2)}
+.rv .rf{margin-top:auto;text-align:center;background:#22375c;color:#fff;border-radius:8pt;font-weight:800;font-size:9.4pt;line-height:18pt;padding:0 10pt}
+.rv .rf.g{background:#e29433;color:#17263f;margin-top:0}
+.rv .ms{display:flex;gap:5pt;justify-content:center}
+.rv .ms i{display:block;width:34pt;height:24pt;border:.75pt solid #dde5ef;border-radius:5pt;background:#fff linear-gradient(#b9c7da,#b9c7da) no-repeat 6pt 7pt / 20pt 2.4pt}
+.rv .rc.pt small{font-size:8.6pt;color:var(--muted);margin-top:3pt}
+.rv .dn{font-size:14pt;line-height:1;color:#e29433;margin:4pt 0 5pt 0;font-weight:800}
+.rv .vs{display:flex;align-items:center;justify-content:center;font-weight:800;font-size:9pt;color:var(--muted)}
+/* المربعات المتداخلة */
+.nest{padding:9pt 12pt 6pt 12pt}
+.nest .nh{text-align:center;margin:0 0 8pt 0;font-weight:800;font-size:11pt;color:var(--navy)}
+.nest .n1,.nest .n2,.nest .n3,.nest .n4{border-radius:10pt;padding:6pt 12pt 12pt 12pt}
+.nest .n1{background:#f5f7fb;border:1pt solid #dde5ef;width:88%;margin:0 auto}
+.nest .n2{background:#e6edf6;border:1pt solid #cfdbea;margin:4pt 6% 0 6%}
+.nest .n3{background:#cfdcec;border:1pt solid #b6c7dc;margin:4pt 6% 0 6%}
+.nest .n4{background:#22375c;border:1pt solid #22375c;margin:4pt 8% 0 8%;padding-bottom:9pt}
+.nest .nl b{display:block;font-weight:800;font-size:10.6pt;line-height:1.4;color:var(--navy)}
+.nest .nl small{display:block;font-size:8.8pt;line-height:1.35;color:var(--muted);font-weight:600}
+.nest .n4 .nl b{color:#fff} .nest .n4 .nl small{color:#f1c88b}
+/* احفظها */
+.save4{display:flex;align-items:center;gap:10pt;background:#22375c;border-radius:10pt;padding:8pt 12pt;margin:10pt 0 3pt 0}
+.save4 .sl{flex:none;background:#e29433;color:#17263f;font-weight:800;font-size:9.6pt;line-height:18pt;padding:0 11pt;border-radius:8pt}
+.save4 .sc{display:flex;align-items:center;gap:5pt;flex-wrap:nowrap}
+.save4 .sc span{background:#2e4a78;border:.75pt solid #4a6fa5;border-radius:8pt;padding:2pt 8pt;color:#fff;font-weight:700;font-size:9.3pt;line-height:15pt;white-space:nowrap}
+.save4 .sc i{font-style:normal;color:#f1c88b;font-family:'DejaVuArr';font-weight:700;font-size:12pt}
+.svn{text-align:center;font-size:9.4pt;line-height:14pt;color:var(--text2);margin:0 0 9pt 0}
+/* كروت المفاهيم التلاتة */
+.cc3{display:flex;flex-direction:column;gap:8pt;margin:0 0 4pt 0}
+.cx{background:#fff;border:.75pt solid #dde5ef;border-right:3pt solid #22375c;border-radius:9pt;padding:7pt 12pt 8pt 12pt}
+.cx.c1{border-right-color:#2e4a78} .cx.c2{border-right-color:#e29433}
+.cx .ch{display:flex;align-items:center;gap:8pt;margin:0 0 5pt 0}
+.cx .ci{flex:none;width:28pt;height:28pt;border-radius:50%;background:#eef2f8;display:flex;align-items:center;justify-content:center}
+.cx .ci svg{width:16pt;height:16pt}
+.cx h4{flex:1;margin:0;font-weight:800;font-size:11.4pt;color:var(--navy);line-height:1.4}
+.cx h4 small{font-size:8.2pt;font-weight:700;color:var(--gold2);margin-right:5pt}
+.cx .rel{flex:none;background:#fbf6e8;border:.75pt solid #eee0b8;color:#a9670f;border-radius:8pt;font-weight:700;font-size:8.4pt;line-height:15pt;padding:0 9pt}
+.cx .cd{background:#f5f7fb;border-right:2.5pt solid #e29433;border-radius:6pt;padding:4pt 10pt;font-size:9.9pt;line-height:15.4pt;color:var(--text2)}
+.cx .cd b{color:var(--navy2)}
+.cx .ce{margin-top:4pt;font-size:9.3pt;line-height:14pt;color:var(--muted);font-style:italic}
+.cx .ce b{font-style:normal;color:var(--navy2)}
+.cx .cs{margin-top:4pt;padding-top:4pt;border-top:.75pt dashed #dde5ef;font-size:9.3pt;line-height:14.4pt;color:var(--text)}
+.cx .cs .fx{margin:0 0 0 5pt;vertical-align:1pt}
+.genf{padding-top:8pt}
+.genf svg.gen{width:90%;height:auto;display:block;margin:0 auto}
+.nnf{padding-top:8pt}
+.nnf svg.nn{width:90%;height:auto;display:block;margin:0 auto}
+/* الهلوسة */
+.hal{padding:12pt 12pt 6pt 12pt}
+.hal .hr3{display:grid;grid-template-columns:1fr 170pt 1fr;align-items:center;gap:12pt}
+.hal .hs{display:flex;flex-direction:column;align-items:center;gap:4pt;text-align:center}
+.hal .hm{width:28pt;height:28pt;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.hal .hm svg{width:15pt;height:15pt}
+.hal .ok .hm{background:#22375c} .hal .bad .hm{background:#c0453a}
+.hal .hs b{font-weight:800;font-size:9.8pt;line-height:1.35}
+.hal .ok b{color:var(--navy)} .hal .bad b{color:#a33a30}
+.hal .hd{background:#fff;border:1pt solid #cfdbea;border-radius:8pt;padding:10pt 12pt;display:flex;flex-direction:column;gap:6pt;box-shadow:0 1pt 3pt rgba(34,55,92,.08)}
+.hal .hd i{display:block;height:4.5pt;border-radius:2.5pt;background:#b9c7da}
+.hal .hv{display:flex;align-items:center;justify-content:center;gap:6pt;width:fit-content;margin:10pt auto 0 auto;background:#fbf6e8;border:.75pt solid #eee0b8;border-radius:9pt;padding:3pt 14pt;font-weight:800;font-size:9.8pt;color:#a9670f}
+.hal .hv svg{width:14pt;height:14pt;display:block}
+.content>.pnl:first-child,.content>.rvp:first-child,.content>.fig.hal:first-child{margin-top:7pt}
+/* البنك */
+.qcard.sol .sg{grid-template-columns:1.25fr 1fr}
+.check{padding:7pt 13pt 5pt 13pt}
+.check .g2{margin-top:5pt}
+.check li{margin-bottom:4pt}
+.dark li{margin-bottom:2.5pt}
+</style>
+<script>
+// ===== 1) توزيع المحتوى على صفحات A4 =====
+function paginate(){
+  const flow = document.querySelector('.flow');
+  const blocks = [...flow.children];
+  let content;
+  // كل صفحة = .page بمقاس A4، وجواها .sheet مرسومة ×3 ومتصغّرة ÷3
+  // (عشان إعداد «أقل حجم للخط» في المتصفح مايكبّرش الخطوط الصغيرة ويبوّظ التصميم)
+  const newSheet = () => {
+    const p = document.createElement('section'); p.className = 'page';
+    const s = document.createElement('div'); s.className = 'sheet';
+    content = document.createElement('div'); content.className = 'content';
+    s.appendChild(content); p.appendChild(s); flow.before(p);
+  };
+  const KWN = el => el.matches('.part, hr.rule, h2.sec, .big, h3.sub, .chip, .kwn');
+  const over = () => { const last = content.lastElementChild; if (!last) return false;
+    return last.getBoundingClientRect().bottom > content.getBoundingClientRect().bottom + 0.5; };
+  // كارت أطول من المساحة الفاضية: نسيب أوله هنا ونكمّل الباقي في الصفحة الجاية (عند حدود أجزائه)
+  // سؤال (نصه + مكان إجابته أو اختياراته) ما يتقسمش على صفحتين: التقسيم في كروت الأسئلة
+  // (.why و.qcard) مسموح بس قبل بداية سؤال جديد (.qq / .qi / .qs). لو مفيش نقطة زي كده، الكارت كله ينزل.
+  const QSTART = x => x && x.matches('.qq, .qi, .qs');
+  const trySplit = (el, loose) => {
+    const cont = el.cloneNode(false); cont.classList.add('cont');
+    const keep = (el.firstElementChild && /^H[34]$/.test(el.firstElementChild.tagName)) || el.classList.contains('why') ? 2 : 1;
+    const mv = () => cont.insertBefore(el.lastElementChild, cont.firstChild);
+    const back = () => { while (cont.firstChild) el.appendChild(cont.firstChild); return false; };
+    while (over() && el.children.length > keep) mv();
+    const strict = !loose && el.matches('.why, .qcard');
+    if (strict) {
+      for (let ch = true; ch; ) { ch = false;
+        while (el.children.length > keep && cont.children.length && !QSTART(cont.firstElementChild)) { mv(); ch = true; }
+        while (el.children.length > 1 && cont.children.length && QSTART(el.lastElementChild)) { mv(); ch = true; }
+      }
+      if (cont.children.length && !QSTART(cont.firstElementChild)) return back();
+    } else {
+      // نص السؤال ما يفضلش لوحده في آخر الصفحة: ينزل مع اختياراته
+      while (el.children.length > 1 && cont.children.length && el.lastElementChild.matches('.qq, .qi, .qs')) mv();
+    }
+    if (el.children.length < keep) return back();
+    if (over() || !cont.children.length) return back();
+    newSheet(); content.appendChild(cont);
+    if (over()) trySplit(cont) || trySplit(cont, true);
+    return true;
+  };
+  newSheet();
+  for (let i = 0; i < blocks.length; ) {
+    const el = blocks[i];
+    if (el.classList.contains('pb')) { if (content.children.length) newSheet(); i++; continue; }
+    const group = [el]; let j = i;
+    while (KWN(blocks[j]) && j + 1 < blocks.length && !blocks[j + 1].classList.contains('pb')) { j++; group.push(blocks[j]); }
+    // عنوان قسم في البنك (زي «علّل») مايفضلش في آخر الصفحة ومعاه سؤال واحد بس: بياخد معاه السؤال اللي بعده
+    if (group[0].matches('h2.cat') && group[group.length - 1].matches('.why') && j + 1 < blocks.length && blocks[j + 1].matches('.why')) { j++; group.push(blocks[j]); }
+    const wasEmpty = content.children.length === 0;
+    group.forEach(g => content.appendChild(g));
+    const last = group[group.length - 1];
+    if (over()) {
+      if (last.classList.contains('split') && trySplit(last)) { /* اتقسم */ }
+      else if (!wasEmpty) { newSheet(); group.forEach(g => content.appendChild(g)); if (over() && last.classList.contains('split')) trySplit(last) || trySplit(last, true); }
+    }
+    i = j + 1;
+  }
+  flow.remove();
+}
+// ===== 2) الإطار: هيدر + فوتر + علامة مائية + ترقيم =====
+// علامة «تقييمات» فوق أول سؤال في الصفحة بتلمس خط الهيدر: ننزّل السؤال سنة بعد الترقيم.
+// لو الصفحة مليانة، ناخد المسافة من الفراغات اللي بين الأسئلة في نفس الصفحة (أقل من 1pt لكل فراغ).
+function tqTop(){
+  const k = (typeof K === 'number' && K > 0) ? K : 1;
+  const overBy = c => c.lastElementChild.getBoundingClientRect().bottom - c.getBoundingClientRect().bottom;
+  document.querySelectorAll('.content').forEach(c => {
+    const f = c.firstElementChild; if (!f || !f.querySelector('.tq')) return;
+    f.classList.add('tqtop');
+    let d = overBy(c); if (d <= 0) return;
+    const kids = [...c.children].slice(0, -1);
+    const per = (d + 1) * k / kids.length;
+    kids.forEach(e => { e.dataset.mb = e.style.marginBottom; e.style.marginBottom = Math.max(0, parseFloat(getComputedStyle(e).marginBottom) - per) + 'px'; });
+    if (overBy(c) > 0.5) { kids.forEach(e => { e.style.marginBottom = e.dataset.mb; }); f.classList.remove('tqtop'); f.classList.add('tqin'); }
+    kids.forEach(e => delete e.dataset.mb);
+  });
+}
+function frame(){
+  const B = document.body.dataset, START = +B.start || 1, TOTAL = B.total;
+  const LESSON = B.lesson.replace(/(\d+-\d+)/g, '<span class="num">$1</span>');
+  const tiles = [];
+  for (let r = 0; r < 7; r++) for (let c = 0; c < 3; c++) {
+    const x = -20 + c * 215 + (r % 2) * 60, y = -30 + r * 135;
+    tiles.push(`<span class="tile" style="left:${x * K}pt;top:${y * K}pt">زياد السعدني</span>`);
+  }
+  document.querySelectorAll('.sheet').forEach((s, k) => {
+    s.dataset.page = START + k;
+    s.insertAdjacentHTML('afterbegin', `<div class="hdr"><span class="r">${LESSON}</span><span class="l">أكواد مع زياد</span></div>`);
+    s.insertAdjacentHTML('beforeend', `<div class="ftr"><img src="assets/badge.png" alt=""><span class="r"><b>أكواد مع زياد</b><span class="sep">|</span>أ/ زياد السعدني<span class="sep">|</span><span class="num">fb.com/61592749346697</span><span class="sep">|</span>واتساب <span class="num">01124840835</span></span><span class="pn">${START + k} / ${TOTAL}</span></div><div class="wm">${tiles.join('')}<span class="big">زياد السعدني</span></div>`);
+  });
+}
+// ===== 0) لو المتصفح مفعّل «أقل حجم للخط» (Minimum font size) بيكبّر الخطوط الصغيرة ويبوّظ التصميم.
+// الحل: نكبّر كل المقاسات ×K ونصغّر الصفحة ÷K بـ transform (الـtransform مابيتأثرش بالإعداد ده).
+let K = 1;
+function immunize(){
+  const t = document.createElement('span'); t.style.fontSize = '1px'; t.textContent = 'x';
+  document.body.appendChild(t); const mc = parseFloat(getComputedStyle(t).fontSize); t.remove();
+  const wid = px => { const s = document.createElement('span');
+    s.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;font-family:sans-serif;font-size:' + px + 'px';
+    s.textContent = 'abcdefghij'; document.body.appendChild(s); const w = s.getBoundingClientRect().width; s.remove(); return w; };
+  const mr = 4 * wid(4) / (wid(40) / 10);   // الحجم الفعلي اللي اترسم بيه نص طالب 4px
+  // بدون الإعداد: نص الـ4px بيترسم ≈4px (ممكن يزيد شوية من التقريب) — فمانعتبرهوش مفعّل غير لو أكبر من 6px
+  const m = Math.max(mc, mr > 6 ? mr : 0);
+  if (!(m > 1.5)) return;
+  K = Math.max(2, Math.ceil(m / 7));
+  const sc = v => v.replace(/(-?\d*\.?\d+)(pt|px|mm)\b/g, (_, n, u) => (parseFloat(n) * K).toFixed(3) + u);
+  const walk = rules => { for (const r of rules) {
+    if (r instanceof CSSMediaRule) { walk(r.cssRules); continue; }
+    if (!(r instanceof CSSStyleRule)) continue;
+    if (/^(html|body|\.page|html,\s*body)$/.test(r.selectorText.trim())) continue;
+    for (let i = 0; i < r.style.length; i++) { const p = r.style[i], v = r.style.getPropertyValue(p);
+      if (/\d(pt|px|mm)/.test(v)) r.style.setProperty(p, sc(v), r.style.getPropertyPriority(p)); }
+  } };
+  for (const s of document.styleSheets) { try { walk(s.cssRules); } catch (e) {} }
+  document.querySelectorAll('.flow [style]').forEach(el => { el.style.cssText = sc(el.style.cssText); });
+  // الطريقة 1 (Chrome): zoom = 1/K — الصفحة بتفضل بمقاسها الحقيقي فالطباعة سليمة.
+  // الطريقة 2 (احتياطي): transform: scale(1/K) — لو المتصفح بيطبّق الحد الأدنى بعد الـzoom.
+  const probe = css => { const w = document.createElement('div'); w.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;' + css;
+    const s = document.createElement('span'); s.style.fontSize = (6 * K) + 'px'; s.textContent = 'abcdefghij';
+    w.appendChild(s); document.body.appendChild(w); const r = s.getBoundingClientRect().width; w.remove(); return r; };
+  const big = probe(''), zoomed = probe('zoom:' + (1 / K));
+  const zoomOK = Math.abs(zoomed - big / K) < 1.5;
+  const st = document.createElement('style');
+  st.textContent = zoomOK ? `.sheet{zoom:${1 / K}}` : `.sheet{transform:scale(${1 / K})}`;
+  document.head.appendChild(st); document.body.dataset.mode = zoomOK ? 'zoom' : 'transform';
+}
+window.addEventListener('load', async () => {
+  const F = "'Baloo Bhaijaan 2'";
+  await Promise.all([500, 600, 700, 800].map(w => document.fonts.load(`${w} 10pt ${F}`, 'أبجد')));
+  await document.fonts.ready;
+  immunize(); paginate(); tqTop(); frame();
+  document.body.dataset.ready = '1'; document.body.dataset.k = K;
+});
+</script>
+</head>
+<body data-lesson="الدرس 1-2 — كيف يعمل الذكاء الاصطناعي" data-start="2" data-total="99">
+<main class="flow">
+<div class="band">
+  <div class="badge"><span class="l">الدرس</span><span class="n">1-2</span></div>
+  <h1>كيف يعمل الذكاء الاصطناعي</h1>
+  <div class="who">
+    <div class="t"><span class="u">الوحدة الأولى</span><span class="k">الشرح والمراجعة</span></div>
+    <img src="assets/avatar.png" alt="">
+  </div>
+</div>
+<div class="two">
+  <div class="intro">
+    <h3>أهلًا بيك تاني — الدرس ده هيخلّيك تفهم الكلمات اللي بتسمعها كل يوم</h3>
+    <div class="body">
+      <img class="robot" src="assets/robot.svg" alt="">
+      <p>«ذكاء اصطناعي» كلمة بتسمعها في الإعلانات، وفي الأخبار، وفي كلام أصحابك. بس لو حد سألك: <b>هي إيه بالظبط؟</b> غالبًا هتلاقي الإجابة مش سهلة.</p>
+      <p>والأصعب إن فيه <b>أربعة مصطلحات</b> بيتقالوا ورا بعض كتير:</p>
+      <p class="trip"><b>ذكاء اصطناعي</b> · <b>تعلّم آلي</b> · <b>تعلّم عميق</b> · <b>ذكاء اصطناعي توليدي</b></p>
+      <p>المشكلة إنهم <b>مش حاجة واحدة</b>، وفي نفس الوقت <b>مش أربع حاجات منفصلة تمامًا</b>… فيه علاقة واضحة بينهم.</p>
+      <p>في الدرس ده هنفهم معنى كل مصطلح، ونرتّب العلاقة بينهم في رسم واحد بسيط، ونفهم مين جزء من مين، وفين مكان الذكاء الاصطناعي التوليدي من الصورة. وفي الآخر هنعرف ليه لازم <b>تتحقق</b> من اللي بيطلعهولك قبل ما تعتمد عليه.</p>
+    </div>
+    <div class="foot"><span class="pill-dark">يلا نرتّب الصورة مع بعض</span></div>
+  </div>
+  <div class="goals">
+    <h3>أهداف التعلم</h3>
+    <div class="g"><span class="tag">عرّف</span><span class="x">الذكاء الاصطناعي، وميّز بين التعلّم الآلي والتعلم العميق والذكاء الاصطناعي التوليدي.</span></div>
+    <div class="g"><span class="tag">اشرح</span><span class="x">العلاقة بين هذه المفاهيم باستخدام أمثلة مناسبة.</span></div>
+    <div class="g"><span class="tag">قيّم</span><span class="x">خطر الهلوسة وحدد إجراءً مناسبًا للتحقق من مخرجات الذكاء الاصطناعي التوليدي.</span></div>
+  </div>
+</div>
+<div class="note-box"><span class="tag">للفهم</span>أي جزء عليه علامة «للفهم» هو شرح أو رسم إضافي للتوضيح، ومش مطلوب حفظه كنص من الكتاب.</div>
+<div class="map m2">
+  <div class="cell c1"><h4><span class="mn">1</span>الذكاء الاصطناعي <bdi class="nw">(AI)</bdi></h4><ul>
+    <li>مجال يضم أنظمة حاسوبية تنفّذ مهام ذكية.</li>
+    <li>تعلّم من البيانات · تنبؤ · تعرّف · توليد محتوى · اتخاذ القرارات أو دعمها.</li>
+    <li><b>أمثلة:</b> التعرف على الكلام والصور، والترجمة.</li></ul></div>
+  <div class="cell c3"><h4><span class="mn">2</span>التعلّم الآلي <bdi class="nw">(ML)</bdi></h4><ul>
+    <li>فرع من الذكاء الاصطناعي.</li>
+    <li>النماذج تتعلم أنماطًا من البيانات.</li>
+    <li>بدلًا من برمجة كل قاعدة صراحةً.</li>
+    <li><b>أمثلة:</b> تصنيف الرسائل المزعجة، وتوصية المنتجات.</li></ul></div>
+  <div class="hub">كيف يعمل<br>الذكاء<br>الاصطناعي
+    <svg class="lk r1" viewBox="0 0 20 16"><path d="M0 14 C7 14 10 3 17 3" fill="none" stroke="#22375c" stroke-width="1.55" stroke-linecap="round"/><circle cx="17.5" cy="3" r="2" fill="#22375c"/></svg>
+    <svg class="lk r2" viewBox="0 0 20 16"><path d="M0 2 C7 2 10 13 17 13" fill="none" stroke="#e29433" stroke-width="1.55" stroke-linecap="round"/><circle cx="17.5" cy="13" r="2" fill="#e29433"/></svg>
+    <svg class="lk l1" viewBox="0 0 20 16"><path d="M20 14 C13 14 10 3 3 3" fill="none" stroke="#2e4a78" stroke-width="1.55" stroke-linecap="round"/><circle cx="2.5" cy="3" r="2" fill="#2e4a78"/></svg>
+    <svg class="lk l2" viewBox="0 0 20 16"><path d="M20 2 C13 2 10 13 3 13" fill="none" stroke="#a9670f" stroke-width="1.55" stroke-linecap="round"/><circle cx="2.5" cy="13" r="2" fill="#a9670f"/></svg>
+  </div>
+  <div class="cell c2"><h4><span class="mn">3</span>التعلم العميق <bdi class="nw">(DL)</bdi></h4><ul>
+    <li>أسلوب من أساليب التعلّم الآلي.</li>
+    <li>شبكات عصبية متعددة الطبقات.</li>
+    <li><b>أمثلة:</b> تحليل الصور، والتعرف على الكلام.</li></ul></div>
+  <div class="cell c4"><h4><span class="mn">4</span>الذكاء الاصطناعي التوليدي <bdi class="nw">(GenAI)</bdi></h4><ul>
+    <li>أنظمة تُنشئ محتوى جديدًا.</li>
+    <li>تعتمد غالبية أنظمته الحديثة على نماذج التعلم العميق.</li></ul>
+    <div class="imp"><b>الهلوسة:</b> نص يبدو معقولًا لكنه غير صحيح واقعيًا.</div></div>
+</div>
+<div class="iq">
+  <div class="q">
+    <div class="lab">السؤال الرئيسي — الدرس كله بيجاوب عليه</div>
+    <div class="qq">ما هو الذكاء الاصطناعي، وكيف يرتبط التعلّم الآلي والتعلم العميق والذكاء الاصطناعي التوليدي ببعضهم البعض؟</div>
+  </div>
+  <div class="idea"><span class="qmark">”</span><b>الفكرة الأساسية:</b> الذكاء الاصطناعي <b>مجال واسع</b>، ويُعد التعلّم الآلي والتعلم العميق والذكاء الاصطناعي التوليدي <b>مفاهيم مترابطة داخله</b>.</div>
+</div>
+<div class="part p1"><span>الجزء الأول</span></div>
+<hr class="rule">
+<h2 class="sec"><span class="num">1</span><span class="dot">·</span> ماهية الذكاء الاصطناعي <bdi class="nw">(AI)</bdi></h2>
+<div class="sf"><div class="quote"><span class="qmark">”</span>عندما تستخدم هاتفك أو حاسوبك، قد يعمل الذكاء الاصطناعي <b>في الخلفية</b> دون أن تلاحظه: فيصنف رسائل البريد المزعجة، أو يوصي بمنتجات، أو يترجم نصًا. وقد تتفاعل معه <b>مباشرة</b> من خلال أدوات تولّد نصوصًا أو صورًا استجابةً لطلب المستخدم. هذه كلها تطبيقات للذكاء الاصطناعي، <b>لكنها تعتمد على أساليب مختلفة</b>. يُعد <b>التعلّم الآلي فرعًا</b> من الذكاء الاصطناعي، ويُعد <b>التعلم العميق أسلوبًا</b> من أساليب التعلّم الآلي، وتعتمد <b>غالبية</b> أنظمة الذكاء الاصطناعي التوليدي الحديثة على التعلم العميق.</div><div class="im ex3"><div class="ex3c"><div><span><svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="26" fill="#eef2f8"/><text x="17" y="30" text-anchor="middle" font-size="16" fill="#22375c" font-family="Baloo Bhaijaan 2" font-weight="800">A</text><path d="M10.5 20h13" stroke="#22375c" stroke-width="2" stroke-linecap="round"/><rect x="29" y="27" width="21" height="17" rx="3.5" fill="#2e4a78"/><path d="M34 44l-2 5 6-5z" fill="#2e4a78"/><text x="39.5" y="40.5" direction="rtl" text-anchor="middle" font-size="12" fill="#fff" font-family="Baloo Bhaijaan 2" font-weight="800">ع</text></svg></span><b>الترجمة</b></div><div><span><svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="26" fill="#eef2f8"/><rect x="14" y="16" width="32" height="27" rx="3" fill="#fff" stroke="#22375c" stroke-width="2.4"/><rect x="19" y="20.5" width="9" height="9" rx="2" fill="#e29433"/><circle cx="23.5" cy="25" r="2.2" fill="#fff"/><path d="M16 40l9-9 6 6 5-4 8 7" fill="none" stroke="#2e4a78" stroke-width="2.4" stroke-linejoin="round"/></svg></span><b>التعرف على الصور</b></div><div><span><svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="26" fill="#eef2f8"/><rect x="14" y="24" width="5" height="2.6" rx="1.3" fill="#e29433"/><rect x="19" y="20" width="5" height="2.6" rx="1.3" fill="#e29433"/><rect x="25" y="17.5" width="5" height="2.6" rx="1.3" fill="#e29433"/><rect x="31" y="17.5" width="5" height="2.6" rx="1.3" fill="#e29433"/><rect x="37" y="20" width="5" height="2.6" rx="1.3" fill="#e29433"/><rect x="42" y="24" width="5" height="2.6" rx="1.3" fill="#e29433"/><rect x="22" y="29" width="22" height="14" rx="3.5" fill="#2e4a78"/><path d="M26 43l-1.5 5 6-5z" fill="#2e4a78"/><path d="M27 34h12M27 38h8" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg></span><b>التعرف على الكلام</b></div></div><div class="icap">ثلاثة أمثلة يومية على الذكاء الاصطناعي: التعرف على الكلام، والصور، والترجمة.</div></div></div>
+<span class="chip">الذكاء الاصطناعي <bdi class="nw">(AI)</bdi></span>
+<div class="banner kwn">مجال يضم <b>أنظمة حاسوبية</b> تستطيع تنفيذ مهام مثل <b>التعلم من البيانات</b>، و<b>التنبؤ</b>، و<b>التعرف</b>، و<b>توليد المحتوى</b>، و<b>اتخاذ القرارات أو دعمها</b>. <span class="bx">أمثلة: التعرف على الكلام والصور، والترجمة.</span></div>
+<div class="note-line"><span class="tag">للفهم</span><span class="lead">ببساطة</span>خلّي بالك من كلمة <b>«مجال»</b>. الكتاب مقالش «تقنية» ولا «برنامج» – قال <b>مجال</b> – يعني مفهوم واسع يضم تقنيات وتطبيقات متعددة. ودي أول خطوة عشان تفهم باقي الدرس.</div>
+<div class="note-line"><span class="tag">للفهم</span><span class="lead">طب ليه؟</span>لأن السؤال بييجي كده: «الذكاء الاصطناعي والتعلّم الآلي لهما المعنى نفسه» – والإجابة <b>خطأ</b>، لأن الذكاء الاصطناعي هو <b>المجال الواسع</b>، والتعلّم الآلي <b>فرع منه</b>.</div>
+<div class="sf nar keep"><div class="im"><img src="assets/u1/l12_narrow.jpg" alt=""><div class="icap">معظم أنظمة الذكاء الاصطناعي الحالية ضيقة النطاق، وتُصمم لأداء مهمة محددة أو مجموعة محدودة من المهام.</div></div><div class="pnl"><span class="fx abs">للفهم</span><h5>«ضيقة النطاق» يعني إيه؟</h5><div class="nrw"><div><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9M12 3c-2.6 2.6-3.8 5.6-3.8 9s1.2 6.4 3.8 9"/></svg></span><b>نظام ترجمة</b><i><span class="arr">←</span></i><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17 19 7"/></svg></span><small>يترجم النصوص</small></div><div><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/></svg></span><b>مرشح رسائل</b><i><span class="arr">←</span></i><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17 19 7"/></svg></span><small>يصنّف الرسائل المزعجة</small></div><div><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M6 12h3l1.5-3 3 6 1.5-3h3"/></svg></span><b>نظام تحليل أشعة</b><i><span class="arr">←</span></i><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17 19 7"/></svg></span><small>يحلّل صور الأشعة</small></div></div><p class="pf">كل نظام <b>شاطر في شغلته</b> — بس ده <b>مش معناه</b> إنه يقدر يعمل أي مهمة ذكية تانية.</p><p class="ps2"><b class="sl">ببساطة</b> نظام ذكاء اصطناعي ضيق النطاق ممكن يكون متصمم للترجمة أو لمجموعة محدودة من المهام؛ ومش معنى إنه شاطر في مهمة إنه يقدر يعمل أي مهمة ذكية تانية، زي قيادة عربية مثلًا.</p></div></div>
+<div class="pb"></div>
+<h2 class="sec"><span class="num">2</span><span class="dot">·</span> القواعد أم الأمثلة — مدخل إلى التعلّم الآلي</h2>
+<p class="lead kwn">التعليق اللي تحت الصورة بيوضّح الفرق الأساسي: <b>القواعد المبرمجة صراحةً</b> مقابل <b>الأنماط التي يتعلمها النموذج من البيانات</b>. الجملة دي بتلخّص الفرق الأساسي هنا: بدل ما المبرمج يكتب كل قاعدة بنفسه، <b>النموذج بيتعلّم الأنماط من البيانات</b>.</p>
+<figure class="bimg keep"><img src="assets/u1/l12_rules.jpg" alt=""><figcaption class="icap">القواعد المبرمجة صراحةً مقابل الأنماط التي يتعلمها النموذج من البيانات.</figcaption></figure>
+<div class="fig rvp keep"><span class="fx abs">للفهم</span>
+  <div class="rv">
+    <div class="rc"><h5><span><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.5h8l4 4v15H6z"/><path d="M14 2.5v4h4M9 11h6M9 14.5h6M9 18h4"/></svg></span>قواعد مكتوبة بإيد إنسان</h5>
+      <p class="ru">لو العنوان فيه كلمة «جائزة» <b>يبقى رسالة مزعجة</b>.</p>
+      <p class="ru">لو المرسل مش في دفتر العناوين <b>اعتبره مشبوه</b>.</p>
+      <div class="rf">كل قاعدة لازم حد يكتبها</div></div>
+    <div class="vs">مقابل</div>
+    <div class="rc pt"><h5><span><svg viewBox="0 0 24 24" fill="none" stroke="#a9670f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="1.6"/><circle cx="12" cy="6" r="1.6"/><circle cx="18" cy="6" r="1.6"/><circle cx="6" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="18" cy="12" r="1.6"/><circle cx="6" cy="18" r="1.6"/><circle cx="12" cy="18" r="1.6"/><path d="M15.5 16.5l5 3.5"/></svg></span>أنماط النموذج بيتعلمها من البيانات</h5>
+      <div class="ms"><i></i><i></i><i></i><i></i></div><small>آلاف الأمثلة المصنّفة قبل كده</small>
+      <div class="dn">↓</div>
+      <div class="rf g">النموذج يستنتج النمط بنفسه</div></div>
+  </div>
+  <div class="cap">على اليمين: إنسان بيكتب كل قاعدة بإيده · على الشمال: النموذج بيشوف أمثلة كتير ويستنتج النمط لوحده</div>
+</div>
+<div class="note-line"><span class="tag">للفهم</span><span class="lead">مش للحفظ</span>الأمثلة اللي في الرسمة (كلمة «جائزة»، دفتر العناوين) <b>من عندي</b> – الكتاب مذكرش أمثلة للقواعد. حاططها عشان تحسّ بالفرق، مش عشان تحفظها.</div>
+<div class="bridge"><span class="fx">للفهم</span>لحد هنا اتكلمنا عن <b>المجال الواسع</b>. الجزء اللي جاي: <b>العلاقة بين الأربعة</b> بالظبط.</div>
+<div class="pb"></div>
+<div class="part p2"><span>الجزء الثاني</span></div>
+<hr class="rule">
+<h2 class="sec"><span class="num">3</span><span class="dot">·</span> إزاي المفاهيم دي مرتبطة ببعض؟</h2>
+<div class="quote kwn"><span class="qmark">”</span>يوضح الشكل <b>علاقة مبسطة</b> بين المفاهيم: <b>التعلّم الآلي فرع من الذكاء الاصطناعي</b>، و<b>التعلم العميق أسلوب ضمن التعلّم الآلي</b>، وتعتمد <b>غالبية</b> تطبيقات الذكاء الاصطناعي التوليدي الحديثة على نماذج التعلم العميق. وهذه <b>علاقة تعليمية مبسطة</b>، فلا ينبغي فهمها على أنها <b>تسلسل احتواء صارم في كل حالة</b>.</div>
+<div class="fig nest keep"><div class="nh">تسلسل تقنيات الذكاء الاصطناعي</div><div class="n1"><div class="nl"><b>الذكاء الاصطناعي</b><small>إعادة إنتاج السلوك الذكي البشري</small></div><div class="n2"><div class="nl"><b>التعلّم الآلي</b><small>تعلم الأنماط من البيانات</small></div><div class="n3"><div class="nl"><b>التعلم العميق</b><small>استخدام الشبكات العصبية</small></div><div class="n4"><div class="nl"><b>الذكاء الاصطناعي التوليدي</b><small>توليد الصور، <bdi>ChatGPT</bdi> مثلاً</small></div></div></div></div></div><div class="cap">علاقة مبسطة بين الذكاء الاصطناعي والتعلّم الآلي والتعلم العميق والذكاء الاصطناعي التوليدي.</div></div>
+<div class="save4"><span class="sl">احفظها</span><div class="sc"><span>الذكاء الاصطناعي</span><i>←</i><span>التعلّم الآلي</span><i>←</i><span>التعلم العميق</span><i>←</i><span>الذكاء الاصطناعي التوليدي</span></div></div>
+<div class="svn">من <b>الفكرة الأوسع</b> (الذكاء الاصطناعي) إلى <b>الأكثر تخصصًا</b> (الذكاء الاصطناعي التوليدي).</div>
+<div class="box cream keep">
+  <h3>أهم نقطة في الدرس</h3>
+  <p>الكتاب بيعرض العلاقة بين المفاهيم بشكل <b>مبسّط</b>، وبيوضّح إننا <b>ما نفهمهاش كتسلسل احتواء صارم في كل حالة</b>.</p>
+  <p>فخلّي بالك من الاتنين: افهم <b>ترتيب المفاهيم</b> في الرسم التعليمي، وافتكر <b>الملاحظة المهمة</b> عن حدود التبسيط ده.</p>
+</div>
+<div class="pb"></div>
+<h2 class="sec"><span class="num">4</span><span class="dot">·</span> التعلّم الآلي والتعلم العميق والذكاء الاصطناعي التوليدي</h2>
+<div class="cc3 keep"><div class="cx c0"><div class="ch"><span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20.5h17"/><path d="M5 16l4.5-5 3.5 3 6.5-7.5"/><path d="M15 6.5h4.5V11"/></svg></span><h4>التعلّم الآلي <small><bdi class="nw">(ML – Machine Learning)</bdi></small></h4><span class="rel">فرع من الذكاء الاصطناعي</span></div><p class="cd"><b>فرع</b> من الذكاء الاصطناعي تتعلم فيه النماذج <b>أنماطًا من البيانات</b> لإجراء تنبؤات أو تصنيفات أو دعم قرارات، <b>بدلًا من برمجة كل قاعدة صراحةً</b>.</p><p class="ce"><b>أمثلة:</b> تصنيف الرسائل المزعجة، وتوصية المنتجات.</p><p class="cs"><span class="fx">للفهم</span><b class="sl">ببساطة</b> بدل ما حد يكتب للنظام «لو كذا اعمل كذا»، بنديله أمثلة كتير، وهو يطلّع منها النمط اللي يساعده يتنبأ أو يصنّف.</p></div><div class="cx c1"><div class="ch"><span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="19" cy="18" r="2"/><path d="M6.8 7l3.4 3.9M6.8 17l3.4-3.9M13.8 11l3.4-3.9M13.8 13l3.4 3.9"/></svg></span><h4>التعلم العميق <small><bdi class="nw">(DL – Deep Learning)</bdi></small></h4><span class="rel">أسلوب ضمن التعلّم الآلي</span></div><p class="cd"><b>أسلوب</b> من أساليب التعلّم الآلي يعتمد على <b>شبكات عصبية متعددة الطبقات</b>، ويمكنه تعلم <b>تمثيلات وأنماط معقدة</b> من البيانات.</p><p class="ce"><b>أمثلة:</b> تحليل الصور، والتعرف على الكلام.</p><p class="cs"><span class="fx">للفهم</span><b class="sl">ببساطة</b> هو تعلّم آلي برضه، بس بيستخدم شبكات فيها <b>طبقات كتير</b> — وده اللي بيخلّيه يقدر يتعامل مع أنماط <b>معقدة</b> زي اللي في الصور والكلام.</p></div><div class="cx c2"><div class="ch"><span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l1.9 5.2 5.2 1.9-5.2 1.9L12 17.7l-1.9-5.2-5.2-1.9 5.2-1.9z"/><path d="M18.5 15.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg></span><h4>الذكاء الاصطناعي التوليدي <small><bdi class="nw">(GenAI – Generative AI)</bdi></small></h4><span class="rel">تعتمد غالبية أنظمته الحديثة على التعلم العميق</span></div><p class="cd"><b>أنظمة تُنشئ محتوى جديدًا</b>، مثل النصوص والصور والصوت والبرمجيات، اعتمادًا على <b>الأنماط التي تعلمتها من بيانات التدريب</b>. وتعتمد <b>غالبية</b> أنظمته الحديثة على نماذج التعلم العميق.</p><p class="ce"><b>أمثلة:</b> <bdi class="nw">ChatGPT</bdi> وأدوات توليد الصور.</p><p class="cs"><span class="fx">للفهم</span><b class="sl">ببساطة</b> الأنواع اللي فاتت بتتنبأ أو بتصنّف؛ أما ده فبيطلّع <b>حاجة جديدة</b> ما كانتش موجودة: نص أو صورة أو صوت.</p></div></div>
+<div class="note-line"><span class="tag">للفهم</span><span class="lead">ببساطة</span>لاحظ الكلمة الأولى في كل تعريف: <b>التعلّم الآلي «فرع»</b> من الذكاء الاصطناعي، و<b>التعلم العميق «أسلوب»</b> ضمن التعلّم الآلي، و<b>الذكاء الاصطناعي التوليدي «أنظمة»</b> بتنشئ محتوى جديدًا. الكلمات دي بتساعدك تميّز طبيعة كل مفهوم.</div>
+<div class="fig genf keep"><svg class="gen" viewBox="0 0 520 206"><defs><marker id="ga" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10z" fill="#2e4a78"/></marker></defs><text x="508" y="20" direction="rtl" font-size="11.5" fill="#22375c" font-family="Baloo Bhaijaan 2" font-weight="800">الذكاء الاصطناعي التوليدي ينشئ نصًا وصورًا وصوتًا جديدة</text><rect x="418" y="78" width="84" height="70" rx="7" fill="#f5f7fb" stroke="#dde5ef" stroke-width="1.2"/><rect x="430" y="92" width="60" height="5" rx="2.5" fill="#8a9ab3"/><rect x="430" y="104" width="52" height="5" rx="2.5" fill="#8a9ab3"/><rect x="430" y="116" width="60" height="5" rx="2.5" fill="#8a9ab3"/><rect x="430" y="128" width="40" height="5" rx="2.5" fill="#8a9ab3"/><text x="460" y="166" direction="rtl" text-anchor="middle" font-size="10" fill="#4e5f7c" font-family="Baloo Bhaijaan 2" font-weight="700">المدخل (الطلب)</text><line x1="412" y1="113" x2="356" y2="113" stroke="#2e4a78" stroke-width="2" marker-end="url(#ga)"/><rect x="248" y="80" width="104" height="66" rx="9" fill="#22375c"/><text x="300" y="107" direction="rtl" text-anchor="middle" font-size="11" fill="#fff" font-family="Baloo Bhaijaan 2" font-weight="800">الذكاء الاصطناعي</text><text x="300" y="126" direction="rtl" text-anchor="middle" font-size="11" fill="#f1c88b" font-family="Baloo Bhaijaan 2" font-weight="800">التوليدي</text><path d="M246 113 C214 113 212 58 182 58" fill="none" stroke="#2e4a78" stroke-width="2" marker-end="url(#ga)"/><path d="M246 113 C214 113 212 113 182 113" fill="none" stroke="#2e4a78" stroke-width="2" marker-end="url(#ga)"/><path d="M246 113 C214 113 212 168 182 168" fill="none" stroke="#2e4a78" stroke-width="2" marker-end="url(#ga)"/><rect x="18" y="36" width="158" height="44" rx="6" fill="#fff" stroke="#dde5ef" stroke-width="1.2"/><rect x="28" y="45" width="120" height="4" rx="2" fill="#2e4a78"/><rect x="28" y="53" width="104" height="4" rx="2" fill="#2e4a78"/><rect x="28" y="61" width="84" height="4" rx="2" fill="#2e4a78"/><text x="170" y="74" direction="rtl" font-size="9" fill="#6e7f9c" font-family="Baloo Bhaijaan 2" font-weight="700">نص</text><rect x="18" y="91" width="158" height="44" rx="6" fill="#fff" stroke="#dde5ef" stroke-width="1.2"/><circle cx="40" cy="104" r="4.5" fill="#e29433"/><path d="M28 128l18-15 11 9 13-10 22 16z" fill="#2e4a78"/><text x="170" y="129" direction="rtl" font-size="9" fill="#6e7f9c" font-family="Baloo Bhaijaan 2" font-weight="700">صورة</text><rect x="18" y="146" width="158" height="44" rx="6" fill="#fff" stroke="#dde5ef" stroke-width="1.2"/><rect x="28" y="164.0" width="3.6" height="8" rx="1.8" fill="#2e4a78"/><rect x="35" y="159.0" width="3.6" height="18" rx="1.8" fill="#2e4a78"/><rect x="42" y="162.0" width="3.6" height="12" rx="1.8" fill="#2e4a78"/><rect x="49" y="155.0" width="3.6" height="26" rx="1.8" fill="#2e4a78"/><rect x="56" y="161.0" width="3.6" height="14" rx="1.8" fill="#2e4a78"/><rect x="63" y="157.0" width="3.6" height="22" rx="1.8" fill="#2e4a78"/><rect x="70" y="153.0" width="3.6" height="30" rx="1.8" fill="#2e4a78"/><rect x="77" y="162.0" width="3.6" height="12" rx="1.8" fill="#2e4a78"/><rect x="84" y="158.0" width="3.6" height="20" rx="1.8" fill="#2e4a78"/><rect x="91" y="155.0" width="3.6" height="26" rx="1.8" fill="#2e4a78"/><rect x="98" y="163.0" width="3.6" height="10" rx="1.8" fill="#2e4a78"/><rect x="105" y="159.0" width="3.6" height="18" rx="1.8" fill="#2e4a78"/><rect x="112" y="164.0" width="3.6" height="8" rx="1.8" fill="#2e4a78"/><rect x="119" y="157.0" width="3.6" height="22" rx="1.8" fill="#2e4a78"/><rect x="126" y="161.0" width="3.6" height="14" rx="1.8" fill="#2e4a78"/><text x="170" y="184" direction="rtl" font-size="9" fill="#6e7f9c" font-family="Baloo Bhaijaan 2" font-weight="700">صوت</text></svg><div class="cap">يُنشئ الذكاء الاصطناعي التوليدي نصوصًا وصورًا ومقاطع صوتية جديدة.</div></div>
+<div class="pb"></div>
+<h2 class="sec"><span class="num">5</span><span class="dot">·</span> الشبكة العصبية الاصطناعية</h2>
+<span class="chip">الشبكة العصبية الاصطناعية <bdi class="nw">(ANN – Artificial Neural Network)</bdi></span>
+<div class="banner kwn">نموذج حاسوبي <b>مستوحى بصورة مبسطة من فكرة ترابط العصبونات</b>، ويتكون من <b>وحدات مترابطة تتغير أوزانها أثناء التدريب</b> لتتعلم أنماطًا من البيانات.</div>
+<div class="fig nnf keep"><svg class="nn" viewBox="0 0 460 196"><text x="448" y="20" direction="rtl" font-size="11.5" fill="#22375c" font-family="Baloo Bhaijaan 2" font-weight="800">شبكة عصبية: أجزاء بسيطة، متصلة في طبقات</text><line x1="398" y1="70" x2="286" y2="52" stroke="#c9d5e5" stroke-width="1"/><line x1="398" y1="70" x2="286" y2="76" stroke="#c9d5e5" stroke-width="1"/><line x1="398" y1="70" x2="286" y2="100" stroke="#c9d5e5" stroke-width="1"/><line x1="398" y1="70" x2="286" y2="124" stroke="#c9d5e5" stroke-width="1"/><line x1="398" y1="70" x2="286" y2="148" stroke="#c9d5e5" stroke-width="1"/><line x1="398" y1="100" x2="286" y2="52" stroke="#c9d5e5" stroke-width="1"/><line x1="398" y1="100" x2="286" y2="76" stroke="#c9d5e5" stroke-width="1"/><line x1="398" y1="100" x2="286" y2="100" stroke="#c9d5e5" stroke-width="1"/><line x1="398" y1="100" x2="286" y2="124" stroke="#c9d5e5" stroke-width="1"/><line x1="398" y1="100" x2="286" y2="148" stroke="#c9d5e5" stroke-width="1"/><line x1="398" y1="130" x2="286" y2="52" stroke="#c9d5e5" stroke-width="1"/><line x1="398" y1="130" x2="286" y2="76" stroke="#c9d5e5" stroke-width="1"/><line x1="398" y1="130" x2="286" y2="100" stroke="#c9d5e5" stroke-width="1"/><line x1="398" y1="130" x2="286" y2="124" stroke="#c9d5e5" stroke-width="1"/><line x1="398" y1="130" x2="286" y2="148" stroke="#c9d5e5" stroke-width="1"/><line x1="286" y1="52" x2="174" y2="52" stroke="#c9d5e5" stroke-width="1"/><line x1="286" y1="52" x2="174" y2="76" stroke="#c9d5e5" stroke-width="1"/><line x1="286" y1="52" x2="174" y2="100" stroke="#c9d5e5" stroke-width="1"/><line x1="286" y1="52" x2="174" y2="124" stroke="#c9d5e5" stroke-width="1"/><line x1="286" y1="52" x2="174" y2="148" stroke="#c9d5e5" stroke-width="1"/><line x1="286" y1="76" x2="174" y2="52" stroke="#c9d5e5" stroke-width="1"/><line x1="286" y1="76" x2="174" y2="76" stroke="#c9d5e5" stroke-width="1"/><line x1="286" y1="76" x2="174" y2="100" stroke="#c9d5e5" stroke-width="1"/><line x1="286" y1="76" x2="174" y2="124" stroke="#c9d5e5" stroke-width="1"/><line x1="286" y1="76" x2="174" y2="148" stroke="#c9d5e5" stroke-width="1"/><line x1="286" y1="100" x2="174" y2="52" stroke="#c9d5e5" stroke-width="1"/><line x1="286" y1="100" x2="174" y2="76" stroke="#c9d5e5" stroke-width="1"/><line x1="286" y1="100" x2="174" y2="100" stroke="#c9d5e5" stroke-width="1"/><line x1="286" y1="100" x2="174" y2="124" stroke="#c9d5e5" stroke-width="1"/><line x1="286" y1="100" x2="174" y2="148" stroke="#c9d5e5" stroke-width="1"/><line x1="286" y1="124" x2="174" y2="52" stroke="#c9d5e5" stroke-width="1"/><line x1="286" y1="124" x2="174" y2="76" stroke="#c9d5e5" stroke-width="1"/><line x1="286" y1="124" x2="174" y2="100" stroke="#c9d5e5" stroke-width="1"/><line x1="286" y1="124" x2="174" y2="124" stroke="#c9d5e5" stroke-width="1"/><line x1="286" y1="124" x2="174" y2="148" stroke="#c9d5e5" stroke-width="1"/><line x1="286" y1="148" x2="174" y2="52" stroke="#c9d5e5" stroke-width="1"/><line x1="286" y1="148" x2="174" y2="76" stroke="#c9d5e5" stroke-width="1"/><line x1="286" y1="148" x2="174" y2="100" stroke="#c9d5e5" stroke-width="1"/><line x1="286" y1="148" x2="174" y2="124" stroke="#c9d5e5" stroke-width="1"/><line x1="286" y1="148" x2="174" y2="148" stroke="#c9d5e5" stroke-width="1"/><line x1="174" y1="52" x2="62" y2="70" stroke="#c9d5e5" stroke-width="1"/><line x1="174" y1="52" x2="62" y2="100" stroke="#c9d5e5" stroke-width="1"/><line x1="174" y1="52" x2="62" y2="130" stroke="#c9d5e5" stroke-width="1"/><line x1="174" y1="76" x2="62" y2="70" stroke="#c9d5e5" stroke-width="1"/><line x1="174" y1="76" x2="62" y2="100" stroke="#c9d5e5" stroke-width="1"/><line x1="174" y1="76" x2="62" y2="130" stroke="#c9d5e5" stroke-width="1"/><line x1="174" y1="100" x2="62" y2="70" stroke="#c9d5e5" stroke-width="1"/><line x1="174" y1="100" x2="62" y2="100" stroke="#c9d5e5" stroke-width="1"/><line x1="174" y1="100" x2="62" y2="130" stroke="#c9d5e5" stroke-width="1"/><line x1="174" y1="124" x2="62" y2="70" stroke="#c9d5e5" stroke-width="1"/><line x1="174" y1="124" x2="62" y2="100" stroke="#c9d5e5" stroke-width="1"/><line x1="174" y1="124" x2="62" y2="130" stroke="#c9d5e5" stroke-width="1"/><line x1="174" y1="148" x2="62" y2="70" stroke="#c9d5e5" stroke-width="1"/><line x1="174" y1="148" x2="62" y2="100" stroke="#c9d5e5" stroke-width="1"/><line x1="174" y1="148" x2="62" y2="130" stroke="#c9d5e5" stroke-width="1"/><circle cx="398" cy="70" r="8" fill="#e29433" stroke="#fff" stroke-width="1.6"/><circle cx="398" cy="100" r="8" fill="#e29433" stroke="#fff" stroke-width="1.6"/><circle cx="398" cy="130" r="8" fill="#e29433" stroke="#fff" stroke-width="1.6"/><circle cx="286" cy="52" r="8" fill="#fff" stroke="#22375c" stroke-width="2.2"/><circle cx="286" cy="76" r="8" fill="#fff" stroke="#22375c" stroke-width="2.2"/><circle cx="286" cy="100" r="8" fill="#fff" stroke="#22375c" stroke-width="2.2"/><circle cx="286" cy="124" r="8" fill="#fff" stroke="#22375c" stroke-width="2.2"/><circle cx="286" cy="148" r="8" fill="#fff" stroke="#22375c" stroke-width="2.2"/><circle cx="174" cy="52" r="8" fill="#fff" stroke="#22375c" stroke-width="2.2"/><circle cx="174" cy="76" r="8" fill="#fff" stroke="#22375c" stroke-width="2.2"/><circle cx="174" cy="100" r="8" fill="#fff" stroke="#22375c" stroke-width="2.2"/><circle cx="174" cy="124" r="8" fill="#fff" stroke="#22375c" stroke-width="2.2"/><circle cx="174" cy="148" r="8" fill="#fff" stroke="#22375c" stroke-width="2.2"/><circle cx="62" cy="70" r="8" fill="#22375c" stroke="#fff" stroke-width="1.6"/><circle cx="62" cy="100" r="8" fill="#22375c" stroke="#fff" stroke-width="1.6"/><circle cx="62" cy="130" r="8" fill="#22375c" stroke="#fff" stroke-width="1.6"/><text x="398" y="182" direction="rtl" text-anchor="middle" font-size="10.5" fill="#4e5f7c" font-family="Baloo Bhaijaan 2" font-weight="700">طبقة الإدخال</text><text x="286" y="182" direction="rtl" text-anchor="middle" font-size="10.5" fill="#4e5f7c" font-family="Baloo Bhaijaan 2" font-weight="700">طبقة مخفية</text><text x="174" y="182" direction="rtl" text-anchor="middle" font-size="10.5" fill="#4e5f7c" font-family="Baloo Bhaijaan 2" font-weight="700">طبقة مخفية</text><text x="62" y="182" direction="rtl" text-anchor="middle" font-size="10.5" fill="#4e5f7c" font-family="Baloo Bhaijaan 2" font-weight="700">طبقة الإخراج</text></svg><div class="cap">تربط الشبكة العصبية بين العديد من المكونات البسيطة.</div></div>
+<div class="note-line"><span class="tag">للفهم</span><span class="lead">ببساطة</span><b>«متعددة الطبقات»</b> هي الكلمة اللي بتخلّي التعلم <b>«عميق»</b>: وحدات مترابطة على طبقات، بين طبقة الإدخال وطبقة الإخراج.</div>
+<div class="note-line"><span class="tag">للفهم</span><span class="lead">ببساطة</span><b>«الوزن»</b> ده رقم بيقول للوحدة: الإشارة الجاية من هنا مهمة قد إيه. ولو بنبدأ تدريب شبكة عصبية من البداية، الأوزان بتبدأ عادةً بقيم أوّلية، وأثناء التدريب بيتم تعديلها تدريجيًا بناءً على أداء النموذج، لحد ما يتعلّم الأنماط الموجودة في البيانات – وده معنى <b>«تتغير أوزانها أثناء التدريب»</b>.</div>
+<div class="note-line"><span class="tag">للفهم</span><span class="lead">طب ليه؟</span>لأن الكتاب في «توقّف وفكّر» بيسأل: ليه الذكاء الاصطناعي بيتلخبط في حاجة <b>نادرًا ما شافها</b> في بياناته؟ لأنه ما شافش <b>أمثلة كفاية تمثّل الحالة دي أثناء التدريب</b>. فممكن <b>ما يكونش اتعلّم نمط موثوق</b> يساعده يتعامل معاها.</div>
+<div class="bridge"><span class="fx">للفهم</span>فاضل بس حاجة واحدة: الذكاء الاصطناعي التوليدي <b>بيغلط إزاي</b>، وإنت تعمل إيه؟</div>
+<div class="pb"></div>
+<div class="part p3"><span>الجزء الثالث</span></div>
+<hr class="rule">
+<h2 class="sec"><span class="num">6</span><span class="dot">·</span> الهلوسة والتحقق من المخرجات</h2>
+<div class="quote kwn"><span class="qmark">”</span>يمكن للذكاء الاصطناعي التوليدي إنتاج نص <b>يبدو معقولًا لكنه غير صحيح واقعيًا</b> («هلوسة»).</div>
+<div class="fig hal keep"><span class="fx abs">للفهم</span>
+  <div class="hr3">
+    <div class="hs ok"><span class="hm"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17 19 7"/></svg></span><b>صياغته تبدو سليمة</b></div>
+    <div class="hd"><i style="width:88%"></i><i style="width:76%"></i><i style="width:92%"></i><i style="width:60%"></i></div>
+    <div class="hs bad"><span class="hm"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></svg></span><b>لكن المعلومة غير صحيحة</b></div>
+  </div>
+  <div class="hv"><span><svg viewBox="0 0 24 24" fill="none" stroke="#a9670f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5l5 5"/></svg></span>لازم تتحقق من المخرجات ومصادرها</div>
+  <div class="cap">المعلومة الخاطئة ممكن تتكتب بصياغة مقنعة — عشان كده لازم نتحقق من المخرجات ومصادرها</div>
+</div>
+<div class="note-line"><span class="tag">للفهم</span><span class="lead">طب ليه؟</span><b>ليه ده خطر بالذات في تقرير مدرسي؟</b> لأنك لو نقلت الناتج زي ما هو، ممكن <b>تستخدم معلومة غير صحيحة وإنت فاكر إنها موثوقة</b>، وتبني عليها باقي التقرير. عشان كده لازم <b>تتحقّق من المخرجات ومصادرها قبل استخدامها</b>.</div>
+<div class="note-line"><span class="tag">للفهم</span><span class="lead">ببساطة</span>في نموذج توليد النصوص، النظام بيولّد نصًا <b>يناسب الأنماط اللي اتعلّمها</b>؛ لكن ده <b>مش ضمان</b> إن كل معلومة بيولّدها صحيحة واقعيًا.</div>
+<div class="box plain keep kx">
+  <h3>لو السؤال جالك: «قيّم الخطر وحدّد إجراءً مناسبًا»</h3>
+  <p><b>الخطر:</b> الذكاء الاصطناعي التوليدي قد ينتج نصًا يبدو معقولًا لكنه <b>غير صحيح واقعيًا</b>، فيؤدي استخدامه كما هو إلى نقل معلومات خاطئة.</p>
+  <p><b>الإجراء:</b> <b>التحقق من المخرجات ومصادرها</b> قبل استخدامها، والرجوع إلى مصدر موثوق بدلًا من الاعتماد على الناتج مباشرةً.</p>
+</div>
+<div class="kidea keep"><div class="kh">الفكرة الرئيسة</div><p>الذكاء الاصطناعي <b>مجال واسع</b> يضم التعلّم الآلي والتعلم العميق <b>كفئات متداخلة</b>، وتعتمد <b>غالبية</b> أنظمة الذكاء الاصطناعي التوليدي الحالية على التعلم العميق – من <b>الفكرة الأوسع</b> (الذكاء الاصطناعي) إلى <b>الأكثر تخصصًا</b> (الذكاء الاصطناعي التوليدي). وهذه <b>علاقة تعليمية مبسطة لا تسلسل احتواء صارم في كل حالة</b>.</p></div>
+<div class="box cream keep">
+  <h3>خلي بالك من العبارات دي</h3>
+  <ul>
+    <li>العلاقة بين الأربعة <b>«علاقة تعليمية مبسطة»</b> و<b>«لا ينبغي فهمها على أنها تسلسل احتواء صارم في كل حالة»</b>.</li>
+    <li><b>«غالبية»</b> أنظمة التوليدي الحديثة تعتمد على التعلم العميق – الكتاب مقالش «كلها».</li>
+    <li>معظم أنظمة الذكاء الاصطناعي الحالية <b>«ضيقة النطاق»</b> وتُصمم لمهمة محددة أو مجموعة محدودة.</li>
+    <li>الشبكة العصبية <b>«مستوحاة بصورة مبسطة»</b> من ترابط العصبونات – مش نسخة من المخ.</li>
+    <li>التعلم العميق <b>«كثيرًا ما يعتمد على بيانات كبيرة نسبيًا»</b> – «كثيرًا ما» مش «دايمًا».</li>
+  </ul>
+</div>
+<div class="box plain keep">
+  <h3>مثال من حياتنا<span class="fx">للفهم</span></h3>
+  <p>افتح موبايلك دلوقتي: <b>البريد</b> شايل الرسائل المزعجة لوحده (<b>تعلّم آلي</b>) · <b>الكاميرا</b> بتعرف إن ده وش وتظبّط عليه (<b>تعلّم عميق</b>) · وتطبيق زي <bdi class="nw">ChatGPT</bdi> بيكتبلك رد على رسالة (<b>توليدي</b>). التلاتة في جهاز واحد، وكلهم داخل مجال <b>الذكاء الاصطناعي</b>.</p>
+  <p><b>والتحدّي؟</b> لو سألت التطبيق التوليدي عن معلومة، وطلعت إجابة شكلها مظبوط وهي غلط – إنت هتعرف منين؟ وعشان كده لازم <b>نتحقق من المخرجات ومصادرها</b> قبل ما نعتمد عليها.</p>
+</div>
+<div class="big">سؤال على نمط الامتحان — ونموذج إجابته</div>
+<hr class="rule">
+<div class="exam keep">
+  <div class="hd"><span class="n">1</span><span class="t">سؤال على نمط الامتحان</span><span class="m">[<span class="num">6</span> درجات]</span></div>
+  <div class="qt">حلّل العلاقة بين الذكاء الاصطناعي والتعلّم الآلي والتعلم العميق والذكاء الاصطناعي التوليدي.</div>
+  <div class="hint"><b>في إجابتك:</b> استخدم فكرة الفئات المتداخلة، واذكر مثالًا واحدًا على كل منها.</div>
+</div>
+<h3 class="sub">سؤال على نمط الامتحان — إجابة نموذجية</h3>
+<div class="box white split"><h3>نموذج إجابة مقترح لسؤال الـ<span class="num">6</span> درجات<span class="fx">للفهم</span></h3><ol style="counter-reset:n 0"><li><b>الفئات المتداخلة:</b> الذكاء الاصطناعي <b>مجال واسع</b>، والتعلّم الآلي <b>فرع</b> منه، والتعلم العميق <b>أسلوب ضمن</b> التعلّم الآلي، وتعتمد <b>غالبية</b> أنظمة الذكاء الاصطناعي التوليدي الحديثة على نماذج التعلم العميق – من الفكرة الأوسع إلى الأكثر تخصصًا.</li></ol><ol style="counter-reset:n 1"><li><b>مثال على الذكاء الاصطناعي:</b> التعرف على الكلام أو الصور أو الترجمة.</li></ol><ol style="counter-reset:n 2"><li><b>مثال على التعلّم الآلي:</b> تصنيف الرسائل المزعجة أو توصية المنتجات.</li></ol><ol style="counter-reset:n 3"><li><b>مثال على التعلم العميق:</b> تحليل الصور أو التعرف على الكلام.</li></ol><ol style="counter-reset:n 4"><li><b>مثال على الذكاء الاصطناعي التوليدي:</b> <bdi class="nw">ChatGPT</bdi> أو أدوات توليد الصور.</li></ol><ol style="counter-reset:n 5"><li><b>ملاحظة مهمة:</b> هذه علاقة تعليمية مبسطة، ولا ينبغي فهمها على أنها تسلسل احتواء صارم في كل حالة.</li></ol><div class="tip"><span class="l">ركّز:</span> السؤال طلب <b>فكرة الفئات المتداخلة</b> و<b>مثالًا واحدًا على كل منها</b>. اتأكد إن الاتنين ظاهرين بوضوح في إجابتك، وذكر <b>الملاحظة</b> دي بيوضّح إنك فاهم العلاقة بدقة.</div></div>
+<h2 class="sec"><span class="num"></span>إجابة السؤال الرئيسي</h2>
+<div class="mq kwn">
+  <div class="lab">السؤال</div>
+  <div class="qq">ما هو الذكاء الاصطناعي، وكيف يرتبط التعلّم الآلي والتعلم العميق والذكاء الاصطناعي التوليدي ببعضهم البعض؟</div>
+</div>
+<div class="quote"><span class="qmark">”</span>تناول السؤال الرئيسي معنى الذكاء الاصطناعي والعلاقة بين التعلّم الآلي والتعلم العميق والذكاء الاصطناعي التوليدي. الذكاء الاصطناعي <b>مجال واسع</b> يضم أنظمة تنفذ مهام مثل التعرف والتنبؤ وتوليد المحتوى. <b>التعلّم الآلي فرع</b> يتعلم الأنماط من البيانات، و<b>التعلم العميق أسلوب منه</b> يعتمد على شبكات عصبية متعددة الطبقات، وتعتمد <b>غالبية</b> أنظمة الذكاء الاصطناعي التوليدي الحديثة على هذه النماذج. هذه <b>مفاهيم مترابطة داخل مجال واحد</b>، ولا ينبغي فهمها على أنها تقنيات منفصلة تمامًا أو تسلسل صارم في كل الحالات.</div>
+<div class="note-line"><span class="tag">للفهم</span><span class="lead">طب ليه؟</span><b>لو السؤال ده جالك في الامتحان</b> ما تكتفيش بالترتيب. الإجابة القوية تعمل <span class="num">3</span> حاجات: <b>(1)</b> تعرّف الذكاء الاصطناعي بإنه <b>مجال</b> · <b>(2)</b> تربط الأربعة بفكرة الفئات المتداخلة مع مثال على كل واحد · <b>(3)</b> تختم بالملاحظة المهمة: <b>علاقة مبسطة، ومش تسلسل احتواء صارم</b> في كل الحالات.</div>
+<div class="terms keep">
+  <div class="th"><h3>مصطلحات أساسية</h3></div>
+  <div class="t2">
+    <div><b>التعلّم الآلي</b> – يتعلم الأنماط من البيانات.</div>
+    <div><b>التعلم العميق</b> – يستخدم الشبكات العصبية، وكثيرًا ما يعتمد على بيانات كبيرة نسبيًا.<br>– يستخدم الشبكات العصبية لتعلم أنماط معقدة.</div>
+    <div><b>الشبكة العصبية</b> – نموذج حاسوبي مستوحى بصورة مبسطة من فكرة ترابط العصبونات، يُستخدم للتعلم من البيانات وإصدار أحكام معقدة.</div>
+    <div><b>الذكاء الاصطناعي التوليدي</b> – ذكاء اصطناعي يستخدم التعلم العميق لتوليد بيانات جديدة مثل النصوص والصور والصوت.<br>– يستخدم التعلم العميق لتوليد بيانات جديدة.</div>
+  </div>
+</div>
+<div class="dark keep">
+  <h3>الخلاصة في دقيقة</h3>
+  <p class="rem"><b>تذكّر:</b> الذكاء الاصطناعي هو المجال الواسع؛ ويقع التعلّم الآلي ضمنه، ويقع التعلم العميق ضمن التعلّم الآلي، والذكاء الاصطناعي التوليدي الحالي مبني على التعلم العميق – من الفكرة الأوسع إلى الأكثر تخصصًا.</p>
+  <div class="g2">
+    <ul>
+      <li><b>الذكاء الاصطناعي:</b> مجال يضم أنظمة حاسوبية تنفّذ مهام مثل التعلم والتنبؤ والتعرف وتوليد المحتوى واتخاذ القرارات أو دعمها.</li>
+      <li><b>الترتيب التعليمي:</b> الذكاء الاصطناعي هو المجال الأوسع، والتعلّم الآلي فرع منه، والتعلم العميق أسلوب ضمن التعلّم الآلي. أما الذكاء الاصطناعي التوليدي فتعتمد غالبية أنظمته الحديثة على نماذج التعلم العميق.</li>
+      <li><b>الملاحظة:</b> العلاقة تعليمية مبسطة، وليست تسلسل احتواء صارمًا في كل حالة.</li>
+    </ul>
+    <ul>
+      <li><b>الشبكة العصبية:</b> وحدات مترابطة تتغير أوزانها أثناء التدريب، مستوحاة بصورة مبسطة من ترابط العصبونات.</li>
+      <li><b>الهلوسة:</b> ناتج يبدو معقولًا وغير صحيح واقعيًا – والإجراء: <b>التحقق من المخرجات ومصادرها</b>.</li>
+    </ul>
+  </div>
+</div>
+<div class="check keep kwn">
+  <h3>اتأكد إنك قادر على</h3>
+  <div class="g2">
+    <ul>
+      <li><span>أعرف تعريف <b>الذكاء الاصطناعي</b> بنصّه، وليه هو «مجال» مش «تقنية».</span></li>
+      <li><span>أعرف <b>الكلمة الأولى</b> في تعريف كل واحد: فرع · أسلوب · أنظمة.</span></li>
+      <li><span>أعرف إيه اللي بيخلّي التعلم <b>«عميق»</b>، وإيه <b>الشبكة العصبية</b>.</span></li>
+    </ul>
+    <ul>
+      <li><span>أقدر أرتّب <b>الأربعة</b> من الأوسع للأخص، وأذكر <b>الملاحظة المهمة</b> بعدها.</span></li>
+      <li><span>عندي <b>مثال من الكتاب</b> لكل واحد من الأربعة.</span></li>
+      <li><span>أعرف <b>الهلوسة</b> وأكتب <b>الإجراء</b> المطلوب للتحقق.</span></li>
+    </ul>
+  </div>
+</div>
+<div class="endline">أكواد مع زياد — أ/ زياد السعدني · مذكرة البرمجة والذكاء الاصطناعي — تانية ثانوي <span class="num">2026/2027</span> · الوحدة الأولى — الدرس <span class="num">1-2</span></div>
+<div class="pb"></div>
+<div class="band" style="height:55pt;padding-right:12pt">
+  <div class="badge"><span class="n">1-2</span></div>
+  <h1 style="text-align:right;margin-right:12pt;font-size:14pt">لخّص الدرس بأسلوبك</h1>
+</div>
+<div class="instr"><span class="fx fl">للفهم</span>اقفل المذكرة وحاول تلخّص الدرس من غير ما تبصّ: اكتب أهم <b>المصطلحات</b>، و<b>الفكرة الأساسية</b>، و<b>النقطة اللي لسه محتاجة مراجعة</b>. بعد كده افتح المذكرة وقارن اللي كتبته.</div>
+<div class="lines"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+
+<!-- ===================== بنك الأسئلة ===================== -->
+<div class="pb"></div>
+<div class="band">
+  <div class="badge"><span class="l">الدرس</span><span class="n">1-2</span></div>
+  <h1>كيف يعمل الذكاء الاصطناعي</h1>
+  <div class="who"><div class="t"><span class="u">الوحدة الأولى</span><span class="k">بنك الأسئلة</span></div><img src="assets/avatar.png" alt=""></div>
+</div>
+<div class="qstats"><div><b class="num">12</b><span>أسئلة الكتاب</span></div><div><b class="num">22</b><span>اختر</span></div><div><b class="num">10</b><span>أكمل</span></div><div><b class="num">12</b><span>صح وخطأ</span></div><div><b class="num">6</b><span>تصنيف وقارن</span></div><div><b class="num">5</b><span>علّل</span></div><div><b class="num">14</b><span>مقالي وأنشطة</span></div><div><b class="num">27</b><span class="tq">تقييمات</span></div></div>
+<h2 class="cat kwn">أسئلة الكتاب<span class="cnt">12</span></h2>
+<div class="qcard split "><h4><span class="n">01</span> · المثال المحلول — الجزء الأول</h4><p class="qi">ضع أمام كل عبارة (أ - د) علامة ○ إذا كانت صحيحة أو × إذا كانت خاطئة.</p><ul class="tf"><li><b>أ</b><span class="t">التعلّم الآلي هو إحدى التقنيات التي تجعل الذكاء الاصطناعي يعمل.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><b>ب</b><span class="t">التعلم العميق تقنية مختلفة تمامًا عن التعلّم الآلي.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><b>ج</b><span class="t">الذكاء الاصطناعي التوليدي تقنية تستخدم التعلم العميق لتوليد بيانات جديدة.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><b>د</b><span class="t">الذكاء الاصطناعي والتعلّم الآلي لهما المعنى نفسه.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li></ul></div>
+<div class="qcard split "><h4><span class="n">02</span> · المثال المحلول — الجزء الثاني</h4><p class="qi">طابق كل وصف (1 - 3) مع المصطلح الأنسب من الخيارات أدناه (أ - ج).</p><div class="match"><div class="mb"><h5>الأوصاف</h5><ol><li><span>تقنية تتعلم الأنماط من البيانات لإجراء التنبؤات وإصدار الأحكام</span><span class="ab"></span></li><li><span>تقنية تستخدم الشبكات العصبية لتعلم أنماط معقدة</span><span class="ab"></span></li><li><span>تقنية ذكاء اصطناعي تولّد بيانات جديدة مثل النصوص والصور</span><span class="ab"></span></li></ol></div><div class="mb"><h5>الخيارات</h5><ul class="op c1"><li><b>أ‌</b><span>التعلّم الآلي</span></li><li><b>ب‌</b><span>التعلم العميق</span></li><li><b>ج‌</b><span>الذكاء الاصطناعي التوليدي</span></li></ul></div></div></div>
+<div class="qcard sol keep"><h4><span class="ck">✓</span> الحل — المثال المحلول</h4><div class="sg"><div><div class="sp">(1)</div><div class="sr"><b>أ</b><span>التعلّم الآلي هو إحدى تقنيات التعلم التي تجعل الذكاء الاصطناعي يعمل. وبالتالي، ○.</span></div><div class="sr"><b>ب</b><span>التعلم العميق نوع من التعلّم الآلي (تقنية متقدمة ضمن التعلّم الآلي). وبالتالي، ×.</span></div><div class="sr"><b>ج</b><span>وصف صحيح للذكاء الاصطناعي التوليدي. وبالتالي، ○.</span></div><div class="sr"><b>د</b><span>الذكاء الاصطناعي مفهوم واسع، والتعلّم الآلي إحدى التقنيات ضمنه. وليس لهما المعنى نفسه. وبالتالي، ×.</span></div></div><div><div class="sp">(2)</div><div class="sr"><b>1:</b><span>تعلّم الأنماط من البيانات هو التعلّم الآلي. <i>أ</i></span></div><div class="sr"><b>2:</b><span>استخدام الشبكات العصبية هو التعلم العميق. <i>ب</i></span></div><div class="sr"><b>3:</b><span>توليد بيانات جديدة هو الذكاء الاصطناعي التوليدي. <i>ج</i></span></div></div></div></div>
+<div class="qcard split "><h4><span class="n">03</span> · تدرّب — أجب عن الأسئلة التالية</h4><div class="sa"><div><span class="k">1</span><p>ما المصطلح العام للأنظمة الحاسوبية القادرة على أداء مهام مثل التعلم والتعرف والتنبؤ وتوليد المحتوى؟ <span class="bl" style="width:90pt"></span></p></div><div><span class="k">2</span><p>ما المصطلح الذي يصف فرع الذكاء الاصطناعي الذي تتعلم فيه النماذج أنماطًا من البيانات؟ <span class="bl" style="width:90pt"></span></p></div><div><span class="k">3</span><p>ما المصطلح الذي يصف أسلوب التعلّم الآلي المعتمد على شبكات عصبية متعددة الطبقات؟ <span class="bl" style="width:90pt"></span></p></div><div><span class="k">4</span><p>ما المصطلح الذي يصف أنظمة الذكاء الاصطناعي التي تنشئ محتوى جديدًا؟ <span class="bl" style="width:90pt"></span></p></div></div></div>
+<div class="qcard split "><h4><span class="n">04</span> · تدرّب — اختيار<span class="tq">تقييمات</span></h4><div class="qq"><span class="k">1</span><p>من بين الخيارات التالية (أ - د)، اختر الخيار الذي يصف <b>بشكل صحيح</b> العلاقة بين الذكاء الاصطناعي والتعلّم الآلي والتعلم العميق والذكاء الاصطناعي التوليدي.</p></div><ul class="op c1"><li><b>أ‌</b><span>الذكاء الاصطناعي &gt; التعلم العميق &gt; التعلّم الآلي &gt; الذكاء الاصطناعي التوليدي</span></li><li><b>ب‌</b><span>التعلّم الآلي &gt; الذكاء الاصطناعي &gt; الذكاء الاصطناعي التوليدي &gt; التعلم العميق</span></li><li><b>ج‌</b><span>الذكاء الاصطناعي &gt; التعلّم الآلي &gt; التعلم العميق &gt; الذكاء الاصطناعي التوليدي</span></li><li><b>د‌</b><span>الذكاء الاصطناعي التوليدي &gt; التعلم العميق &gt; التعلّم الآلي &gt; الذكاء الاصطناعي</span></li></ul><div class="qq"><span class="k">2</span><p>من بين الخيارات التالية (أ - د)، اختر الخيار الذي <b>لا يُعد مثالًا مناسبًا</b> على الذكاء الاصطناعي التوليدي.</p></div><ul class="op c2"><li><b>أ‌</b><span><bdi class="nw">ChatGPT</bdi></span></li><li><b>ب‌</b><span>الذكاء الاصطناعي لتوليد الصور</span></li><li><b>ج‌</b><span>مرشح الرسائل المزعجة</span></li><li><b>د‌</b><span>الذكاء الاصطناعي لتوليد الصوت</span></li></ul></div>
+<div class="qcard split "><h4><span class="n">05</span> · سؤال على نمط الامتحان<span class="mk">[<span class="num">6</span> درجات]</span><span class="tq">تقييمات</span></h4><p class="qs">حلّل العلاقة بين الذكاء الاصطناعي والتعلّم الآلي والتعلم العميق والذكاء الاصطناعي التوليدي.</p><div class="hint"><b>عناصر الإجابة</b> <b>في إجابتك:</b> استخدم فكرة الفئات المتداخلة، واذكر مثالًا واحدًا على كل منها.</div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="qcard split "><h4><span class="n">06</span> · تمارين — اقرأ الفقرة التالية وأجب عن كل سؤال</h4><div class="qq"><span class="k">1</span><p>املأ الفراغات (1) - (4).</p></div><p class="para">المجال العام الذي يضم أنظمة حاسوبية تنفذ مهام مثل التعلم والتنبؤ والتعرف هو (<b>1</b>) <span class="bl" style="width:80pt"></span>. والفرع الذي تتعلم فيه النماذج أنماطًا من البيانات هو (<b>2</b>) <span class="bl" style="width:80pt"></span>. ومن أساليبه المعتمدة على شبكات عصبية متعددة الطبقات (<b>3</b>) <span class="bl" style="width:80pt"></span>. أما الأنظمة التي تنشئ محتوى جديدًا اعتمادًا على الأنماط المتعلمة فتسمى (<b>4</b>) <span class="bl" style="width:80pt"></span>.</p></div>
+<div class="qcard split "><h4><span class="n">07</span> · تمارين — تصنيف واختيار</h4><div class="qq"><span class="k">1</span><p>صنّف كل مثال من (1 - 4) ضمن الفئة الأنسب: <b>أ</b> التعلّم الآلي، <b>ب</b> التعلم العميق، <b>ج</b> الذكاء الاصطناعي التوليدي. ثم فسّر اختيارًا واحدًا.</p></div><ul class="cl"><li><span class="k">1</span><span class="t">تصنيف الرسائل المزعجة تلقائيًا</span><span class="ab"></span></li><li><span class="k">2</span><span class="t">التعرف على المشاة على الطريق في القيادة الذاتية</span><span class="ab"></span></li><li><span class="k">3</span><span class="t">توليد صور جديدة تلقائيًا من نص</span><span class="ab"></span></li><li><span class="k">4</span><span class="t">التوصية بمنتجات بناءً على سجل مشتريات المستخدم</span><span class="ab"></span></li></ul><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="qq"><span class="k">2</span><p>من بين الخيارات التالية (أ - د)، اختر الخيار الذي يصف <b>بشكل أنسب</b> العلاقة بين الذكاء الاصطناعي والتعلّم الآلي والتعلم العميق والذكاء الاصطناعي التوليدي.</p></div><ul class="op c1"><li><b>أ‌</b><span>التعلّم الآلي نوع من الذكاء الاصطناعي، والتعلم العميق نوع من التعلّم الآلي.</span></li><li><b>ب‌</b><span>الذكاء الاصطناعي نوع من التعلّم الآلي، والذكاء الاصطناعي التوليدي نوع من الذكاء الاصطناعي.</span></li><li><b>ج‌</b><span>التعلم العميق والتعلّم الآلي تقنيتان مختلفتان تمامًا.</span></li><li><b>د‌</b><span>الذكاء الاصطناعي التوليدي تقنية تولّد بيانات دون استخدام التعلّم الآلي.</span></li></ul></div>
+<h2 class="cat kwn">اختر الإجابة الصحيحة<span class="cnt">22</span></h2>
+<div class="mrow kwn"><div class="mq"><div class="qq"><span class="k">1</span><span class="tq">تقييمات</span><p>«مجال يضم أنظمة حاسوبية تستطيع تنفيذ مهام مثل التعلم من البيانات والتنبؤ والتعرف وتوليد المحتوى» تعريف لـ:</p></div><ul class="op c2"><li><b>أ‌</b><span>التعلم العميق</span></li><li><b>ب‌</b><span>الذكاء الاصطناعي</span></li><li><b>ج‌</b><span>الشبكة العصبية</span></li><li><b>د‌</b><span>التعلّم الآلي</span></li></ul></div><div class="mq"><div class="qq"><span class="k">2</span><p>من الأمثلة التي يذكرها الكتاب على الذكاء الاصطناعي:</p></div><ul class="op c1"><li><b>أ‌</b><span>التعرف على الكلام والصور والترجمة</span></li><li><b>ب‌</b><span>طباعة المستندات وتنسيقها</span></li><li><b>ج‌</b><span>تخزين الملفات على القرص الصلب</span></li><li><b>د‌</b><span>كتابة الأكواد يدويًا بلغة برمجة</span></li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">3</span><span class="tq">تقييمات</span><p>«فرع من الذكاء الاصطناعي تتعلم فيه النماذج أنماطًا من البيانات» هو:</p></div><ul class="op c1"><li><b>أ‌</b><span>التعلّم الآلي</span></li><li><b>ب‌</b><span>الذكاء الاصطناعي التوليدي</span></li><li><b>ج‌</b><span>الشبكة العصبية</span></li><li><b>د‌</b><span>التعلم العميق</span></li></ul></div><div class="mq"><div class="qq"><span class="k">4</span><p>الفرق الأساسي الذي يقوم عليه التعلّم الآلي هو أن النموذج:</p></div><ul class="op c1"><li><b>أ‌</b><span>يعمل بدون بيانات تدريب أو أمثلة سابقة</span></li><li><b>ب‌</b><span>تُبرمَج له كل قاعدة صراحةً بيد المبرمج قبل التشغيل</span></li><li><b>ج‌</b><span>يتعلم الأنماط من البيانات بدلًا من برمجة كل قاعدة صراحةً</span></li><li><b>د‌</b><span>ينسخ الإجابات الجاهزة من الإنترنت كما هي</span></li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">5</span><span class="tq">تقييمات</span><p>«تصنيف الرسائل المزعجة وتوصية المنتجات» مثالان يذكرهما الكتاب على:</p></div><ul class="op c1"><li><b>أ‌</b><span>الذكاء الاصطناعي التوليدي</span></li><li><b>ب‌</b><span>التعلّم الآلي</span></li><li><b>ج‌</b><span>الهلوسة</span></li><li><b>د‌</b><span>الشبكة العصبية</span></li></ul></div><div class="mq"><div class="qq"><span class="k">6</span><span class="tq">تقييمات</span><p>«أسلوب من أساليب التعلّم الآلي يعتمد على شبكات عصبية متعددة الطبقات» هو:</p></div><ul class="op c1"><li><b>أ‌</b><span>الذكاء الاصطناعي</span></li><li><b>ب‌</b><span>التعلّم الآلي</span></li><li><b>ج‌</b><span>التعلم العميق</span></li><li><b>د‌</b><span>الذكاء الاصطناعي التوليدي</span></li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">7</span><span class="tq">تقييمات</span><p>«تحليل الصور والتعرف على الكلام» مثالان يذكرهما الكتاب على:</p></div><ul class="op c1"><li><b>أ‌</b><span>الترجمة الآلية</span></li><li><b>ب‌</b><span>التعلم العميق</span></li><li><b>ج‌</b><span>الذكاء الاصطناعي التوليدي</span></li><li><b>د‌</b><span>الهلوسة</span></li></ul></div><div class="mq"><div class="qq"><span class="k">8</span><span class="tq">تقييمات</span><p>«نموذج حاسوبي مستوحى بصورة مبسطة من فكرة ترابط العصبونات» هو:</p></div><ul class="op c1"><li><b>أ‌</b><span>نظام التوصية</span></li><li><b>ب‌</b><span>الذكاء الاصطناعي التوليدي</span></li><li><b>ج‌</b><span>التعلّم الآلي</span></li><li><b>د‌</b><span>الشبكة العصبية الاصطناعية</span></li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">9</span><p>في الشبكة العصبية، ما الذي يتغير أثناء التدريب لتتعلم أنماطًا من البيانات؟</p></div><ul class="op c1"><li><b>أ‌</b><span>أوزان الوحدات المترابطة</span></li><li><b>ب‌</b><span>عدد الصور المستخدمة في التدريب</span></li><li><b>ج‌</b><span>سرعة المعالج الذي يشغّل الشبكة</span></li><li><b>د‌</b><span>لغة البرمجة المكتوب بها النموذج</span></li></ul></div><div class="mq"><div class="qq"><span class="k">10</span><p>الاختصار الإنجليزي للشبكة العصبية الاصطناعية هو:</p></div><ul class="op c2"><li><b>أ‌</b><span><bdi class="nw">API</bdi></span></li><li><b>ب‌</b><span><bdi class="nw">ANN</bdi></span></li><li><b>ج‌</b><span><bdi class="nw">ML</bdi></span></li><li><b>د‌</b><span><bdi class="nw">DL</bdi></span></li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">11</span><span class="tq">تقييمات</span><p>«أنظمة تنشئ محتوى جديدًا مثل النصوص والصور والصوت والبرمجيات» هي:</p></div><ul class="op c1"><li><b>أ‌</b><span>التعلّم الآلي</span></li><li><b>ب‌</b><span>الذكاء الاصطناعي التوليدي</span></li><li><b>ج‌</b><span>مرشح الرسائل المزعجة</span></li><li><b>د‌</b><span>الشبكة العصبية</span></li></ul></div><div class="mq"><div class="qq"><span class="k">12</span><span class="tq">تقييمات</span><p>حسب الكتاب، تعتمد غالبية أنظمة الذكاء الاصطناعي التوليدي الحديثة على:</p></div><ul class="op c2"><li><b>أ‌</b><span>القواعد المبرمجة صراحةً</span></li><li><b>ب‌</b><span>قواعد البيانات فقط</span></li><li><b>ج‌</b><span>الترجمة الآلية</span></li><li><b>د‌</b><span>نماذج التعلم العميق</span></li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">13</span><p>يصف الكتاب العلاقة بين الذكاء الاصطناعي والتعلّم الآلي والتعلم العميق والذكاء الاصطناعي التوليدي بأنها:</p></div><ul class="op c1"><li><b>أ‌</b><span>علاقة تعليمية مبسطة، وليست تسلسلًا صارمًا للاحتواء في كل حالة</span></li><li><b>ب‌</b><span>تقنيات منفصلة تمامًا لا علاقة بينها</span></li><li><b>ج‌</b><span>ترتيب زمني لظهور كل تقنية واختراعها</span></li><li><b>د‌</b><span>تسلسل احتواء صارم ينطبق على كل حالة دون استثناء</span></li></ul></div><div class="mq"><div class="qq"><span class="k">14</span><span class="tq">تقييمات</span><p>حسب الكتاب، معظم أنظمة الذكاء الاصطناعي الحالية:</p></div><ul class="op c1"><li><b>أ‌</b><span>تؤدي أي مهمة بشرية في جميع المجالات دون قيود</span></li><li><b>ب‌</b><span>لا تحتاج إلى أي إشراف أو مراجعة بشرية</span></li><li><b>ج‌</b><span>تعمل بدون بيانات تدريب أو أمثلة سابقة</span></li><li><b>د‌</b><span>ضيقة النطاق وتُصمم لمهمة محددة أو مجموعة محدودة من المهام</span></li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">15</span><span class="tq">تقييمات</span><p>«نص يبدو معقولًا لكنه غير صحيح واقعيًا» يُسمى:</p></div><ul class="op c2"><li><b>أ‌</b><span>الهلوسة</span></li><li><b>ب‌</b><span>التصنيف</span></li><li><b>ج‌</b><span>التوليد</span></li><li><b>د‌</b><span>التحيز</span></li></ul></div><div class="mq"><div class="qq"><span class="k">16</span><span class="tq">تقييمات</span><p>حسب الكتاب، ما ينبغي على المتعلم فعله تجاه مخرجات الذكاء الاصطناعي التوليدي هو:</p></div><ul class="op c1"><li><b>أ‌</b><span>استخدامها كما هي دون مراجعة</span></li><li><b>ب‌</b><span>تجاهلها تمامًا وعدم الرجوع إليها في أي شيء</span></li><li><b>ج‌</b><span>التحقق من المخرجات ومصادرها</span></li><li><b>د‌</b><span>إعادة توليدها مرة أخرى فقط حتى تتغير</span></li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">17</span><p>يذكر الكتاب أن التعلم العميق كثيرًا ما يعتمد على:</p></div><ul class="op c1"><li><b>أ‌</b><span>عدد قليل جدًا من الأمثلة المختارة بعناية</span></li><li><b>ب‌</b><span>قواعد يكتبها المبرمج صراحةً لكل حالة</span></li><li><b>ج‌</b><span>بيانات كبيرة نسبيًا كي يتعلم أنماطًا موثوقة</span></li><li><b>د‌</b><span>اتصال دائم وسريع بالإنترنت أثناء العمل</span></li></ul></div><div class="mq"><div class="qq"><span class="k">18</span><p>الفكرة الرئيسة في الدرس تصف المفاهيم الأربعة بأنها:</p></div><ul class="op c1"><li><b>أ‌</b><span>فئات متداخلة داخل مجال واحد</span></li><li><b>ب‌</b><span>أربعة أجيال متتابعة من الحواسيب</span></li><li><b>ج‌</b><span>أربع تقنيات منفصلة تمامًا</span></li><li><b>د‌</b><span>أربع شركات تنتج أنظمة الذكاء الاصطناعي</span></li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">19</span><p>يتعلم الذكاء الاصطناعي التوليدي إنشاء المحتوى الجديد اعتمادًا على:</p></div><ul class="op c1"><li><b>أ‌</b><span>قواعد يكتبها المستخدم لحظيًا أثناء الاستخدام</span></li><li><b>ب‌</b><span>عدد مرات استخدام التطبيق يوميًا</span></li><li><b>ج‌</b><span>نسخ صفحات الإنترنت كما هي</span></li><li><b>د‌</b><span>الأنماط التي تعلّمها من بيانات التدريب</span></li></ul></div><div class="mq"><div class="qq"><span class="k">20</span><span class="tq">تقييمات</span><p>الشبكة العصبية – حسب الكتاب – تتكون من:</p></div><ul class="op c1"><li><b>أ‌</b><span>خلايا عصبية بشرية حقيقية</span></li><li><b>ب‌</b><span>قواعد بيانات مترابطة تُحدَّث يدويًا باستمرار</span></li><li><b>ج‌</b><span>وحدات مترابطة تتغير أوزانها أثناء التدريب</span></li><li><b>د‌</b><span>معالجات متعددة النواة تعمل بالتوازي دائمًا</span></li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">21</span><span class="tq">تقييمات</span><p>ماذا تُسمى الطبقات الواقعة بين طبقة الإدخال وطبقة الإخراج في الشبكة العصبية الاصطناعية؟</p></div><ul class="op c2"><li><b>أ‌</b><span>الطبقات الطرفية</span></li><li><b>ب‌</b><span>الطبقات الخطية</span></li><li><b>ج‌</b><span>الطبقات السحابية</span></li><li><b>د‌</b><span>الطبقات المخفية</span></li></ul></div><div class="mq"><div class="qq"><span class="k">22</span><span class="tq">تقييمات</span><p>ما الفائدة الأساسية للسرعة التي يوفرها الذكاء الاصطناعي التوليدي للطلاب عند إعداد التقارير؟</p></div><ul class="op c1"><li><b>أ‌</b><span>ضمان صحة جميع المعلومات بنسبة مئة بالمائة تلقائيًا</span></li><li><b>ب‌</b><span>المساعدة في إنجاز المهام سريعًا مع ضرورة الانتباه لمخاطر عدم الصحة</span></li><li><b>ج‌</b><span>منع حدوث ظاهرة الهلوسة نهائيًا</span></li><li><b>د‌</b><span>الاستغناء التام عن الكتب والمصادر المدرسية الرسمية</span></li></ul></div></div>
+<h2 class="cat kwn">أكمل<span class="cnt">10</span></h2>
+<div class="frow"><div><span class="k">1</span><p>المجال الذي يضم أنظمة حاسوبية تتعلم وتتنبأ وتتعرف وتولّد المحتوى هو <span class="bl" style="width:70pt"></span></p></div><div><span class="k">2</span><p>فرع الذكاء الاصطناعي الذي تتعلم فيه النماذج أنماطًا من البيانات هو <span class="bl" style="width:70pt"></span></p></div></div>
+<div class="frow"><div><span class="k">3</span><p>أسلوب التعلّم الآلي المعتمد على شبكات عصبية متعددة الطبقات هو <span class="bl" style="width:70pt"></span></p></div><div><span class="k">4</span><p>الأنظمة التي تنشئ محتوى جديدًا اعتمادًا على أنماط تعلّمتها هي <span class="bl" style="width:70pt"></span></p></div></div>
+<div class="frow"><div><span class="k">5</span><p>النموذج الحاسوبي المستوحى بصورة مبسطة من فكرة ترابط العصبونات هو <span class="bl" style="width:70pt"></span></p></div><div><span class="k">6</span><p>في الشبكة العصبية تتغير <span class="bl" style="width:62pt"></span> الوحدات المترابطة أثناء التدريب</p></div></div>
+<div class="frow"><div><span class="k">7</span><p>إنتاج نص يبدو معقولًا لكنه غير صحيح واقعيًا يُسمى <span class="bl" style="width:70pt"></span></p></div><div><span class="k">8</span><p>يتعلم التعلّم الآلي الأنماط من البيانات بدلًا من برمجة كل <span class="bl" style="width:62pt"></span> صراحةً</p></div></div>
+<div class="frow"><div><span class="k">9</span><p>معظم أنظمة الذكاء الاصطناعي الحالية <span class="bl" style="width:62pt"></span> النطاق</p></div><div><span class="k">10</span><p>يجب <span class="bl" style="width:62pt"></span> من مخرجات الذكاء الاصطناعي التوليدي ومن مصادرها قبل استخدامها</p></div></div>
+<h2 class="cat kwn">صح وخطأ<span class="cnt">12</span></h2>
+<ul class="tfb"><li><span class="k">1</span><span class="t">التعلّم الآلي فرع من الذكاء الاصطناعي.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">2</span><span class="t">مرشح الرسائل المزعجة مثال على الذكاء الاصطناعي التوليدي.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">3</span><span class="t">يصف الكتاب العلاقة بين المفاهيم الأربعة بأنها تسلسل احتواء صارم في كل حالة.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li></ul>
+<ul class="tfb"><li><span class="k">4</span><span class="t">تعتمد غالبية أنظمة الذكاء الاصطناعي التوليدي الحديثة على نماذج التعلم العميق.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">5</span><span class="t">الشبكة العصبية نموذج حاسوبي مستوحى بصورة مبسطة من فكرة ترابط العصبونات.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">6</span><span class="t">الهلوسة تعني أن النظام يتوقف عن العمل.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li></ul>
+<ul class="tfb"><li><span class="k">7</span><span class="t">معظم أنظمة الذكاء الاصطناعي الحالية ضيقة النطاق.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">8</span><span class="t">في التعلّم الآلي تُبرمج كل قاعدة صراحةً قبل الاستخدام.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">9</span><span class="t">ينشئ الذكاء الاصطناعي التوليدي محتوى جديدًا دون الاعتماد على أنماط تعلّمها من بيانات التدريب.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li></ul>
+<ul class="tfb"><li><span class="k">10</span><span class="t">كثيرًا ما يعتمد التعلم العميق على بيانات كبيرة نسبيًا كي يتعلم أنماطًا موثوقة.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">11</span><span class="t">من أمثلة الذكاء الاصطناعي التوليدي <bdi class="nw">ChatGPT</bdi> وأدوات توليد الصور.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">12</span><span class="t">يمكن استخدام ناتج الذكاء الاصطناعي التوليدي في تقرير مدرسي كما هو دون تحقق.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li></ul>
+<h2 class="cat kwn">تصنيف وقارن<span class="cnt">6</span></h2>
+<div class="qcard split "><h4><span class="n">01</span> · قواعد ولا أنماط؟</h4><p class="qi">اكتب <b>ق</b> لو النظام شغّال بقواعد مبرمجة صراحةً، أو <b>ن</b> لو بيتعلم أنماطًا من البيانات.</p><ul class="cl"><li><span class="k">1</span><span class="t">آلة حاسبة تجمع رقمين بقاعدة ثابتة</span><span class="ab"></span></li><li><span class="k">2</span><span class="t">مرشح رسائل يتحسّن كلما صنّف المستخدم رسائل أكثر</span><span class="ab"></span></li><li><span class="k">3</span><span class="t">نظام يوصي بمنتجات من سجل الشراء</span><span class="ab"></span></li><li><span class="k">4</span><span class="t">برنامج يرفض كلمة مرور أقل من ثمانية أحرف</span><span class="ab"></span></li><li><span class="k">5</span><span class="t">نظام يتعرف على الكلام من أمثلة صوتية كثيرة</span><span class="ab"></span></li><li><span class="k">6</span><span class="t">موقع يحسب الضريبة بنسبة ثابتة</span><span class="ab"></span></li></ul></div>
+<div class="qcard split "><h4><span class="n">02</span> · طابق كل مصطلح بتعريفه</h4><div class="match"><div class="mb"><h5>التعريف</h5><ol><li><span>مجال يضم أنظمة تتعلم وتتنبأ وتتعرف وتولّد المحتوى</span><span class="ab"></span></li><li><span>فرع تتعلم فيه النماذج أنماطًا من البيانات</span><span class="ab"></span></li><li><span>أسلوب يعتمد على شبكات عصبية متعددة الطبقات</span><span class="ab"></span></li><li><span>نموذج من وحدات مترابطة تتغير أوزانها أثناء التدريب</span><span class="ab"></span></li></ol></div><div class="mb"><h5>المصطلح</h5><ul class="op c1"><li><b>أ‌</b><span>التعلم العميق</span></li><li><b>ب‌</b><span>الشبكة العصبية</span></li><li><b>ج‌</b><span>الذكاء الاصطناعي</span></li><li><b>د‌</b><span>التعلّم الآلي</span></li></ul></div></div></div>
+<div class="qcard split "><h4><span class="n">03</span> · قارن بين التعلّم الآلي والتعلم العميق<span class="tq">تقييمات</span></h4><table class="cmp tall"><thead><tr><th>وجه المقارنة</th><th>التعلّم الآلي</th><th>التعلم العميق</th></tr></thead><tbody><tr><td class="k">التعريف</td><td></td><td></td></tr><tr><td class="k">الاعتماد على الشبكات العصبية</td><td></td><td></td></tr><tr><td class="k">حجم البيانات المطلوبة للتدريب</td><td></td><td></td></tr><tr><td class="k">مثال من الكتاب</td><td></td><td></td></tr></tbody></table></div>
+<div class="qcard split "><h4><span class="n">04</span> · قارن بين التعلّم الآلي والذكاء الاصطناعي التوليدي</h4><table class="cmp tall"><thead><tr><th>وجه المقارنة</th><th>التعلّم الآلي</th><th>الذكاء الاصطناعي التوليدي</th></tr></thead><tbody><tr><td class="k">المخرج</td><td></td><td></td></tr><tr><td class="k">مثال من الكتاب</td><td></td><td></td></tr></tbody></table></div>
+<div class="qcard split "><h4><span class="n">05</span> · قارن بين القواعد المبرمجة صراحةً والأنماط المتعلَّمة من البيانات</h4><table class="cmp tall"><thead><tr><th>وجه المقارنة</th><th>القواعد المبرمجة صراحةً</th><th>الأنماط المتعلَّمة من البيانات</th></tr></thead><tbody><tr><td class="k">من يحدد السلوك؟</td><td></td><td></td></tr><tr><td class="k">ماذا يحدث مع حالة جديدة؟</td><td></td><td></td></tr></tbody></table></div>
+<div class="qcard split "><h4><span class="n">06</span> · قارن بين الذكاء الاصطناعي والتعلّم الآلي</h4><table class="cmp tall"><thead><tr><th>وجه المقارنة</th><th>الذكاء الاصطناعي</th><th>التعلّم الآلي</th></tr></thead><tbody><tr><td class="k">الاتساع</td><td></td><td></td></tr><tr><td class="k">العلاقة بينهما</td><td></td><td></td></tr></tbody></table></div>
+<h2 class="cat kwn">علّل<span class="cnt">5</span></h2>
+<div class="why split"><div class="qq"><span class="k">1</span><p>لا يصحّ القول إن الذكاء الاصطناعي والتعلّم الآلي لهما المعنى نفسه.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">2</span><p>لا يصحّ القول إن التعلم العميق تقنية مختلفة تمامًا عن التعلّم الآلي.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">3</span><span class="tq">تقييمات</span><p>لا يعني تفوق نظام ذكاء اصطناعي في مهمة محددة أنه يستطيع أداء أي مهمة ذكية أخرى.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">4</span><p>يحتاج التعلم العميق كثيرًا إلى بيانات كبيرة نسبيًا.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">5</span><p>لا تُعد الشبكة العصبية الاصطناعية نسخة حقيقية من المخ البشري.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="qcard split "><h4><span class="n">01</span> · طبّق ما تعلمته — محاصيل المزارع<span class="tq">تقييمات</span></h4><p class="qs">يريد مزارع استخدام نظام ذكاء اصطناعي للتمييز بين صور المحاصيل السليمة والمصابة بالأمراض. اشرح نوع البيانات التي يحتاجها النظام للتدريب، وحدد عاملًا واحدًا قد يجعل تنبؤه خاطئًا.</p><div class="hint"><b>عناصر الإجابة</b> <b>نوع البيانات</b> اللي النظام هيتدرّب عليها · <b>عامل واحد</b> يجعل التنبؤ خاطئًا، مع <b>سببه</b>.</div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="qcard split "><h4><span class="n">02</span> · فكّر كمهندس — ابحث ثم قرر<span class="tq">تقييمات</span></h4><p class="qs">انطلاقًا من ملاحظة "توقّف وفكّر" حول الهلوسة، استقصِ أكثر واتخذ قرارك.</p><p class="qs"><b>(1) استقصِ.</b> ابحث عن مثال موثّق واحد قدّم فيه ذكاء اصطناعي توليدي إجابة بدت صحيحة لكنها كانت خاطئة في الواقع ("هلوسة"). سجّل مصدره – مقال إخباري، أو تقرير رسمي، أو طلب اختبرته بنفسك مع لقطة شاشة – واذكر أين وجدته. لا تعتمد على مثال تسترجعه من الذاكرة دون مصدر.</p><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><p class="qs"><b>(2) قيّم الأمر.</b> اذكر فائدة واحدة ومخاطرة واحدة لاستخدام الذكاء الاصطناعي التوليدي في كتابة تقرير مدرسي – للطالب وللمعلم.</p><table class="cmp"><thead><tr><th></th><th>الفائدة</th><th>المخاطرة</th></tr></thead><tbody><tr><td class="k">للطالب</td><td></td><td></td></tr><tr><td class="k">للمعلم</td><td></td><td></td></tr></tbody></table></div>
+<div class="qcard split cont"><p class="qs"><b>(3) اتخذ قرارًا.</b> هل ينبغي السماح باستخدام الذكاء الاصطناعي التوليدي في الواجبات المدرسية بمدرستك؟ أوصِ بقاعدة واحدة واذكر سببين.</p><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="hint"><b>تلميح الكتاب:</b> من الفوائد المحتملة السرعة، ومن المخاطر احتمال الحصول على معلومات غير صحيحة أو غير مدعومة؛ لذلك يجب التحقق من المخرجات ومصادرها.</div></div>
+<div class="why ess split"><div class="qq"><span class="k">3</span><span class="tq">تقييمات</span><p>وضّح الفرق بين نظام يعمل <b>بقواعد مبرمجة صراحةً</b> ونظام يتعلم <b>أنماطًا من البيانات</b>، مع مثال لكل منهما.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">4</span><span class="tq">تقييمات</span><p>عرّف مفهوم الذكاء الاصطناعي، موضحًا في ثلاث نقاط الفرق بين التعلّم الآلي والتعلم العميق والذكاء الاصطناعي التوليدي.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">5</span><span class="tq">تقييمات</span><p>ما المكونات الأساسية للشبكة العصبية الاصطناعية؟</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">6</span><span class="tq">تقييمات</span><p>اشرح مفهوم «الذكاء الاصطناعي التوليدي <bdi class="nw">(GenAI)</bdi>» موضحًا ذلك بأمثلة.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">7</span><span class="tq">تقييمات</span><p>اشرح كيف تساعد أمثلة الحياة اليومية، مثل تصنيف الرسائل المزعجة وتوصيات المنتجات والترجمة، في فهم تطبيقات الذكاء الاصطناعي.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">8</span><span class="tq">تقييمات</span><p>ارسم شكلًا مبسطًا توضّح فيه العلاقة بين الذكاء الاصطناعي والتعلم العميق والتعلّم الآلي والذكاء الاصطناعي التوليدي.</p></div><div class="drawbox"></div></div>
+<div class="why split"><div class="qq"><span class="k">9</span><p><b>توقّف وفكّر:</b> مرشحات الرسائل المزعجة وتوصيات المنتجات كلاهما مثالان على التعلّم الآلي، لكن المهام التي يؤديانها مختلفة تمامًا. من منظور كيفية عمل الذكاء الاصطناعي، اشرح ما تشترك فيه هاتان الأداتان.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">10</span><p><b>توقّف وفكّر:</b> كثيرًا ما يعتمد التعلم العميق على بيانات كبيرة نسبيًا كي يتعلم أنماطًا موثوقة. لماذا قد يواجه الذكاء الاصطناعي صعوبة مع شيء نادرًا ما رآه في بياناته؟</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">11</span><span class="tq">تقييمات</span><p><b>توقّف وفكّر:</b> يمكن للذكاء الاصطناعي التوليدي إنتاج نص يبدو معقولًا لكنه غير صحيح واقعيًا («هلوسة»). اشرح لماذا من الخطر استخدام هذا الناتج كإجابة لتقرير مدرسي كما هو، واذكر ما ينبغي على المتعلمين فعله بدلًا من ذلك.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">12</span><p><b>استكشف (في ثنائيات):</b> مع زميل لك، اذكرا ثلاث مهام يقوم بها الهاتف أو الحاسوب من أجلك وتبدو وكأنها تحتاج إلى "ذكاء" (مثل تصنيف الرسائل المزعجة، أو التوصية بفيديو، أو ترجمة نص). ثم توقّعا: هل يتبع الحاسوب قواعد ثابتة، أم يتعلم من الأمثلة؟ اذكرا سببًا واحدًا.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">13</span><p><b>فكّر وتحدَّ – تأمّل:</b> قبل هذا الدرس، هل كنت تعتقد أن الذكاء الاصطناعي تقنية واحدة؟ كيف تغيّرت فكرتك؟ أي من الأربعة – الذكاء الاصطناعي، التعلّم الآلي، التعلم العميق، الذكاء الاصطناعي التوليدي – كان الأصعب في التمييز بينه وبين غيره، ولماذا؟ · <b>وتحدَّ:</b> يمكن للذكاء الاصطناعي التوليدي إنشاء نصوص وصور وأصوات. اقترح استخدامًا واحدًا مفيدًا وسوء استخدام واحد محتمل، واذكر كيف يمكن الحد من سوء الاستخدام هذا.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">14</span><p><b>اختبر فهمك:</b> أجب عن أسئلة هذا البنك <b>دون الرجوع</b> إلى الشرح، ثم راجع إجاباتك.</p></div><div class="wl"><i></i></div></div>
+</main>
+</body>
+</html>
