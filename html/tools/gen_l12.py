@@ -298,21 +298,68 @@ A('<div class="banner kwn">نموذج حاسوبي <b>مستوحى بصورة م
 A(f'<div class="fig nnf keep">{nn_svg()}<div class="cap">تربط الشبكة العصبية بين العديد من المكونات البسيطة.</div></div>')
 A('<div class="note-line"><span class="tag">للفهم</span><span class="lead">ببساطة</span>في تعريف الكتاب، <b>التعلم العميق</b> يعتمد على <b>شبكات عصبية متعددة الطبقات</b>؛ وده أهم فرق لازم تربطه بالمصطلح.</div>')
 A('<div class="note-line"><span class="tag">للفهم</span><span class="lead">ببساطة</span><b>«الوزن»</b> ده رقم بيقول للوحدة: الإشارة الجاية من هنا مهمة قد إيه. ولو بنبدأ تدريب شبكة عصبية من البداية، الأوزان بتبدأ عادةً بقيم أوّلية، وأثناء التدريب بيتم تعديلها تدريجيًا بناءً على أداء النموذج، لحد ما يتعلّم الأنماط الموجودة في البيانات – وده معنى <b>«تتغير أوزانها أثناء التدريب»</b>.</div>')
-UP = '<span class="wu">↑</span>'; DN = '<span class="wd">↓</span>'
-WROWS = [("ودان مدببة", "0.1", "0.4", UP), ("شوارب", "0.1", "0.3", UP), ("فرو", "0.2", "0.1", DN)]
-A(f'''<div class="fig wex keep">{FXA}
+def wnet():
+    """رسمة المثال: الإشارات في النص · قبل التدريب يمين · بعد التدريب شمال — سُمك الخط = الوزن"""
+    rows = [("ودان مدببة", 0.1, 0.4), ("شوارب", 0.1, 0.3), ("فرو", 0.2, 0.1)]
+    ys = [52, 92, 132]; cy = 92
+    s = ['<svg class="wn" viewBox="0 0 520 172">']
+    s.append(f'<rect x="330" y="4" width="186" height="164" rx="10" fill="#f5f7fb"/>'
+             f'<rect x="4" y="4" width="186" height="164" rx="10" fill="#f2f8f4"/>'
+             f'<text x="423" y="24" text-anchor="middle" font-size="13" font-weight="800" fill="#22375c" {F}>قبل التدريب</text>'
+             f'<text x="97" y="24" text-anchor="middle" font-size="13" font-weight="800" fill="#2e7d5b" {F}>بعد التدريب</text>'
+             f'<text x="260" y="24" text-anchor="middle" font-size="11" font-weight="700" fill="#4a5a70" {F}>الإشارات في الصورة</text>')
+    for (t, a, b), y in zip(rows, ys):
+        col = "#2e7d5b" if b > a else "#a33a30"
+        s.append(f'<path d="M314 {y} C350 {y} 356 {cy} 382 {cy}" fill="none" stroke="#22375c" stroke-width="{2 + a * 20:.1f}" stroke-linecap="round" opacity=".8"/>'
+                 f'<path d="M206 {y} C170 {y} 164 {cy} 138 {cy}" fill="none" stroke="{col}" stroke-width="{2 + b * 20:.1f}" stroke-linecap="round" opacity=".85"/>')
+    for (t, a, b), y in zip(rows, ys):
+        up = b > a; col = "#2e7d5b" if up else "#a33a30"
+        py = y + (cy - y) * .28
+        s.append(f'<rect x="206" y="{y - 15}" width="108" height="30" rx="8" fill="#fff" stroke="#c9d4e3"/>'
+                 f'<text x="298" y="{y + 4.5}" direction="rtl" font-size="12" font-weight="800" fill="#22375c" {F}>{t}</text>'
+                 f'<circle cx="222" cy="{y}" r="9" fill="#eef2f8" stroke="#22375c" stroke-width="1"/>'
+                 f'<text x="222" y="{y + 4}" text-anchor="middle" font-size="11" font-weight="800" fill="#22375c" {F}>1</text>'
+                 f'<rect x="{332 if y != cy else 334}" y="{py - 10}" width="40" height="20" rx="10" fill="#fff" stroke="#22375c" stroke-width="1"/>'
+                 f'<text x="{352 if y != cy else 354}" y="{py + 4.5}" text-anchor="middle" font-size="11.5" font-weight="800" fill="#22375c" {F}>{a}</text>'
+                 f'<rect x="{140 if y != cy else 138}" y="{py - 10}" width="50" height="20" rx="10" fill="#fff" stroke="{col}" stroke-width="1.2"/>'
+                 f'<text x="{165 if y != cy else 163}" y="{py + 4.5}" text-anchor="middle" direction="ltr" font-size="11.5" font-weight="800" fill="{col}" {F}>{b} {"↑" if up else "↓"}</text>')
+    def side(cx, tot, fm, ox, ok, arr, pc):
+        oc, ob, ot = ("#2e7d5b", "#e9f5ef", "قطة ✓") if ok else ("#a33a30", "#fbeceb", "مش قطة ✗")
+        return (f'<circle cx="{cx}" cy="{cy}" r="22" fill="#22375c"/>'
+                f'<text x="{cx}" y="{cy + 5.5}" text-anchor="middle" font-size="15" font-weight="800" fill="#fff" {F}>{tot}</text>'
+                f'<text x="{cx}" y="{cy - 29}" text-anchor="middle" font-size="10" font-weight="700" fill="#4a5a70" {F}>المجموع</text>'
+                f'<text x="{pc}" y="160" text-anchor="middle" direction="ltr" font-size="10.5" font-weight="700" fill="#4a5a70" {F}>{fm} = {tot}</text>'
+                + arr +
+                f'<rect x="{ox - 36}" y="{cy - 16}" width="72" height="32" rx="16" fill="{ob}" stroke="{oc}" stroke-width="1.4"/>'
+                f'<text x="{ox}" y="{cy + 5}" text-anchor="middle" direction="rtl" font-size="12.5" font-weight="800" fill="{oc}" {F}>{ot}</text>'
+                f'<text x="{ox}" y="{cy + 34}" text-anchor="middle" direction="ltr" font-size="10" font-weight="700" fill="{oc}" {F}>{tot} {"≥" if ok else "&lt;"} 0.6</text>')
+    s.append(side(404, "0.4", "0.1 + 0.1 + 0.2", 472, False,
+                  f'<path d="M427 {cy} H432" stroke="#e29433" stroke-width="2"/><path d="M430 {cy - 5} L438 {cy} L430 {cy + 5}" fill="#e29433"/>', 423))
+    s.append(side(116, "0.8", "0.4 + 0.3 + 0.1", 48, True,
+                  f'<path d="M93 {cy} H88" stroke="#e29433" stroke-width="2"/><path d="M90 {cy - 5} L82 {cy} L90 {cy + 5}" fill="#e29433"/>', 97))
+    s.append(f'<text x="260" y="162" text-anchor="middle" font-size="10.5" font-weight="700" fill="#4a5a70" {F}>موجودة في الصورة = 1</text>')
+    s.append('</svg>')
+    return "".join(s)
+
+def flag(t):
+    """بادج «مثال للتوضيح» — علم مموّج طالع من جنب الصندوق"""
+    wave = lambda x0, amp: " ".join(f"{x0 + amp * (1 if k % 2 else -1):.1f},{k * 13}" for k in range(11))
+    return (f'<svg class="flag" viewBox="0 0 34 130" aria-hidden="true">'
+            f'<path d="M4,0 Q8,6.5 4,13 T4,26 T4,39 T4,52 T4,65 T4,78 T4,91 T4,104 T4,117 T4,130 L30,130 Q26,123.5 30,117 T30,104 T30,91 T30,78 T30,65 T30,52 T30,39 T30,26 T30,13 T30,0 Z" fill="#e29433"/>'
+            f'<path d="M4,0 Q8,6.5 4,13 T4,26 T4,39 T4,52 T4,65 T4,78 T4,91 T4,104 T4,117 T4,130" fill="none" stroke="#a9670f" stroke-width="1.2"/>'
+            f'<text x="0" y="0" transform="translate(21.5 65) rotate(-90)" text-anchor="middle" font-size="12.5" font-weight="800" fill="#17263f" {F}>{t}</text></svg>')
+
+A(f'''<div class="fig wex keep">{flag("مثال للتوضيح")}
   <div class="wxh">مثال مبسّط: الشبكة بتتعلم تجاوب على سؤال «الصورة دي فيها قطة؟»</div>
-  <table class="wt"><thead><tr><th>الإشارة في الصورة</th><th>موجودة؟</th><th>الوزن <b>قبل</b> التدريب</th><th>الوزن <b>بعد</b> التدريب</th></tr></thead><tbody>'''
-  + "".join(f'<tr><td class="k">{t}</td><td>{num("1")}</td><td>{num(a)}</td><td>{num(b)} {m}</td></tr>' for t, a, b, m in WROWS)
-  + f'''<tr class="sum"><td class="k">المجموع (الإشارة × الوزن)</td><td></td><td>{num("0.4")} <span class="bad">← «مش قطة» ✗</span></td><td>{num("0.8")} <span class="ok">← «قطة» ✓</span></td></tr></tbody></table>
-  <div class="wxs"><span><b>قاعدة المثال:</b> لو المجموع {num("0.6")} أو أكتر ← الشبكة تقول «قطة».</span><span><b>بين العمودين:</b> الشبكة قارنت إجابتها بالإجابة الصح (الصورة فعلًا قطة)، وعدّلت الأوزان.</span></div>
+  <div class="wxl"><span><b>قاعدة المثال:</b> لو المجموع {num("0.6")} أو أكتر ← الشبكة تقول «قطة»</span><span>سُمك الخط = قيمة <b>الوزن</b></span><span>المجموع = الإشارة × الوزن</span></div>
+  <div class="wxr">{wnet()}</div>
+  <div class="wxm"><span>قبل ← بعد: الشبكة قارنت إجابتها بالإجابة الصح (الصورة فعلًا قطة)، و<b>عدّلت الأوزان</b></span></div>
   <p class="wxp"><b>لاحظ:</b> وزن «الودان» و«الشوارب» <b>زاد</b> لأنهم بيميّزوا القطط، ووزن «الفرو» <b>قلّ</b> لأن حيوانات تانية كتير عندها فرو — يعني <b>الوزن بيعبّر عن أهمية الإشارة</b>. في الشبكة العميقة الحقيقية نفس الفكرة بتحصل على <b>طبقات كتير</b> وعدد <b>ضخم</b> من الأوزان، والتعديل بيتكرر على <b>أمثلة كتير جدًا</b> مش مثال واحد. والأرقام هنا للتوضيح بس.</p>
 </div>''')
 A('<div class="note-line"><span class="tag">للفهم</span><span class="lead">طب ليه؟</span>لأن الكتاب في «توقّف وفكّر» بيسأل: ليه الذكاء الاصطناعي بيتلخبط في حاجة <b>نادرًا ما شافها</b> في بياناته؟ لأنه ما شافش <b>أمثلة كفاية تمثّل الحالة دي أثناء التدريب</b>. فممكن <b>ما يكونش اتعلّم نمط موثوق</b> يساعده يتعامل معاها.</div>')
 A(f'<div class="bridge">{FX}فاضل بس حاجة واحدة: الذكاء الاصطناعي التوليدي <b>بيغلط إزاي</b>، وإنت تعمل إيه؟</div>')
 
-# ---- الجزء الثالث (صفحة جديدة)
-A('<div class="pb"></div>')
+# ---- الجزء الثالث
 A('<div class="part p3"><span>الجزء الثالث</span></div>\n<hr class="rule">')
 A('<h2 class="sec"><span class="num">6</span><span class="dot">·</span> الهلوسة والتحقق من المخرجات</h2>')
 A('<div class="quote kwn"><span class="qmark">”</span>يمكن للذكاء الاصطناعي التوليدي إنتاج نص <b>يبدو معقولًا لكنه غير صحيح واقعيًا</b> («هلوسة»).</div>')
@@ -789,19 +836,22 @@ figure.bimg .icap{margin:4pt 2pt 5pt 2pt;text-align:center}
 .check .g2{margin-top:5pt}
 .check li{margin-bottom:4pt}
 .dark li{margin-bottom:2.5pt}
-.wex{padding:11pt 12pt 7pt 12pt;margin-top:12pt}
+.wex{position:relative;padding:11pt 26pt 8pt 12pt;margin-top:12pt}
+.wex svg.flag{position:absolute;left:-17pt;top:50%;transform:translateY(-50%);width:34pt;height:130pt;display:block;z-index:3;filter:drop-shadow(0 1pt 1.5pt rgba(23,38,63,.25))}
 .wxh{font-weight:800;font-size:10.6pt;color:var(--navy);margin:0 0 6pt 0}
-table.wt{width:100%;border-collapse:separate;border-spacing:0;border:.75pt solid #dde5ef;border-radius:8pt;overflow:hidden;font-size:9.8pt;line-height:14pt;color:var(--text2)}
-table.wt th{background:#eef2f8;font-weight:700;font-size:9.2pt;color:var(--navy);padding:4pt 9pt;text-align:center}
-table.wt th:first-child,table.wt td.k{text-align:right}
-table.wt td{padding:3.5pt 9pt;border-top:.75pt solid #e3e9f1;text-align:center}
-table.wt td.k{font-weight:700;color:var(--navy)}
-table.wt tr.sum td{background:#f5f7fb;font-weight:800}
-table.wt .ok{color:#2e7d5b;font-weight:800} table.wt .bad{color:#a33a30;font-weight:800}
-.wu{color:#2e7d5b;font-weight:800} .wd{color:#a33a30;font-weight:800}
-.wxs{display:grid;grid-template-columns:1fr 1.4fr;gap:8pt;margin-top:6pt}
-.wxs>span{background:#fbf6e8;border:.75pt solid #eee0b8;border-radius:7pt;padding:3pt 9pt;font-size:9pt;line-height:13.6pt;color:var(--text2)}
-.wxs b{color:#a9670f}
+.wxl{display:flex;justify-content:center;gap:8pt;flex-wrap:wrap;margin:0 0 7pt 0}
+.wxl span{display:inline-flex;align-items:center;gap:4pt;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:8pt;padding:1pt 9pt;font-size:9.2pt;line-height:15pt;color:var(--text2)}
+.wxl span svg{width:11pt;height:11pt}
+.wxl b{color:var(--navy)}
+.wxr{border:.75pt solid #dde5ef;border-radius:9pt;background:#fbfcfe;padding:5pt 8pt 2pt 8pt}
+.wxr.af{border-color:#b9dcc9;background:#f7fbf8}
+.wxt{font-weight:800;font-size:10pt;color:var(--navy);line-height:16pt}
+.wxt small{font-weight:600;font-size:9pt;color:var(--text2);margin-right:6pt}
+.wxr svg.wn{width:100%;height:auto;display:block}
+.wxm{display:flex;align-items:center;justify-content:center;gap:8pt;margin:6pt 0}
+.wxm span{background:#fbf6e8;border:.75pt solid #eee0b8;border-radius:8pt;padding:1pt 10pt;font-size:9.4pt;line-height:15pt;color:var(--text2)}
+.wxm b{color:#a9670f}
+.wxm i{font-style:normal;color:#e29433;font-weight:800}
 .wxp{margin-top:6pt;font-size:9.3pt;line-height:14.6pt;color:var(--text);text-wrap:pretty}
 .drawbox{height:120pt}
 """
