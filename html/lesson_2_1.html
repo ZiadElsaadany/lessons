@@ -785,6 +785,13 @@ table.svt td.k{white-space:normal}
 .tx .te p{font-size:9.4pt;line-height:14.2pt;color:var(--text2);text-wrap:pretty}
 .tx .te p b{color:var(--navy2)}
 .tx .tg{font-weight:700;font-size:8pt;color:#a9670f;background:#fbf6e8;border:.75pt solid #eee0b8;border-radius:6pt;padding:0 7pt;line-height:13pt}
+.tx .txs{background:#fbf6e8;border-top:.75pt solid #eee0b8;padding:3pt 10pt;font-size:9pt;line-height:14pt;color:var(--text2)}
+.tx .txs .fx{margin:0 0 0 6pt}
+.tx .txs em,.tx .px em{font-style:normal;font-weight:800;color:#a9670f}
+.tx .te .px{align-self:stretch;margin-top:2pt;padding-top:3pt;border-top:.75pt dashed #dde5ef;font-size:8.9pt;line-height:13.4pt;color:var(--text);text-wrap:pretty}
+.exs{position:relative;background:#fbfcfe;border:.75pt dashed #e2c48f;border-radius:9pt;padding:5pt 12pt;margin:5pt 0 7pt 0;font-size:9.6pt;line-height:15pt;color:var(--text);text-wrap:pretty}
+.exs .eh{font-weight:800;color:#a9670f;margin-left:5pt}
+.exs b{color:var(--navy)}
 /* التهديد ← التقنية */
 .thr{padding-top:10pt}
 .thr .th2{display:flex;align-items:center;justify-content:center;gap:8pt;margin-bottom:6pt;font-weight:800;font-size:10pt;line-height:1.35}
@@ -803,6 +810,21 @@ table.svt td.k{white-space:normal}
 .match ol.la li span:not(.ab){flex:1;margin-left:0}
 .match ol.la li .ab{margin-top:0}
 .qs.rd{background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:7pt;padding:5pt 10pt;text-wrap:pretty}
+/* ==== fxflag: بادج «للفهم» علم مموّج طالع من الجنب + علم واحد بقوس وأسهم لكذا حاجة ورا بعض (tools/fxflag.py) ==== */
+.fx.abs,.fx.fl,.note-line .tag{position:absolute;left:-17pt;right:auto;top:50%;bottom:auto;float:none;transform:translateY(-50%) rotate(180deg);writing-mode:vertical-rl;width:26pt;height:auto;min-height:46pt;box-sizing:border-box;padding:9pt 0;margin:0;display:flex;align-items:center;justify-content:center;border:0;border-radius:0;background:#e29433;color:#17263f;font-size:11pt;line-height:26pt;font-weight:800;z-index:3;-webkit-mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 100' preserveAspectRatio='none'%3E%3Cpath d='M3,0 Q7,5 3,10 T3,20 T3,30 T3,40 T3,50 T3,60 T3,70 T3,80 T3,90 T3,100 L23,100 Q19,95 23,90 T23,80 T23,70 T23,60 T23,50 T23,40 T23,30 T23,20 T23,10 T23,0 Z'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat;mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 100' preserveAspectRatio='none'%3E%3Cpath d='M3,0 Q7,5 3,10 T3,20 T3,30 T3,40 T3,50 T3,60 T3,70 T3,80 T3,90 T3,100 L23,100 Q19,95 23,90 T23,80 T23,70 T23,60 T23,50 T23,40 T23,30 T23,20 T23,10 T23,0 Z'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat}
+.note-line{padding-left:14pt}
+.note-line .tag{left:-12pt;top:-1pt;transform:rotate(180deg);min-height:31pt;padding:2pt 0}
+.instr:has(>.fx.fl){position:relative;padding-left:24pt}
+*:has(>.fx.abs:not(.gflag)){position:relative;padding-left:max(24pt,var(--fpl,0pt))}
+.note-box .tag{background:#e29433;border-color:#e29433;color:#17263f}
+.fxr{position:relative;margin-left:20pt!important}
+.note-line.fxr,.bridge.fxr{padding-left:0}
+.fxr>.gline{position:absolute;left:-26pt;top:-15pt;bottom:-1pt;width:0;border-left:1.6pt solid #e29433;z-index:2}
+.fxr1>.gline{top:4pt;width:7pt;border-top:1.6pt solid #e29433;border-top-left-radius:6pt}
+.fxrN>.gline{bottom:4pt;width:7pt;border-bottom:1.6pt solid #e29433;border-bottom-left-radius:6pt}
+.fxr>.gflag{left:-39pt;min-height:44pt}
+.garr{position:absolute;left:-26pt;top:50%;width:23pt;height:0;border-top:1.6pt solid #e29433;margin-top:-.8pt;z-index:2;font-style:normal}
+.garr::after{content:"";position:absolute;right:-1pt;top:-4.6pt;border-left:6pt solid #e29433;border-top:3.8pt solid transparent;border-bottom:3.8pt solid transparent}
 </style>
 <script>
 // ===== 1) توزيع المحتوى على صفحات A4 =====
@@ -1009,7 +1031,8 @@ window.addEventListener('load', async () => {
 <div class="sf"><div class="quote"><span class="qmark">”</span>عندما تسجل الدخول إلى تطبيق مصرفي أو تشتري عبر الإنترنت أو تفتح موقعًا يستخدم <b>HTTPS</b>، <b>تعمل عدة تقنيات لحماية الاتصال</b>. <b>يشفّر TLS البيانات أثناء انتقالها</b>، و<b>يتحقق المتصفح من شهادة الموقع واسم النطاق</b> الذي يتصل به، و<b>تتحقق الخدمة من هوية المستخدم</b> قبل منحه حق الوصول. <b>تقلل هذه الوسائل المخاطر، لكنها لا تعني أن محتوى الموقع موثوق أو أن الحماية مطلقة</b>.</div><div class="im"><img src="assets/u2/l21_https.jpg" alt=""><div class="icap">يستخدم التشفير بالمفتاح العام زوجًا من المفاتيح المرتبطة: مفتاحًا عامًا ومفتاحًا خاصًا.</div></div></div>
 <span class="chip">HTTPS</span>
 <div class="banner kwn"><b>بروتوكول HTTP منقول عبر اتصال TLS مؤمَّن</b>. يوفر TLS <b>سرية البيانات وسلامتها أثناء النقل</b>، ويساعد المتصفح على <b>التحقق من هوية الخادم واسم النطاق</b>. وتسمى خطوات إنشاء الاتصال الآمن <b>مصافحة TLS</b>.</div>
-<div class="note-line"><span class="tag">للفهم</span><span class="lead">ببساطة</span><b>HTTP</b> هو البروتوكول اللي بينظّم طلبات المتصفح وردود الخادم، و<b>TLS</b> بيحمي الاتصال. لما <b>HTTP</b> يشتغل عبر اتصال <b>TLS</b> مؤمَّن، بنسميه <b>HTTPS</b>.</div>
+<div class="note-line fxr fxr1"><span class="fx abs gflag">للفهم</span><i class="gline"></i><i class="garr"></i><span class="lead">ببساطة</span><b>HTTP</b> هو البروتوكول اللي بينظّم طلبات المتصفح وردود الخادم، و<b>TLS</b> بيحمي الاتصال. لما <b>HTTP</b> يشتغل عبر اتصال <b>TLS</b> مؤمَّن، بنسميه <b>HTTPS</b>.</div>
+<div class="exs fxr fxrN"><i class="gline"></i><i class="garr"></i><span class="eh">مثال للتبسيط:</span>لما تفتح موقع البنك وعنوانه بيبدأ بـ<b>https</b>، الطلبات والردود بين متصفحك وخادم البنك بتتنقل جوّه <b>اتصال TLS مؤمَّن</b> — فلو حد على نفس شبكة الواي فاي اعترضها، <b>مش هيقدر يقرا محتواها</b>.</div>
 <h2 class="sec"><span class="num">2</span><span class="dot">·</span> مراحل اتصال HTTPS</h2>
 <span class="chip">مصافحة TLS <bdi class="nw">(Transport Layer Security)</bdi></span>
 <div class="quote"><span class="qmark">”</span>تجري <b>المصادقة بالشهادة الرقمية</b> و<b>اشتقاق مفاتيح الجلسة</b> داخل <b>مصافحة TLS نفسها</b>، ثم يستخدم <b>التشفير المتماثل</b> لحماية بيانات الاتصال <b>بكفاءة</b>.</div>
@@ -1039,6 +1062,7 @@ window.addEventListener('load', async () => {
 <div class="banner kwn"><b>استخدام عاملين مستقلين من فئتين مختلفتين لإثبات الهوية</b>.</div>
 <span class="chip" style="margin-top:8pt">المصادقة متعددة العوامل <bdi class="nw">(MFA – Multi-Factor Authentication)</bdi></span>
 <div class="banner"><b>استخدام عاملين أو أكثر من فئات مختلفة</b>، مثل <b>المعرفة والحيازة والسمات الحيوية</b>.</div>
+<div class="exs"><span class="fx abs">للفهم</span><span class="eh">مثال للتبسيط:</span><b>كلمة المرور</b> (معرفة) + <b>رمز على الموبايل</b> (حيازة) = <b><bdi class="nw">2FA</bdi></b>: عاملين من فئتين. ولو زوّدت <b>بصمة الإصبع</b> (سمات حيوية) يبقوا <b>تلات عوامل من تلات فئات</b> — دي <b><bdi class="nw">MFA</bdi></b>.</div>
 <div class="sf" style="margin-top:9pt">
   <div class="quote"><span class="qmark">”</span>تستخدم <b>المصادقة الثنائية <bdi>(2FA)</bdi></b> <b>عاملين مختلفين لإثبات الهوية</b>. أما <b>المصادقة متعددة العوامل <bdi>(MFA)</bdi></b> فتستخدم <b>عاملين أو أكثر من فئات</b> مثل <b>المعرفة والحيازة والسمات الحيوية</b>.</div>
   <div class="im"><img src="assets/u2/l21_2fa.jpg" alt=""><div class="icap">تستخدم المصادقة الثنائية عاملين مستقلين من فئتين مختلفتين.</div></div>
@@ -1062,30 +1086,13 @@ window.addEventListener('load', async () => {
 <hr class="rule">
 <h2 class="sec"><span class="num">5</span><span class="dot">·</span> تركيبات تقنيات الأمان</h2>
 <div class="quote"><span class="qmark">”</span>يتحقق الاتصال والخدمات الآمنة <b>ليس من خلال تقنية واحدة</b>، بل من خلال <b>الجمع بين عدة تقنيات أمان</b>.</div>
-<div class="tx keep"><div class="tl"><div class="th"><span>التقنية</span><span>التأثير</span></div><div class="tr"><div class="tn"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10.5" rx="2.2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.7" r="1.3" fill="#22375c" stroke="none"/></svg></span><div><b>التشفير</b><small>(بالمفتاح المتناظر والمفتاح العام)</small></div></div><div class="te"><p><b>يمنع قراءة محتوى الاتصال من قِبل أطراف ثالثة</b></p><span class="tg">محدش يقرا</span></div></div><div class="tr"><div class="tn"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18.5c2.2-7 4.2-8.6 5.4-4.2 1 3.8 2.6 4.6 4.6-.6"/><path d="M3 21.3h18"/><path d="M17.6 3.6l2.8 2.8-3.4 3.4-2.8-2.8z"/></svg></span><div><b>التوقيع الرقمي</b></div></div><div class="te"><p><b>يدعم التحقق من سلامة البيانات وهوية الموقّع</b>. ويوفر دليلًا يدعم <b>عدم التنصل</b> عندما يتطلب النظام ذلك</p><span class="tg">محدش عدّل</span></div></div><div class="tr"><div class="tn"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.8" y="3.5" width="18.4" height="12.5" rx="2"/><path d="M6.6 7.8h7.4M6.6 11h4.4"/><circle cx="16.2" cy="15.6" r="2.9" fill="#fff"/><path d="M14.6 18.1l-.9 3.5 2.5-1.3 2.5 1.3-.9-3.5"/></svg></span><div><b>الشهادة الرقمية</b></div></div><div class="te"><p><b>تساعد المتصفح على التحقق من هوية الخادم واسم النطاق</b> الذي يتصل به.</p><span class="tg">إنت بتكلم مين</span></div></div><div class="tr"><div class="tn"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="8.5" height="11.5" rx="1.7"/><path d="M5 10h3.5"/><rect x="13" y="3" width="8.5" height="18" rx="1.9"/><path d="M15.6 6h3.3"/><circle cx="17.25" cy="17.6" r=".85" fill="#22375c" stroke="none"/></svg></span><div><b>المصادقة الثنائية <bdi>(2FA)</bdi></b></div></div><div class="te"><p><b>تقلل احتمال تسجيل الدخول غير المصرح به</b>.</p><span class="tg">مين اللي داخل</span></div></div></div><div class="im"><img src="assets/u2/l21_cert.jpg" alt=""><div class="icap">الشهادة الرقمية تساعد المتصفح على التحقق من هوية الخادم وارتباط الشهادة باسم النطاق الذي يتصل به.</div></div></div>
+<div class="tx keep"><div class="tl"><div class="th"><span>التقنية</span><span>التأثير</span></div><div class="txs"><span class="fx">للفهم</span><em>مثال للتبسيط:</em> على <b>منصة المدرسة</b> اللي بترفع عليها واجباتك</div><div class="tr"><div class="tn"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10.5" rx="2.2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.7" r="1.3" fill="#22375c" stroke="none"/></svg></span><div><b>التشفير</b><small>(بالمفتاح المتناظر والمفتاح العام)</small></div></div><div class="te"><p><b>يمنع قراءة محتوى الاتصال من قِبل أطراف ثالثة</b></p><span class="tg">محدش يقرا</span><small class="px">واجبك وكلمة المرور لو حد على نفس الواي فاي اعترضهم، هيشوف كلام ملخبط مش مفهوم.</small></div></div><div class="tr"><div class="tn"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18.5c2.2-7 4.2-8.6 5.4-4.2 1 3.8 2.6 4.6 4.6-.6"/><path d="M3 21.3h18"/><path d="M17.6 3.6l2.8 2.8-3.4 3.4-2.8-2.8z"/></svg></span><div><b>التوقيع الرقمي</b></div></div><div class="te"><p><b>يدعم التحقق من سلامة البيانات وهوية الموقّع</b>. ويوفر دليلًا يدعم <b>عدم التنصل</b> عندما يتطلب النظام ذلك</p><span class="tg">محدش عدّل</span><small class="px">المدرسة بتنشر ملف الدرجات موقّع رقميًا: لو حد غيّر درجة واحدة التعديل هيبان، ويبان كمان الملف طالع من مين.</small></div></div><div class="tr"><div class="tn"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.8" y="3.5" width="18.4" height="12.5" rx="2"/><path d="M6.6 7.8h7.4M6.6 11h4.4"/><circle cx="16.2" cy="15.6" r="2.9" fill="#fff"/><path d="M14.6 18.1l-.9 3.5 2.5-1.3 2.5 1.3-.9-3.5"/></svg></span><div><b>الشهادة الرقمية</b></div></div><div class="te"><p><b>تساعد المتصفح على التحقق من هوية الخادم واسم النطاق</b> الذي يتصل به.</p><span class="tg">إنت بتكلم مين</span><small class="px">لو حد حاول يحوّلك لخادم منتحل بدل خادم المنصة، مش هيقدر يقدّم شهادة صالحة لاسم نطاقها، والمتصفح يحذّرك.</small></div></div><div class="tr"><div class="tn"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="8.5" height="11.5" rx="1.7"/><path d="M5 10h3.5"/><rect x="13" y="3" width="8.5" height="18" rx="1.9"/><path d="M15.6 6h3.3"/><circle cx="17.25" cy="17.6" r=".85" fill="#22375c" stroke="none"/></svg></span><div><b>المصادقة الثنائية <bdi>(2FA)</bdi></b></div></div><div class="te"><p><b>تقلل احتمال تسجيل الدخول غير المصرح به</b>.</p><span class="tg">مين اللي داخل</span><small class="px">لو كلمة مرور حسابك اتسرّبت، اللي عرفها لسه محتاج الرمز اللي بيوصل على موبايلك.</small></div></div></div><div class="im"><img src="assets/u2/l21_cert.jpg" alt=""><div class="icap">الشهادة الرقمية تساعد المتصفح على التحقق من هوية الخادم وارتباط الشهادة باسم النطاق الذي يتصل به.</div></div></div>
 <div class="fig keep thr" style="position:relative"><span class="fx abs">للفهم</span><div class="th2"><span class="a">التهديد</span><i class="ar"><svg viewBox="0 0 44 12" fill="none" stroke="#e29433" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M42 6H5"/><path d="M10 1.5 4 6l6 4.5"/></svg></i><span class="b">التقنية المناسبة لتقليل خطره</span></div><div class="tgr"><div class="trw"><div class="t1">التنصت على محتوى الاتصال</div><i class="ar"><svg viewBox="0 0 44 12" fill="none" stroke="#e29433" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M42 6H5"/><path d="M10 1.5 4 6l6 4.5"/></svg></i><div class="t2">التشفير</div></div><div class="trw"><div class="t1">التلاعب بالبيانات وانتحال الشخصية</div><i class="ar"><svg viewBox="0 0 44 12" fill="none" stroke="#e29433" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M42 6H5"/><path d="M10 1.5 4 6l6 4.5"/></svg></i><div class="t2">التوقيع الرقمي</div></div><div class="trw"><div class="t1">موقع مزيف ينتحل هوية الخادم</div><i class="ar"><svg viewBox="0 0 44 12" fill="none" stroke="#e29433" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M42 6H5"/><path d="M10 1.5 4 6l6 4.5"/></svg></i><div class="t2">الشهادة الرقمية</div></div><div class="trw"><div class="t1">دخول غير مصرح به بكلمة مرور مسرّبة</div><i class="ar"><svg viewBox="0 0 44 12" fill="none" stroke="#e29433" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M42 6H5"/><path d="M10 1.5 4 6l6 4.5"/></svg></i><div class="t2">المصادقة الثنائية</div></div></div><div class="cap">كل طبقة بتقلّل خطر مختلف — والجمع بينهم هو الحماية</div></div>
 <h2 class="sec"><span class="num">6</span><span class="dot">·</span> مثال: شراء منتج عبر الإنترنت</h2>
 <div class="quote">على سبيل المثال، عند <b>شراء منتج عبر التسوق الإلكتروني</b>، يتم <b>الجمع بين هذه التقنيات</b> واستخدامها على النحو التالي:</div>
 <div class="steps keep"><div class="s"><span class="n">1</span><h4>تدخل الموقع — يبدأ إنشاء اتصال HTTPS آمن</h4><p>عندما تدخل إلى الموقع، <b>يبدأ اتصال HTTPS</b>، ويمنع <b>(التشفير)</b> قراءة محتوى الاتصال من قِبل أطراف ثالثة.</p></div><div class="s"><span class="n">2</span><h4>المتصفح يتأكد إنت بتكلم مين</h4><p><b>يتحقق المتصفح من الشهادة الرقمية واسم النطاق</b> للتأكد من <b>هوية الخادم</b> الذي يتصل به.</p></div><div class="s"><span class="n">3</span><h4>تسجيل الدخول — عاملين مش واحد</h4><p>عند تسجيل الدخول، تقلل <b>المصادقة الثنائية <bdi>(2FA)</bdi></b> احتمال <b>الدخول غير المصرح به</b> باستخدام <b>عاملين مستقلين</b>.</p></div><div class="s"><span class="n">4</span><h4>إرسال تفاصيل الطلب — سرية وسلامة</h4><p>أثناء إرسال تفاصيل الطلب، <b>يحمي TLS سرية البيانات وسلامتها أثناء النقل</b>. ويُستخدم <b>التوقيع الرقمي</b> لإثبات التوقيع على بيانات أو رسائل محددة <b>عندما يتطلب النظام ذلك</b>.</p></div></div>
 <div class="quote"><span class="qmark">”</span>يتيح <b>الجمع بين تقنيات الحماية</b> تقليل مخاطر عدة تهديدات، مثل <b>التنصت</b> و<b>التلاعب</b> و<b>انتحال الهوية</b> و<b>الدخول غير المصرح به</b>، <b>من دون افتراض أن أي تقنية تمنع الخطر منعًا مطلقًا</b>.</div>
 <div class="kidea keep"><div class="kh">الفكرة الرئيسة</div><p><b>لا يأتي الأمان عبر الإنترنت من تقنية واحدة</b>، بل من <b>الجمع بين التشفير والشهادات والتوقيعات والمصادقة</b> بحيث تتم معالجة تهديدات كثيرة في آن واحد.</p></div>
-<div class="box cream keep">
-  <h3>خلي بالك من العبارات دي</h3>
-  <ul>
-    <li>الوسائل دي <b>«تقلل المخاطر»</b> – «لكنها <b>لا تعني أن محتوى الموقع موثوق أو أن الحماية مطلقة</b>».</li>
-    <li><b>«من دون افتراض أن أي تقنية تمنع الخطر منعًا مطلقًا»</b>.</li>
-    <li>التوقيع الرقمي يوفر دليلًا يدعم عدم التنصل <b>«عندما يتطلب النظام ذلك»</b> – مش دايمًا.</li>
-    <li>«تؤدي الشهادات والتوقيعات الرقمية <b>وظائف مختلفة بحسب النظام</b>».</li>
-    <li>مفاتيح الجلسة تُشتق <b>«باستخدام آليات مفتاح عام مناسبة لإصدار TLS ومجموعة التشفير»</b>.</li>
-    <li>الحماية الفعالة <b>«طبقات تقلل المخاطر»</b> – <b>«ولا تعتمد على تقنية واحدة أو ضمان مطلق»</b>.</li>
-  </ul>
-</div>
-<div class="box plain keep">
-  <h3>مثال من حياتنا<span class="fx">للفهم</span></h3>
-  <p>لما تطبيق البنك ينشئ اتصالًا آمنًا بخادم البنك، بيتحقق من <b>شهادة الخادم</b> وبيتم إنشاء <b>مفاتيح الجلسة</b>. وبعد كده، البيانات المتبادلة عبر الاتصال بتتحمى <b>بالتشفير المتماثل</b> و<b>آليات سلامة البيانات</b>.</p>
-  <p>وبعدين كتبت <b>كلمة المرور</b> (معرفة)، وجالك <b>رمز على الموبايل</b> (حيازة) – دي <b><bdi class="nw">2FA</bdi></b>: <b>فئتين مختلفتين</b>. ولو حد عرف كلمة المرور، لسه <b>مش كفاية</b> يدخل من غير الجهاز اللي معاك.</p>
-  <p><b>وبرضه:</b> كل ده <b>بيقلّل الخطر</b> – مش بيلغيه. الكتاب واقف يقول: <b>من دون افتراض أن أي تقنية تمنع الخطر منعًا مطلقًا</b>.</p>
-</div>
 <div class="big">سؤال على نمط الامتحان — ونموذج إجابته</div>
 <hr class="rule">
 <div class="exam keep">
@@ -1094,7 +1101,7 @@ window.addEventListener('load', async () => {
   <div class="hint"><b>استعن بـ:</b> الأمان والكفاءة.</div>
 </div>
 <h3 class="sub">سؤال على نمط الامتحان — إجابة نموذجية</h3>
-<div class="box white split"><h3>نموذج إجابة مقترح لسؤال الـ<span class="num">6</span> درجات<span class="fx">للفهم</span></h3><ol style="counter-reset:n 0"><li><b>المشكلة في البداية – الثقة:</b> يحتاج المتصفح إلى التأكد من أنه يتصل <b>بالخادم الصحيح</b>، وأن مفاتيح الحماية تُحدَّد دون أن تتسرّب؛ وهذا دور <b>آليات المفتاح العام</b>.</li></ol><ol style="counter-reset:n 1"><li><b>المصادقة:</b> أثناء <b>مصافحة TLS</b> يرسل الخادم <b>شهادته الرقمية</b>، ويتحقق المتصفح من <b>صلاحيتها وسلسلة الثقة وملاءمتها لاسم الموقع</b>.</li></ol><ol style="counter-reset:n 2"><li><b>الاتفاق الآمن على المفاتيح:</b> يتفاوض الطرفان على <b>أسرار مشتركة</b> تُشتق منها <b>مفاتيح الجلسة</b> – و<b>يشتق كل طرف مفتاحه دون إرسال المفتاح نفسه عبر الشبكة</b>.</li></ol><ol style="counter-reset:n 3"><li><b>لماذا لا نكمل بالمفتاح العام؟ – الكفاءة:</b> تبادل <b>جميع</b> البيانات بالتشفير بالمفتاح العام <b>سيكون بطيئًا</b>.</li></ol><ol style="counter-reset:n 4"><li><b>الحل:</b> بعد إنشاء المفاتيح يُستخدم <b>التشفير المتماثل</b> لحماية <b>بيانات الجلسة بسرعة وكفاءة</b>، مع <b>آليات سلامة البيانات</b>.</li></ol><ol style="counter-reset:n 5"><li><b>الخلاصة:</b> <b>الشهادات وآليات المفتاح العام للمصادقة والاتفاق الآمن على مفاتيح الجلسة، والتشفير المتماثل لحماية بيانات الجلسة بكفاءة</b> – والاثنان يعملان معًا، لا أحدهما بدل الآخر.</li></ol><div class="tip"><span class="l">ركّز:</span> التلميح سمّى كلمتين – <b>الأمان</b> و<b>الكفاءة</b>. الإجابة القوية بتربط كل نوع تشفير بكلمة منهم بوضوح.</div></div>
+<div class="box white split"><h3>نموذج إجابة مقترح لسؤال الـ<span class="num">6</span> درجات</h3><ol style="counter-reset:n 0"><li><b>المشكلة في البداية – الثقة:</b> يحتاج المتصفح إلى التأكد من أنه يتصل <b>بالخادم الصحيح</b>، وأن مفاتيح الحماية تُحدَّد دون أن تتسرّب؛ وهذا دور <b>آليات المفتاح العام</b>.</li></ol><ol style="counter-reset:n 1"><li><b>المصادقة:</b> أثناء <b>مصافحة TLS</b> يرسل الخادم <b>شهادته الرقمية</b>، ويتحقق المتصفح من <b>صلاحيتها وسلسلة الثقة وملاءمتها لاسم الموقع</b>.</li></ol><ol style="counter-reset:n 2"><li><b>الاتفاق الآمن على المفاتيح:</b> يتفاوض الطرفان على <b>أسرار مشتركة</b> تُشتق منها <b>مفاتيح الجلسة</b> – و<b>يشتق كل طرف مفتاحه دون إرسال المفتاح نفسه عبر الشبكة</b>.</li></ol><ol style="counter-reset:n 3"><li><b>لماذا لا نكمل بالمفتاح العام؟ – الكفاءة:</b> تبادل <b>جميع</b> البيانات بالتشفير بالمفتاح العام <b>سيكون بطيئًا</b>.</li></ol><ol style="counter-reset:n 4"><li><b>الحل:</b> بعد إنشاء المفاتيح يُستخدم <b>التشفير المتماثل</b> لحماية <b>بيانات الجلسة بسرعة وكفاءة</b>، مع <b>آليات سلامة البيانات</b>.</li></ol><ol style="counter-reset:n 5"><li><b>الخلاصة:</b> <b>الشهادات وآليات المفتاح العام للمصادقة والاتفاق الآمن على مفاتيح الجلسة، والتشفير المتماثل لحماية بيانات الجلسة بكفاءة</b> – والاثنان يعملان معًا، لا أحدهما بدل الآخر.</li></ol><div class="tip"><span class="l">ركّز:</span> التلميح سمّى كلمتين – <b>الأمان</b> و<b>الكفاءة</b>. الإجابة القوية بتربط كل نوع تشفير بكلمة منهم بوضوح.</div></div>
 <h2 class="sec"><span class="num"></span>إجابة السؤال الرئيسي</h2>
 <div class="mq">
   <div class="lab">السؤال</div>
@@ -1110,11 +1117,28 @@ window.addEventListener('load', async () => {
   </div>
   <div class="t2">
     <div class="full"><b>HTTPS</b> – نظام لإجراء اتصالات الويب بأمان (التشفير، واكتشاف التلاعب، والتحقق من الطرف المقابل).</div>
-    <div><b>المصادقة الثنائية <bdi>(2FA – Two-Factor Authentication)</bdi></b> – استخدام عاملين مستقلين من فئتين مختلفتين لإثبات الهوية.<br>– تقلل احتمال تسجيل الدخول غير المصرح به.</div>
+    <div><b>المصادقة الثنائية <bdi>(2FA – Two-Factor Authentication)</bdi></b> – استخدام عاملين مستقلين من فئتين مختلفتين لإثبات الهوية، وتقلل احتمال تسجيل الدخول غير المصرح به.</div>
     <div><b>المصادقة متعددة العوامل <bdi>(MFA – Multi-Factor Authentication)</bdi></b> – استخدام عاملين أو أكثر من فئات مختلفة، مثل المعرفة والحيازة والسمات الحيوية.</div>
     <div><b>التوقيع الرقمي</b> – يكتشف التلاعب وانتحال الشخصية، ويوفر دليلًا يدعم عدم التنصل.</div>
     <div><b>الشهادة الرقمية</b> – تساعد المتصفح على التحقق من هوية الخادم وارتباط الشهادة باسم النطاق.</div>
   </div>
+</div>
+<div class="box cream keep">
+  <h3>خلي بالك من العبارات دي</h3>
+  <ul>
+    <li>الوسائل دي <b>«تقلل المخاطر»</b> – «لكنها <b>لا تعني أن محتوى الموقع موثوق أو أن الحماية مطلقة</b>».</li>
+    <li><b>«من دون افتراض أن أي تقنية تمنع الخطر منعًا مطلقًا»</b>.</li>
+    <li>التوقيع الرقمي يوفر دليلًا يدعم عدم التنصل <b>«عندما يتطلب النظام ذلك»</b> – مش دايمًا.</li>
+    <li>«تؤدي الشهادات والتوقيعات الرقمية <b>وظائف مختلفة بحسب النظام</b>».</li>
+    <li>مفاتيح الجلسة تُشتق <b>«باستخدام آليات مفتاح عام مناسبة لإصدار TLS ومجموعة التشفير»</b>.</li>
+    <li>الحماية الفعالة <b>«طبقات تقلل المخاطر»</b> – <b>«ولا تعتمد على تقنية واحدة أو ضمان مطلق»</b>.</li>
+  </ul>
+</div>
+<div class="box plain keep"><span class="fx abs">للفهم</span>
+  <h3>مثال من حياتنا</h3>
+  <p>لما تطبيق البنك ينشئ اتصالًا آمنًا بخادم البنك، بيتحقق من <b>شهادة الخادم</b> وبيتم إنشاء <b>مفاتيح الجلسة</b>. وبعد كده، البيانات المتبادلة عبر الاتصال بتتحمى <b>بالتشفير المتماثل</b> و<b>آليات سلامة البيانات</b>.</p>
+  <p>وبعدين كتبت <b>كلمة المرور</b> (معرفة)، وجالك <b>رمز على الموبايل</b> (حيازة) – دي <b><bdi class="nw">2FA</bdi></b>: <b>فئتين مختلفتين</b>. ولو حد عرف كلمة المرور، لسه <b>مش كفاية</b> يدخل من غير الجهاز اللي معاك.</p>
+  <p><b>وبرضه:</b> كل ده <b>بيقلّل الخطر</b> – مش بيلغيه. الكتاب واقف يقول: <b>من دون افتراض أن أي تقنية تمنع الخطر منعًا مطلقًا</b>.</p>
 </div>
 <div class="dark keep">
   <h3>الخلاصة في دقيقة</h3>

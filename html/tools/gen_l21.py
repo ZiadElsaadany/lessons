@@ -11,7 +11,7 @@ tpl = open(BASE + "lesson_3_1.html", encoding="utf-8").read()
 head = tpl[:tpl.index('<body data-lesson=')]
 import os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from fxflag import strip_style
+from fxflag import FLAG_CSS, group_html, strip_style
 head = strip_style(head)
 head = head.replace("<title>الدرس 3-1 — البنية العامة لتطبيقات الويب</title>", "<title>الدرس 2-1 — تقنيات التشفير والمصادقة</title>")
 head = head.replace("الدرس 3-1 (الشرح)", "الدرس 2-1 (الشرح + بنك الأسئلة)")
@@ -135,6 +135,7 @@ A('<div class="sf"><div class="quote"><span class="qmark">”</span>عندما �
 A('<span class="chip">HTTPS</span>')
 A('<div class="banner kwn"><b>بروتوكول HTTP منقول عبر اتصال TLS مؤمَّن</b>. يوفر TLS <b>سرية البيانات وسلامتها أثناء النقل</b>، ويساعد المتصفح على <b>التحقق من هوية الخادم واسم النطاق</b>. وتسمى خطوات إنشاء الاتصال الآمن <b>مصافحة TLS</b>.</div>')
 A('<div class="note-line"><span class="tag">للفهم</span><span class="lead">ببساطة</span><b>HTTP</b> هو البروتوكول اللي بينظّم طلبات المتصفح وردود الخادم، و<b>TLS</b> بيحمي الاتصال. لما <b>HTTP</b> يشتغل عبر اتصال <b>TLS</b> مؤمَّن، بنسميه <b>HTTPS</b>.</div>')
+A(f'<div class="exs">{FXA}<span class="eh">مثال للتبسيط:</span>لما تفتح موقع البنك وعنوانه بيبدأ بـ<b>https</b>، الطلبات والردود بين متصفحك وخادم البنك بتتنقل جوّه <b>اتصال TLS مؤمَّن</b> — فلو حد على نفس شبكة الواي فاي اعترضها، <b>مش هيقدر يقرا محتواها</b>.</div>')
 
 A('<h2 class="sec"><span class="num">2</span><span class="dot">·</span> مراحل اتصال HTTPS</h2>')
 A(f'<span class="chip">مصافحة TLS {nw("(Transport Layer Security)")}</span>')
@@ -187,6 +188,7 @@ A(f'<span class="chip">المصادقة الثنائية {nw("(2FA – Two-Facto
 A('<div class="banner kwn"><b>استخدام عاملين مستقلين من فئتين مختلفتين لإثبات الهوية</b>.</div>')
 A(f'<span class="chip" style="margin-top:8pt">المصادقة متعددة العوامل {nw("(MFA – Multi-Factor Authentication)")}</span>')
 A('<div class="banner"><b>استخدام عاملين أو أكثر من فئات مختلفة</b>، مثل <b>المعرفة والحيازة والسمات الحيوية</b>.</div>')
+A(f'<div class="exs">{FXA}<span class="eh">مثال للتبسيط:</span><b>كلمة المرور</b> (معرفة) + <b>رمز على الموبايل</b> (حيازة) = <b>{nw("2FA")}</b>: عاملين من فئتين. ولو زوّدت <b>بصمة الإصبع</b> (سمات حيوية) يبقوا <b>تلات عوامل من تلات فئات</b> — دي <b>{nw("MFA")}</b>.</div>')
 A(f'''<div class="sf" style="margin-top:9pt">
   <div class="quote"><span class="qmark">”</span>تستخدم <b>المصادقة الثنائية {en("(2FA)")}</b> <b>عاملين مختلفين لإثبات الهوية</b>. أما <b>المصادقة متعددة العوامل {en("(MFA)")}</b> فتستخدم <b>عاملين أو أكثر من فئات</b> مثل <b>المعرفة والحيازة والسمات الحيوية</b>.</div>
   <div class="im"><img src="assets/u2/l21_2fa.jpg" alt=""><div class="icap">تستخدم المصادقة الثنائية عاملين مستقلين من فئتين مختلفتين.</div></div>
@@ -222,14 +224,19 @@ A('<div class="part p3"><span>الجزء الثالث</span></div>\n<hr class="r
 A('<h2 class="sec"><span class="num">5</span><span class="dot">·</span> تركيبات تقنيات الأمان</h2>')
 A('<div class="quote"><span class="qmark">”</span>يتحقق الاتصال والخدمات الآمنة <b>ليس من خلال تقنية واحدة</b>، بل من خلال <b>الجمع بين عدة تقنيات أمان</b>.</div>')
 TECH = [
-    (ic_lock("#22375c"), "التشفير", "(بالمفتاح المتناظر والمفتاح العام)", "<b>يمنع قراءة محتوى الاتصال من قِبل أطراف ثالثة</b>", "محدش يقرا"),
-    (ic_sign("#22375c"), "التوقيع الرقمي", "", "<b>يدعم التحقق من سلامة البيانات وهوية الموقّع</b>. ويوفر دليلًا يدعم <b>عدم التنصل</b> عندما يتطلب النظام ذلك", "محدش عدّل"),
-    (ic_cert("#22375c"), "الشهادة الرقمية", "", "<b>تساعد المتصفح على التحقق من هوية الخادم واسم النطاق</b> الذي يتصل به.", "إنت بتكلم مين"),
-    (ic_2dev("#22375c"), f"المصادقة الثنائية {en('(2FA)')}", "", "<b>تقلل احتمال تسجيل الدخول غير المصرح به</b>.", "مين اللي داخل"),
+    (ic_lock("#22375c"), "التشفير", "(بالمفتاح المتناظر والمفتاح العام)", "<b>يمنع قراءة محتوى الاتصال من قِبل أطراف ثالثة</b>", "محدش يقرا",
+     "واجبك وكلمة المرور لو حد على نفس الواي فاي اعترضهم، هيشوف كلام ملخبط مش مفهوم."),
+    (ic_sign("#22375c"), "التوقيع الرقمي", "", "<b>يدعم التحقق من سلامة البيانات وهوية الموقّع</b>. ويوفر دليلًا يدعم <b>عدم التنصل</b> عندما يتطلب النظام ذلك", "محدش عدّل",
+     "المدرسة بتنشر ملف الدرجات موقّع رقميًا: لو حد غيّر درجة واحدة التعديل هيبان، ويبان كمان الملف طالع من مين."),
+    (ic_cert("#22375c"), "الشهادة الرقمية", "", "<b>تساعد المتصفح على التحقق من هوية الخادم واسم النطاق</b> الذي يتصل به.", "إنت بتكلم مين",
+     "لو حد حاول يحوّلك لخادم منتحل بدل خادم المنصة، مش هيقدر يقدّم شهادة صالحة لاسم نطاقها، والمتصفح يحذّرك."),
+    (ic_2dev("#22375c"), f"المصادقة الثنائية {en('(2FA)')}", "", "<b>تقلل احتمال تسجيل الدخول غير المصرح به</b>.", "مين اللي داخل",
+     "لو كلمة مرور حسابك اتسرّبت، اللي عرفها لسه محتاج الرمز اللي بيوصل على موبايلك."),
 ]
 A('<div class="tx keep"><div class="tl">'
   + '<div class="th"><span>التقنية</span><span>التأثير</span></div>'
-  + "".join(f'<div class="tr"><div class="tn"><span class="ic">{i}</span><div><b>{n}</b>{f"<small>{s}</small>" if s else ""}</div></div><div class="te"><p>{e}</p><span class="tg">{t}</span></div></div>' for i, n, s, e, t in TECH)
+  + f'<div class="txs">{FX}<em>مثال للتبسيط:</em> على <b>منصة المدرسة</b> اللي بترفع عليها واجباتك</div>'
+  + "".join(f'<div class="tr"><div class="tn"><span class="ic">{i}</span><div><b>{n}</b>{f"<small>{s}</small>" if s else ""}</div></div><div class="te"><p>{e}</p><span class="tg">{t}</span><small class="px">{x}</small></div></div>' for i, n, s, e, t, x in TECH)
   + '</div><div class="im"><img src="assets/u2/l21_cert.jpg" alt=""><div class="icap">الشهادة الرقمية تساعد المتصفح على التحقق من هوية الخادم وارتباط الشهادة باسم النطاق الذي يتصل به.</div></div></div>')
 THR = [("التنصت على محتوى الاتصال", "التشفير"), ("التلاعب بالبيانات وانتحال الشخصية", "التوقيع الرقمي"),
        ("موقع مزيف ينتحل هوية الخادم", "الشهادة الرقمية"), ("دخول غير مصرح به بكلمة مرور مسرّبة", "المصادقة الثنائية")]
@@ -250,24 +257,6 @@ SHOP = [
 A('<div class="steps keep">' + "".join(f'<div class="s"><span class="n">{k+1}</span><h4>{h}</h4><p>{p}</p></div>' for k, (h, p) in enumerate(SHOP)) + '</div>')
 A('<div class="quote"><span class="qmark">”</span>يتيح <b>الجمع بين تقنيات الحماية</b> تقليل مخاطر عدة تهديدات، مثل <b>التنصت</b> و<b>التلاعب</b> و<b>انتحال الهوية</b> و<b>الدخول غير المصرح به</b>، <b>من دون افتراض أن أي تقنية تمنع الخطر منعًا مطلقًا</b>.</div>')
 A('<div class="kidea keep"><div class="kh">الفكرة الرئيسة</div><p><b>لا يأتي الأمان عبر الإنترنت من تقنية واحدة</b>، بل من <b>الجمع بين التشفير والشهادات والتوقيعات والمصادقة</b> بحيث تتم معالجة تهديدات كثيرة في آن واحد.</p></div>')
-A('''<div class="box cream keep">
-  <h3>خلي بالك من العبارات دي</h3>
-  <ul>
-    <li>الوسائل دي <b>«تقلل المخاطر»</b> – «لكنها <b>لا تعني أن محتوى الموقع موثوق أو أن الحماية مطلقة</b>».</li>
-    <li><b>«من دون افتراض أن أي تقنية تمنع الخطر منعًا مطلقًا»</b>.</li>
-    <li>التوقيع الرقمي يوفر دليلًا يدعم عدم التنصل <b>«عندما يتطلب النظام ذلك»</b> – مش دايمًا.</li>
-    <li>«تؤدي الشهادات والتوقيعات الرقمية <b>وظائف مختلفة بحسب النظام</b>».</li>
-    <li>مفاتيح الجلسة تُشتق <b>«باستخدام آليات مفتاح عام مناسبة لإصدار TLS ومجموعة التشفير»</b>.</li>
-    <li>الحماية الفعالة <b>«طبقات تقلل المخاطر»</b> – <b>«ولا تعتمد على تقنية واحدة أو ضمان مطلق»</b>.</li>
-  </ul>
-</div>''')
-A(f'''<div class="box plain keep">
-  <h3>مثال من حياتنا{FX}</h3>
-  <p>لما تطبيق البنك ينشئ اتصالًا آمنًا بخادم البنك، بيتحقق من <b>شهادة الخادم</b> وبيتم إنشاء <b>مفاتيح الجلسة</b>. وبعد كده، البيانات المتبادلة عبر الاتصال بتتحمى <b>بالتشفير المتماثل</b> و<b>آليات سلامة البيانات</b>.</p>
-  <p>وبعدين كتبت <b>كلمة المرور</b> (معرفة)، وجالك <b>رمز على الموبايل</b> (حيازة) – دي <b>{nw("2FA")}</b>: <b>فئتين مختلفتين</b>. ولو حد عرف كلمة المرور، لسه <b>مش كفاية</b> يدخل من غير الجهاز اللي معاك.</p>
-  <p><b>وبرضه:</b> كل ده <b>بيقلّل الخطر</b> – مش بيلغيه. الكتاب واقف يقول: <b>من دون افتراض أن أي تقنية تمنع الخطر منعًا مطلقًا</b>.</p>
-</div>''')
-
 # ---- سؤال على نمط الامتحان
 A('<div class="big">سؤال على نمط الامتحان — ونموذج إجابته</div>\n<hr class="rule">')
 A(f'''<div class="exam keep">
@@ -303,11 +292,28 @@ A(f'''<div class="terms keep">
   </div>
   <div class="t2">
     <div class="full"><b>HTTPS</b> – نظام لإجراء اتصالات الويب بأمان (التشفير، واكتشاف التلاعب، والتحقق من الطرف المقابل).</div>
-    <div><b>المصادقة الثنائية {en("(2FA – Two-Factor Authentication)")}</b> – استخدام عاملين مستقلين من فئتين مختلفتين لإثبات الهوية.<br>– تقلل احتمال تسجيل الدخول غير المصرح به.</div>
+    <div><b>المصادقة الثنائية {en("(2FA – Two-Factor Authentication)")}</b> – استخدام عاملين مستقلين من فئتين مختلفتين لإثبات الهوية، وتقلل احتمال تسجيل الدخول غير المصرح به.</div>
     <div><b>المصادقة متعددة العوامل {en("(MFA – Multi-Factor Authentication)")}</b> – استخدام عاملين أو أكثر من فئات مختلفة، مثل المعرفة والحيازة والسمات الحيوية.</div>
     <div><b>التوقيع الرقمي</b> – يكتشف التلاعب وانتحال الشخصية، ويوفر دليلًا يدعم عدم التنصل.</div>
     <div><b>الشهادة الرقمية</b> – تساعد المتصفح على التحقق من هوية الخادم وارتباط الشهادة باسم النطاق.</div>
   </div>
+</div>''')
+A('''<div class="box cream keep">
+  <h3>خلي بالك من العبارات دي</h3>
+  <ul>
+    <li>الوسائل دي <b>«تقلل المخاطر»</b> – «لكنها <b>لا تعني أن محتوى الموقع موثوق أو أن الحماية مطلقة</b>».</li>
+    <li><b>«من دون افتراض أن أي تقنية تمنع الخطر منعًا مطلقًا»</b>.</li>
+    <li>التوقيع الرقمي يوفر دليلًا يدعم عدم التنصل <b>«عندما يتطلب النظام ذلك»</b> – مش دايمًا.</li>
+    <li>«تؤدي الشهادات والتوقيعات الرقمية <b>وظائف مختلفة بحسب النظام</b>».</li>
+    <li>مفاتيح الجلسة تُشتق <b>«باستخدام آليات مفتاح عام مناسبة لإصدار TLS ومجموعة التشفير»</b>.</li>
+    <li>الحماية الفعالة <b>«طبقات تقلل المخاطر»</b> – <b>«ولا تعتمد على تقنية واحدة أو ضمان مطلق»</b>.</li>
+  </ul>
+</div>''')
+A(f'''<div class="box plain keep">
+  <h3>مثال من حياتنا{FX}</h3>
+  <p>لما تطبيق البنك ينشئ اتصالًا آمنًا بخادم البنك، بيتحقق من <b>شهادة الخادم</b> وبيتم إنشاء <b>مفاتيح الجلسة</b>. وبعد كده، البيانات المتبادلة عبر الاتصال بتتحمى <b>بالتشفير المتماثل</b> و<b>آليات سلامة البيانات</b>.</p>
+  <p>وبعدين كتبت <b>كلمة المرور</b> (معرفة)، وجالك <b>رمز على الموبايل</b> (حيازة) – دي <b>{nw("2FA")}</b>: <b>فئتين مختلفتين</b>. ولو حد عرف كلمة المرور، لسه <b>مش كفاية</b> يدخل من غير الجهاز اللي معاك.</p>
+  <p><b>وبرضه:</b> كل ده <b>بيقلّل الخطر</b> – مش بيلغيه. الكتاب واقف يقول: <b>من دون افتراض أن أي تقنية تمنع الخطر منعًا مطلقًا</b>.</p>
 </div>''')
 A(f'''<div class="dark keep">
   <h3>الخلاصة في دقيقة</h3>
@@ -692,6 +698,13 @@ table.svt td.k{white-space:normal}
 .tx .te p{font-size:9.4pt;line-height:14.2pt;color:var(--text2);text-wrap:pretty}
 .tx .te p b{color:var(--navy2)}
 .tx .tg{font-weight:700;font-size:8pt;color:#a9670f;background:#fbf6e8;border:.75pt solid #eee0b8;border-radius:6pt;padding:0 7pt;line-height:13pt}
+.tx .txs{background:#fbf6e8;border-top:.75pt solid #eee0b8;padding:3pt 10pt;font-size:9pt;line-height:14pt;color:var(--text2)}
+.tx .txs .fx{margin:0 0 0 6pt}
+.tx .txs em,.tx .px em{font-style:normal;font-weight:800;color:#a9670f}
+.tx .te .px{align-self:stretch;margin-top:2pt;padding-top:3pt;border-top:.75pt dashed #dde5ef;font-size:8.9pt;line-height:13.4pt;color:var(--text);text-wrap:pretty}
+.exs{position:relative;background:#fbfcfe;border:.75pt dashed #e2c48f;border-radius:9pt;padding:5pt 12pt;margin:5pt 0 7pt 0;font-size:9.6pt;line-height:15pt;color:var(--text);text-wrap:pretty}
+.exs .eh{font-weight:800;color:#a9670f;margin-left:5pt}
+.exs b{color:var(--navy)}
 /* التهديد ← التقنية */
 .thr{padding-top:10pt}
 .thr .th2{display:flex;align-items:center;justify-content:center;gap:8pt;margin-bottom:6pt;font-weight:800;font-size:10pt;line-height:1.35}
@@ -713,9 +726,9 @@ table.svt td.k{white-space:normal}
 """
 
 body = (f'<body data-lesson="الدرس 2-1 — {TITLE}" data-start="{START}" data-total="{TOTAL}">\n<main class="flow">\n'
-        + "\n".join(E) + "\n\n<!-- ===================== بنك الأسئلة ===================== -->\n" + "\n".join(B)
+        + group_html("\n".join(E)) + "\n\n<!-- ===================== بنك الأسئلة ===================== -->\n" + "\n".join(B)
         + "\n</main>\n</body>\n</html>\n")
-out = head.replace("</style>", EXTRA_CSS + "</style>", 1) + body
+out = head.replace("</style>", EXTRA_CSS + FLAG_CSS + "</style>", 1) + body
 out = out.replace("(el.firstElementChild && el.firstElementChild.tagName === 'H4')", "(el.firstElementChild && /^H[34]$/.test(el.firstElementChild.tagName))")
 open(BASE + "lesson_2_1.html", "w", encoding="utf-8").write(out)
 print("written", len(out), "| book", BOOK_N, "| mcq", len(MCQ), "| fill", len(FILL), "| tf", len(TF), "| why", len(WHY), "| ess", N_ESS, "| tq", N_TQ)
