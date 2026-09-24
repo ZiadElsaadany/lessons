@@ -302,7 +302,7 @@ def wnet():
     """رسمة المثال: الإشارات في النص · قبل التدريب يمين · بعد التدريب شمال — سُمك الخط = الوزن"""
     rows = [("ودان مدببة", 0.1, 0.4), ("شوارب", 0.1, 0.3), ("فرو", 0.2, 0.1)]
     ys = [52, 92, 132]; cy = 92
-    s = ['<svg class="wn" viewBox="0 0 520 172">']
+    s = ['<svg class="wn" viewBox="0 6 520 162">']
     s.append(f'<rect x="330" y="4" width="186" height="164" rx="10" fill="#f5f7fb"/>'
              f'<rect x="4" y="4" width="186" height="164" rx="10" fill="#f2f8f4"/>'
              f'<text x="423" y="24" text-anchor="middle" font-size="13" font-weight="800" fill="#22375c" {F}>قبل التدريب</text>'
@@ -836,10 +836,10 @@ figure.bimg .icap{margin:4pt 2pt 5pt 2pt;text-align:center}
 .check .g2{margin-top:5pt}
 .check li{margin-bottom:4pt}
 .dark li{margin-bottom:2.5pt}
-.wex{position:relative;padding:11pt 26pt 8pt 12pt;margin-top:12pt}
+.wex{position:relative;padding:9pt 26pt 7pt 12pt;margin-top:9pt}
 .wex svg.flag{position:absolute;left:-17pt;top:50%;transform:translateY(-50%);width:34pt;height:130pt;display:block;z-index:3;filter:drop-shadow(0 1pt 1.5pt rgba(23,38,63,.25))}
 .wxh{font-weight:800;font-size:10.6pt;color:var(--navy);margin:0 0 6pt 0}
-.wxl{display:flex;justify-content:center;gap:8pt;flex-wrap:wrap;margin:0 0 7pt 0}
+.wxl{display:flex;justify-content:center;gap:8pt;flex-wrap:wrap;margin:0 0 5pt 0}
 .wxl span{display:inline-flex;align-items:center;gap:4pt;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:8pt;padding:1pt 9pt;font-size:9.2pt;line-height:15pt;color:var(--text2)}
 .wxl span svg{width:11pt;height:11pt}
 .wxl b{color:var(--navy)}
@@ -848,16 +848,54 @@ figure.bimg .icap{margin:4pt 2pt 5pt 2pt;text-align:center}
 .wxt{font-weight:800;font-size:10pt;color:var(--navy);line-height:16pt}
 .wxt small{font-weight:600;font-size:9pt;color:var(--text2);margin-right:6pt}
 .wxr svg.wn{width:100%;height:auto;display:block}
-.wxm{display:flex;align-items:center;justify-content:center;gap:8pt;margin:6pt 0}
+.wxm{display:flex;align-items:center;justify-content:center;gap:8pt;margin:5pt 0 4pt 0}
 .wxm span{background:#fbf6e8;border:.75pt solid #eee0b8;border-radius:8pt;padding:1pt 10pt;font-size:9.4pt;line-height:15pt;color:var(--text2)}
 .wxm b{color:#a9670f}
 .wxm i{font-style:normal;color:#e29433;font-weight:800}
 .wxp{margin-top:6pt;font-size:9.3pt;line-height:14.6pt;color:var(--text);text-wrap:pretty}
 .drawbox{height:120pt}
+/* ==== تجربة (زياد): بادج «للفهم» على شكل علم مموّج طالع من الجنب — للرجوع امسح البلوك ده ==== */
+.fx.abs,.fx.fl,.note-line .tag{position:absolute;left:-17pt;right:auto;top:50%;bottom:auto;float:none;transform:translateY(-50%) rotate(180deg);writing-mode:vertical-rl;width:26pt;height:auto;min-height:46pt;box-sizing:border-box;padding:9pt 0;margin:0;display:flex;align-items:center;justify-content:center;border:0;border-radius:0;background:#e29433;color:#17263f;font-size:11pt;line-height:26pt;font-weight:800;z-index:3;-webkit-mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 100' preserveAspectRatio='none'%3E%3Cpath d='M3,0 Q7,5 3,10 T3,20 T3,30 T3,40 T3,50 T3,60 T3,70 T3,80 T3,90 T3,100 L23,100 Q19,95 23,90 T23,80 T23,70 T23,60 T23,50 T23,40 T23,30 T23,20 T23,10 T23,0 Z'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat;mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 100' preserveAspectRatio='none'%3E%3Cpath d='M3,0 Q7,5 3,10 T3,20 T3,30 T3,40 T3,50 T3,60 T3,70 T3,80 T3,90 T3,100 L23,100 Q19,95 23,90 T23,80 T23,70 T23,60 T23,50 T23,40 T23,30 T23,20 T23,10 T23,0 Z'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat}
+.note-line{padding-left:14pt}
+.note-line .tag{left:-12pt;top:-1pt;transform:rotate(180deg);min-height:31pt;padding:2pt 0}
+.fxg{position:relative;padding-left:14pt!important}
+.fxg>.note-line,.fxg>.bridge{padding-left:0}
+.fxg>.gflag{left:-12pt;min-height:0;height:clamp(44pt,60%,120pt)}
+.instr:has(>.fx.fl){position:relative;padding-left:24pt}
+*:has(>.fx.abs){padding-left:max(24pt,var(--fpl,0pt))}
 """
 
+
+# ==== تجربة (زياد): حاجتين أو أكتر «للفهم» ورا بعض ← علم واحد عليهم ====
+import re as _re
+NL_TAG = '<span class="tag">للفهم</span>'
+def _fx_kind(x):
+    x = x.lstrip()
+    if x.startswith('<div class="note-line">') and NL_TAG in x: return "nl"
+    if x.startswith('<div class="bridge">' + FX): return "br"
+    m = _re.match(r'<div class="[^"]*">', x)
+    if m and x[m.end():].lstrip().startswith(FXA): return "abs"
+    return None
+def _strip_fx(x, k):
+    if k == "nl": return x.replace(NL_TAG, "", 1)
+    if k == "br": return x.replace(FX, "", 1)
+    return x.replace(FXA, "", 1)
+def group_fx(items):
+    out, run = [], []
+    def flush():
+        if len(run) >= 2:
+            out.append('<div class="fxg keep"><span class="fx abs gflag">للفهم</span>' + "\n".join(_strip_fx(x, k) for x, k in run) + '</div>')
+        else:
+            out.extend(x for x, _ in run)
+        run.clear()
+    for x in items:
+        k = _fx_kind(x)
+        if k: run.append((x, k))
+        else: flush(); out.append(x)
+    flush()
+    return out
 body = (f'<body data-lesson="الدرس 1-2 — {TITLE}" data-start="{START}" data-total="{TOTAL}">\n<main class="flow">\n'
-        + "\n".join(E) + "\n\n<!-- ===================== بنك الأسئلة ===================== -->\n" + "\n".join(B)
+        + "\n".join(group_fx(E)) + "\n\n<!-- ===================== بنك الأسئلة ===================== -->\n" + "\n".join(B)
         + "\n</main>\n</body>\n</html>\n")
 out = head.replace("</style>", EXTRA_CSS + "</style>", 1) + body
 out = out.replace("(el.firstElementChild && el.firstElementChild.tagName === 'H4')", "(el.firstElementChild && /^H[34]$/.test(el.firstElementChild.tagName))")
