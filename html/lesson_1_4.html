@@ -837,6 +837,9 @@ table.prt td.k{font-weight:800;color:var(--navy);white-space:nowrap}
 .lmf{display:grid;grid-template-columns:1fr 1.4fr;gap:8pt;margin-top:8pt}
 .lmf span{background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:8pt;padding:4pt 10pt;font-size:9.3pt;line-height:14pt;color:var(--text2)}
 .content>.fig.bsc:first-child,.content>.fig.pvq:first-child,.content>.fig.lim:first-child{margin-top:7pt}
+.intro ul.iql{margin:2pt 0 4pt 0;padding:0 16pt 0 0;list-style:none}
+.intro ul.iql li{position:relative;line-height:1.75}
+.intro ul.iql li::before{content:"";position:absolute;right:-12pt;top:.72em;width:5pt;height:5pt;border-radius:50%;background:#e29433}
 /* البنك */
 .qcard.sol .sg{grid-template-columns:1.25fr 1fr}
 .check{padding:7pt 13pt 5pt 13pt}
@@ -1013,11 +1016,14 @@ window.addEventListener('load', async () => {
     <h3>لما الكمبيوتر ياخد قرار يخص إنسان…</h3>
     <div class="body">
       <img class="robot" src="assets/robot.svg" alt="">
-      <p>تخيّل نظام بيفرز طلبات التوظيف. اتقدّمت لشغلانة، ورفضك. تسأل: <b>ليه؟</b> — ومحدش يقدر يجاوب. وتسأل: <b>مين المسؤول؟</b> — ومحدش عارف.</p>
-      <p>الدرس بيركّز على <b>أثر قرارات أنظمة الذكاء الاصطناعي على الأشخاص</b>، وعلى أربع مبادئ بيقول الكتاب إنها المفروض توجّه أي استخدام مسؤول.</p>
-      <p>خُد بالك من الفرق بين <b>المساءلة</b> و<b>الشفافية</b> و<b>القابلية للتفسير</b>: المصطلحات قريبة من بعضها، ولكل مصطلح معنى مختلف هنوضحه بالأمثلة.</p>
+      <p>تخيّل إنك قدّمت على شغل، والـ<bdi>AI</bdi> هو اللي راجع طلبك، وفي الآخر رفضك.</p>
+      <p>أول حاجة هتسألها: <b>ليه اترفضت؟</b><br>ولو القرار كان غلط: <b>مين المسؤول؟</b></p>
+      <p>من هنا بيبدأ درسنا النهارده: <b>القضايا الأخلاقية المتعلقة بالذكاء الاصطناعي</b>.</p>
+      <p>يعني هنشوف:</p>
+      <ul class="iql"><li>هل الـ<bdi>AI</bdi> ممكن يكون <b>متحيز</b>؟</li><li>هل <b>بياناتنا آمنة</b>؟</li><li>هل نقدر <b>نفهم قراره</b>؟</li><li>ولو حصل خطأ، <b>مين يتحاسب</b>؟</li></ul>
+      <p>ونبدأ بأول نقطة: <b>التحيز الخوارزمي</b>.</p>
     </div>
-    <div class="foot"><span class="pill-dark">نبدأ من التحيز</span></div>
+    <div class="foot"><span class="pill-dark">نبدأ من التحيز الخوارزمي</span></div>
   </div>
   <div class="goals">
     <h3>أهداف التعلم</h3>
