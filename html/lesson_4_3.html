@@ -515,6 +515,9 @@ h3.sub{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11.2pt;color:var
 .e3g{display:grid;grid-template-columns:98pt 18pt 1fr 18pt 1fr 18pt 1fr;align-items:stretch}
 .e3g .garr{display:flex;align-items:center;justify-content:center}
 .e3g .garr svg{width:15pt;height:10pt}
+/* .garr هنا سهم بين مراحل «مثال من حياتنا» — مش سهم علم «للفهم» (fxflag .garr) اللي بيتحط برّه الصندوق */
+.e3g .garr{position:static;width:auto;height:auto;border:0;margin:0;left:auto;top:auto;z-index:auto}
+.e3g .garr::after{content:none}
 .e3c{background:#fff;border:.75pt solid #dde5ef;border-radius:8pt;padding:6pt 6pt 7pt 6pt;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .e3c h5{margin:0 0 5pt 0;font-weight:800;font-size:10.4pt;color:var(--navy);line-height:1.3}
 .e3c .ico{height:36pt;display:flex;align-items:center;justify-content:center;margin-bottom:6pt}
@@ -1093,6 +1096,14 @@ table.cmp.tall td{height:38pt}
 .content .u-item{position:relative}
 .content .u-item>.u-tqbadge,.content .u-mcq>.u-tqbadge,.content .u-ecard>.u-tqbadge{position:absolute;top:-6pt;left:10pt}
 .content>.u-grp:first-child>.u-item>.u-tqbadge,.content>.u-qgrid:first-child .u-mcq>.u-tqbadge{top:-3pt}
+/* مسافة فوق نص السؤال اللي عليه بادج «تقييمات» عشان البادج مايغطيش أول سطر */
+.content .u-mcq:has(>.u-tqbadge){padding-top:8.5pt}
+.content .u-item:has(>.u-tqbadge){padding-top:7pt}
+.content .u-ecard:has(>.u-tqbadge){padding-top:10pt}
+.content .u-ecard:has(>.u-marks)>.u-tqbadge{left:56pt}
+.content .u-qtx{flex:1;min-width:0}
+.content>.u-grp:first-child>.u-item:has(>.u-tqbadge){padding-top:11pt}
+.content>.u-qgrid:first-child .u-mcq:has(>.u-tqbadge){padding-top:11pt}   /* جنب «6 درجات» مش تحتها */
 .rcl{display:flex;align-items:center;gap:10pt;background:#1F2A47;border-radius:10pt;padding:7pt 12pt;margin:0 0 10pt 0}
 .rcl .rl{flex:none;background:#DA9C3B;color:#17263f;font-weight:800;font-size:9.6pt;line-height:18pt;padding:0 11pt;border-radius:8pt}
 .rcl .rc{flex:1;display:flex;align-items:center;justify-content:center;gap:8pt;flex-wrap:wrap}
@@ -1341,7 +1352,7 @@ window.addEventListener('load', async () => {
 <div class="u-bar-h">
 <div class="u-badge"><div class="u-b1">الدرس</div><div class="u-b2">4-3</div></div>
 <h1>طرق تقييم المواقع الإلكترونية</h1>
-<div class="u-unit">الوحدة الرابعة<br/>الشرح والمراجعة</div>
+<div class="u-unit">الفصل الرابع<br/>الشرح والمراجعة</div>
 <img alt="" class="u-logo" src="assets/avatar.png"/></div>
 </div>
 <div class="u-card">
@@ -1394,7 +1405,7 @@ window.addEventListener('load', async () => {
 </div>
 <div class="u-legend">
 <span class="u-tag">للفهم</span>
-    أي كلام عليه العلامة دي — هو والرسومات — مش موجود في الكتاب. أنا حاطّه عشان تفهم، مش عشان تحفظه. واللي من الكتاب هتلاقيه من غير علامة.
+    أي جزء عليه علامة «للفهم» هو شرح أو رسم إضافي للتوضيح، ومش مطلوب حفظه كنص من الكتاب.
   </div>
 <div class="u-qbox">
 <div class="u-qi"><svg class="u-ic" style="stroke-width:4"><use href="#i-question"></use></svg></div>
@@ -1853,7 +1864,7 @@ window.addEventListener('load', async () => {
 <div class="u-bar-h">
 <div class="u-badge"><div class="u-b1">الدرس</div><div class="u-b2">4-3</div></div>
 <h1>بنك الأسئلة — طرق تقييم المواقع الإلكترونية</h1>
-<div class="u-unit">الوحدة الرابعة<br/>أسئلة وتدريبات</div>
+<div class="u-unit">الفصل الرابع<br/>أسئلة وتدريبات</div>
 <img alt="" class="u-logo" src="assets/avatar.png"/></div>
 </div>
 <div class="u-counts">
@@ -1891,18 +1902,18 @@ window.addEventListener('load', async () => {
 <p><span class="u-lab">✓ الحلّ (من الكتاب):</span> <b>1 ← أ</b> عدد مشاهدات الصفحة هو PV. · <b>2 ← ب</b> هذا مثال مبسط على معدل الارتداد (الذي يختلف تعريفه بحسب الأداة). · <b>3 ← ج</b> نسبة من حققوا إجراءً مستهدفًا هي معدل التحويل.</p>
 </div>
 <div class="u-sub kwn"><span class="u-sn">3</span>تدرّب — أجب عن الأسئلة التالية</div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">1</span>ما المصطلح الخاص بالطريقة التي تُقيّم نوعيًا من خلال مراقبة آراء المستخدمين وسلوكهم؟</div><div class="u-abox"><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">2</span>ما المصطلح الخاص بالطريقة التي تُقيّم كميًا باستخدام بيانات عددية؟</div><div class="u-abox"><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">3</span>ما الاختصار المكوَّن من حرفين للمؤشر الذي يُظهر عدد مرات مشاهدة صفحة ما؟</div><div class="u-abox"><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">4</span>ما المصطلح الخاص بالطريقة التي يحدد فيها الخبراء مشكلات واجهة المستخدم استنادًا إلى قواعد عملية؟</div><div class="u-abox"><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">1</span><span class="u-qtx">ما المصطلح الخاص بالطريقة التي تُقيّم نوعيًا من خلال مراقبة آراء المستخدمين وسلوكهم؟</span></div><div class="u-abox"><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">2</span><span class="u-qtx">ما المصطلح الخاص بالطريقة التي تُقيّم كميًا باستخدام بيانات عددية؟</span></div><div class="u-abox"><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">3</span><span class="u-qtx">ما الاختصار المكوَّن من حرفين للمؤشر الذي يُظهر عدد مرات مشاهدة صفحة ما؟</span></div><div class="u-abox"><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">4</span><span class="u-qtx">ما المصطلح الخاص بالطريقة التي يحدد فيها الخبراء مشكلات واجهة المستخدم استنادًا إلى قواعد عملية؟</span></div><div class="u-abox"><div class="u-aline"></div></div></div>
 <div class="u-sub kwn" style="margin-top:6.58pt"><span class="u-sn">4</span>تدرّب — اختيار</div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">1</span>من الخيارات التالية (أ – د)، اختر <b>جميع</b> المصطلحات التي تُعد جزءًا من طرق التقييم الكمي.</div><div style="padding-right:18.33pt;margin-bottom:6.58pt">
+<div class="u-grp"><div class="u-item"><span class="u-qn">1</span><span class="u-qtx">من الخيارات التالية (أ – د)، اختر <b>جميع</b> المصطلحات التي تُعد جزءًا من طرق التقييم الكمي.</span></div><div style="padding-right:18.33pt;margin-bottom:6.58pt">
 <div class="u-opt" style="padding-right:0"><span class="u-ol">أ</span>اختبار قابلية الاستخدام.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">ب</span>تحليلات الويب.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">ج</span>المقابلات.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">د</span>اختبار A/B.</div>
 </div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">2</span>من الخيارات التالية (أ – د)، اختر الخيار الذي يصف <b>معدل التحويل</b> بأفضل شكل.</div><div style="padding-right:18.33pt;margin-bottom:6.58pt">
+<div class="u-grp"><div class="u-item"><span class="u-qn">2</span><span class="u-qtx">من الخيارات التالية (أ – د)، اختر الخيار الذي يصف <b>معدل التحويل</b> بأفضل شكل.</span></div><div style="padding-right:18.33pt;margin-bottom:6.58pt">
 <div class="u-opt" style="padding-right:0"><span class="u-ol">أ</span>نسبة مرات مشاهدة صفحة ما.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">ب</span>نسبة المستخدمين الذين غادروا الموقع بعد مشاهدة الصفحة الأولى فقط.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">ج</span>نسبة المستخدمين الذين حققوا إجراءً مستهدفًا (شراء منتج، تسجيل عضوية، إلخ).</div>
@@ -1911,12 +1922,12 @@ window.addEventListener('load', async () => {
 <div class="u-sub kwn" style="margin-top:6.58pt"><span class="u-sn">5</span>تمارين — اقرأ الفقرة ثم املأ الفراغات</div>
 <p class="u-lead">تشمل طرق تقييم الموقع تقييمًا <b>(1)</b><span class="u-bl"></span> يساعد على فهم تجربة المستخدم من خلال الملاحظة والمقابلات، وتقييمًا <b>(2)</b><span class="u-bl"></span> يقيس السلوك والنتائج بالأرقام. ومن المقاييس الشائعة <b>(3)</b><span class="u-bl u-sm"></span> لإجمالي مرات مشاهدة الصفحة، و<b>(4)</b><span class="u-bl"></span> الذي يختلف تعريفه بحسب أداة التحليلات ويُستخدم لمتابعة التفاعل، و<b>(5)</b><span class="u-bl u-sm"></span> لنسبة المستخدمين أو الجلسات التي حققت هدفًا محددًا وفق طريقة الحساب.</p>
 <div class="u-sub kwn"><span class="u-sn">6</span>تمارين — تصنيف واختيار</div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">1</span>لكل من طرق التقييم (1 – 3)، حدّد الفئة التي تندرج تحتها: <b>أ</b> التقييم النوعي · <b>ب</b> التقييم الكمي.</div><div class="u-cls" style="grid-template-columns:1fr">
+<div class="u-grp"><div class="u-item"><span class="u-qn">1</span><span class="u-qtx">لكل من طرق التقييم (1 – 3)، حدّد الفئة التي تندرج تحتها: <b>أ</b> التقييم النوعي · <b>ب</b> التقييم الكمي.</span></div><div class="u-cls" style="grid-template-columns:1fr">
 <div class="u-c"><span class="u-n">1</span>جعل المستخدمين يستكشفون الموقع الإلكتروني فعليًا ومراقبة قابلية استخدامه<span class="u-w"></span></div>
 <div class="u-c"><span class="u-n">2</span>إحصاء عدد مرات الوصول ومشاهدات الصفحة للموقع الإلكتروني<span class="u-w"></span></div>
 <div class="u-c"><span class="u-n">3</span>إجراء مقابلات مع المستخدمين للاستماع إلى انطباعاتهم وطلبات التحسين<span class="u-w"></span></div>
 </div></div>
-<div class="u-grp"><div class="u-item" style="margin-top:5.64pt"><span class="u-qn">2</span>من الخيارات التالية (أ – د)، اختر الخيار الذي يصف <b>التقييم الإرشادي</b> بأفضل شكل.</div><div style="padding-right:18.33pt;margin-bottom:6.58pt">
+<div class="u-grp"><div class="u-item" style="margin-top:5.64pt"><span class="u-qn">2</span><span class="u-qtx">من الخيارات التالية (أ – د)، اختر الخيار الذي يصف <b>التقييم الإرشادي</b> بأفضل شكل.</span></div><div style="padding-right:18.33pt;margin-bottom:6.58pt">
 <div class="u-opt" style="padding-right:0"><span class="u-ol">أ</span>طريقة يستكشف فيها المستخدمون الموقع وتُراقَب قابلية الاستخدام.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">ب</span>طريقة يتم فيها إحصاء بيانات عددية وتحليل استخدام الموقع.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">ج</span>طريقة يحدد فيها الخبراء مشكلات واجهة المستخدم استنادًا إلى قواعد عملية.</div>
@@ -1932,121 +1943,121 @@ window.addEventListener('load', async () => {
 <div class="u-sec u-gold kwn" style="margin-top:4.70pt"><div class="u-hi"><svg class="u-ic"><use href="#i-pencil"></use></svg></div><h2>ثانيًا · اختر الإجابة الصحيحة</h2></div>
 <p class="u-inst kwn">اختر الإجابة الصحيحة من بين الخيارات (أ – د).</p>
 <div class="u-qgrid split">
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">1</span>تنقسم طرق التقييم عمومًا إلى فئتين رئيسيتين هما:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">1</span><span class="u-qtx">تنقسم طرق التقييم عمومًا إلى فئتين رئيسيتين هما:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>التقييم الداخلي والخارجي.</div>
 <div class="u-opt"><span class="u-ol">ب</span>التقييم النوعي والتقييم الكمي.</div>
 <div class="u-opt"><span class="u-ol">ج</span>التقييم الأولي قبل نشر الموقع والتقييم النهائي بعده.</div>
 <div class="u-opt"><span class="u-ol">د</span>التقييم الفني والإداري.</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">2</span>الطريقة التي تفهم تجربة المستخدم وأسباب السلوك والمشكلات هي:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">2</span><span class="u-qtx">الطريقة التي تفهم تجربة المستخدم وأسباب السلوك والمشكلات هي:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>اختبار A/B.</div><div class="u-opt"><span class="u-ol">ب</span>التقييم الكمي.</div>
 <div class="u-opt"><span class="u-ol">ج</span>تحليلات الويب بمؤشراتها العددية المختلفة.</div><div class="u-opt"><span class="u-ol">د</span>التقييم النوعي.</div></div>
 </div>
 <div class="u-qgrid split">
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">3</span>الطريقة التي تقيس السلوك والنتائج ببيانات عددية ومقاييس محددة بوضوح هي:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">3</span><span class="u-qtx">الطريقة التي تقيس السلوك والنتائج ببيانات عددية ومقاييس محددة بوضوح هي:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>التقييم النوعي.</div><div class="u-opt"><span class="u-ol">ب</span>المقابلات.</div>
 <div class="u-opt"><span class="u-ol">ج</span>التقييم الإرشادي.</div><div class="u-opt"><span class="u-ol">د</span>التقييم الكمي.</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">4</span>«مراقبة العمليات الفعلية لتحديد النقاط التي يصعب استخدامها» هو:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">4</span><span class="u-qtx">«مراقبة العمليات الفعلية لتحديد النقاط التي يصعب استخدامها» هو:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>اختبار قابلية الاستخدام.</div><div class="u-opt"><span class="u-ol">ب</span>اختبار A/B.</div>
 <div class="u-opt"><span class="u-ol">ج</span>تحليلات الويب وقراءة مؤشراتها الرقمية.</div><div class="u-opt"><span class="u-ol">د</span>التقييم الإرشادي.</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">5</span>«الاستماع إلى آراء المستخدمين المباشرة لفهم احتياجاتهم واستيائهم» هو:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">5</span><span class="u-qtx">«الاستماع إلى آراء المستخدمين المباشرة لفهم احتياجاتهم واستيائهم» هو:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>اختبار A/B.</div><div class="u-opt"><span class="u-ol">ب</span>تحليلات الويب.</div>
 <div class="u-opt"><span class="u-ol">ج</span>المقابلات.</div><div class="u-opt"><span class="u-ol">د</span>معدل التحويل.</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">6</span>«مقارنة خيارين للتحقق من أيهما يؤدي إلى نتائج أفضل» هو:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">6</span><span class="u-qtx">«مقارنة خيارين للتحقق من أيهما يؤدي إلى نتائج أفضل» هو:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>التقييم الإرشادي.</div><div class="u-opt"><span class="u-ol">ب</span>المقابلات.</div>
 <div class="u-opt"><span class="u-ol">ج</span>اختبار قابلية الاستخدام.</div><div class="u-opt"><span class="u-ol">د</span>اختبار A/B.</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">7</span>حسب الكتاب، الدراسة الواحدة:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">7</span><span class="u-qtx">حسب الكتاب، الدراسة الواحدة:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>يجب أن تختار نوعًا واحدًا فقط من نوعي التقييم ولا تجمع بينهما.</div>
 <div class="u-opt"><span class="u-ol">ب</span>تقتصر على المقابلات.</div>
 <div class="u-opt"><span class="u-ol">ج</span>قد تجمع بين النوعين النوعي والكمي.</div>
 <div class="u-opt"><span class="u-ol">د</span>تقتصر على الأرقام.</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">8</span>«جمع وقياس وتحليل بيانات استخدام الموقع لفهم الوصول والتفاعل والنتائج» هي:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">8</span><span class="u-qtx">«جمع وقياس وتحليل بيانات استخدام الموقع لفهم الوصول والتفاعل والنتائج» هي:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>إمكانية الوصول.</div><div class="u-opt"><span class="u-ol">ب</span>شخصية المستخدم.</div>
 <div class="u-opt"><span class="u-ol">ج</span>التقييم الإرشادي.</div><div class="u-opt"><span class="u-ol">د</span>تحليلات الويب.</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">9</span>تحليلات الويب حسب الكتاب هي إحدى أدوات:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">9</span><span class="u-qtx">تحليلات الويب حسب الكتاب هي إحدى أدوات:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>التقييم النوعي.</div><div class="u-opt"><span class="u-ol">ب</span>التقييم الكمي.</div>
 <div class="u-opt"><span class="u-ol">ج</span>التصميم المتجاوب.</div><div class="u-opt"><span class="u-ol">د</span>أمن المعلومات.</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">10</span>يذكر الكتاب أن أسماء المقاييس وطرق حسابها:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">10</span><span class="u-qtx">يذكر الكتاب أن أسماء المقاييس وطرق حسابها:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>تختلف باختلاف الأداة وإعداداتها.</div>
 <div class="u-opt"><span class="u-ol">ب</span>موحّدة في كل الأدوات ولا تتغير مهما اختلفت الإعدادات.</div>
 <div class="u-opt"><span class="u-ol">ج</span>تحددها الحكومة.</div>
 <div class="u-opt"><span class="u-ol">د</span>لا تتغير أبدًا.</div></div>
 </div>
 <div class="u-qgrid split">
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">11</span>معنى PV هو:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">11</span><span class="u-qtx">معنى PV هو:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>نسبة تحقيق الهدف.</div>
 <div class="u-opt"><span class="u-ol">ب</span>عدد الأشخاص الفريدين الذين زاروا الموقع خلال فترة محددة.</div>
 <div class="u-opt"><span class="u-ol">ج</span>العدد الإجمالي لمرات مشاهدة الصفحة.</div>
 <div class="u-opt"><span class="u-ol">د</span>زمن التحميل.</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">12</span>التحفّظ الذي يذكره الكتاب مع PV هو أنه:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">12</span><span class="u-qtx">التحفّظ الذي يذكره الكتاب مع PV هو أنه:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>قد يشمل مشاهدات متكررة ولا يساوي عدد الأشخاص الفريدين.</div>
 <div class="u-opt"><span class="u-ol">ب</span>يساوي دائمًا عدد الأشخاص الفريدين الذين زاروا الصفحة، ولا يشمل أي مشاهدات متكررة.</div>
 <div class="u-opt"><span class="u-ol">ج</span>يقيس الوقت المستغرق.</div>
 <div class="u-opt"><span class="u-ol">د</span>يحسب المبيعات.</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">13</span>حسب الكتاب، معدل الارتداد:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">13</span><span class="u-qtx">حسب الكتاب، معدل الارتداد:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>له تعريف واحد ثابت وطريقة حساب واحدة في كل أدوات التحليلات.</div>
 <div class="u-opt"><span class="u-ol">ب</span>مؤشر تختلف طريقة حسابه بين أدوات التحليلات.</div>
 <div class="u-opt"><span class="u-ol">ج</span>يقيس عدد الصفحات في الموقع.</div>
 <div class="u-opt"><span class="u-ol">د</span>يساوي معدل التحويل.</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">14</span>يقول الكتاب عن معدل الارتداد إنه:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">14</span><span class="u-qtx">يقول الكتاب عن معدل الارتداد إنه:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>يفسّر وحده سبب مغادرة المستخدمين للموقع، فلا نحتاج معه إلى أي مؤشرات أخرى أو طرق نوعية.</div>
 <div class="u-opt"><span class="u-ol">ب</span>قد يساعد مع مؤشرات أخرى على ملاحظة ضعف التفاعل، لكنه لا يفسر السبب وحده.</div>
 <div class="u-opt"><span class="u-ol">ج</span>يغني عن اختبار قابلية الاستخدام.</div>
 <div class="u-opt"><span class="u-ol">د</span>مؤشر نوعي.</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">15</span>معدل التحويل (CVR) هو:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">15</span><span class="u-qtx">معدل التحويل (CVR) هو:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>نسبة المستخدمين أو الجلسات التي حققت إجراءً مستهدفًا.</div>
 <div class="u-opt"><span class="u-ol">ب</span>نسبة مرات مشاهدة الصفحة إلى عدد الأشخاص الفريدين الذين زاروها.</div>
 <div class="u-opt"><span class="u-ol">ج</span>عدد الصفحات المشاهدة.</div>
 <div class="u-opt"><span class="u-ol">د</span>زمن بقاء المستخدم.</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">16</span>يشترط الكتاب عند استخدام CVR:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">16</span><span class="u-qtx">يشترط الكتاب عند استخدام CVR:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>قياسه أسبوعيًا.</div>
 <div class="u-opt"><span class="u-ol">ب</span>استخدام أداة واحدة عالمية معتمدة لكل المواقع دون تغيير.</div>
 <div class="u-opt"><span class="u-ol">ج</span>تجاهل هدف الموقع.</div>
 <div class="u-opt"><span class="u-ol">د</span>تحديد المقام وطريقة الحساب.</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">17</span>مثالان على «الإجراء المستهدف» في CVR:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">17</span><span class="u-qtx">مثالان على «الإجراء المستهدف» في CVR:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>تحميل صورة أو خط.</div>
 <div class="u-opt"><span class="u-ol">ب</span>فتح الصفحة أو تحديثها.</div>
 <div class="u-opt"><span class="u-ol">ج</span>التسجيل أو الشراء.</div>
 <div class="u-opt"><span class="u-ol">د</span>تغيير اللغة.</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">18</span>«مراجعة يجريها خبراء لواجهة المستخدم استنادًا إلى قواعد أو مبادئ إرشادية عملية» هي:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">18</span><span class="u-qtx">«مراجعة يجريها خبراء لواجهة المستخدم استنادًا إلى قواعد أو مبادئ إرشادية عملية» هي:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>اختبار قابلية الاستخدام.</div><div class="u-opt"><span class="u-ol">ب</span>التقييم الإرشادي.</div>
 <div class="u-opt"><span class="u-ol">ج</span>اختبار A/B.</div><div class="u-opt"><span class="u-ol">د</span>تحليلات الويب.</div></div>
 </div>
 <div class="u-qgrid split">
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">19</span>التقييم الإرشادي حسب الكتاب:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">19</span><span class="u-qtx">التقييم الإرشادي حسب الكتاب:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>شكل من أشكال التقييم النوعي.</div>
 <div class="u-opt"><span class="u-ol">ب</span>شكل من أشكال التقييم الكمي.</div>
 <div class="u-opt"><span class="u-ol">ج</span>بديل عن كل الطرق الأخرى.</div>
 <div class="u-opt"><span class="u-ol">د</span>أداة لقياس سرعة الموقع وزمن تحميل صفحاته.</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">20</span>القاعدة الإرشادية التي تسأل «هل التصميم والعمليات موحدة عبر الموقع؟» هي:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">20</span><span class="u-qtx">القاعدة الإرشادية التي تسأل «هل التصميم والعمليات موحدة عبر الموقع؟» هي:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>منع الأخطاء.</div><div class="u-opt"><span class="u-ol">ب</span>الاتساق.</div>
 <div class="u-opt"><span class="u-ol">ج</span>وضوح حالة النظام.</div><div class="u-opt"><span class="u-ol">د</span>التباين.</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">21</span>القاعدة التي تسأل «هل يجعل التصميم من الصعب على المستخدمين ارتكاب الأخطاء؟» هي:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">21</span><span class="u-qtx">القاعدة التي تسأل «هل يجعل التصميم من الصعب على المستخدمين ارتكاب الأخطاء؟» هي:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>منع الأخطاء.</div><div class="u-opt"><span class="u-ol">ب</span>وضوح حالة النظام.</div>
 <div class="u-opt"><span class="u-ol">ج</span>الاتساق.</div><div class="u-opt"><span class="u-ol">د</span>التقارب.</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">22</span>«مؤشرات المعالجة ورسائل أخطاء الإدخال» أمثلة على قاعدة:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">22</span><span class="u-qtx">«مؤشرات المعالجة ورسائل أخطاء الإدخال» أمثلة على قاعدة:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>منع الأخطاء.</div><div class="u-opt"><span class="u-ol">ب</span>الاتساق في شكل الأزرار والقوائم.</div>
 <div class="u-opt"><span class="u-ol">ج</span>وضوح حالة النظام.</div><div class="u-opt"><span class="u-ol">د</span>المحاذاة.</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">23</span>يقول الكتاب عن القواعد الإرشادية الثلاث إنها:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">23</span><span class="u-qtx">يقول الكتاب عن القواعد الإرشادية الثلاث إنها:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>القائمة الكاملة والوحيدة.</div>
 <div class="u-opt"><span class="u-ol">ب</span>بديل عن اختبار المستخدمين.</div>
 <div class="u-opt"><span class="u-ol">ج</span>قواعد خاصة بالتصميم الجرافيكي فقط، ولا علاقة لها بواجهة المستخدم أو تجربته.</div>
 <div class="u-opt"><span class="u-ol">د</span>ثلاثة أمثلة على قواعد إرشادية نستخدمها في هذا الدرس.</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">24</span>موقع مشاهداته مرتفعة ومعدل تحويله منخفض. المعنى الأقرب حسب تلميح الكتاب:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">24</span><span class="u-qtx">موقع مشاهداته مرتفعة ومعدل تحويله منخفض. المعنى الأقرب حسب تلميح الكتاب:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>الموقع ناجح جدًا.</div>
 <div class="u-opt"><span class="u-ol">ب</span>مستخدمون كثيرون يصلون لكن لا يكملون الإجراء، والرقم وحده لا يحدد السبب.</div>
 <div class="u-opt"><span class="u-ol">ج</span>السبب بالتأكيد بطء الخادم أو ضعف الاستضافة، ولا حاجة إلى أي تقييم نوعي أو مقابلات مع المستخدمين لمعرفة ذلك بدقة.</div>
 <div class="u-opt"><span class="u-ol">د</span>يجب حذف الصفحة.</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">25</span>فريق يريد معرفة <b>لماذا</b> يغادر الزوار صفحة الدفع. الطريقة الأنسب:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">25</span><span class="u-qtx">فريق يريد معرفة <b>لماذا</b> يغادر الزوار صفحة الدفع. الطريقة الأنسب:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>اختبار قابلية استخدام قصير أو مقابلة.</div>
 <div class="u-opt"><span class="u-ol">ب</span>عدّ المشاهدات.</div>
 <div class="u-opt"><span class="u-ol">ج</span>زيادة عدد الصفحات.</div>
 <div class="u-opt"><span class="u-ol">د</span>قياس زمن تحميل الصفحة فقط ومقارنته بالمواقع المنافسة.</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">26</span>فريق يريد معرفة <b>كم</b> عدد من أتمّوا التسجيل من إجمالي الزوار. الطريقة الأنسب:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">26</span><span class="u-qtx">فريق يريد معرفة <b>كم</b> عدد من أتمّوا التسجيل من إجمالي الزوار. الطريقة الأنسب:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>مقابلة خمسة مستخدمين.</div>
 <div class="u-opt"><span class="u-ol">ب</span>مراجعة خبير للواجهة وفق القواعد الإرشادية.</div>
 <div class="u-opt"><span class="u-ol">ج</span>قياس معدل التحويل من تحليلات الويب.</div>
 <div class="u-opt"><span class="u-ol">د</span>اختبار قابلية الاستخدام.</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">27</span>حدّ الطريقة النوعية الذي يذكره الكتاب هو أنها:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">27</span><span class="u-qtx">حدّ الطريقة النوعية الذي يذكره الكتاب هو أنها:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>تعطي أرقامًا غير دقيقة.</div>
 <div class="u-opt"><span class="u-ol">ب</span>لا تُستخدم في المواقع.</div>
 <div class="u-opt"><span class="u-ol">ج</span>لا تمثل جميع المستخدمين بالضرورة.</div>
@@ -2054,17 +2065,17 @@ window.addEventListener('load', async () => {
 </div>
 <div class="u-sec u-green kwn"><div class="u-hi"><svg class="u-ic"><use href="#i-pen"></use></svg></div><h2>ثالثًا · أكمل العبارات الآتية</h2></div>
 <p class="u-inst kwn">اكتب المصطلح كامل وصحيح الإملاء، ولو ليه اختصار إنجليزي اكتبه جنبه — الاختصارات في الدرس ده بتتسأل بالاسم وبالاختصار.</p>
-<div class="u-grp"><div class="u-item"><span class="u-qn">1</span>الطريقة التي تُقيّم من خلال مراقبة آراء المستخدمين وسلوكهم تُسمى<span class="u-bl"></span>.</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">2</span>الطريقة التي تُقيّم باستخدام بيانات عددية ومقاييس محددة تُسمى<span class="u-bl"></span>.</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">3</span>تقنيتا التقييم النوعي في جدول الكتاب هما<span class="u-bl"></span>و<span class="u-bl"></span>.</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">4</span>تقنيتا التقييم الكمي في جدول الكتاب هما<span class="u-bl"></span>و<span class="u-bl"></span>.</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">5</span>جمع وقياس وتحليل بيانات استخدام الموقع يُسمى<span class="u-bl"></span>.</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">6</span>المؤشر الذي يوضح إجمالي مرات مشاهدة الصفحة اختصاره<span class="u-bl u-sm"></span>.</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">7</span>المؤشر الذي يختلف تعريفه وطريقة حسابه بحسب أداة التحليل ويُستخدم لمتابعة التفاعل هو<span class="u-bl"></span>.</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">8</span>نسبة المستخدمين أو الجلسات التي حققت إجراءً مستهدفًا اختصارها<span class="u-bl u-sm"></span>.</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">9</span>المراجعة التي يجريها خبراء للواجهة وفق قواعد عملية تُسمى<span class="u-bl"></span>.</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">10</span>القواعد الإرشادية الثلاث في الدرس هي<span class="u-bl"></span>و<span class="u-bl"></span>و<span class="u-bl"></span>.</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">11</span>عند استخدام CVR يجب تحديد<span class="u-bl"></span>وطريقة الحساب.</div><div class="u-tip"><span class="u-lab">نصيحة في الإملاء:</span> اكتب <b>«معدل الارتداد»</b> مش «نسبة الارتداد»، و<b>«معدل التحويل (CVR)»</b> مش «نسبة التحويل». واكتب الاسم العربي والاختصار الإنجليزي مع بعض.</div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">1</span><span class="u-qtx">الطريقة التي تُقيّم من خلال مراقبة آراء المستخدمين وسلوكهم تُسمى<span class="u-bl"></span>.</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">2</span><span class="u-qtx">الطريقة التي تُقيّم باستخدام بيانات عددية ومقاييس محددة تُسمى<span class="u-bl"></span>.</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">3</span><span class="u-qtx">تقنيتا التقييم النوعي في جدول الكتاب هما<span class="u-bl"></span>و<span class="u-bl"></span>.</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">4</span><span class="u-qtx">تقنيتا التقييم الكمي في جدول الكتاب هما<span class="u-bl"></span>و<span class="u-bl"></span>.</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">5</span><span class="u-qtx">جمع وقياس وتحليل بيانات استخدام الموقع يُسمى<span class="u-bl"></span>.</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">6</span><span class="u-qtx">المؤشر الذي يوضح إجمالي مرات مشاهدة الصفحة اختصاره<span class="u-bl u-sm"></span>.</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">7</span><span class="u-qtx">المؤشر الذي يختلف تعريفه وطريقة حسابه بحسب أداة التحليل ويُستخدم لمتابعة التفاعل هو<span class="u-bl"></span>.</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">8</span><span class="u-qtx">نسبة المستخدمين أو الجلسات التي حققت إجراءً مستهدفًا اختصارها<span class="u-bl u-sm"></span>.</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">9</span><span class="u-qtx">المراجعة التي يجريها خبراء للواجهة وفق قواعد عملية تُسمى<span class="u-bl"></span>.</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">10</span><span class="u-qtx">القواعد الإرشادية الثلاث في الدرس هي<span class="u-bl"></span>و<span class="u-bl"></span>و<span class="u-bl"></span>.</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">11</span><span class="u-qtx">عند استخدام CVR يجب تحديد<span class="u-bl"></span>وطريقة الحساب.</span></div><div class="u-tip"><span class="u-lab">نصيحة في الإملاء:</span> اكتب <b>«معدل الارتداد»</b> مش «نسبة الارتداد»، و<b>«معدل التحويل (CVR)»</b> مش «نسبة التحويل». واكتب الاسم العربي والاختصار الإنجليزي مع بعض.</div></div>
 <div class="u-sec u-red kwn"><div class="u-hi">○/✗</div><h2>رابعًا · صح وخطأ</h2></div>
 <p class="u-inst kwn">ضع علامة ○ أمام العبارة الصحيحة، وعلامة × أمام العبارة الخاطئة.</p>
 <table class="u-tf">
@@ -2161,14 +2172,14 @@ window.addEventListener('load', async () => {
 </table>
 <div class="u-sec u-green kwn"><div class="u-hi"><svg class="u-ic"><use href="#i-bulb"></use></svg></div><h2>سادسًا · علّل لما يأتي</h2></div>
 <p class="u-inst kwn">السبب لازم يكون <b>من الكتاب</b>، ويفضّل تستخدم كلمة من كلماته — دي اللي بتجيب الدرجة كاملة.</p>
-<div class="u-grp"><div class="u-item"><span class="u-qn">1</span>لا يصحّ القول إن التقييم النوعي يستخدم بيانات عددية للتقييم كميًا.</div><div class="u-abox"><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">2</span>لا يُعد ارتفاع PV وحده دليلًا على نجاح الموقع.</div><div class="u-abox"><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">3</span>يجب الرجوع إلى تعريف الأداة المستخدمة عند قراءة معدل الارتداد.</div><div class="u-abox"><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">4</span>يُشترط تحديد المقام وطريقة الحساب عند ذكر معدل التحويل.</div><div class="u-abox"><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">5</span>يُعد التقييم الإرشادي طريقة نوعية رغم أنه لا يشمل مستخدمين فعليين.</div><div class="u-abox"><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">6</span>لا يكفي التقييم الكمي وحده لتحسين موقع إلكتروني.</div><div class="u-abox"><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">7</span>لا يكفي التقييم النوعي وحده كذلك.</div><div class="u-abox"><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">8</span>يبدأ الفريق بقراءة الأرقام قبل تصميم الاختبار النوعي.</div><div class="u-abox"><div class="u-aline"></div></div><div class="u-tip"><span class="u-lab">قالب إجابة «علّل»:</span> ابدأ بـ <b>«لأن …»</b> وحطّ بعدها <b>جملة الكتاب</b> نفسها. مثال على السؤال 2: «لأن PV <b>يقيس إجمالي مرات المشاهدة وقد يشمل مشاهدات متكررة، ولا يساوي عدد الأشخاص الفريدين</b>» — جملة واحدة فيها التعريف والتحفّظ.</div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">1</span><span class="u-qtx">لا يصحّ القول إن التقييم النوعي يستخدم بيانات عددية للتقييم كميًا.</span></div><div class="u-abox"><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">2</span><span class="u-qtx">لا يُعد ارتفاع PV وحده دليلًا على نجاح الموقع.</span></div><div class="u-abox"><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">3</span><span class="u-qtx">يجب الرجوع إلى تعريف الأداة المستخدمة عند قراءة معدل الارتداد.</span></div><div class="u-abox"><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">4</span><span class="u-qtx">يُشترط تحديد المقام وطريقة الحساب عند ذكر معدل التحويل.</span></div><div class="u-abox"><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">5</span><span class="u-qtx">يُعد التقييم الإرشادي طريقة نوعية رغم أنه لا يشمل مستخدمين فعليين.</span></div><div class="u-abox"><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">6</span><span class="u-qtx">لا يكفي التقييم الكمي وحده لتحسين موقع إلكتروني.</span></div><div class="u-abox"><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">7</span><span class="u-qtx">لا يكفي التقييم النوعي وحده كذلك.</span></div><div class="u-abox"><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">8</span><span class="u-qtx">يبدأ الفريق بقراءة الأرقام قبل تصميم الاختبار النوعي.</span></div><div class="u-abox"><div class="u-aline"></div></div><div class="u-tip"><span class="u-lab">قالب إجابة «علّل»:</span> ابدأ بـ <b>«لأن …»</b> وحطّ بعدها <b>جملة الكتاب</b> نفسها. مثال على السؤال 2: «لأن PV <b>يقيس إجمالي مرات المشاهدة وقد يشمل مشاهدات متكررة، ولا يساوي عدد الأشخاص الفريدين</b>» — جملة واحدة فيها التعريف والتحفّظ.</div></div>
 <div class="u-sec u-tool kwn"><div class="u-hi"><svg class="u-ic"><use href="#i-pencil"></use></svg></div><h2>سابعًا · أسئلة مقالية</h2></div>
 <div class="u-ecard">
 <div class="eh"><span class="u-qn">1</span><b>طبّق ما تعلمته — موقع المدرسة:</b> إذا أظهرت أداة التحليلات مؤشرًا يشير إلى ضعف التفاعل في موقع مدرسة، اذكر <b>مقياسًا كميًا</b> يساعد على ملاحظة المشكلة، و<b>طريقة نوعية</b> لفهم سببها، و<b>حلًا محتملًا يحتاج إلى اختبار</b>.</div>
@@ -2192,21 +2203,21 @@ window.addEventListener('load', async () => {
 <div class="u-chk"><span><i></i>الاعتماد على رأي صاحب المتجر</span><span><i></i>استخدام الطرق الكمية والنوعية معًا</span></div>
 <div class="u-elem"><span class="u-lab">تلميح الكتاب —</span> ابدأ من الفجوة في البيانات: <b>ارتفاع PV مع انخفاض CVR</b> يعني أن الناس يصلون لكن لا يتخذون إجراءً — إذن الأرقام تشير فقط إلى <b>أين تنظر</b>. اختر الطريقة النوعية (اختبار قابلية استخدام قصير أو مقابلة) التي تجيب عن <b>السؤال الدقيق الذي أثارته أرقامك</b>. ولاحظ إن السؤال طالب بـ<b>دليل على إجابتك</b>.</div>
 </div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">1</span>اشرح الفئتين الرئيسيتين لطرق التقييم بغرض كل فئة وتقنيتين لها من جدول الكتاب.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">2</span>اشرح المؤشرات الثلاثة في تحليلات الويب بمعنى كل مؤشر والتحفّظ المرتبط به.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">3</span><b>موقع حجز عيادة:</b> معدل الارتداد على صفحة الحجز مرتفع، وشكوى متكررة من أن «الحجز مش بيكمل». صمّم خطة تقييم من ثلاث خطوات تجمع بين <b>الكمي</b> و<b>النوعي</b> و<b>التقييم الإرشادي</b>، وحدّد ما ستقيسه بعد التحسين للتأكد من نجاحه.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">4</span>اشرح المقصود بـ «اختبار قابلية الاستخدام» كإحدى أدوات التقييم النوعي وكيف يساهم في تحسين واجهة المستخدم.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">5</span>وضّح بإيجاز المقصود بمفهوم «تحليلات الويب» وكيف تُعتبر إحدى أدوات التقييم الكمي.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">6</span>عرّف «التقييم الإرشادي» وممن يتم إجراؤه؟ وما هي علاقته بقواعد واجهة المستخدم؟</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">7</span>اذكر ثلاثة أمثلة على القواعد الإرشادية المستخدمة في تقييم واجهة المستخدم واشرح واحدة منها باختصار.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">8</span>اشرح بإيجاز كيف يمكن الاستفادة من «اختبار A/B» في قياس سلوك المستخدمين ونتائج التصميم.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">9</span>وضّح دور المقابلات المباشرة في التقييم النوعي وكيف تساعد في الاستماع إلى آراء المستخدمين واحتياجاتهم واستيائهم.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">1</span><span class="u-qtx">اشرح الفئتين الرئيسيتين لطرق التقييم بغرض كل فئة وتقنيتين لها من جدول الكتاب.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">2</span><span class="u-qtx">اشرح المؤشرات الثلاثة في تحليلات الويب بمعنى كل مؤشر والتحفّظ المرتبط به.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">3</span><span class="u-qtx"><b>موقع حجز عيادة:</b> معدل الارتداد على صفحة الحجز مرتفع، وشكوى متكررة من أن «الحجز مش بيكمل». صمّم خطة تقييم من ثلاث خطوات تجمع بين <b>الكمي</b> و<b>النوعي</b> و<b>التقييم الإرشادي</b>، وحدّد ما ستقيسه بعد التحسين للتأكد من نجاحه.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">4</span><span class="u-qtx">اشرح المقصود بـ «اختبار قابلية الاستخدام» كإحدى أدوات التقييم النوعي وكيف يساهم في تحسين واجهة المستخدم.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">5</span><span class="u-qtx">وضّح بإيجاز المقصود بمفهوم «تحليلات الويب» وكيف تُعتبر إحدى أدوات التقييم الكمي.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">6</span><span class="u-qtx">عرّف «التقييم الإرشادي» وممن يتم إجراؤه؟ وما هي علاقته بقواعد واجهة المستخدم؟</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">7</span><span class="u-qtx">اذكر ثلاثة أمثلة على القواعد الإرشادية المستخدمة في تقييم واجهة المستخدم واشرح واحدة منها باختصار.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">8</span><span class="u-qtx">اشرح بإيجاز كيف يمكن الاستفادة من «اختبار A/B» في قياس سلوك المستخدمين ونتائج التصميم.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">9</span><span class="u-qtx">وضّح دور المقابلات المباشرة في التقييم النوعي وكيف تساعد في الاستماع إلى آراء المستخدمين واحتياجاتهم واستيائهم.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
 <div class="u-sec u-tool kwn" style="margin-top:3.76pt"><div class="u-hi"><svg class="u-ic"><use href="#i-bulb"></use></svg></div><h2>أنشطة</h2></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">10</span><b>توقّف وفكّر:</b> هل يخبرك عدّ الزيارات لماذا يغادر الناس الصفحة؟ وأي طريقة تخبرك بذلك؟</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">11</span><b>توقّف وفكّر:</b> طابق السؤال بالطريقة: «كم؟» مقابل «لماذا؟»</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">12</span><b>توقّف وفكّر:</b> أي من الطرق الأربع (اختبار قابلية الاستخدام · المقابلات · تحليلات الويب · اختبار A/B) تعتمد على الأرقام، وأيها يعتمد على كلمات الناس؟</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">13</span><b>فكّر وتحدَّ نفسك — تأمّل:</b> إذا كان بإمكانك رؤية مؤشر واحد فقط لموقع تستخدمه، فهل تختار PV أم معدل الارتداد أم CVR — ولماذا؟ · <b>تحدٍّ:</b> صفحة ما لديها معدل ارتداد مرتفع. صمّم اختبارًا نوعيًا قصيرًا يكشف السبب، وحدّد ما الذي ستغيّره أولًا.</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">14</span><b>اختبر فهمك:</b> أجب عن أسئلة هذا البنك دون الرجوع إلى الشرح، ثم راجع إجاباتك.</div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">10</span><span class="u-qtx"><b>توقّف وفكّر:</b> هل يخبرك عدّ الزيارات لماذا يغادر الناس الصفحة؟ وأي طريقة تخبرك بذلك؟</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">11</span><span class="u-qtx"><b>توقّف وفكّر:</b> طابق السؤال بالطريقة: «كم؟» مقابل «لماذا؟»</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">12</span><span class="u-qtx"><b>توقّف وفكّر:</b> أي من الطرق الأربع (اختبار قابلية الاستخدام · المقابلات · تحليلات الويب · اختبار A/B) تعتمد على الأرقام، وأيها يعتمد على كلمات الناس؟</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">13</span><span class="u-qtx"><b>فكّر وتحدَّ نفسك — تأمّل:</b> إذا كان بإمكانك رؤية مؤشر واحد فقط لموقع تستخدمه، فهل تختار PV أم معدل الارتداد أم CVR — ولماذا؟ · <b>تحدٍّ:</b> صفحة ما لديها معدل ارتداد مرتفع. صمّم اختبارًا نوعيًا قصيرًا يكشف السبب، وحدّد ما الذي ستغيّره أولًا.</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">14</span><span class="u-qtx"><b>اختبر فهمك:</b> أجب عن أسئلة هذا البنك دون الرجوع إلى الشرح، ثم راجع إجاباتك.</span></div></div>
 </main>
 </body>
 </html>

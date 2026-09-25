@@ -98,7 +98,7 @@ A(f'''<div class="band">
   <div class="badge"><span class="l">الدرس</span><span class="n">2-2</span></div>
   <h1>{TITLE}</h1>
   <div class="who">
-    <div class="t"><span class="u">الوحدة الثانية</span><span class="k">الشرح والمراجعة</span></div>
+    <div class="t"><span class="u">الفصل الثاني</span><span class="k">الشرح والمراجعة</span></div>
     <img src="assets/avatar.png" alt="">
   </div>
 </div>''')
@@ -388,7 +388,7 @@ A('''<div class="check keep kwn">
     </ul>
   </div>
 </div>''')
-A('<div class="endline">أكواد مع زياد — أ/ زياد السعدني · مذكرة البرمجة والذكاء الاصطناعي — تانية ثانوي <span class="num">2026/2027</span> · الوحدة الثانية — الدرس <span class="num">2-2</span></div>')
+A('<div class="endline">أكواد مع زياد — أ/ زياد السعدني · مذكرة البرمجة والذكاء الاصطناعي — تانية ثانوي <span class="num">2026/2027</span> · الفصل الثاني — الدرس <span class="num">2-2</span></div>')
 A('<div class="pb"></div>')
 A('''<div class="band" style="height:55pt;padding-right:12pt">
   <div class="badge"><span class="n">2-2</span></div>
@@ -405,7 +405,7 @@ A('<div class="pb"></div>')
 A(f'''<div class="band">
   <div class="badge"><span class="l">الدرس</span><span class="n">2-2</span></div>
   <h1>{TITLE}</h1>
-  <div class="who"><div class="t"><span class="u">الوحدة الثانية</span><span class="k">بنك الأسئلة</span></div><img src="assets/avatar.png" alt=""></div>
+  <div class="who"><div class="t"><span class="u">الفصل الثاني</span><span class="k">بنك الأسئلة</span></div><img src="assets/avatar.png" alt=""></div>
 </div>''')
 
 # ---- أسئلة الكتاب

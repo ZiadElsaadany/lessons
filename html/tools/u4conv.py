@@ -104,6 +104,9 @@ class Lesson:
     def __init__(self, src, lid, subs=()):
         self.lid = lid
         raw = open(src, encoding="utf-8").read()
+        raw = raw.replace('<div class="unit">الوحدة الرابعة<br>', '<div class="unit">الفصل الرابع<br>')   # الكتاب بيقول «الفصل»
+        raw = raw.replace("أي كلام عليه العلامة دي — هو والرسومات — مش موجود في الكتاب. أنا حاطّه عشان تفهم، مش عشان تحفظه. واللي من الكتاب هتلاقيه من غير علامة.",
+                          "أي جزء عليه علامة «للفهم» هو شرح أو رسم إضافي للتوضيح، ومش مطلوب حفظه كنص من الكتاب.")
         for a, b in subs:        # تعديلات صياغة على نص المصدر — كل واحدة لازم تلاقي مكانها مرة واحدة بالظبط
             n = raw.count(a)
             if n != 1: raise SystemExit(f"subs: {n}× «{a[:70]}»")
@@ -315,6 +318,20 @@ class Lesson:
                 h = b.find("h2")
                 if h and "فهم من الشرح" in h.get_text(): h.string = h.get_text().replace(" — فهم من الشرح", "").replace("فهم من الشرح", "").strip(" —")
 
+    # ---------- نص السؤال في عنصر واحد ----------
+    def wrap_items(self):
+        """.item / .qh معمولين flex: لو النص فيه <b> أو فراغ، كل حتة كانت بتبقى عمود لوحدها — نلمّ النص كله في span.qtx واحد جنب الرقم."""
+        for b in self.exp + self.bank:
+            if not isinstance(b, Tag): continue
+            for it in ([b] if (has(b, "item") or has(b, "qh")) else []) + b.select(".item, .qh"):
+                if it.find(class_="qtx", recursive=False): continue
+                lead = [c for c in it.contents if isinstance(c, Tag) and (has(c, "qn") or has(c, "tqbadge"))]
+                rest = [c for c in list(it.contents) if c not in lead]
+                if not any((isinstance(c, Tag)) or str(c).strip() for c in rest): continue
+                qt = self.soup.new_tag("span", attrs={"class": "qtx"})
+                for c in rest: qt.append(c.extract())
+                it.append(qt)
+
     # ---------- اللوجو في الهيدر ----------
     def logo(self):
         for b in self.exp + self.bank:
@@ -407,6 +424,7 @@ def build(src, lid, title, start, total, out, extra_css="", hook=None, tf_drop=(
     L = Lesson(src, lid, subs)
     L.merge_tq(ov); L.fix_counts(); L.fix_tf(tf_drop); L.flags(); L.logo(); L.summary_page()
     if hook: hook(L)
+    L.wrap_items()
     body_html = L.render(L.prep(L.exp)) + "\n\n<!-- ===================== بنك الأسئلة ===================== -->\n" \
         + L.render([L.new('<div class="pb"></div>')] + L.prep(L.bank, bank=True))
     base = os.path.dirname(TOOLS) + "/"
@@ -448,6 +466,14 @@ U4_CSS = """
 .content .u-item{position:relative}
 .content .u-item>.u-tqbadge,.content .u-mcq>.u-tqbadge,.content .u-ecard>.u-tqbadge{position:absolute;top:-6pt;left:10pt}
 .content>.u-grp:first-child>.u-item>.u-tqbadge,.content>.u-qgrid:first-child .u-mcq>.u-tqbadge{top:-3pt}
+/* مسافة فوق نص السؤال اللي عليه بادج «تقييمات» عشان البادج مايغطيش أول سطر */
+.content .u-mcq:has(>.u-tqbadge){padding-top:8.5pt}
+.content .u-item:has(>.u-tqbadge){padding-top:7pt}
+.content .u-ecard:has(>.u-tqbadge){padding-top:10pt}
+.content .u-ecard:has(>.u-marks)>.u-tqbadge{left:56pt}
+.content .u-qtx{flex:1;min-width:0}
+.content>.u-grp:first-child>.u-item:has(>.u-tqbadge){padding-top:11pt}
+.content>.u-qgrid:first-child .u-mcq:has(>.u-tqbadge){padding-top:11pt}   /* جنب «6 درجات» مش تحتها */
 .rcl{display:flex;align-items:center;gap:10pt;background:#1F2A47;border-radius:10pt;padding:7pt 12pt;margin:0 0 10pt 0}
 .rcl .rl{flex:none;background:#DA9C3B;color:#17263f;font-weight:800;font-size:9.6pt;line-height:18pt;padding:0 11pt;border-radius:8pt}
 .rcl .rc{flex:1;display:flex;align-items:center;justify-content:center;gap:8pt;flex-wrap:wrap}

@@ -515,6 +515,9 @@ h3.sub{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11.2pt;color:var
 .e3g{display:grid;grid-template-columns:98pt 18pt 1fr 18pt 1fr 18pt 1fr;align-items:stretch}
 .e3g .garr{display:flex;align-items:center;justify-content:center}
 .e3g .garr svg{width:15pt;height:10pt}
+/* .garr هنا سهم بين مراحل «مثال من حياتنا» — مش سهم علم «للفهم» (fxflag .garr) اللي بيتحط برّه الصندوق */
+.e3g .garr{position:static;width:auto;height:auto;border:0;margin:0;left:auto;top:auto;z-index:auto}
+.e3g .garr::after{content:none}
 .e3c{background:#fff;border:.75pt solid #dde5ef;border-radius:8pt;padding:6pt 6pt 7pt 6pt;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .e3c h5{margin:0 0 5pt 0;font-weight:800;font-size:10.4pt;color:var(--navy);line-height:1.3}
 .e3c .ico{height:36pt;display:flex;align-items:center;justify-content:center;margin-bottom:6pt}
@@ -1096,6 +1099,14 @@ table.cmp.tall td{height:38pt}
 .content .u-item{position:relative}
 .content .u-item>.u-tqbadge,.content .u-mcq>.u-tqbadge,.content .u-ecard>.u-tqbadge{position:absolute;top:-6pt;left:10pt}
 .content>.u-grp:first-child>.u-item>.u-tqbadge,.content>.u-qgrid:first-child .u-mcq>.u-tqbadge{top:-3pt}
+/* مسافة فوق نص السؤال اللي عليه بادج «تقييمات» عشان البادج مايغطيش أول سطر */
+.content .u-mcq:has(>.u-tqbadge){padding-top:8.5pt}
+.content .u-item:has(>.u-tqbadge){padding-top:7pt}
+.content .u-ecard:has(>.u-tqbadge){padding-top:10pt}
+.content .u-ecard:has(>.u-marks)>.u-tqbadge{left:56pt}
+.content .u-qtx{flex:1;min-width:0}
+.content>.u-grp:first-child>.u-item:has(>.u-tqbadge){padding-top:11pt}
+.content>.u-qgrid:first-child .u-mcq:has(>.u-tqbadge){padding-top:11pt}   /* جنب «6 درجات» مش تحتها */
 .rcl{display:flex;align-items:center;gap:10pt;background:#1F2A47;border-radius:10pt;padding:7pt 12pt;margin:0 0 10pt 0}
 .rcl .rl{flex:none;background:#DA9C3B;color:#17263f;font-weight:800;font-size:9.6pt;line-height:18pt;padding:0 11pt;border-radius:8pt}
 .rcl .rc{flex:1;display:flex;align-items:center;justify-content:center;gap:8pt;flex-wrap:wrap}
@@ -1353,7 +1364,7 @@ window.addEventListener('load', async () => {
 <div class="u-bar-h">
 <div class="u-badge"><div class="u-b1">الدرس</div><div class="u-b2">4-4</div></div>
 <h1>عملية التحسين التكراري للمواقع الإلكترونية</h1>
-<div class="u-unit">الوحدة الرابعة<br/>الشرح والمراجعة</div>
+<div class="u-unit">الفصل الرابع<br/>الشرح والمراجعة</div>
 <img alt="" class="u-logo" src="assets/avatar.png"/></div>
 </div>
 <div class="u-card">
@@ -1405,7 +1416,7 @@ window.addEventListener('load', async () => {
 </div>
 <div class="u-legend">
 <span class="u-tag">للفهم</span>
-    أي كلام عليه العلامة دي — هو والرسومات — مش موجود في الكتاب. أنا حاطّه عشان تفهم، مش عشان تحفظه. واللي من الكتاب هتلاقيه من غير علامة.
+    أي جزء عليه علامة «للفهم» هو شرح أو رسم إضافي للتوضيح، ومش مطلوب حفظه كنص من الكتاب.
   </div>
 <div class="u-qbox">
 <div class="u-qi"><svg class="u-ic" style="stroke-width:4"><use href="#i-question"></use></svg></div>
@@ -1739,7 +1750,7 @@ window.addEventListener('load', async () => {
 <div class="u-bar-h">
 <div class="u-badge"><div class="u-b1">الدرس</div><div class="u-b2">4-4</div></div>
 <h1>بنك الأسئلة — عملية التحسين التكراري للمواقع</h1>
-<div class="u-unit">الوحدة الرابعة<br/>أسئلة وتدريبات</div>
+<div class="u-unit">الفصل الرابع<br/>أسئلة وتدريبات</div>
 <img alt="" class="u-logo" src="assets/avatar.png"/></div>
 </div>
 <div class="u-counts">
@@ -1779,18 +1790,18 @@ window.addEventListener('load', async () => {
 <p><span class="u-lab">✓ الحلّ (من الكتاب):</span> <b>1 ← أ</b> فهم المستخدم هو التعاطف. · <b>2 ← ب</b> توضيح المشكلة هو التعريف. · <b>3 ← ج</b> توليد الأفكار هو توليد الأفكار. · <b>4 ← د</b> إنشاء نموذج أولي هو النموذج الأولي. · <b>5 ← هـ</b> جعل المستخدمين يجربون هو الاختبار.</p>
 </div>
 <div class="u-sub kwn"><span class="u-sn">3</span>تدرّب — أجب عن الأسئلة التالية</div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">1</span>ما مصطلح طريقة التحسين التي تكرر الخطوات الأربع خطّط←نفّذ←تحقّق←تصرّف؟</div><div class="u-abox"><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">2</span>ما مصطلح طريقة التفكير لاكتشاف المشكلات وتوليد الحلول من منظور المستخدم؟</div><div class="u-abox"><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">3</span>ما مصطلح الطريقة التي يُعد فيها نمطان ويُقارَنان بالبيانات لمعرفة أيهما أكثر فعالية؟</div><div class="u-abox"><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">4</span>اذكر الأنماط الخمسة في النموذج المستخدم في هذا الدرس، مع العلم أنه يمكن العودة بينها.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">1</span><span class="u-qtx">ما مصطلح طريقة التحسين التي تكرر الخطوات الأربع خطّط←نفّذ←تحقّق←تصرّف؟</span></div><div class="u-abox"><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">2</span><span class="u-qtx">ما مصطلح طريقة التفكير لاكتشاف المشكلات وتوليد الحلول من منظور المستخدم؟</span></div><div class="u-abox"><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">3</span><span class="u-qtx">ما مصطلح الطريقة التي يُعد فيها نمطان ويُقارَنان بالبيانات لمعرفة أيهما أكثر فعالية؟</span></div><div class="u-abox"><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">4</span><span class="u-qtx">اذكر الأنماط الخمسة في النموذج المستخدم في هذا الدرس، مع العلم أنه يمكن العودة بينها.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
 <div class="u-sub kwn" style="margin-top:6.58pt"><span class="u-sn">4</span>تدرّب — اختيار</div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">1</span>من الخيارات التالية (أ – د)، اختر ما يقابل «تحقّق (Check)» في دورة PDCA.</div><div style="padding-right:18.33pt;margin-bottom:6.58pt">
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">1</span><span class="u-qtx">من الخيارات التالية (أ – د)، اختر ما يقابل «تحقّق (Check)» في دورة PDCA.</span></div><div style="padding-right:18.33pt;margin-bottom:6.58pt">
 <div class="u-opt" style="padding-right:0"><span class="u-ol">أ</span>حدّد هدف خفض معدل الارتداد بنسبة 10%.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">ب</span>غيّر تصميم الصفحة الرئيسية.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">ج</span>قِس معدل الارتداد بعد التغيير.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">د</span>فكّر في إجراء تحسين آخر.</div>
 </div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">2</span>من الخيارات التالية (أ – د)، اختر ما <b>لا يُعد</b> طريقة مناسبة لإجراء اختبار A/B.</div><div style="padding-right:18.33pt;margin-bottom:6.58pt">
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">2</span><span class="u-qtx">من الخيارات التالية (أ – د)، اختر ما <b>لا يُعد</b> طريقة مناسبة لإجراء اختبار A/B.</span></div><div style="padding-right:18.33pt;margin-bottom:6.58pt">
 <div class="u-opt" style="padding-right:0"><span class="u-ol">أ</span>إعداد نمطين ومقارنتهما.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">ب</span>تغيير عدة عناصر في الوقت نفسه.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">ج</span>اتخاذ القرارات فقط بعد جمع كمية كافية من البيانات.</div>
@@ -1799,13 +1810,13 @@ window.addEventListener('load', async () => {
 <div class="u-sub kwn" style="margin-top:6.58pt"><span class="u-sn">5</span>تمارين — اقرأ الفقرة ثم املأ الفراغات</div>
 <p class="u-lead">كطريقة لتحسين المواقع توجد دورة <b>(1)</b><span class="u-bl u-sm"></span> التي تكرر: <b>(2)</b><span class="u-bl u-sm"></span> لتحديد الهدف والخطة، و<b>(3)</b><span class="u-bl u-sm"></span> لتنفيذها، و<b>(4)</b><span class="u-bl u-sm"></span> لقياس النتائج، و<b>(5)</b><span class="u-bl u-sm"></span> لاعتماد ما نجح أو تغيير الخطة. كما يفيد <b>(6)</b><span class="u-bl"></span>، حيث تُقارن نسختان A و B في تجربة منظمة وفق مقياس محدد.</p>
 <div class="u-sub kwn"><span class="u-sn">6</span>تمارين — اختيار</div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">1</span>من الخيارات التالية (أ – د)، اختر الخيار الذي يصف <b>التفكير التصميمي</b> بأفضل شكل.</div><div style="padding-right:18.33pt;margin-bottom:5.64pt">
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">1</span><span class="u-qtx">من الخيارات التالية (أ – د)، اختر الخيار الذي يصف <b>التفكير التصميمي</b> بأفضل شكل.</span></div><div style="padding-right:18.33pt;margin-bottom:5.64pt">
 <div class="u-opt" style="padding-right:0"><span class="u-ol">أ</span>طريقة تستخدم بيانات عددية لتحليل استخدام الموقع الإلكتروني.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">ب</span>طريقة تفكير تؤدي إلى اكتشاف المشكلات وتوليد الحلول من منظور المستخدم.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">ج</span>طريقة يحدد فيها الخبراء مشكلات واجهة المستخدم استنادًا إلى قواعد عملية.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">د</span>طريقة لإنشاء مخطط أولي يوضح تقريبًا تخطيط صفحة ويب.</div>
 </div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">2</span>من الخيارات التالية (أ – د)، اختر الخيار الذي يصف <b>مفهوم عملية تحسين المواقع الإلكترونية</b> بأفضل شكل.</div><div style="padding-right:18.33pt;margin-bottom:5.64pt">
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">2</span><span class="u-qtx">من الخيارات التالية (أ – د)، اختر الخيار الذي يصف <b>مفهوم عملية تحسين المواقع الإلكترونية</b> بأفضل شكل.</span></div><div style="padding-right:18.33pt;margin-bottom:5.64pt">
 <div class="u-opt" style="padding-right:0"><span class="u-ol">أ</span>إذا بُني موقع إلكتروني مثالي في البداية، فلا حاجة لأي تحسين.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">ب</span>يكفي تحسين التصميم البصري فقط.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">ج</span>من المهم التحسن تدريجيًا من خلال تكرار التقييم والتحسين.</div>
@@ -1821,113 +1832,113 @@ window.addEventListener('load', async () => {
 <div class="u-sec u-gold kwn" style="margin-top:4.70pt"><div class="u-hi"><svg class="u-ic"><use href="#i-pencil"></use></svg></div><h2>ثانيًا · اختر الإجابة الصحيحة</h2></div>
 <p class="u-inst kwn">اختر الإجابة الصحيحة من بين الخيارات (أ – د).</p>
 <div class="u-qgrid split">
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">1</span>«طريقة تدفع التحسين قدمًا باستمرار من خلال تكرار الخطوات الأربع» هي:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">1</span><span class="u-qtx">«طريقة تدفع التحسين قدمًا باستمرار من خلال تكرار الخطوات الأربع» هي:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>دورة PDCA.</div><div class="u-opt"><span class="u-ol">ب</span>التفكير التصميمي.</div>
 <div class="u-opt"><span class="u-ol">ج</span>اختبار A/B.</div><div class="u-opt"><span class="u-ol">د</span>التقييم الإرشادي.</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">2</span>ترتيب خطوات PDCA الصحيح هو:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">2</span><span class="u-qtx">ترتيب خطوات PDCA الصحيح هو:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>نفّذ ← خطّط ← تصرّف ← تحقّق.</div>
 <div class="u-opt"><span class="u-ol">ب</span>تحقّق ← نفّذ ← خطّط ← تصرّف.</div>
 <div class="u-opt"><span class="u-ol">ج</span>خطّط ← نفّذ ← تحقّق ← تصرّف.</div>
 <div class="u-opt"><span class="u-ol">د</span>خطّط ← تحقّق ← نفّذ ← تصرّف.</div></div>
 </div>
 <div class="u-qgrid split">
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">3</span>«حدّد الأهداف وضع خطة للتحسين» هي خطوة:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">3</span><span class="u-qtx">«حدّد الأهداف وضع خطة للتحسين» هي خطوة:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>تصرّف.</div><div class="u-opt"><span class="u-ol">ب</span>نفّذ.</div>
 <div class="u-opt"><span class="u-ol">ج</span>تحقّق.</div><div class="u-opt"><span class="u-ol">د</span>خطّط.</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">4</span>«قِس النتائج وقيّم مستوى تحقيق الهدف» هي خطوة:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">4</span><span class="u-qtx">«قِس النتائج وقيّم مستوى تحقيق الهدف» هي خطوة:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>تحقّق.</div><div class="u-opt"><span class="u-ol">ب</span>نفّذ.</div>
 <div class="u-opt"><span class="u-ol">ج</span>خطّط.</div><div class="u-opt"><span class="u-ol">د</span>تصرّف.</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">5</span>«اعتمد ما نجح أو غيّر الخطة وحدّد الخطوة التالية» هي خطوة:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">5</span><span class="u-qtx">«اعتمد ما نجح أو غيّر الخطة وحدّد الخطوة التالية» هي خطوة:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>تحقّق.</div><div class="u-opt"><span class="u-ol">ب</span>تصرّف.</div>
 <div class="u-opt"><span class="u-ol">ج</span>خطّط.</div><div class="u-opt"><span class="u-ol">د</span>نفّذ.</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">6</span>«غيّر تصميم الصفحة الرئيسية» مثال على خطوة:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">6</span><span class="u-qtx">«غيّر تصميم الصفحة الرئيسية» مثال على خطوة:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>خطّط.</div><div class="u-opt"><span class="u-ol">ب</span>تحقّق.</div>
 <div class="u-opt"><span class="u-ol">ج</span>نفّذ.</div><div class="u-opt"><span class="u-ol">د</span>تصرّف.</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">7</span>حسب الكتاب، تُستخدم دورة PDCA:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">7</span><span class="u-qtx">حسب الكتاب، تُستخدم دورة PDCA:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>على نطاق واسع في مجالات مثل تحسين الأعمال وإدارة الجودة، وليس فقط في المواقع.</div>
 <div class="u-opt"><span class="u-ol">ب</span>في تحسين المواقع الإلكترونية فقط، ولا تصلح لأي مجال آخر مثل إدارة الجودة أو تحسين الأعمال.</div>
 <div class="u-opt"><span class="u-ol">ج</span>في البرمجة فقط.</div>
 <div class="u-opt"><span class="u-ol">د</span>في التصميم الجرافيكي فقط.</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">8</span>في خطوة «تحقّق»، يقارن الفريق النتيجة بـ:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">8</span><span class="u-qtx">في خطوة «تحقّق»، يقارن الفريق النتيجة بـ:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>خط الأساس والهدف.</div><div class="u-opt"><span class="u-ol">ب</span>رأي المصمم.</div>
 <div class="u-opt"><span class="u-ol">ج</span>مواقع المنافسين فقط.</div><div class="u-opt"><span class="u-ol">د</span>عدد الصفحات.</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">9</span>حسب المثال المحلول، دورة PDCA:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">9</span><span class="u-qtx">حسب المثال المحلول، دورة PDCA:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>تكتمل بعد تنفيذ واحد.</div>
 <div class="u-opt"><span class="u-ol">ب</span>تُنفَّذ مرة كل عام.</div>
 <div class="u-opt"><span class="u-ol">ج</span>ذات معنى عندما تُكرَّر.</div>
 <div class="u-opt"><span class="u-ol">د</span>تنطبق على المواقع الكبيرة فقط.</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">10</span>يساعد التحسين التكراري حسب الكتاب على:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">10</span><span class="u-qtx">يساعد التحسين التكراري حسب الكتاب على:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>التعلم من النتائج بدل افتراض أن النسخة الأولى ستكون مثالية.</div>
 <div class="u-opt"><span class="u-ol">ب</span>تقليل عدد صفحات الموقع.</div>
 <div class="u-opt"><span class="u-ol">ج</span>إلغاء الحاجة إلى القياس والمقارنة لأن كل نسخة جديدة أفضل تلقائيًا من السابقة لها.</div>
 <div class="u-opt"><span class="u-ol">د</span>تسريع الخادم.</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">11</span>حجم التغيير في التحسين التكراري:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">11</span><span class="u-qtx">حجم التغيير في التحسين التكراري:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>قد يكون صغيرًا أو كبيرًا بحسب الهدف والدليل.</div><div class="u-opt"><span class="u-ol">ب</span>كبير دائمًا، لأن التغييرات الصغيرة لا تُحدث أي أثر يمكن قياسه.</div>
 <div class="u-opt"><span class="u-ol">ج</span>صغير دائمًا.</div>
 <div class="u-opt"><span class="u-ol">د</span>يحدده المطوّر بلا معيار.</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">12</span>«طريقة مرنة لفهم المشكلة من منظور المستخدم وتجربة حلول ثم تحسينها» هي:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">12</span><span class="u-qtx">«طريقة مرنة لفهم المشكلة من منظور المستخدم وتجربة حلول ثم تحسينها» هي:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>تحليلات الويب.</div><div class="u-opt"><span class="u-ol">ب</span>التفكير التصميمي.</div>
 <div class="u-opt"><span class="u-ol">ج</span>المخطط الهيكلي.</div><div class="u-opt"><span class="u-ol">د</span>دورة PDCA بخطواتها الأربع المتكررة.</div></div>
 </div>
 <div class="u-qgrid split">
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">13</span>خطوة «تعرّف إلى تجربة المستخدم واحتياجاته من خلال الملاحظة والأسئلة والبحث المناسب» هي:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">13</span><span class="u-qtx">خطوة «تعرّف إلى تجربة المستخدم واحتياجاته من خلال الملاحظة والأسئلة والبحث المناسب» هي:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>التعريف.</div><div class="u-opt"><span class="u-ol">ب</span>توليد الأفكار.</div>
 <div class="u-opt"><span class="u-ol">ج</span>التعاطف.</div><div class="u-opt"><span class="u-ol">د</span>الاختبار.</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">14</span>خطوة «وضّح المشكلة المراد حلها» هي:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">14</span><span class="u-qtx">خطوة «وضّح المشكلة المراد حلها» هي:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>التعاطف.</div><div class="u-opt"><span class="u-ol">ب</span>النموذج الأولي.</div>
 <div class="u-opt"><span class="u-ol">ج</span>الاختبار.</div><div class="u-opt"><span class="u-ol">د</span>التعريف.</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">15</span>خطوة «أنشئ نموذجًا أوليًا بسرعة بناءً على الأفكار» هي:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">15</span><span class="u-qtx">خطوة «أنشئ نموذجًا أوليًا بسرعة بناءً على الأفكار» هي:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>توليد الأفكار الكثيرة لحل المشكلة.</div><div class="u-opt"><span class="u-ol">ب</span>التعاطف.</div>
 <div class="u-opt"><span class="u-ol">ج</span>النموذج الأولي.</div><div class="u-opt"><span class="u-ol">د</span>التعريف.</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">16</span>خطوة «دع المستخدمين يجربون النموذج ثم اجمع ملاحظاتهم وراقب ما يحدث» هي:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">16</span><span class="u-qtx">خطوة «دع المستخدمين يجربون النموذج ثم اجمع ملاحظاتهم وراقب ما يحدث» هي:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>التعاطف.</div><div class="u-opt"><span class="u-ol">ب</span>النموذج الأولي.</div>
 <div class="u-opt"><span class="u-ol">ج</span>توليد الأفكار.</div><div class="u-opt"><span class="u-ol">د</span>الاختبار.</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">17</span>حسب الكتاب، بعد نتائج الاختبار في التفكير التصميمي:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">17</span><span class="u-qtx">حسب الكتاب، بعد نتائج الاختبار في التفكير التصميمي:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>تنتهي العملية نهائيًا ويُعتمد النموذج الأولي كما هو دون أي تعديل.</div>
 <div class="u-opt"><span class="u-ol">ب</span>قد يعود المرء إلى مرحلة التعاطف أو التعريف.</div>
 <div class="u-opt"><span class="u-ol">ج</span>يبدأ من الاختبار.</div>
 <div class="u-opt"><span class="u-ol">د</span>يُلغى النموذج الأولي.</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">18</span>يصف الكتاب مسار التفكير التصميمي بأنه:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">18</span><span class="u-qtx">يصف الكتاب مسار التفكير التصميمي بأنه:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>خطي صارم في اتجاه واحد، ولا يمكن الرجوع فيه إلى أي مرحلة سابقة.</div>
 <div class="u-opt"><span class="u-ol">ب</span>يسير ذهابًا وإيابًا، لا في اتجاه واحد.</div>
 <div class="u-opt"><span class="u-ol">ج</span>يجب البدء من الصفر بالكامل.</div>
 <div class="u-opt"><span class="u-ol">د</span>بلا ترتيب على الإطلاق.</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">19</span>«تجربة تقارن نسختين وفق مقياس محدد مسبقًا» هي:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">19</span><span class="u-qtx">«تجربة تقارن نسختين وفق مقياس محدد مسبقًا» هي:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>اختبار قابلية الاستخدام.</div><div class="u-opt"><span class="u-ol">ب</span>التقييم الإرشادي.</div>
 <div class="u-opt"><span class="u-ol">ج</span>اختبار A/B.</div><div class="u-opt"><span class="u-ol">د</span>المقابلة.</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">20</span>في اختبار A/B، يُوزَّع المستخدمون أو الزيارات:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">20</span><span class="u-qtx">في اختبار A/B، يُوزَّع المستخدمون أو الزيارات:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>حسب رغبة المصمم، بحيث تذهب الزيارات الأهم إلى النسخة التي يتوقع نجاحها أكثر من غيرها.</div>
 <div class="u-opt"><span class="u-ol">ب</span>بحسب سرعة الإنترنت.</div>
 <div class="u-opt"><span class="u-ol">ج</span>على النسخة الأولى فقط.</div>
 <div class="u-opt"><span class="u-ol">د</span>بطريقة عشوائية قدر الإمكان أو وفق تصميم تجربة مناسب.</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">21</span>إذا كان هدف التجربة معرفة أثر فرق واحد بعينه، فينبغي:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">21</span><span class="u-qtx">إذا كان هدف التجربة معرفة أثر فرق واحد بعينه، فينبغي:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>جعل الفرق بين النسختين واضحًا ومحددًا.</div>
 <div class="u-opt"><span class="u-ol">ب</span>تغيير عدة عناصر معًا في النسخة B لتوفير الوقت والحصول على نتيجة أسرع.</div>
 <div class="u-opt"><span class="u-ol">ج</span>إلغاء المقياس.</div>
 <div class="u-opt"><span class="u-ol">د</span>اختصار العينة.</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">22</span>اختبار حزمة تغييرات معًا:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">22</span><span class="u-qtx">اختبار حزمة تغييرات معًا:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>يكشف أثر كل عنصر منفردًا بدقة، لأن كل التغييرات تُقاس في التجربة نفسها في الوقت نفسه.</div>
 <div class="u-opt"><span class="u-ol">ب</span>يُستخدم بدل PDCA.</div>
 <div class="u-opt"><span class="u-ol">ج</span>لا يعطي أي نتيجة.</div>
 <div class="u-opt"><span class="u-ol">د</span>يقيس أثر الحزمة ولا يكشف أثر كل عنصر منفردًا.</div></div>
 </div>
 <div class="u-qgrid split">
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">23</span>النقطة الثانية التي يذكرها الكتاب لاختبار A/B هي:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">23</span><span class="u-qtx">النقطة الثانية التي يذكرها الكتاب لاختبار A/B هي:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>اختر النتيجة التي تعجبك.</div>
 <div class="u-opt"><span class="u-ol">ب</span>حدّد المقياس وخطة التحليل قبل الاختبار ثم اجمع عينة كافية قبل الحكم.</div>
 <div class="u-opt"><span class="u-ol">ج</span>احكم على النتيجة من أول عشر زيارات، ثم حدّد المقياس المناسب بعد انتهاء الاختبار حسب ما يظهر في البيانات.</div>
 <div class="u-opt"><span class="u-ol">د</span>استخدم أداة واحدة فقط.</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">24</span>خلاصة الكتاب عن هذه الأدوات:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">24</span><span class="u-qtx">خلاصة الكتاب عن هذه الأدوات:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>تضمن نجاح كل تغيير.</div>
 <div class="u-opt"><span class="u-ol">ب</span>لا تضمن نجاح كل تغيير، لكنها تجعل القرار مبنيًا على أدلة وتعلم متكرر.</div>
 <div class="u-opt"><span class="u-ol">ج</span>تُغني عن أي تقييم آخر للموقع، وتضمن أن كل تغيير يُنفَّذ سيحقق الهدف المطلوب من أول مرة.</div>
 <div class="u-opt"><span class="u-ol">د</span>تصلح للمواقع الكبيرة فقط.</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">25</span>فريق غيّر لون الزر ونصّه وموضعه معًا، وارتفعت النقرات. أدقّ استنتاج:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">25</span><span class="u-qtx">فريق غيّر لون الزر ونصّه وموضعه معًا، وارتفعت النقرات. أدقّ استنتاج:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>لون الزر وحده هو السبب.</div>
 <div class="u-opt"><span class="u-ol">ب</span>موضع الزر وحده هو السبب.</div>
 <div class="u-opt"><span class="u-ol">ج</span>النتيجة غير صالحة إطلاقًا، ويجب إعادة الاختبار من البداية بتغيير لون الزر فقط مع نفس العينة والمدة.</div>
 <div class="u-opt"><span class="u-ol">د</span>الحزمة كلها رفعت النقرات، ولا نعرف أثر كل عنصر منفردًا.</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">26</span>قبل بدء دورة تحسين، أول ما يحتاجه الفريق هو:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">26</span><span class="u-qtx">قبل بدء دورة تحسين، أول ما يحتاجه الفريق هو:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>تغيير التصميم فورًا.</div>
 <div class="u-opt"><span class="u-ol">ب</span>رقم مقاس (خط أساس) وهدف واضح.</div>
 <div class="u-opt"><span class="u-ol">ج</span>رأي المطوّر.</div>
@@ -1935,17 +1946,17 @@ window.addEventListener('load', async () => {
 </div>
 <div class="u-sec u-green kwn" style="margin-top:5.64pt"><div class="u-hi"><svg class="u-ic"><use href="#i-pen"></use></svg></div><h2>ثالثًا · أكمل العبارات الآتية</h2></div>
 <p class="u-inst kwn">اكتب المصطلح كامل وصحيح الإملاء، ولو ليه اختصار إنجليزي اكتبه جنبه.</p>
-<div class="u-grp"><div class="u-item"><span class="u-qn">1</span>الطريقة التي تدفع التحسين قدمًا باستمرار من خلال تكرار أربع خطوات تُسمى<span class="u-bl"></span>.</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">2</span>خطوات دورة PDCA بالترتيب هي<span class="u-bl u-sm"></span>و<span class="u-bl u-sm"></span>و<span class="u-bl u-sm"></span>و<span class="u-bl u-sm"></span>.</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">3</span>في خطوة «تحقّق» تُقارن النتيجة بـ<span class="u-bl"></span>و<span class="u-bl u-sm"></span>.</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">4</span>«التحسن قليلًا في كل مرة» هو تعريف<span class="u-bl"></span>.</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">5</span>طريقة فهم المشكلة من منظور المستخدم عبر خمس خطوات تُسمى<span class="u-bl"></span>.</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">6</span>الأنماط الخمسة للتفكير التصميمي هي<span class="u-bl u-sm"></span>و<span class="u-bl u-sm"></span>و<span class="u-bl u-sm"></span>و<span class="u-bl u-sm"></span>و<span class="u-bl u-sm"></span>.</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">7</span>«مسودة سريعة قابلة للاختبار» هي تعريف<span class="u-bl"></span>.</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">8</span>التجربة التي تقارن نسختين وفق مقياس محدد مسبقًا تُسمى<span class="u-bl"></span>.</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">9</span>لعزل أثر تغيير واحد في اختبار A/B يجب أن يكون الفرق بين النسختين<span class="u-bl"></span>.</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">10</span>قبل بدء اختبار A/B يجب تحديد<span class="u-bl u-sm"></span>و<span class="u-bl"></span>، ثم جمع<span class="u-bl u-sm"></span>قبل الحكم.</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">11</span>«تكرار الحلقة للتحسين» هو تعريف<span class="u-bl"></span>.</div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">1</span><span class="u-qtx">الطريقة التي تدفع التحسين قدمًا باستمرار من خلال تكرار أربع خطوات تُسمى<span class="u-bl"></span>.</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">2</span><span class="u-qtx">خطوات دورة PDCA بالترتيب هي<span class="u-bl u-sm"></span>و<span class="u-bl u-sm"></span>و<span class="u-bl u-sm"></span>و<span class="u-bl u-sm"></span>.</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">3</span><span class="u-qtx">في خطوة «تحقّق» تُقارن النتيجة بـ<span class="u-bl"></span>و<span class="u-bl u-sm"></span>.</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">4</span><span class="u-qtx">«التحسن قليلًا في كل مرة» هو تعريف<span class="u-bl"></span>.</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">5</span><span class="u-qtx">طريقة فهم المشكلة من منظور المستخدم عبر خمس خطوات تُسمى<span class="u-bl"></span>.</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">6</span><span class="u-qtx">الأنماط الخمسة للتفكير التصميمي هي<span class="u-bl u-sm"></span>و<span class="u-bl u-sm"></span>و<span class="u-bl u-sm"></span>و<span class="u-bl u-sm"></span>و<span class="u-bl u-sm"></span>.</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">7</span><span class="u-qtx">«مسودة سريعة قابلة للاختبار» هي تعريف<span class="u-bl"></span>.</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">8</span><span class="u-qtx">التجربة التي تقارن نسختين وفق مقياس محدد مسبقًا تُسمى<span class="u-bl"></span>.</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">9</span><span class="u-qtx">لعزل أثر تغيير واحد في اختبار A/B يجب أن يكون الفرق بين النسختين<span class="u-bl"></span>.</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">10</span><span class="u-qtx">قبل بدء اختبار A/B يجب تحديد<span class="u-bl u-sm"></span>و<span class="u-bl"></span>، ثم جمع<span class="u-bl u-sm"></span>قبل الحكم.</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">11</span><span class="u-qtx">«تكرار الحلقة للتحسين» هو تعريف<span class="u-bl"></span>.</span></div></div>
 <div class="u-sec u-red kwn" style="margin-top:6.58pt"><div class="u-hi">○/✗</div><h2>رابعًا · صح وخطأ</h2></div>
 <p class="u-inst kwn">ضع علامة ○ أمام العبارة الصحيحة، وعلامة × أمام العبارة الخاطئة.</p>
 <table class="u-tf">
@@ -2018,14 +2029,14 @@ window.addEventListener('load', async () => {
 <div class="u-tip"><span class="u-lab">قبل ما تملا الجداول:</span> كل خانة عايزة <b>جملة قصيرة من الكتاب</b>، مش كلمة. ولو مش لاقي الفرق، ارجع لصفحة <b>خلي بالك من العبارات دي</b> — أغلب أوجه المقارنة دي متكتوبة هناك بالنص.</div>
 <div class="u-sec u-green kwn"><div class="u-hi"><svg class="u-ic"><use href="#i-bulb"></use></svg></div><h2>سادسًا · علّل لما يأتي</h2></div>
 <p class="u-inst kwn">السبب لازم يكون <b>من الكتاب</b>، ويفضّل تستخدم كلمة من كلماته — دي اللي بتجيب الدرجة كاملة.</p>
-<div class="u-grp"><div class="u-item"><span class="u-qn">1</span>دورة PDCA ذات معنى عندما تُكرَّر، ولا تكتمل بعد تنفيذ واحد.</div><div class="u-abox"><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">2</span>لا يكفي تنفيذ التغيير للحكم على نجاحه.</div><div class="u-abox"><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">3</span>دورة PDCA ليست خاصة بالمواقع الإلكترونية وحدها.</div><div class="u-abox"><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">4</span>يُعد التفكير التصميمي طريقة من منظور المستخدم لا من منظور المطوّر.</div><div class="u-abox"><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">5</span>لا يُتبع نموذج التفكير التصميمي في مسار خطي صارم.</div><div class="u-abox"><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">6</span>يجب أن يكون الفرق بين النسختين واضحًا ومحددًا عند عزل أثر تغيير واحد.</div><div class="u-abox"><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">7</span>يُحدَّد المقياس وخطة التحليل قبل بدء اختبار A/B لا بعده.</div><div class="u-abox"><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">8</span>لا يصحّ القول إن دورة PDCA واختبار A/B يضمنان نجاح كل تغيير.</div><div class="u-abox"><div class="u-aline"></div></div><div class="u-tip"><span class="u-lab">قالب إجابة «علّل»:</span> ابدأ بـ <b>«لأن …»</b> وحطّ بعدها <b>جملة الكتاب</b> نفسها. مثال على السؤال 6: «لأن <b>اختبار حزمة تغييرات يقيس أثر الحزمة ولا يكشف أثر كل عنصر منفردًا</b>» — جملة واحدة فيها السبب والنتيجة.</div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">1</span><span class="u-qtx">دورة PDCA ذات معنى عندما تُكرَّر، ولا تكتمل بعد تنفيذ واحد.</span></div><div class="u-abox"><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">2</span><span class="u-qtx">لا يكفي تنفيذ التغيير للحكم على نجاحه.</span></div><div class="u-abox"><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">3</span><span class="u-qtx">دورة PDCA ليست خاصة بالمواقع الإلكترونية وحدها.</span></div><div class="u-abox"><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">4</span><span class="u-qtx">يُعد التفكير التصميمي طريقة من منظور المستخدم لا من منظور المطوّر.</span></div><div class="u-abox"><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">5</span><span class="u-qtx">لا يُتبع نموذج التفكير التصميمي في مسار خطي صارم.</span></div><div class="u-abox"><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">6</span><span class="u-qtx">يجب أن يكون الفرق بين النسختين واضحًا ومحددًا عند عزل أثر تغيير واحد.</span></div><div class="u-abox"><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">7</span><span class="u-qtx">يُحدَّد المقياس وخطة التحليل قبل بدء اختبار A/B لا بعده.</span></div><div class="u-abox"><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">8</span><span class="u-qtx">لا يصحّ القول إن دورة PDCA واختبار A/B يضمنان نجاح كل تغيير.</span></div><div class="u-abox"><div class="u-aline"></div></div><div class="u-tip"><span class="u-lab">قالب إجابة «علّل»:</span> ابدأ بـ <b>«لأن …»</b> وحطّ بعدها <b>جملة الكتاب</b> نفسها. مثال على السؤال 6: «لأن <b>اختبار حزمة تغييرات يقيس أثر الحزمة ولا يكشف أثر كل عنصر منفردًا</b>» — جملة واحدة فيها السبب والنتيجة.</div></div>
 <div class="u-sec u-tool kwn"><div class="u-hi"><svg class="u-ic"><use href="#i-pencil"></use></svg></div><h2>سابعًا · أسئلة مقالية</h2></div>
 <div class="u-ecard"><span class="u-tqbadge">تقييمات</span>
 <div class="eh"><span class="u-qn">1</span><b>طبّق ما تعلمته:</b> متجر إلكتروني يلاحظ أن نسبة النقر على زر الشراء منخفضة. صف اختبار A/B يقارن فرقًا واضحًا بين نسختين، وحدّد المقياس وطريقة توزيع الزيارات، ثم اشرح كيف تستخدم نتائج الاختبار في دورة PDCA.</div>
@@ -2045,21 +2056,21 @@ window.addEventListener('load', async () => {
 <div class="u-chk"><span><i></i>إعادة تصميم كل شيء دفعة واحدة</span><span><i></i>التحسين عبر حلقة PDCA واحدة مقاسة</span></div>
 <div class="u-elem"><span class="u-lab">تلميح الكتاب —</span> ابدأ من <b>رقمك المقاس (تحقّق)</b>، واختر <b>العائق الوحيد</b> الذي يكشفه، وخطّط لإصلاح واحد <b>(خطّط)</b>، ثم كرِّر الحلقة — <b>لا تغيّر كل شيء دفعة واحدة</b>. ولاحظ إن السؤال طالب بـ<b>دليل على إجابتك</b>.</div>
 </div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">1</span>اشرح خطوات دورة PDCA الأربع، بوصف كل خطوة ومثالها في تحسين المواقع الإلكترونية كما في جدول الكتاب.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">2</span>اذكر الأنماط الخمسة للتفكير التصميمي بالترتيب، واشرح مرحلتي <b>التعاطف</b> و<b>الاختبار</b>، ووضّح لماذا لا يُتبع المسار في اتجاه واحد.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">3</span><b>موقع حجز عيادة:</b> نسبة إكمال الحجز منخفضة. صمّم <b>حلقة PDCA واحدة</b> من أربع خطوات بأرقام، وحدّد اختبار A/B تستخدمه داخلها بفرق واحد ومقياس محدد، واذكر ما ستقيسه بعد التحسين.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">4</span>اذكر الفكرة الأساسية وراء استخدام دورة PDCA والتفكير التصميمي واختبار A/B في تطوير المنتجات الرقمية بدلًا من افتراض أن النسخة الأولى نهائية.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">5</span>اشرح بمثال كيف يتم تطبيق خطوتي «التنفيذ (Do)» و«التحقق (Check)» في تحسين نسبة إكمال نموذج التسجيل في موقع إلكتروني.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">6</span>اشرح كيف يتيح «اختبار A/B» لمصممي المواقع الإلكترونية مقارنة نسختين ببيانات حقيقية وكيف يتم توزّع الزيارات بينهما.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">7</span>طبّق دورة PDCA على مثال عملي لرفع نسبة إكمال نموذج التسجيل من 40% إلى 50% موضحًا الخطوات الأربع.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">8</span>وضّح كيف تساهم ملاحظات المستخدمين وبيانات الاستخدام في معرفة ما يعمل وما يحتاج إلى تحسين في المواقع الإلكترونية.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">9</span>اذكر الفروق الأساسية بين دورة PDCA والتفكير التصميمي واختبار A/B من حيث الغرض وطريقة التنفيذ.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">1</span><span class="u-qtx">اشرح خطوات دورة PDCA الأربع، بوصف كل خطوة ومثالها في تحسين المواقع الإلكترونية كما في جدول الكتاب.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">2</span><span class="u-qtx">اذكر الأنماط الخمسة للتفكير التصميمي بالترتيب، واشرح مرحلتي <b>التعاطف</b> و<b>الاختبار</b>، ووضّح لماذا لا يُتبع المسار في اتجاه واحد.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">3</span><span class="u-qtx"><b>موقع حجز عيادة:</b> نسبة إكمال الحجز منخفضة. صمّم <b>حلقة PDCA واحدة</b> من أربع خطوات بأرقام، وحدّد اختبار A/B تستخدمه داخلها بفرق واحد ومقياس محدد، واذكر ما ستقيسه بعد التحسين.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">4</span><span class="u-qtx">اذكر الفكرة الأساسية وراء استخدام دورة PDCA والتفكير التصميمي واختبار A/B في تطوير المنتجات الرقمية بدلًا من افتراض أن النسخة الأولى نهائية.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">5</span><span class="u-qtx">اشرح بمثال كيف يتم تطبيق خطوتي «التنفيذ (Do)» و«التحقق (Check)» في تحسين نسبة إكمال نموذج التسجيل في موقع إلكتروني.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">6</span><span class="u-qtx">اشرح كيف يتيح «اختبار A/B» لمصممي المواقع الإلكترونية مقارنة نسختين ببيانات حقيقية وكيف يتم توزّع الزيارات بينهما.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">7</span><span class="u-qtx">طبّق دورة PDCA على مثال عملي لرفع نسبة إكمال نموذج التسجيل من 40% إلى 50% موضحًا الخطوات الأربع.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">8</span><span class="u-qtx">وضّح كيف تساهم ملاحظات المستخدمين وبيانات الاستخدام في معرفة ما يعمل وما يحتاج إلى تحسين في المواقع الإلكترونية.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">9</span><span class="u-qtx">اذكر الفروق الأساسية بين دورة PDCA والتفكير التصميمي واختبار A/B من حيث الغرض وطريقة التنفيذ.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
 <div class="u-sec u-tool kwn" style="margin-top:3.76pt"><div class="u-hi"><svg class="u-ic"><use href="#i-bulb"></use></svg></div><h2>أنشطة</h2></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">10</span><b>توقّف وفكّر:</b> أي خطوة من خطوات PDCA تخبرك ما إذا كان تغييرك قد نجح فعلًا؟</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">11</span><b>توقّف وفكّر:</b> طابق كل خيار من خيارات «تدرّب — اختيار» بخطوة من خطوات PDCA: أيها Plan، وأيها Do، وأيها Check، وأيها Act؟</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">12</span><b>توقّف وفكّر:</b> في اختبار A/B، إذا أردت عزل أثر تغيير واحد، لماذا يُفضَّل أن يكون الفرق بين النسختين واضحًا ومحددًا؟</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">13</span><b>فكّر وتحدَّ نفسك — تأمّل:</b> فكّر في موقع إلكتروني تستخدمه كثيرًا. ما التغيير الصغير الواحد الذي تعتقد أنه سيساعد أكثر، وكيف ستقيس ما إذا كان قد نجح؟ · <b>تحدٍّ:</b> يمكنك إجراء اختبار A/B واحد فقط هذا الشهر على صفحة الفعالية. اختر العنصر الوحيد للاختبار، وتوقع أي خيار سيفوز ولماذا، واذكر أي رقم سيثبت صحة توقعك أو خطأه.</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">14</span><b>اختبر فهمك:</b> أجب عن أسئلة هذا البنك دون الرجوع إلى الشرح، ثم راجع إجاباتك.</div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">10</span><span class="u-qtx"><b>توقّف وفكّر:</b> أي خطوة من خطوات PDCA تخبرك ما إذا كان تغييرك قد نجح فعلًا؟</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">11</span><span class="u-qtx"><b>توقّف وفكّر:</b> طابق كل خيار من خيارات «تدرّب — اختيار» بخطوة من خطوات PDCA: أيها Plan، وأيها Do، وأيها Check، وأيها Act؟</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">12</span><span class="u-qtx"><b>توقّف وفكّر:</b> في اختبار A/B، إذا أردت عزل أثر تغيير واحد، لماذا يُفضَّل أن يكون الفرق بين النسختين واضحًا ومحددًا؟</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">13</span><span class="u-qtx"><b>فكّر وتحدَّ نفسك — تأمّل:</b> فكّر في موقع إلكتروني تستخدمه كثيرًا. ما التغيير الصغير الواحد الذي تعتقد أنه سيساعد أكثر، وكيف ستقيس ما إذا كان قد نجح؟ · <b>تحدٍّ:</b> يمكنك إجراء اختبار A/B واحد فقط هذا الشهر على صفحة الفعالية. اختر العنصر الوحيد للاختبار، وتوقع أي خيار سيفوز ولماذا، واذكر أي رقم سيثبت صحة توقعك أو خطأه.</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">14</span><span class="u-qtx"><b>اختبر فهمك:</b> أجب عن أسئلة هذا البنك دون الرجوع إلى الشرح، ثم راجع إجاباتك.</span></div></div>
 </main>
 </body>
 </html>

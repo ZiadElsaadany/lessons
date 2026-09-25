@@ -515,6 +515,9 @@ h3.sub{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11.2pt;color:var
 .e3g{display:grid;grid-template-columns:98pt 18pt 1fr 18pt 1fr 18pt 1fr;align-items:stretch}
 .e3g .garr{display:flex;align-items:center;justify-content:center}
 .e3g .garr svg{width:15pt;height:10pt}
+/* .garr هنا سهم بين مراحل «مثال من حياتنا» — مش سهم علم «للفهم» (fxflag .garr) اللي بيتحط برّه الصندوق */
+.e3g .garr{position:static;width:auto;height:auto;border:0;margin:0;left:auto;top:auto;z-index:auto}
+.e3g .garr::after{content:none}
 .e3c{background:#fff;border:.75pt solid #dde5ef;border-radius:8pt;padding:6pt 6pt 7pt 6pt;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .e3c h5{margin:0 0 5pt 0;font-weight:800;font-size:10.4pt;color:var(--navy);line-height:1.3}
 .e3c .ico{height:36pt;display:flex;align-items:center;justify-content:center;margin-bottom:6pt}
@@ -995,6 +998,14 @@ table.cmp.tall td{height:38pt}
 .content .u-item{position:relative}
 .content .u-item>.u-tqbadge,.content .u-mcq>.u-tqbadge,.content .u-ecard>.u-tqbadge{position:absolute;top:-6pt;left:10pt}
 .content>.u-grp:first-child>.u-item>.u-tqbadge,.content>.u-qgrid:first-child .u-mcq>.u-tqbadge{top:-3pt}
+/* مسافة فوق نص السؤال اللي عليه بادج «تقييمات» عشان البادج مايغطيش أول سطر */
+.content .u-mcq:has(>.u-tqbadge){padding-top:8.5pt}
+.content .u-item:has(>.u-tqbadge){padding-top:7pt}
+.content .u-ecard:has(>.u-tqbadge){padding-top:10pt}
+.content .u-ecard:has(>.u-marks)>.u-tqbadge{left:56pt}
+.content .u-qtx{flex:1;min-width:0}
+.content>.u-grp:first-child>.u-item:has(>.u-tqbadge){padding-top:11pt}
+.content>.u-qgrid:first-child .u-mcq:has(>.u-tqbadge){padding-top:11pt}   /* جنب «6 درجات» مش تحتها */
 .rcl{display:flex;align-items:center;gap:10pt;background:#1F2A47;border-radius:10pt;padding:7pt 12pt;margin:0 0 10pt 0}
 .rcl .rl{flex:none;background:#DA9C3B;color:#17263f;font-weight:800;font-size:9.6pt;line-height:18pt;padding:0 11pt;border-radius:8pt}
 .rcl .rc{flex:1;display:flex;align-items:center;justify-content:center;gap:8pt;flex-wrap:wrap}
@@ -1213,7 +1224,7 @@ window.addEventListener('load', async () => {
 <div class="u-bar-h">
 <div class="u-badge"><div class="u-b1">الدرس</div><div class="u-b2">4-1</div></div>
 <h1>أنواع الوسائط وخصائصها</h1>
-<div class="u-unit">الوحدة الرابعة<br/>الشرح والمراجعة</div>
+<div class="u-unit">الفصل الرابع<br/>الشرح والمراجعة</div>
 <img alt="" class="u-logo" src="assets/avatar.png"/></div>
 </div>
 <div class="u-card">
@@ -1271,7 +1282,7 @@ window.addEventListener('load', async () => {
 </div>
 <div class="u-legend">
 <span class="u-tag">للفهم</span>
-    أي كلام عليه العلامة دي — هو والرسومات — مش موجود في الكتاب. أنا حاطّه عشان تفهم، مش عشان تحفظه. واللي من الكتاب هتلاقيه من غير علامة.
+    أي جزء عليه علامة «للفهم» هو شرح أو رسم إضافي للتوضيح، ومش مطلوب حفظه كنص من الكتاب.
   </div>
 <div class="u-qbox">
 <div class="u-qi"><svg class="u-ic" style="stroke-width:4"><use href="#i-question"></use></svg></div>
@@ -1560,7 +1571,7 @@ window.addEventListener('load', async () => {
 <div class="u-bar-h">
 <div class="u-badge"><div class="u-b1">الدرس</div><div class="u-b2">4-1</div></div>
 <h1>بنك الأسئلة — أنواع الوسائط وخصائصها</h1>
-<div class="u-unit">الوحدة الرابعة<br/>أسئلة وتدريبات</div>
+<div class="u-unit">الفصل الرابع<br/>أسئلة وتدريبات</div>
 <img alt="" class="u-logo" src="assets/avatar.png"/></div>
 </div>
 <div class="u-counts">
@@ -1599,16 +1610,16 @@ window.addEventListener('load', async () => {
 <p><b>1 ← ب</b> يتيح الموقع الإلكتروني الاطلاع على معلومات تفصيلية في أي وقت. · <b>2 ← ج</b> تنتشر وسائل التواصل الاجتماعي بسهولة عن طريق التناقل الشفهي. · <b>3 ← أ</b> يصل التلفزيون إلى عدد كبير من الناس بالفيديو.</p>
 </div>
 <div class="u-sub kwn"><span class="u-sn">3</span>تدرّب — أجب عن الأسئلة التالية</div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">1</span>اذكر نقطتي قوة للمواقع الإلكترونية.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">2</span>اذكر قيدين للمواقع الإلكترونية.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">1</span><span class="u-qtx">اذكر نقطتي قوة للمواقع الإلكترونية.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">2</span><span class="u-qtx">اذكر قيدين للمواقع الإلكترونية.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
 <div class="u-sub kwn"><span class="u-sn">4</span>تدرّب — اختيار وتصنيف</div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">1</span>من بين الخيارات التالية (أ – د)، اختر الخيار الذي <b>لا يمثل</b> خاصية مناسبة للمواقع الإلكترونية.</div><div style="padding-right:18.33pt;margin-bottom:6.58pt">
+<div class="u-grp"><div class="u-item"><span class="u-qn">1</span><span class="u-qtx">من بين الخيارات التالية (أ – د)، اختر الخيار الذي <b>لا يمثل</b> خاصية مناسبة للمواقع الإلكترونية.</span></div><div style="padding-right:18.33pt;margin-bottom:6.58pt">
 <div class="u-opt" style="padding-right:0"><span class="u-ol">أ</span>يمكن تحديث المعلومات في أي وقت.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">ب</span>تصل المعلومات تلقائيًا إلى المستخدمين دون أن يصلوا إليها بأنفسهم.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">ج</span>يمكن الجمع بين النص والصور والفيديو وعرضها معًا.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">د</span>التفاعل ثنائي الاتجاه ممكن من خلال النماذج والتعليقات.</div>
 </div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">2</span>لكل موقف (1 – 4)، حدد الوسيلة الأنسب.</div><div class="u-optbar"><span class="u-ol">أ</span> التلفزيون · <span class="u-ol">ب</span> الموقع الإلكتروني · <span class="u-ol">ج</span> وسائل التواصل الاجتماعي · <span class="u-ol">د</span> البريد الإلكتروني</div><div class="u-cls u-two">
+<div class="u-grp"><div class="u-item"><span class="u-qn">2</span><span class="u-qtx">لكل موقف (1 – 4)، حدد الوسيلة الأنسب.</span></div><div class="u-optbar"><span class="u-ol">أ</span> التلفزيون · <span class="u-ol">ب</span> الموقع الإلكتروني · <span class="u-ol">ج</span> وسائل التواصل الاجتماعي · <span class="u-ol">د</span> البريد الإلكتروني</div><div class="u-cls u-two">
 <div class="u-c"><span class="u-n">1</span>إتاحة المواصفات التفصيلية واستخدامات منتج جديد في أي وقت<span class="u-w"></span></div>
 <div class="u-c"><span class="u-n">2</span>جعل المستخدمين ينشرون معلومات عن منتج جديد عن طريق التناقل الشفهي<span class="u-w"></span></div>
 <div class="u-c"><span class="u-n">3</span>توصيل فيديو منتج جديد إلى عدد كبير من الناس في آنٍ واحد<span class="u-w"></span></div>
@@ -1624,13 +1635,13 @@ window.addEventListener('load', async () => {
 <div class="u-sub kwn" style="margin-top:6.58pt"><span class="u-sn">6</span>تمارين — اقرأ الفقرة ثم املأ الفراغات</div>
 <p class="u-lead">لكل وسيلة خصائص مختلفة. يمكن للموقع عرض نصوص وصور وصوت وفيديو وتحديثها. وتحتاج معظم وظائفه إلى اتصال <b>(1)</b><span class="u-bl"></span>، مع إمكان توفير محتوى محدود دون اتصال في بعض الحالات. وغالبًا يحتاج المستخدم إلى <b>(2)</b><span class="u-bl"></span> الموقع لرؤية محتواه، ما لم تستخدم الخدمة إشعارات أو قنوات أخرى. وفي الحملات الفعلية كثيرًا ما تُجمع <b>(3)</b><span class="u-bl"></span> متعددة، مثل توجيه المشاهد من إعلان إلى موقع.</p>
 <div class="u-sub kwn" style="margin-top:6.58pt"><span class="u-sn">7</span>تمارين — اختيار</div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">1</span>من بين الخيارات التالية (أ – د)، اختر الخيار الذي يصف <b>خصائص الوسائط</b> بأنسب شكل.</div><div style="padding-right:18.33pt;margin-bottom:6.58pt">
+<div class="u-grp"><div class="u-item"><span class="u-qn">1</span><span class="u-qtx">من بين الخيارات التالية (أ – د)، اختر الخيار الذي يصف <b>خصائص الوسائط</b> بأنسب شكل.</span></div><div style="padding-right:18.33pt;margin-bottom:6.58pt">
 <div class="u-opt" style="padding-right:0"><span class="u-ol">أ</span>الراديو وسيلة تنقل المعلومات من خلال الفيديو والصوت.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">ب</span>الصحف وسائل فعّالة للغاية في نشر المعلومات بسرعة.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">ج</span>وسائل التواصل الاجتماعي وسيلة تتيح للمستخدمين نشر المعلومات ومشاركتها.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">د</span>التلفزيون وسيلة تتيح التفاعل ثنائي الاتجاه مع المستخدمين.</div>
 </div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">2</span>من بين الخيارات التالية (أ – د)، اختر الخيار الذي يصف <b>اختيار الوسائط</b> بأنسب شكل.</div><div style="padding-right:18.33pt">
+<div class="u-grp"><div class="u-item"><span class="u-qn">2</span><span class="u-qtx">من بين الخيارات التالية (أ – د)، اختر الخيار الذي يصف <b>اختيار الوسائط</b> بأنسب شكل.</span></div><div style="padding-right:18.33pt">
 <div class="u-opt" style="padding-right:0"><span class="u-ol">أ</span>يجب أن يستخدم نشر المعلومات دائمًا وسيلة واحدة فقط.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">ب</span>بغض النظر عن الغرض أو الجمهور المستهدف، يكفي الموقع الإلكتروني.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">ج</span>من المهم اختيار الوسيلة الأنسب وفقًا للغرض والجمهور المستهدف.</div>
@@ -1638,76 +1649,76 @@ window.addEventListener('load', async () => {
 </div></div>
 <div class="u-sec u-gold kwn"><div class="u-hi">؟</div><h2>ثانيًا · اختر الإجابة الصحيحة</h2></div>
 <div class="u-qgrid split">
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">1</span>الوسيلة التي تنقل المعلومات من خلال الفيديو والصوت وتصل إلى جمهور كبير في وقت واحد هي:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">1</span><span class="u-qtx">الوسيلة التي تنقل المعلومات من خلال الفيديو والصوت وتصل إلى جمهور كبير في وقت واحد هي:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>الراديو</div><div class="u-opt"><span class="u-ol">ب</span>الصحيفة</div><div class="u-opt"><span class="u-ol">ج</span>البريد الإلكتروني</div><div class="u-opt"><span class="u-ol">د</span>التلفزيون</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">2</span>الوسيلة التي تعتمد على الصوت ويمكن الاستماع إليها أثناء التنقل أو أداء مهام أخرى هي:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">2</span><span class="u-qtx">الوسيلة التي تعتمد على الصوت ويمكن الاستماع إليها أثناء التنقل أو أداء مهام أخرى هي:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>التلفزيون</div><div class="u-opt"><span class="u-ol">ب</span>الراديو</div><div class="u-opt"><span class="u-ol">ج</span>الموقع الإلكتروني</div><div class="u-opt"><span class="u-ol">د</span>الصحيفة</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">3</span>الوسيلة التي تنقل النص والصور وتبقى موجودة ماديًا ويمكن قراءتها دون اتصال هي:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">3</span><span class="u-qtx">الوسيلة التي تنقل النص والصور وتبقى موجودة ماديًا ويمكن قراءتها دون اتصال هي:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>التلفزيون</div><div class="u-opt"><span class="u-ol">ب</span>وسائل التواصل</div><div class="u-opt"><span class="u-ol">ج</span>الموقع الإلكتروني</div><div class="u-opt"><span class="u-ol">د</span>الصحيفة</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">4</span>الوسيلة التي تسمح للمستخدمين بنشر المعلومات ومشاركتها والتفاعل معها هي:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">4</span><span class="u-qtx">الوسيلة التي تسمح للمستخدمين بنشر المعلومات ومشاركتها والتفاعل معها هي:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>الراديو والإذاعات المحلية</div><div class="u-opt"><span class="u-ol">ب</span>الصحيفة</div><div class="u-opt"><span class="u-ol">ج</span>وسائل التواصل الاجتماعي</div><div class="u-opt"><span class="u-ol">د</span>التلفزيون</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">5</span>الوسيلة التي تجمع بين النص والصور والصوت والفيديو وتعرضها معًا هي:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">5</span><span class="u-qtx">الوسيلة التي تجمع بين النص والصور والصوت والفيديو وتعرضها معًا هي:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>الراديو</div><div class="u-opt"><span class="u-ol">ب</span>الموقع الإلكتروني</div><div class="u-opt"><span class="u-ol">ج</span>الصحيفة</div><div class="u-opt"><span class="u-ol">د</span>البريد الإلكتروني</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">6</span>حسب الكتاب، الاتصال في التلفزيون والراديو والصحيفة يكون عادةً:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">6</span><span class="u-qtx">حسب الكتاب، الاتصال في التلفزيون والراديو والصحيفة يكون عادةً:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>أحادي الاتجاه من المُرسِل إلى المُستقبِل</div><div class="u-opt"><span class="u-ol">ب</span>ثنائي الاتجاه بين المُرسِل والمُستقبِل دائمًا</div><div class="u-opt"><span class="u-ol">ج</span>متعدد الاتجاهات</div><div class="u-opt"><span class="u-ol">د</span>بلا اتجاه محدد</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">7</span>الوصف الأدقّ لاتجاه الاتصال في الموقع الإلكتروني كما يذكره الكتاب هو:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">7</span><span class="u-qtx">الوصف الأدقّ لاتجاه الاتصال في الموقع الإلكتروني كما يذكره الكتاب هو:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>أحادي الاتجاه أساسًا، لكن التفاعل ثنائي الاتجاه ممكن أيضًا</div><div class="u-opt"><span class="u-ol">ب</span>أحادي الاتجاه فقط</div><div class="u-opt"><span class="u-ol">ج</span>ثنائي الاتجاه دائمًا في كل صفحاته، ولا يمكن أن يكون أحادي الاتجاه أبدًا</div><div class="u-opt"><span class="u-ol">د</span>لا يسمح بأي تفاعل</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">8</span>التفاعل ثنائي الاتجاه في الموقع الإلكتروني يكون من خلال:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">8</span><span class="u-qtx">التفاعل ثنائي الاتجاه في الموقع الإلكتروني يكون من خلال:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>البثّ المباشر فقط دون أي وسيلة أخرى للرد</div><div class="u-opt"><span class="u-ol">ب</span>موجات الراديو</div><div class="u-opt"><span class="u-ol">ج</span>الطباعة الورقية</div><div class="u-opt"><span class="u-ol">د</span>النماذج والتعليقات وغيرها</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">9</span>مما يلي، ما <b>ليس</b> من نقاط قوة الموقع الإلكتروني؟</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">9</span><span class="u-qtx">مما يلي، ما <b>ليس</b> من نقاط قوة الموقع الإلكتروني؟</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>إمكان تحديث المعلومات في أي وقت</div><div class="u-opt"><span class="u-ol">ب</span>وصول المعلومات تلقائيًا إلى المستخدمين دون أن يفتحوه</div><div class="u-opt"><span class="u-ol">ج</span>الجمع بين أنواع محتوى متنوعة</div><div class="u-opt"><span class="u-ol">د</span>إمكان الوصول إليه من أي مكان في العالم يتوفر فيه اتصال مناسب</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">10</span>من قيود الموقع الإلكتروني حسب الكتاب:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">10</span><span class="u-qtx">من قيود الموقع الإلكتروني حسب الكتاب:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>لا يمكن تحديث محتواه أو تعديله بعد نشره على الإنترنت</div><div class="u-opt"><span class="u-ol">ب</span>لا يقبل الصور</div><div class="u-opt"><span class="u-ol">ج</span>تحتاج معظم وظائفه إلى اتصال بالشبكة</div><div class="u-opt"><span class="u-ol">د</span>يعمل على جهاز واحد فقط</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">11</span>عبارة الكتاب عن العمل دون اتصال هي:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">11</span><span class="u-qtx">عبارة الكتاب عن العمل دون اتصال هي:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>لا يمكن لأي موقع أو تطبيق ويب أن يعمل دون اتصال إطلاقًا، مهما كان تصميمه أو نوع المحتوى الذي يقدّمه للمستخدم</div><div class="u-opt"><span class="u-ol">ب</span>يمكن تصميم بعض المواقع أو تطبيقات الويب لتوفير محتوى أو وظائف محدودة دون اتصال</div><div class="u-opt"><span class="u-ol">ج</span>كل المواقع تعمل دون اتصال</div><div class="u-opt"><span class="u-ol">د</span>العمل دون اتصال خاصية للصحيفة وحدها</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">12</span>يذكر الكتاب أن المستخدم غالبًا يحتاج إلى فتح الموقع بنفسه — إلا إذا:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">12</span><span class="u-qtx">يذكر الكتاب أن المستخدم غالبًا يحتاج إلى فتح الموقع بنفسه — إلا إذا:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>استخدمت الخدمة إشعارات أو قنوات أخرى</div><div class="u-opt"><span class="u-ol">ب</span>كان الموقع سريعًا في التحميل على كل الأجهزة والشبكات</div><div class="u-opt"><span class="u-ol">ج</span>كان الموقع مجانيًا</div><div class="u-opt"><span class="u-ol">د</span>كان يحتوي على فيديو</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">13</span>ما الذي قد تختلف بسببه سرعة العرض والتحميل في الموقع؟</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">13</span><span class="u-qtx">ما الذي قد تختلف بسببه سرعة العرض والتحميل في الموقع؟</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>جهاز المستخدم وبيئة الشبكة</div><div class="u-opt"><span class="u-ol">ب</span>لون الخلفية ونوع الخط المستخدم في الصفحة</div><div class="u-opt"><span class="u-ol">ج</span>عدد الكلمات في العنوان</div><div class="u-opt"><span class="u-ol">د</span>اسم النطاق</div></div>
 </div>
 <div class="u-qgrid split">
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">14</span>الوسيلة المناسبة للغرض «إعلام عدد كبير من الناس في آنٍ واحد» حسب جدول الكتاب:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">14</span><span class="u-qtx">الوسيلة المناسبة للغرض «إعلام عدد كبير من الناس في آنٍ واحد» حسب جدول الكتاب:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>البريد الإلكتروني</div><div class="u-opt"><span class="u-ol">ب</span>الصحيفة المدرسية المعلّقة على لوحة الإعلانات</div><div class="u-opt"><span class="u-ol">ج</span>الرسائل المباشرة</div><div class="u-opt"><span class="u-ol">د</span>التلفزيون وإعلانات وسائل التواصل</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">15</span>الوسيلة المناسبة للغرض «تقديم معلومات تفصيلية»:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">15</span><span class="u-qtx">الوسيلة المناسبة للغرض «تقديم معلومات تفصيلية»:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>الموقع الإلكتروني</div><div class="u-opt"><span class="u-ol">ب</span>الراديو المحلي في المدينة</div><div class="u-opt"><span class="u-ol">ج</span>الرسائل المباشرة</div><div class="u-opt"><span class="u-ol">د</span>التلفزيون</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">16</span>الوسيلة المناسبة للغرض «إيصال المعلومات مباشرة لأشخاص محددين»:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">16</span><span class="u-qtx">الوسيلة المناسبة للغرض «إيصال المعلومات مباشرة لأشخاص محددين»:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>الراديو</div><div class="u-opt"><span class="u-ol">ب</span>التلفزيون والقنوات الفضائية واسعة الانتشار</div><div class="u-opt"><span class="u-ol">ج</span>البريد الإلكتروني والرسائل المباشرة</div><div class="u-opt"><span class="u-ol">د</span>الصحيفة</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">17</span>الوسيلة المناسبة للغرض «الانتشار عن طريق التناقل الشفهي»:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">17</span><span class="u-qtx">الوسيلة المناسبة للغرض «الانتشار عن طريق التناقل الشفهي»:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>البريد الإلكتروني المرسل لكل عميل</div><div class="u-opt"><span class="u-ol">ب</span>وسائل التواصل الاجتماعي</div><div class="u-opt"><span class="u-ol">ج</span>الصحيفة</div><div class="u-opt"><span class="u-ol">د</span>التلفزيون</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">18</span>سبب مناسبة الموقع للمعلومات التفصيلية حسب الكتاب هو أنه يمكنه:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">18</span><span class="u-qtx">سبب مناسبة الموقع للمعلومات التفصيلية حسب الكتاب هو أنه يمكنه:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>إجبار المستخدم على القراءة</div><div class="u-opt"><span class="u-ol">ب</span>الوصول إلى الناس بلا إنترنت</div><div class="u-opt"><span class="u-ol">ج</span>تقديم كمية كبيرة من المعلومات وتنظيمها في صفحات وأقسام وتحديثها</div><div class="u-opt"><span class="u-ol">د</span>البثّ المباشر بالفيديو والصوت لعدد كبير جدًا من الناس في وقت واحد دون الحاجة إلى تنظيم المحتوى</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">19</span>سبب مناسبة وسائل التواصل للانتشار بالتناقل الشفهي هو أن المستخدمين:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">19</span><span class="u-qtx">سبب مناسبة وسائل التواصل للانتشار بالتناقل الشفهي هو أن المستخدمين:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>يدفعون رسومًا</div><div class="u-opt"><span class="u-ol">ب</span>يشاركون المعلومات وينشرونها طوعًا</div><div class="u-opt"><span class="u-ol">ج</span>يقرؤونها على الورق دون الحاجة إلى أي اتصال بالإنترنت</div><div class="u-opt"><span class="u-ol">د</span>يستقبلونها بالبريد</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">20</span>المثال الذي يذكره الكتاب على الجمع بين الوسائط:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">20</span><span class="u-qtx">المثال الذي يذكره الكتاب على الجمع بين الوسائط:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>إعلان تلفزيوني يوجّه المشاهدين إلى موقع إلكتروني</div><div class="u-opt"><span class="u-ol">ب</span>إغلاق الموقع الإلكتروني نهائيًا بعد انتهاء عرض الإعلان التلفزيوني</div><div class="u-opt"><span class="u-ol">ج</span>الاكتفاء بالراديو</div><div class="u-opt"><span class="u-ol">د</span>منع المشاركة على وسائل التواصل</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">21</span>الفكرة الرئيسة التي يخلص إليها الدرس:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">21</span><span class="u-qtx">الفكرة الرئيسة التي يخلص إليها الدرس:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>الموقع الإلكتروني أفضل وسيلة في كل الحالات</div><div class="u-opt"><span class="u-ol">ب</span>يجب استخدام وسيلة واحدة فقط لتوفير التكلفة والجهد، لأن الجمع بين الوسائط يشتّت الجمهور دائمًا</div><div class="u-opt"><span class="u-ol">ج</span>لا توجد وسيلة واحدة هي الأفضل لكل شيء؛ طابِق الوسيلة مع الغرض والجمهور</div><div class="u-opt"><span class="u-ol">د</span>وسائل التواصل أغنت عن باقي الوسائط</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">22</span>«يمكن استخدامه من المتصفح، وقد تسمح بعض تطبيقات الويب أيضًا بالتثبيت» — هذه إحدى:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">22</span><span class="u-qtx">«يمكن استخدامه من المتصفح، وقد تسمح بعض تطبيقات الويب أيضًا بالتثبيت» — هذه إحدى:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>قيود الموقع</div><div class="u-opt"><span class="u-ol">ب</span>نقاط قوة الموقع</div><div class="u-opt"><span class="u-ol">ج</span>خصائص الراديو</div><div class="u-opt"><span class="u-ol">د</span>عيوب وسائل التواصل</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">23</span>مؤسسة تريد أن يعرف الناس خبرًا عاجلًا في أسرع وقت وأن ينشروه بأنفسهم. الأنسب:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">23</span><span class="u-qtx">مؤسسة تريد أن يعرف الناس خبرًا عاجلًا في أسرع وقت وأن ينشروه بأنفسهم. الأنسب:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>الصحيفة</div><div class="u-opt"><span class="u-ol">ب</span>البريد الإلكتروني لكل شخص على حدة</div><div class="u-opt"><span class="u-ol">ج</span>وسائل التواصل الاجتماعي</div><div class="u-opt"><span class="u-ol">د</span>ملصق مطبوع</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">24</span>سائق يقود سيارته ويريد متابعة الأخبار. الوسيلة الأنسب لحالته:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">24</span><span class="u-qtx">سائق يقود سيارته ويريد متابعة الأخبار. الوسيلة الأنسب لحالته:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>الموقع الإلكتروني</div><div class="u-opt"><span class="u-ol">ب</span>الصحيفة</div><div class="u-opt"><span class="u-ol">ج</span>التلفزيون</div><div class="u-opt"><span class="u-ol">د</span>الراديو</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">25</span>شركة تريد إرسال عرض خاص للعملاء الحاليين باسم كل عميل. الأنسب:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">25</span><span class="u-qtx">شركة تريد إرسال عرض خاص للعملاء الحاليين باسم كل عميل. الأنسب:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>البريد الإلكتروني</div><div class="u-opt"><span class="u-ol">ب</span>إعلان تلفزيوني</div><div class="u-opt"><span class="u-ol">ج</span>إعلان في الراديو</div><div class="u-opt"><span class="u-ol">د</span>صفحة رئيسية في الموقع</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">26</span>مدرسة نشرت الإعلان على صفحتها فقط، فلم يعرف به أولياء الأمور. المشكلة تتعلق بأي قيد؟</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">26</span><span class="u-qtx">مدرسة نشرت الإعلان على صفحتها فقط، فلم يعرف به أولياء الأمور. المشكلة تتعلق بأي قيد؟</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>اختلاف سرعة التحميل</div><div class="u-opt"><span class="u-ol">ب</span>عدم إمكان الجمع بين النص والصور والفيديو في صفحة واحدة</div><div class="u-opt"><span class="u-ol">ج</span>صعوبة تحديث المحتوى</div><div class="u-opt"><span class="u-ol">د</span>غالبًا يحتاج المستخدم إلى فتح الموقع بنفسه</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">27</span>ماذا يُقصد بمصطلح الاتصال ثنائي الاتجاه في الوسائط الرقمية؟</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">27</span><span class="u-qtx">ماذا يُقصد بمصطلح الاتصال ثنائي الاتجاه في الوسائط الرقمية؟</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>اتصال يكون من المرسل إلى المستقبل فقط دون أي رد.</div>
 <div class="u-opt"><span class="u-ol">ب</span>إمكانية الاستجابة والمشاركة من قبل المستخدمين من خلال النماذج والتعليقات.</div>
 <div class="u-opt"><span class="u-ol">ج</span>قراءة محتوى مطبوع دون أي اتصال بالإنترنت.</div>
 <div class="u-opt"><span class="u-ol">د</span>الاستماع إلى البث الصوتي أثناء أداء مهام أخرى.</div></div></div>
 <div class="u-sec u-gold kwn"><div class="u-hi"><svg class="u-ic"><use href="#i-pen"></use></svg></div><h2>ثالثًا · أكمل</h2></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">1</span>الوسيلة التي تنقل المعلومات بالفيديو والصوت وتصل إلى جمهور كبير في وقت واحد هي <span class="u-bl"></span></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">2</span>الوسيلة التي تعتمد على الصوت ويمكن الاستماع إليها أثناء التنقل هي <span class="u-bl"></span></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">3</span>الوسيلة المطبوعة التي تبقى موجودة ماديًا وتُقرأ دون اتصال هي <span class="u-bl"></span></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">4</span>الاتصال الذي يسير من المُرسِل إلى المُستقبِل فقط يُسمى اتصالًا <span class="u-bl"></span></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">5</span>الاتصال الذي يمكن فيه للمستخدمين الاستجابة والمشاركة يُسمى اتصالًا <span class="u-bl"></span></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">6</span>يمكن للموقع الإلكتروني <span class="u-bl"></span> المعلومات في أي وقت</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">7</span>يتيح الموقع الإلكتروني التفاعل ثنائي الاتجاه من خلال <span class="u-bl u-sm"></span> و <span class="u-bl u-sm"></span></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">8</span>تحتاج معظم وظائف المواقع الإلكترونية إلى <span class="u-bl"></span> بالشبكة</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">9</span>عند نقل المعلومات، من المهم اختيار الوسيلة الأنسب وفقًا لـ <span class="u-bl u-sm"></span> و <span class="u-bl u-sm"></span></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">10</span>الغرض الذي يشجّع المستخدمين على مشاركة المعلومات ونشرها طوعًا هو الانتشار عن طريق <span class="u-bl"></span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">1</span><span class="u-qtx">الوسيلة التي تنقل المعلومات بالفيديو والصوت وتصل إلى جمهور كبير في وقت واحد هي <span class="u-bl"></span></span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">2</span><span class="u-qtx">الوسيلة التي تعتمد على الصوت ويمكن الاستماع إليها أثناء التنقل هي <span class="u-bl"></span></span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">3</span><span class="u-qtx">الوسيلة المطبوعة التي تبقى موجودة ماديًا وتُقرأ دون اتصال هي <span class="u-bl"></span></span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">4</span><span class="u-qtx">الاتصال الذي يسير من المُرسِل إلى المُستقبِل فقط يُسمى اتصالًا <span class="u-bl"></span></span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">5</span><span class="u-qtx">الاتصال الذي يمكن فيه للمستخدمين الاستجابة والمشاركة يُسمى اتصالًا <span class="u-bl"></span></span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">6</span><span class="u-qtx">يمكن للموقع الإلكتروني <span class="u-bl"></span> المعلومات في أي وقت</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">7</span><span class="u-qtx">يتيح الموقع الإلكتروني التفاعل ثنائي الاتجاه من خلال <span class="u-bl u-sm"></span> و <span class="u-bl u-sm"></span></span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">8</span><span class="u-qtx">تحتاج معظم وظائف المواقع الإلكترونية إلى <span class="u-bl"></span> بالشبكة</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">9</span><span class="u-qtx">عند نقل المعلومات، من المهم اختيار الوسيلة الأنسب وفقًا لـ <span class="u-bl u-sm"></span> و <span class="u-bl u-sm"></span></span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">10</span><span class="u-qtx">الغرض الذي يشجّع المستخدمين على مشاركة المعلومات ونشرها طوعًا هو الانتشار عن طريق <span class="u-bl"></span></span></div></div>
 <div class="u-sec u-gold kwn" style="margin-top:4.70pt"><div class="u-hi">✓✗</div><h2>رابعًا · صح وخطأ</h2></div>
 <table class="u-tf">
 <thead><tr><th style="width:20.68pt">#</th><th>العبارة</th><th style="width:40.42pt">○ / ✗</th></tr></thead>
@@ -1794,14 +1805,14 @@ window.addEventListener('load', async () => {
 </tbody>
 </table>
 <div class="u-sec u-gold kwn"><div class="u-hi"><svg class="u-ic"><use href="#i-question"></use></svg></div><h2>سادسًا · علّل</h2></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">1</span>لا يصحّ القول إن التلفزيون وسيلة تتيح التفاعل ثنائي الاتجاه مع المستخدمين.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">2</span>يُعدّ الموقع الإلكتروني أنسب وسيلة لتقديم معلومات تفصيلية عن منتج.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">3</span>تُعدّ وسائل التواصل الاجتماعي أنسب وسيلة للانتشار عن طريق التناقل الشفهي.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">4</span>لا يكفي أن تنشر مدرسة إعلانها على موقعها فقط لتضمن وصوله إلى أولياء الأمور.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">5</span>يمكن للصحيفة أن تصل إلى قارئها في مكان بلا شبكة.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">6</span>لا يصحّ القول إن الموقع الإلكتروني لا يسمح بأي تفاعل مع المستخدمين.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">7</span>غالبًا ما تُستخدم عدة وسائط معًا في الحملات الفعلية بدل وسيلة واحدة.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">8</span>قد يفتح طالبان الموقع نفسه فيظهر عند أحدهما أبطأ من الآخر.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">1</span><span class="u-qtx">لا يصحّ القول إن التلفزيون وسيلة تتيح التفاعل ثنائي الاتجاه مع المستخدمين.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">2</span><span class="u-qtx">يُعدّ الموقع الإلكتروني أنسب وسيلة لتقديم معلومات تفصيلية عن منتج.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">3</span><span class="u-qtx">تُعدّ وسائل التواصل الاجتماعي أنسب وسيلة للانتشار عن طريق التناقل الشفهي.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">4</span><span class="u-qtx">لا يكفي أن تنشر مدرسة إعلانها على موقعها فقط لتضمن وصوله إلى أولياء الأمور.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">5</span><span class="u-qtx">يمكن للصحيفة أن تصل إلى قارئها في مكان بلا شبكة.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">6</span><span class="u-qtx">لا يصحّ القول إن الموقع الإلكتروني لا يسمح بأي تفاعل مع المستخدمين.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">7</span><span class="u-qtx">غالبًا ما تُستخدم عدة وسائط معًا في الحملات الفعلية بدل وسيلة واحدة.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">8</span><span class="u-qtx">قد يفتح طالبان الموقع نفسه فيظهر عند أحدهما أبطأ من الآخر.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
 <div class="u-sec u-gold kwn"><div class="u-hi"><svg class="u-ic"><use href="#i-pencil"></use></svg></div><h2>سابعًا · أسئلة مقالية</h2></div>
 <div class="u-sub kwn"><span class="u-sn">1</span>على نمط الامتحان</div>
 <div class="u-sub kwn" style="margin-top:5.64pt"><span class="u-sn">2</span>طبّق ما تعلمته — المستشفى</div>
@@ -1835,25 +1846,25 @@ window.addEventListener('load', async () => {
 <div class="u-chk"><span><i></i>استخدام وسيلة واحدة فقط</span><span><i></i>الجمع بين الوسائط حسب الغرض</span></div>
 <div class="u-abox" style="margin-top:3.76pt"><div class="u-aline"></div><div class="u-aline"></div></div>
 <div class="u-elem"><span class="u-lab">تلميح الكتاب:</span> لو واجهت صعوبة، ابدأ من الجمهور الذي يُظهر استطلاعك أنه الأصعب في الوصول إليه — أي وسيلة تصله بالفعل حيث يوجد؟ ولاحظ إن السؤال طالب بـ<b>دليل</b> على إجابتك.</div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">1</span>اذكر خصائص الوسائط الخمس في الدرس (المعلومات المنقولة + خاصية مميزة لكل وسيلة)، مع تحديد اتجاه الاتصال في كل منها.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">2</span>اشرح نقاط قوة الموقع الإلكتروني وقيوده كما يذكرها الكتاب، مع التحفّظ المرتبط بكل قيد.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">3</span>نادٍ رياضي يريد الإعلان عن اشتراك جديد: أن يعرف به أكبر عدد، وأن تتاح تفاصيل الأسعار والمواعيد، وأن يتحدث عنه الناس، وأن يصل تذكير للأعضاء الحاليين. حدد وسيلة لكل غرض مع سبب، ثم اذكر قيدًا واحدًا ينبغي أن ينتبه له النادي.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">4</span>قارن بين خصائص كل من التلفزيون والراديو من حيث نوع المعلومات المنقولة وطريقة الاتصال.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">5</span>وضّح الغرض والوسيلة المناسبة عند الرغبة في إعلام عدد كبير من الناس في آنٍ واحد باستخدام الفيديو.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">6</span>كيف تختلف الصحيفة عن الموقع الإلكتروني من حيث طبيعة الوسائط المتاحة وإمكانية الاتصال والتحديث؟</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">7</span>اذكر وسيلة إعلامية مناسبة لتحقيق انتشار واسع وسريع للمعلومات، مع بيان سبب اختيارها.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">8</span>اشرح كيف يمكن للموقع الإلكتروني الجمع بين معلومات متنوعة ودعم التفاعل ثنائي الاتجاه.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">9</span>اذكر اثنين من العيوب أو القيود المحتملة لاستخدام موقع إلكتروني كقناة رئيسية لمؤسسة خدمية تخاطب عائلات قد لا تملك اتصالًا منزليًا بالإنترنت.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">10</span>قارن بالتفصيل بين خصائص التلفزيون والصحيفة من حيث نوع المعلومات المنقولة وطريقة الاتصال والاعتماد على شبكة الإنترنت.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">11</span>اشرح خصائص الراديو موضحًا مميزاته في الاستماع أثناء التنقل وقيود اتصاله أحادية الاتجاه.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">12</span>اذكر الغرض المناسب لكل من الوسائط الآتية: (التلفزيون، الموقع الإلكتروني، البريد الإلكتروني، وسائل التواصل الاجتماعي).</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">13</span>اشرح كيف يمكن اختيار الوسيلة الإعلامية المناسبة بناءً على تحليل الجمهور والغرض والرسالة المستهدفة.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">14</span>وضّح المقصود بمصطلحي «الاتصال أحادي الاتجاه» و«الاتصال ثنائي الاتجاه» مع أمثلة لكل منهما.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">1</span><span class="u-qtx">اذكر خصائص الوسائط الخمس في الدرس (المعلومات المنقولة + خاصية مميزة لكل وسيلة)، مع تحديد اتجاه الاتصال في كل منها.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">2</span><span class="u-qtx">اشرح نقاط قوة الموقع الإلكتروني وقيوده كما يذكرها الكتاب، مع التحفّظ المرتبط بكل قيد.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">3</span><span class="u-qtx">نادٍ رياضي يريد الإعلان عن اشتراك جديد: أن يعرف به أكبر عدد، وأن تتاح تفاصيل الأسعار والمواعيد، وأن يتحدث عنه الناس، وأن يصل تذكير للأعضاء الحاليين. حدد وسيلة لكل غرض مع سبب، ثم اذكر قيدًا واحدًا ينبغي أن ينتبه له النادي.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">4</span><span class="u-qtx">قارن بين خصائص كل من التلفزيون والراديو من حيث نوع المعلومات المنقولة وطريقة الاتصال.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">5</span><span class="u-qtx">وضّح الغرض والوسيلة المناسبة عند الرغبة في إعلام عدد كبير من الناس في آنٍ واحد باستخدام الفيديو.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">6</span><span class="u-qtx">كيف تختلف الصحيفة عن الموقع الإلكتروني من حيث طبيعة الوسائط المتاحة وإمكانية الاتصال والتحديث؟</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">7</span><span class="u-qtx">اذكر وسيلة إعلامية مناسبة لتحقيق انتشار واسع وسريع للمعلومات، مع بيان سبب اختيارها.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">8</span><span class="u-qtx">اشرح كيف يمكن للموقع الإلكتروني الجمع بين معلومات متنوعة ودعم التفاعل ثنائي الاتجاه.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">9</span><span class="u-qtx">اذكر اثنين من العيوب أو القيود المحتملة لاستخدام موقع إلكتروني كقناة رئيسية لمؤسسة خدمية تخاطب عائلات قد لا تملك اتصالًا منزليًا بالإنترنت.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">10</span><span class="u-qtx">قارن بالتفصيل بين خصائص التلفزيون والصحيفة من حيث نوع المعلومات المنقولة وطريقة الاتصال والاعتماد على شبكة الإنترنت.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">11</span><span class="u-qtx">اشرح خصائص الراديو موضحًا مميزاته في الاستماع أثناء التنقل وقيود اتصاله أحادية الاتجاه.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">12</span><span class="u-qtx">اذكر الغرض المناسب لكل من الوسائط الآتية: (التلفزيون، الموقع الإلكتروني، البريد الإلكتروني، وسائل التواصل الاجتماعي).</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">13</span><span class="u-qtx">اشرح كيف يمكن اختيار الوسيلة الإعلامية المناسبة بناءً على تحليل الجمهور والغرض والرسالة المستهدفة.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">14</span><span class="u-qtx">وضّح المقصود بمصطلحي «الاتصال أحادي الاتجاه» و«الاتصال ثنائي الاتجاه» مع أمثلة لكل منهما.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
 <div class="u-sec u-tool kwn" style="margin-top:3.76pt"><div class="u-hi"><svg class="u-ic"><use href="#i-bulb"></use></svg></div><h2>أنشطة</h2></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">15</span><b>توقّف وفكّر:</b> أي وسيلة قد تختارها للوصول إلى أكبر عدد من الناس في آنٍ واحد — وأيها لتتيح لهم الاستجابة إليك؟</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">16</span><b>توقّف وفكّر:</b> لكل موقف في تدرّب، اسأل أولًا: هل الهدف هو الانتشار الواسع، أم التفاصيل الكاملة، أم النشر، أم رسالة مباشرة؟</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">17</span><b>فكّر وتحدَّ — تأمّل:</b> أي وسيلة تثق بها شخصيًا أكثر للأخبار المهمة، ولماذا؟ · <b>وتحدٍّ:</b> خطّط لمزيج الوسائط للإعلان عن فعالية مدرسية بميزانية تستبعد التلفزيون — ثم اذكر جمهورًا واحدًا قد يفوّته مزيجك، ولماذا.</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">18</span><b>اختبر فهمك:</b> أجب عن أسئلة هذا البنك دون الرجوع إلى الشرح، ثم راجع إجاباتك.</div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">15</span><span class="u-qtx"><b>توقّف وفكّر:</b> أي وسيلة قد تختارها للوصول إلى أكبر عدد من الناس في آنٍ واحد — وأيها لتتيح لهم الاستجابة إليك؟</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">16</span><span class="u-qtx"><b>توقّف وفكّر:</b> لكل موقف في تدرّب، اسأل أولًا: هل الهدف هو الانتشار الواسع، أم التفاصيل الكاملة، أم النشر، أم رسالة مباشرة؟</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">17</span><span class="u-qtx"><b>فكّر وتحدَّ — تأمّل:</b> أي وسيلة تثق بها شخصيًا أكثر للأخبار المهمة، ولماذا؟ · <b>وتحدٍّ:</b> خطّط لمزيج الوسائط للإعلان عن فعالية مدرسية بميزانية تستبعد التلفزيون — ثم اذكر جمهورًا واحدًا قد يفوّته مزيجك، ولماذا.</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">18</span><span class="u-qtx"><b>اختبر فهمك:</b> أجب عن أسئلة هذا البنك دون الرجوع إلى الشرح، ثم راجع إجاباتك.</span></div></div>
 </main>
 </body>
 </html>

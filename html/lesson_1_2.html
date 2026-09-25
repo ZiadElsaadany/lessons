@@ -515,6 +515,9 @@ h3.sub{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11.2pt;color:var
 .e3g{display:grid;grid-template-columns:98pt 18pt 1fr 18pt 1fr 18pt 1fr;align-items:stretch}
 .e3g .garr{display:flex;align-items:center;justify-content:center}
 .e3g .garr svg{width:15pt;height:10pt}
+/* .garr هنا سهم بين مراحل «مثال من حياتنا» — مش سهم علم «للفهم» (fxflag .garr) اللي بيتحط برّه الصندوق */
+.e3g .garr{position:static;width:auto;height:auto;border:0;margin:0;left:auto;top:auto;z-index:auto}
+.e3g .garr::after{content:none}
 .e3c{background:#fff;border:.75pt solid #dde5ef;border-radius:8pt;padding:6pt 6pt 7pt 6pt;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .e3c h5{margin:0 0 5pt 0;font-weight:800;font-size:10.4pt;color:var(--navy);line-height:1.3}
 .e3c .ico{height:36pt;display:flex;align-items:center;justify-content:center;margin-bottom:6pt}
@@ -990,7 +993,7 @@ window.addEventListener('load', async () => {
   <div class="badge"><span class="l">الدرس</span><span class="n">1-2</span></div>
   <h1>كيف يعمل الذكاء الاصطناعي</h1>
   <div class="who">
-    <div class="t"><span class="u">الوحدة الأولى</span><span class="k">الشرح والمراجعة</span></div>
+    <div class="t"><span class="u">الفصل الأول</span><span class="k">الشرح والمراجعة</span></div>
     <img src="assets/avatar.png" alt="">
   </div>
 </div>
@@ -1201,7 +1204,7 @@ window.addEventListener('load', async () => {
     </ul>
   </div>
 </div>
-<div class="endline">أكواد مع زياد — أ/ زياد السعدني · مذكرة البرمجة والذكاء الاصطناعي — تانية ثانوي <span class="num">2026/2027</span> · الوحدة الأولى — الدرس <span class="num">1-2</span></div>
+<div class="endline">أكواد مع زياد — أ/ زياد السعدني · مذكرة البرمجة والذكاء الاصطناعي — تانية ثانوي <span class="num">2026/2027</span> · الفصل الأول — الدرس <span class="num">1-2</span></div>
 <div class="pb"></div>
 <div class="band" style="height:55pt;padding-right:12pt">
   <div class="badge"><span class="n">1-2</span></div>
@@ -1215,7 +1218,7 @@ window.addEventListener('load', async () => {
 <div class="band">
   <div class="badge"><span class="l">الدرس</span><span class="n">1-2</span></div>
   <h1>كيف يعمل الذكاء الاصطناعي</h1>
-  <div class="who"><div class="t"><span class="u">الوحدة الأولى</span><span class="k">بنك الأسئلة</span></div><img src="assets/avatar.png" alt=""></div>
+  <div class="who"><div class="t"><span class="u">الفصل الأول</span><span class="k">بنك الأسئلة</span></div><img src="assets/avatar.png" alt=""></div>
 </div>
 <div class="qstats"><div><b class="num">12</b><span>أسئلة الكتاب</span></div><div><b class="num">21</b><span>اختر</span></div><div><b class="num">10</b><span>أكمل</span></div><div><b class="num">12</b><span>صح وخطأ</span></div><div><b class="num">6</b><span>تصنيف وقارن</span></div><div><b class="num">5</b><span>علّل</span></div><div><b class="num">14</b><span>مقالي وأنشطة</span></div><div><b class="num">27</b><span class="tq">تقييمات</span></div></div>
 <h2 class="cat kwn">أسئلة الكتاب<span class="cnt">12</span></h2>

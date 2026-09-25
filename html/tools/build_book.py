@@ -16,7 +16,11 @@ from playwright.async_api import async_playwright
 
 TOOLS = os.path.dirname(os.path.abspath(__file__))
 BASE = os.path.dirname(TOOLS)
-OUT = os.path.join(BASE, "term1_book.html")
+OUT = os.environ.get("BOOK_OUT") or os.path.join(BASE, "term1_book.html")
+
+# آخر صفحة في بنك الدروس دي كانت فاضية من تحت أكتر من اللازم (مراجعة زياد): بنرجّع كام سؤال كامل
+# من الصفحة اللي قبلها عشان الصفحتين يتوازنوا — من غير ما عدد الصفحات أو بداية الدرس اللي بعده تتغيّر.
+REBALANCE = ["1-2", "1-3", "2-2", "2-3", "3-1", "3-3", "4-2", "4-3"]
 
 UNITS = [
     (1, "تكنولوجيا المعلومات والمجتمع", ["1-1", "1-2", "1-3", "1-4"]),
@@ -184,7 +188,7 @@ def toc_page(lessons, n, total):
   <div class="toc">
     <div class="toch"><h2>الفهرس</h2><p>كل درس فيه <b>الشرح</b> وبعده <b>بنك الأسئلة</b> — والرقم هو رقم الصفحة.</p></div>
     {"".join(rows)}
-    <div class="tnote"><span class="fxk">للفهم</span> أي جزء عليه العلامة دي شرح أو رسم إضافي للتوضيح — واللي من غير علامة نص الكتاب.</div>
+    <div class="tnote"><span class="fxk">للفهم</span> أي جزء عليه علامة «للفهم» هو شرح أو رسم إضافي للتوضيح، ومش مطلوب حفظه كنص من الكتاب.</div>
   </div>
   {FTR.format(n=n, total=total)}
 </div></section>'''
@@ -354,6 +358,56 @@ async def freeze_all():
     return order, res
 
 
+JS_REBALANCE = r"""(sel) => {
+  const pgs = [...document.querySelectorAll(sel + ' section.page')], A = pgs[pgs.length - 2], B = pgs[pgs.length - 1];
+  const ca = A.querySelector('.content'), cb = B.querySelector('.content');
+  const free = c => { const r = c.getBoundingClientRect(); let mb = r.top;
+    c.querySelectorAll('*').forEach(e => { const q = e.getBoundingClientRect(); if (q.height > 0) mb = Math.max(mb, q.bottom); }); return r.bottom - mb; };
+  const HEAD = '.kwn, h2.sec, .part, hr.rule, .big, h3.sub, .chip, .u-sec, .u-sub, .u-inst';
+  if (cb.firstElementChild && cb.firstElementChild.classList.contains('cont')) return {skip: 'continuation'};
+  if ([...ca.children, ...cb.children].some(e => e.style.marginBottom)) return {skip: 'squeezed margins'};
+  const fixTq = c => { [...c.children].forEach((e, i) => { if (i > 0) e.classList.remove('tqtop'); });
+    const f = c.firstElementChild; if (f && f.querySelector(':scope > .tq, :scope > .qq .tq, .tq') && !f.classList.contains('tqin')) f.classList.add('tqtop'); };
+  const f0 = [free(ca), free(cb)], moved = [];
+  let best = {k: 0, d: Math.abs(f0[0] - f0[1]), fa: f0[0], fb: f0[1]};
+  while (ca.children.length > 1) {
+    const e = ca.lastElementChild; cb.insertBefore(e, cb.firstElementChild); moved.push(e); fixTq(ca); fixTq(cb);
+    const fa = free(ca), fb = free(cb);
+    if (fb < 16) break;                                            // الصفحة الأخيرة هتتملي زيادة
+    if (!ca.lastElementChild.matches(HEAD) && Math.abs(fa - fb) < best.d) best = {k: moved.length, d: Math.abs(fa - fb), fa, fb};
+  }
+  while (moved.length > best.k) ca.appendChild(moved.pop());
+  fixTq(ca); fixTq(cb);
+  if (best.k === 0) return {skip: 'no better split', before: f0};
+  return {k: best.k, before: f0, after: [free(ca), free(cb)], a: A.outerHTML, b: B.outerHTML};
+}"""
+
+
+async def rebalance(path, lids):
+    """بيحرّك أسئلة كاملة (بترتيبها) من الصفحة قبل الأخيرة للأخيرة في بنك كل درس في lids، وبيرجّع الصفحتين متعدّلين."""
+    doc = open(path, encoding="utf-8").read()
+    async with async_playwright() as pw:
+        b = await pw.chromium.launch()
+        p = await b.new_page(viewport={"width": 900, "height": 1200})
+        await p.goto("file://" + path)
+        await p.wait_for_function("document.body.dataset.ready==='1'", timeout=120000)
+        for lid in lids:
+            P = ".L" + lid.replace("-", "")
+            r = await p.evaluate(JS_REBALANCE, P)
+            if "skip" in r:
+                print(f"  rebalance {lid}: متسابة ({r['skip']})"); continue
+            starts = [m.start() for m in re.finditer(r'<section class="page">', doc)]
+            w = doc.index(f'<div class="bk-lesson {P[1:]}"')
+            nxt = doc.find('<div class="bk-lesson ', w + 10); nxt = len(doc) if nxt < 0 else nxt
+            mine = [x for x in starts if w < x < nxt]
+            a0, b0 = mine[-2], mine[-1]
+            b1 = doc.index("</section>", b0) + len("</section>")
+            doc = doc[:a0] + r["a"] + "\n" + r["b"] + doc[b1:]
+            print(f"  rebalance {lid}: نقلت {r['k']} سؤال · فاضي قبل {[round(x * .75) for x in r['before']]}pt ← بعد {[round(x * .75) for x in r['after']]}pt")
+        await b.close()
+    open(path, "w", encoding="utf-8").write(doc)
+
+
 def main():
     order, R = asyncio.run(freeze_all())
     for lid in order:
@@ -383,6 +437,7 @@ def main():
             + "\n".join(glob) + "\n" + BOOK_CSS + "\n" + scope_book(BOOK_PAGES_CSS) + "\n" + "\n".join(css_parts) + "\n</style>\n</head>\n")
     doc = head + '<body>\n' + "\n".join(body) + "\n" + IMMUNIZE + "\n</body>\n</html>\n"
     open(OUT, "w", encoding="utf-8").write(doc)
+    asyncio.run(rebalance(OUT, REBALANCE))
     print(f"written {OUT} · {total} صفحة · {len(doc) // 1024} KB")
     for u, t, ls in UNITS:
         print(f"  الفصل {u}: فاصل ص{lessons['unit' + str(u)]} · " + " · ".join(f"{lid} ص{lessons[lid]['start']}–{lessons[lid]['start'] + lessons[lid]['n'] - 1} (البنك ص{lessons[lid]['bank']})" for lid in ls))

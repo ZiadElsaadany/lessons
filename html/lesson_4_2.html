@@ -515,6 +515,9 @@ h3.sub{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11.2pt;color:var
 .e3g{display:grid;grid-template-columns:98pt 18pt 1fr 18pt 1fr 18pt 1fr;align-items:stretch}
 .e3g .garr{display:flex;align-items:center;justify-content:center}
 .e3g .garr svg{width:15pt;height:10pt}
+/* .garr هنا سهم بين مراحل «مثال من حياتنا» — مش سهم علم «للفهم» (fxflag .garr) اللي بيتحط برّه الصندوق */
+.e3g .garr{position:static;width:auto;height:auto;border:0;margin:0;left:auto;top:auto;z-index:auto}
+.e3g .garr::after{content:none}
 .e3c{background:#fff;border:.75pt solid #dde5ef;border-radius:8pt;padding:6pt 6pt 7pt 6pt;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .e3c h5{margin:0 0 5pt 0;font-weight:800;font-size:10.4pt;color:var(--navy);line-height:1.3}
 .e3c .ico{height:36pt;display:flex;align-items:center;justify-content:center;margin-bottom:6pt}
@@ -1089,6 +1092,14 @@ table.cmp.tall td{height:38pt}
 .content .u-item{position:relative}
 .content .u-item>.u-tqbadge,.content .u-mcq>.u-tqbadge,.content .u-ecard>.u-tqbadge{position:absolute;top:-6pt;left:10pt}
 .content>.u-grp:first-child>.u-item>.u-tqbadge,.content>.u-qgrid:first-child .u-mcq>.u-tqbadge{top:-3pt}
+/* مسافة فوق نص السؤال اللي عليه بادج «تقييمات» عشان البادج مايغطيش أول سطر */
+.content .u-mcq:has(>.u-tqbadge){padding-top:8.5pt}
+.content .u-item:has(>.u-tqbadge){padding-top:7pt}
+.content .u-ecard:has(>.u-tqbadge){padding-top:10pt}
+.content .u-ecard:has(>.u-marks)>.u-tqbadge{left:56pt}
+.content .u-qtx{flex:1;min-width:0}
+.content>.u-grp:first-child>.u-item:has(>.u-tqbadge){padding-top:11pt}
+.content>.u-qgrid:first-child .u-mcq:has(>.u-tqbadge){padding-top:11pt}   /* جنب «6 درجات» مش تحتها */
 .rcl{display:flex;align-items:center;gap:10pt;background:#1F2A47;border-radius:10pt;padding:7pt 12pt;margin:0 0 10pt 0}
 .rcl .rl{flex:none;background:#DA9C3B;color:#17263f;font-weight:800;font-size:9.6pt;line-height:18pt;padding:0 11pt;border-radius:8pt}
 .rcl .rc{flex:1;display:flex;align-items:center;justify-content:center;gap:8pt;flex-wrap:wrap}
@@ -1342,7 +1353,7 @@ window.addEventListener('load', async () => {
 <div class="u-bar-h">
 <div class="u-badge"><div class="u-b1">الدرس</div><div class="u-b2">4-2</div></div>
 <h1>تصميم المعلومات وتجربة المستخدم للمواقع</h1>
-<div class="u-unit">الوحدة الرابعة<br/>الشرح والمراجعة</div>
+<div class="u-unit">الفصل الرابع<br/>الشرح والمراجعة</div>
 <img alt="" class="u-logo" src="assets/avatar.png"/></div>
 </div>
 <div class="u-card">
@@ -1395,7 +1406,7 @@ window.addEventListener('load', async () => {
 </div>
 <div class="u-legend">
 <span class="u-tag">للفهم</span>
-    أي كلام عليه العلامة دي — هو والرسومات — مش موجود في الكتاب. أنا حاطّه عشان تفهم، مش عشان تحفظه. واللي من الكتاب هتلاقيه من غير علامة.
+    أي جزء عليه علامة «للفهم» هو شرح أو رسم إضافي للتوضيح، ومش مطلوب حفظه كنص من الكتاب.
   </div>
 <div class="u-qbox">
 <div class="u-qi"><svg class="u-ic" style="stroke-width:4"><use href="#i-question"></use></svg></div>
@@ -1825,7 +1836,7 @@ window.addEventListener('load', async () => {
 <div class="u-bar-h">
 <div class="u-badge"><div class="u-b1">الدرس</div><div class="u-b2">4-2</div></div>
 <h1>بنك الأسئلة — تصميم المعلومات وتجربة المستخدم</h1>
-<div class="u-unit">الوحدة الرابعة<br/>أسئلة وتدريبات</div>
+<div class="u-unit">الفصل الرابع<br/>أسئلة وتدريبات</div>
 <img alt="" class="u-logo" src="assets/avatar.png"/></div>
 </div>
 <div class="u-counts">
@@ -1864,18 +1875,18 @@ window.addEventListener('load', async () => {
 <p><span class="u-lab">✓ الحلّ (من الكتاب):</span> <b>1 ← أ</b> إبراز المعلومات هو التباين. · <b>2 ← ب</b> خلق مظهر موحد هو التكرار. · <b>3 ← ج</b> محاذاة المواضع هي المحاذاة. · <b>4 ← د</b> تجميع المعلومات المرتبطة هو التقارب.</p>
 </div>
 <div class="u-sub kwn"><span class="u-sn">3</span>تدرّب — أجب عن الأسئلة التالية</div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">1</span>ما اسم التمثيل الذي يلخص نوعًا من المستخدمين واحتياجاته وسياق استخدامه؟</div><div class="u-abox"><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">2</span>ما المصطلح المستخدم لمخطط يوضح مكان وأولوية المعلومات في صفحة الويب؟</div><div class="u-abox"><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">3</span>ما اسم المبادئ الأربعة للتصميم عند التعبير عنها بالأحرف الأولى الإنجليزية؟</div><div class="u-abox"><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">4</span>ما مصطلح نهج التصميم الذي يصمم المواقع الإلكترونية والخدمات من منظور المستخدم؟ واذكر اختصاره المكوّن من ثلاثة أحرف.</div><div class="u-abox"><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">1</span><span class="u-qtx">ما اسم التمثيل الذي يلخص نوعًا من المستخدمين واحتياجاته وسياق استخدامه؟</span></div><div class="u-abox"><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">2</span><span class="u-qtx">ما المصطلح المستخدم لمخطط يوضح مكان وأولوية المعلومات في صفحة الويب؟</span></div><div class="u-abox"><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">3</span><span class="u-qtx">ما اسم المبادئ الأربعة للتصميم عند التعبير عنها بالأحرف الأولى الإنجليزية؟</span></div><div class="u-abox"><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">4</span><span class="u-qtx">ما مصطلح نهج التصميم الذي يصمم المواقع الإلكترونية والخدمات من منظور المستخدم؟ واذكر اختصاره المكوّن من ثلاثة أحرف.</span></div><div class="u-abox"><div class="u-aline"></div></div></div>
 <div class="u-sub kwn" style="margin-top:6.58pt"><span class="u-sn">4</span>تدرّب — اختيار وتصنيف</div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">1</span>من الخيارات التالية (أ – د)، اختر الخيار الذي <b>لا يُعد</b> معلومة مناسبة لإدراجها عند إعداد شخصية نموذجية.</div><div style="padding-right:18.33pt;margin-bottom:6.58pt">
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">1</span><span class="u-qtx">من الخيارات التالية (أ – د)، اختر الخيار الذي <b>لا يُعد</b> معلومة مناسبة لإدراجها عند إعداد شخصية نموذجية.</span></div><div style="padding-right:18.33pt;margin-bottom:6.58pt">
 <div class="u-opt" style="padding-right:0"><span class="u-ol">أ</span>عمر المستخدم ومهنته.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">ب</span>غرض المستخدم من استخدام الموقع الإلكتروني.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">ج</span>أداء خادم الموقع الإلكتروني.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">د</span>التحديات التي يواجهها المستخدم.</div>
 </div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">2</span>لكل من تحسينات التصميم (1 – 4)، حدد أيًا من المبادئ الأربعة للتصميم (أ – د) يقابله.</div><div class="u-optbar"><span class="u-ol">أ</span> التباين · <span class="u-ol">ب</span> التكرار · <span class="u-ol">ج</span> المحاذاة · <span class="u-ol">د</span> التقارب</div><div class="u-cls u-two">
+<div class="u-grp"><div class="u-item"><span class="u-qn">2</span><span class="u-qtx">لكل من تحسينات التصميم (1 – 4)، حدد أيًا من المبادئ الأربعة للتصميم (أ – د) يقابله.</span></div><div class="u-optbar"><span class="u-ol">أ</span> التباين · <span class="u-ol">ب</span> التكرار · <span class="u-ol">ج</span> المحاذاة · <span class="u-ol">د</span> التقارب</div><div class="u-cls u-two">
 <div class="u-c"><span class="u-n">1</span>جعل العناوين كبيرة وغامقة لتمييزها عن نص المحتوى<span class="u-w"></span></div>
 <div class="u-c"><span class="u-n">2</span>تجميع أسماء المنتجات وأسعارها وصورها قريبة من بعضها<span class="u-w"></span></div>
 <div class="u-c"><span class="u-n">3</span>محاذاة الحواف اليمنى للنص العربي والعناصر المرتبطة وفق شبكة التصميم<span class="u-w"></span></div>
@@ -1884,13 +1895,13 @@ window.addEventListener('load', async () => {
 <div class="u-sub kwn"><span class="u-sn">5</span>تمارين — اقرأ الفقرة ثم املأ الفراغات</div>
 <p class="u-lead">عند تصميم موقع، ابدأ بفهم المستخدم وسياق الاستخدام. ويمكنك استخدام <b>(1)</b><span class="u-bl"></span> لتلخيص نوع من المستخدمين واحتياجاته، و<b>(2)</b><span class="u-bl"></span> لتخطيط أماكن العناصر وأولوياتها. كما يمكن استخدام <b>(3)</b><span class="u-bl"></span> — التباين والتكرار والمحاذاة والتقارب — لتنظيم الشكل، مع اختبار قابلية الاستخدام وإمكانية الوصول وتحسين التصميم تكراريًا.</p>
 <div class="u-sub kwn" style="margin-top:6.58pt"><span class="u-sn">6</span>تمارين — اختيار</div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">1</span>من الخيارات التالية (أ – د)، اختر الخيار <b>غير المدرج</b> ضمن المبادئ الأربعة للتصميم (مبادئ CRAP).</div><div style="padding-right:18.33pt;margin-bottom:6.58pt">
+<div class="u-grp"><div class="u-item"><span class="u-qn">1</span><span class="u-qtx">من الخيارات التالية (أ – د)، اختر الخيار <b>غير المدرج</b> ضمن المبادئ الأربعة للتصميم (مبادئ CRAP).</span></div><div style="padding-right:18.33pt;margin-bottom:6.58pt">
 <div class="u-opt" style="padding-right:0"><span class="u-ol">أ</span>التباين.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">ب</span>التشفير.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">ج</span>المحاذاة.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">د</span>التقارب.</div>
 </div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">2</span>من الخيارات التالية (أ – د)، اختر الخيار الذي يصف مفهوم التصميم المتمحور حول المستخدم بأنسب شكل.</div><div style="padding-right:18.33pt;margin-bottom:6.58pt">
+<div class="u-grp"><div class="u-item"><span class="u-qn">2</span><span class="u-qtx">من الخيارات التالية (أ – د)، اختر الخيار الذي يصف مفهوم التصميم المتمحور حول المستخدم بأنسب شكل.</span></div><div style="padding-right:18.33pt;margin-bottom:6.58pt">
 <div class="u-opt" style="padding-right:0"><span class="u-ol">أ</span>إعطاء الأولوية للتصميم الذي يجده المطوّر سهل الاستخدام.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">ب</span>إعطاء الأهمية القصوى للتصميم البصري.</div>
 <div class="u-opt" style="padding-right:0"><span class="u-ol">ج</span>بدء التصميم انطلاقًا مما يحتاجه المستخدم.</div>
@@ -1905,98 +1916,98 @@ window.addEventListener('load', async () => {
 </div>
 <div class="u-sec u-gold kwn"><div class="u-hi">؟</div><h2>ثانيًا · اختر الإجابة الصحيحة</h2></div>
 <div class="u-qgrid split" style="gap:3.76pt 8.46pt">
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">1</span>تمثيل لنوع من المستخدمين يُبنى قدر الإمكان على بحث أو بيانات عن أهدافهم واحتياجاتهم هو:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">1</span><span class="u-qtx">تمثيل لنوع من المستخدمين يُبنى قدر الإمكان على بحث أو بيانات عن أهدافهم واحتياجاتهم هو:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>المخطط الهيكلي</div><div class="u-opt"><span class="u-ol">ب</span>شخصية المستخدم</div>
 <div class="u-opt"><span class="u-ol">ج</span>مبادئ CRAP</div><div class="u-opt"><span class="u-ol">د</span>قابلية الاستخدام</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">2</span>المعلومات التي تُضاف إلى شخصية المستخدم <b>فقط</b> إذا كانت مهمة للتصميم هي:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">2</span><span class="u-qtx">المعلومات التي تُضاف إلى شخصية المستخدم <b>فقط</b> إذا كانت مهمة للتصميم هي:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>العمر والمهنة</div><div class="u-opt"><span class="u-ol">ب</span>السلوك والسياق</div>
 <div class="u-opt"><span class="u-ol">ج</span>الأهداف والاحتياجات</div><div class="u-opt"><span class="u-ol">د</span>التحديات</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">3</span>حسب الكتاب، شخصية المستخدم:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">3</span><span class="u-qtx">حسب الكتاب، شخصية المستخدم:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>أداة ممكنة وليست شرطًا دائمًا</div><div class="u-opt"><span class="u-ol">ب</span>خطوة إلزامية في كل مشروع</div>
 <div class="u-opt"><span class="u-ol">ج</span>بديل عن اختبار الموقع مع المستخدمين</div><div class="u-opt"><span class="u-ol">د</span>تصميم بصري نهائي</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">4</span>الفائدة الأساسية من شخصية المستخدم أنها تساعد الفريق على:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">4</span><span class="u-qtx">الفائدة الأساسية من شخصية المستخدم أنها تساعد الفريق على:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>تسريع تحميل الصفحات</div><div class="u-opt"><span class="u-ol">ب</span>تقليل تكلفة الاستضافة</div>
 <div class="u-opt"><span class="u-ol">ج</span>مناقشة احتياجات نمط من المستخدمين بدل الافتراضات الشخصية</div><div class="u-opt"><span class="u-ol">د</span>اختيار الألوان والخطوط والزخارف المناسبة لذوق كل عضو في الفريق</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">5</span>مخطط أولي يحدد أماكن العناصر وأولوياتها بتفاصيل بصرية قليلة هو:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">5</span><span class="u-qtx">مخطط أولي يحدد أماكن العناصر وأولوياتها بتفاصيل بصرية قليلة هو:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>شخصية المستخدم</div><div class="u-opt"><span class="u-ol">ب</span>المخطط الهيكلي</div>
 <div class="u-opt"><span class="u-ol">ج</span>التصميم المتمحور حول المستخدم</div><div class="u-opt"><span class="u-ol">د</span>التباين</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">6</span>الغرض من استخدام تفاصيل بصرية قليلة في المخطط الهيكلي هو:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">6</span><span class="u-qtx">الغرض من استخدام تفاصيل بصرية قليلة في المخطط الهيكلي هو:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>توفير مساحة التخزين</div><div class="u-opt"><span class="u-ol">ب</span>تسريع فتح الصفحة على الأجهزة الضعيفة والشبكات البطيئة قبل نشر الموقع</div>
 <div class="u-opt"><span class="u-ol">ج</span>تركيز الفريق على البنية قبل التصميم البصري النهائي</div><div class="u-opt"><span class="u-ol">د</span>تقليل عدد الصفحات</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">7</span>إذا تم تحديد الألوان والخطوط أولًا، فإن النقاشات تميل إلى:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">7</span><span class="u-qtx">إذا تم تحديد الألوان والخطوط أولًا، فإن النقاشات تميل إلى:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>الانتهاء بسرعة أكبر والوصول إلى اتفاق نهائي من أول اجتماع للفريق</div><div class="u-opt"><span class="u-ol">ب</span>الانجراف نحو التفضيلات الشخصية في المظهر</div>
 <div class="u-opt"><span class="u-ol">ج</span>التركيز على البنية</div><div class="u-opt"><span class="u-ol">د</span>التحول إلى البرمجة</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">8</span>تحديد مكان وأولوية المعلومات أولًا:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">8</span><span class="u-qtx">تحديد مكان وأولوية المعلومات أولًا:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>يؤخر تسليم المشروع لأنه يضيف خطوة غير ضرورية قبل التصميم البصري</div><div class="u-opt"><span class="u-ol">ب</span>يمنع التفاعل ثنائي الاتجاه</div>
 <div class="u-opt"><span class="u-ol">ج</span>يسهّل على أصحاب المصلحة الوصول إلى اتفاق</div><div class="u-opt"><span class="u-ol">د</span>يزيد تكلفة الاستضافة</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">9</span>مبادئ CRAP الأربعة هي:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">9</span><span class="u-qtx">مبادئ CRAP الأربعة هي:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>التشفير والتكرار والمحاذاة والتقارب</div><div class="u-opt"><span class="u-ol">ب</span>التباين والتكرار والمحاذاة والتقارب</div>
 <div class="u-opt"><span class="u-ol">ج</span>التباين والتشفير والسرعة والتقارب</div><div class="u-opt"><span class="u-ol">د</span>التباين والتكرار والسرعة والوصول</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">10</span>المبدأ الذي يجعل أولوية المعلومات واضحة ويُبرز أهم العناصر فورًا هو:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">10</span><span class="u-qtx">المبدأ الذي يجعل أولوية المعلومات واضحة ويُبرز أهم العناصر فورًا هو:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>المحاذاة</div><div class="u-opt"><span class="u-ol">ب</span>التكرار</div>
 <div class="u-opt"><span class="u-ol">ج</span>التباين</div><div class="u-opt"><span class="u-ol">د</span>التقارب</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">11</span>المبدأ الذي يحقق الاتساق في التصميم ككل ويتيح التنقل دون تشتت هو:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">11</span><span class="u-qtx">المبدأ الذي يحقق الاتساق في التصميم ككل ويتيح التنقل دون تشتت هو:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>التباين</div><div class="u-opt"><span class="u-ol">ب</span>التقارب</div>
 <div class="u-opt"><span class="u-ol">ج</span>المحاذاة</div><div class="u-opt"><span class="u-ol">د</span>التكرار</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">12</span>المبدأ الذي يحاذي موضع كل عنصر إلى خط أساس مشترك هو:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">12</span><span class="u-qtx">المبدأ الذي يحاذي موضع كل عنصر إلى خط أساس مشترك هو:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>التباين</div><div class="u-opt"><span class="u-ol">ب</span>المحاذاة</div>
 <div class="u-opt"><span class="u-ol">ج</span>التكرار في العناوين والأزرار</div><div class="u-opt"><span class="u-ol">د</span>التقارب</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">13</span>المبدأ الذي يضع المعلومات المرتبطة قريبة من بعضها لتُدرَك كمجموعة واحدة هو:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">13</span><span class="u-qtx">المبدأ الذي يضع المعلومات المرتبطة قريبة من بعضها لتُدرَك كمجموعة واحدة هو:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>التباين</div><div class="u-opt"><span class="u-ol">ب</span>التقارب</div>
 <div class="u-opt"><span class="u-ol">ج</span>المحاذاة</div><div class="u-opt"><span class="u-ol">د</span>التكرار</div></div>
 </div>
 <div class="u-qgrid split">
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">14</span>في مبدأ التباين، ينبّه الكتاب إلى ضرورة:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">14</span><span class="u-qtx">في مبدأ التباين، ينبّه الكتاب إلى ضرورة:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>مراعاة سهولة القراءة وعدم الاعتماد على اللون وحده</div><div class="u-opt"><span class="u-ol">ب</span>الاعتماد على اللون وحده لتمييز العناصر</div>
 <div class="u-opt"><span class="u-ol">ج</span>تكبير كل النصوص والعناوين بنفس الدرجة حتى تتساوى أهمية جميع العناصر في الصفحة</div><div class="u-opt"><span class="u-ol">د</span>إخفاء الأزرار المهمة</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">15</span>في مبدأ المحاذاة، يكون اتجاه النص الأساسي في اللغة العربية:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">15</span><span class="u-qtx">في مبدأ المحاذاة، يكون اتجاه النص الأساسي في اللغة العربية:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>من اليسار إلى اليمين</div><div class="u-opt"><span class="u-ol">ب</span>عشوائيًا حسب الصفحة</div>
 <div class="u-opt"><span class="u-ol">ج</span>من الأعلى إلى الأسفل فقط</div><div class="u-opt"><span class="u-ol">د</span>من اليمين إلى اليسار</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">16</span>من أمثلة الكتاب على تطبيق مبدأ التكرار:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">16</span><span class="u-qtx">من أمثلة الكتاب على تطبيق مبدأ التكرار:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>توحيد اللون والحجم والخط للعناوين في كل صفحة</div><div class="u-opt"><span class="u-ol">ب</span>ترك مسافات واسعة بين كل العناصر في الصفحة حتى لا تبدو مزدحمة أمام المستخدم</div>
 <div class="u-opt"><span class="u-ol">ج</span>محاذاة العناصر إلى خط أساس</div><div class="u-opt"><span class="u-ol">د</span>تكبير العنوان عن النص</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">17</span>من أمثلة الكتاب على تطبيق مبدأ التقارب:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">17</span><span class="u-qtx">من أمثلة الكتاب على تطبيق مبدأ التقارب:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>جمع صور المنتجات وأسمائها وأسعارها معًا</div><div class="u-opt"><span class="u-ol">ب</span>توحيد خط العناوين</div>
 <div class="u-opt"><span class="u-ol">ج</span>استخدام لون مميز للأزرار المهمة وتكبير العنوان الرئيسي في أعلى الصفحة</div><div class="u-opt"><span class="u-ol">د</span>محاذاة النص من اليمين</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">18</span>مبادئ CRAP البصرية — حسب الكتاب:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">18</span><span class="u-qtx">مبادئ CRAP البصرية — حسب الكتاب:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>تحل محل معايير قابلية الاستخدام وإمكانية الوصول</div><div class="u-opt"><span class="u-ol">ب</span>تغني عن اختبار الموقع مع المستخدمين إذا طُبّقت المبادئ الأربعة كلها بدقة في كل الصفحات</div>
 <div class="u-opt"><span class="u-ol">ج</span>لا تحل محل معايير قابلية الاستخدام أو إمكانية الوصول</div><div class="u-opt"><span class="u-ol">د</span>تضمن وصول ذوي الإعاقة تلقائيًا</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">19</span>النهج الذي يجعل فهم المستخدمين واحتياجاتهم وسياق استخدامهم أساسًا لقرارات التصميم هو:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">19</span><span class="u-qtx">النهج الذي يجعل فهم المستخدمين واحتياجاتهم وسياق استخدامهم أساسًا لقرارات التصميم هو:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>المخطط الهيكلي بتفاصيل بصرية قليلة</div><div class="u-opt"><span class="u-ol">ب</span>شخصية المستخدم</div>
 <div class="u-opt"><span class="u-ol">ج</span>مبادئ CRAP</div><div class="u-opt"><span class="u-ol">د</span>التصميم المتمحور حول المستخدم</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">20</span>الترتيب الصحيح لدورة التصميم المتمحور حول المستخدم:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">20</span><span class="u-qtx">الترتيب الصحيح لدورة التصميم المتمحور حول المستخدم:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>تصميم ← فهم ← اختبار ← تنظيم</div><div class="u-opt"><span class="u-ol">ب</span>تنظيم ← اختبار ← فهم ← تصميم ← تكرار الاختبار مرة أخيرة</div>
 <div class="u-opt"><span class="u-ol">ج</span>اختبار ← تصميم ← فهم ← تنظيم</div><div class="u-opt"><span class="u-ol">د</span>فهم ← تنظيم ← تصميم ← اختبار ← تكرار التحسين</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">21</span>من أهداف التصميم الجيد — حسب الكتاب:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">21</span><span class="u-qtx">من أهداف التصميم الجيد — حسب الكتاب:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>زيادة سرعة الخادم فقط</div><div class="u-opt"><span class="u-ol">ب</span>تحسين قابلية الاستخدام ودعم إمكانية الوصول الرقمي</div>
 <div class="u-opt"><span class="u-ol">ج</span>استخدام أحدث التقنيات والأدوات البرمجية دائمًا في كل صفحات الموقع</div><div class="u-opt"><span class="u-ol">د</span>تقليل عدد صفحات الموقع</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">22</span>«سهولة وفاعلية إنجاز المهمة» هو تعريف:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">22</span><span class="u-qtx">«سهولة وفاعلية إنجاز المهمة» هو تعريف:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>إمكانية الوصول</div><div class="u-opt"><span class="u-ol">ب</span>التقارب</div>
 <div class="u-opt"><span class="u-ol">ج</span>قابلية الاستخدام</div><div class="u-opt"><span class="u-ol">د</span>المخطط الهيكلي للصفحة</div></div>
-<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">23</span>تصميم المحتوى والواجهة بحيث يستخدمها أصحاب القدرات المختلفة بمن فيهم ذوو الإعاقة هو:</div>
+<div class="u-mcq"><span class="u-tqbadge">تقييمات</span><div class="u-qh"><span class="u-qn">23</span><span class="u-qtx">تصميم المحتوى والواجهة بحيث يستخدمها أصحاب القدرات المختلفة بمن فيهم ذوو الإعاقة هو:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>قابلية الاستخدام</div><div class="u-opt"><span class="u-ol">ب</span>شخصية المستخدم</div>
 <div class="u-opt"><span class="u-ol">ج</span>التكرار</div><div class="u-opt"><span class="u-ol">د</span>إمكانية الوصول</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">24</span>موقع نتائج مدرسي يستخدم اللون الأحمر وحده لتمييز الرسوب. أي مبدأ أو معيار أُخلّ به؟</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">24</span><span class="u-qtx">موقع نتائج مدرسي يستخدم اللون الأحمر وحده لتمييز الرسوب. أي مبدأ أو معيار أُخلّ به؟</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>عدم الاعتماد على اللون وحده — مراعاةً لإمكانية الوصول</div><div class="u-opt"><span class="u-ol">ب</span>التكرار — لأن اللون الأحمر لم يتكرر في كل الصفحات بنفس الطريقة</div>
 <div class="u-opt"><span class="u-ol">ج</span>المحاذاة</div><div class="u-opt"><span class="u-ol">د</span>التقارب</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">25</span>فريق يريد الاتفاق على أماكن المعلومات قبل النقاش في المظهر. الأداة الأنسب:</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">25</span><span class="u-qtx">فريق يريد الاتفاق على أماكن المعلومات قبل النقاش في المظهر. الأداة الأنسب:</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>التصميم البصري النهائي</div><div class="u-opt"><span class="u-ol">ب</span>اختبار سرعة الخادم</div>
 <div class="u-opt"><span class="u-ol">ج</span>لوحة الألوان</div><div class="u-opt"><span class="u-ol">د</span>المخطط الهيكلي</div></div>
-<div class="u-mcq"><div class="u-qh"><span class="u-qn">26</span>صفحة فيها اسم المنتج في مكان وسعره في مكان بعيد. أي مبدأ يعالج المشكلة؟</div>
+<div class="u-mcq"><div class="u-qh"><span class="u-qn">26</span><span class="u-qtx">صفحة فيها اسم المنتج في مكان وسعره في مكان بعيد. أي مبدأ يعالج المشكلة؟</span></div>
 <div class="u-opt"><span class="u-ol">أ</span>التقارب</div><div class="u-opt"><span class="u-ol">ب</span>التكرار</div>
 <div class="u-opt"><span class="u-ol">ج</span>المحاذاة</div><div class="u-opt"><span class="u-ol">د</span>التباين</div></div>
 </div>
 <div class="u-sec u-gold kwn"><div class="u-hi"><svg class="u-ic"><use href="#i-pen"></use></svg></div><h2>ثالثًا · أكمل</h2></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">1</span>تمثيل لنوع من المستخدمين يُبنى قدر الإمكان على بحث أو بيانات يُسمى <span class="u-bl"></span></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">2</span>المخطط الذي يحدد أماكن العناصر وأولوياتها قبل التصميم البصري يُسمى <span class="u-bl"></span></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">3</span>المبادئ الأربعة للتصميم بالأحرف الإنجليزية الأولى تُسمى <span class="u-bl"></span></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">4</span>نهج التصميم من منظور المستخدم يُسمى <span class="u-bl u-sm"></span> واختصاره <span class="u-bl u-sm"></span></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">5</span>المبدأ الذي يُبرز أهم العناصر فورًا هو <span class="u-bl"></span></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">6</span>المبدأ الذي يجمع المعلومات المرتبطة قريبة من بعضها هو <span class="u-bl"></span></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">7</span>تُضاف معلومات مثل العمر أو المهنة إلى شخصية المستخدم فقط إذا كانت <span class="u-bl"></span> للتصميم</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">8</span>مدى سهولة وفاعلية إنجاز المستخدم للمهمة يُسمى <span class="u-bl"></span></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">9</span>تمكين الأشخاص ذوي الإعاقة من استخدام الموقع والتفاعل معه يُسمى <span class="u-bl"></span></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">10</span>في اللغة العربية يكون اتجاه النص الأساسي من <span class="u-bl u-sm"></span> إلى <span class="u-bl u-sm"></span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">1</span><span class="u-qtx">تمثيل لنوع من المستخدمين يُبنى قدر الإمكان على بحث أو بيانات يُسمى <span class="u-bl"></span></span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">2</span><span class="u-qtx">المخطط الذي يحدد أماكن العناصر وأولوياتها قبل التصميم البصري يُسمى <span class="u-bl"></span></span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">3</span><span class="u-qtx">المبادئ الأربعة للتصميم بالأحرف الإنجليزية الأولى تُسمى <span class="u-bl"></span></span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">4</span><span class="u-qtx">نهج التصميم من منظور المستخدم يُسمى <span class="u-bl u-sm"></span> واختصاره <span class="u-bl u-sm"></span></span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">5</span><span class="u-qtx">المبدأ الذي يُبرز أهم العناصر فورًا هو <span class="u-bl"></span></span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">6</span><span class="u-qtx">المبدأ الذي يجمع المعلومات المرتبطة قريبة من بعضها هو <span class="u-bl"></span></span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">7</span><span class="u-qtx">تُضاف معلومات مثل العمر أو المهنة إلى شخصية المستخدم فقط إذا كانت <span class="u-bl"></span> للتصميم</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">8</span><span class="u-qtx">مدى سهولة وفاعلية إنجاز المستخدم للمهمة يُسمى <span class="u-bl"></span></span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">9</span><span class="u-qtx">تمكين الأشخاص ذوي الإعاقة من استخدام الموقع والتفاعل معه يُسمى <span class="u-bl"></span></span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">10</span><span class="u-qtx">في اللغة العربية يكون اتجاه النص الأساسي من <span class="u-bl u-sm"></span> إلى <span class="u-bl u-sm"></span></span></div></div>
 <div class="u-sec u-gold kwn" style="margin-top:4.70pt"><div class="u-hi">✓✗</div><h2>رابعًا · صح وخطأ</h2></div>
 <table class="u-tf">
 <thead><tr><th style="width:20.68pt">#</th><th>العبارة</th><th style="width:40.42pt">○ / ✗</th></tr></thead>
@@ -2078,14 +2089,14 @@ window.addEventListener('load', async () => {
 </tbody>
 </table>
 <div class="u-sec u-gold kwn"><div class="u-hi"><svg class="u-ic"><use href="#i-question"></use></svg></div><h2>سادسًا · علّل</h2></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">1</span>يُفضَّل إعداد مخطط هيكلي أولي قبل اختيار الألوان والخطوط.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">2</span>لا يُفضَّل الاعتماد على اللون وحده عند تطبيق مبدأ التباين لتمييز عنصر مهم.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">3</span>تجميع العناصر المرتبطة ببعضها يسهّل تجربة المستخدم.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">4</span>تُبنى شخصية المستخدم قدر الإمكان على بحث أو بيانات لا على التخيّل.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">5</span>لا تكفي مبادئ CRAP وحدها لتحقيق قابلية الاستخدام وإمكانية الوصول.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">6</span>لا يصحّ القول إن شخصية المستخدم خطوة إلزامية في كل مشروع.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">7</span>يجب محاذاة النص العربي من اليمين إلى اليسار وفق شبكة التصميم.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">8</span>يُختبر التصميم مع المستخدمين ويُكرَّر تحسينه بدل الاكتفاء بالنسخة الأولى.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">1</span><span class="u-qtx">يُفضَّل إعداد مخطط هيكلي أولي قبل اختيار الألوان والخطوط.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">2</span><span class="u-qtx">لا يُفضَّل الاعتماد على اللون وحده عند تطبيق مبدأ التباين لتمييز عنصر مهم.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">3</span><span class="u-qtx">تجميع العناصر المرتبطة ببعضها يسهّل تجربة المستخدم.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">4</span><span class="u-qtx">تُبنى شخصية المستخدم قدر الإمكان على بحث أو بيانات لا على التخيّل.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">5</span><span class="u-qtx">لا تكفي مبادئ CRAP وحدها لتحقيق قابلية الاستخدام وإمكانية الوصول.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">6</span><span class="u-qtx">لا يصحّ القول إن شخصية المستخدم خطوة إلزامية في كل مشروع.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">7</span><span class="u-qtx">يجب محاذاة النص العربي من اليمين إلى اليسار وفق شبكة التصميم.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">8</span><span class="u-qtx">يُختبر التصميم مع المستخدمين ويُكرَّر تحسينه بدل الاكتفاء بالنسخة الأولى.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div></div></div>
 <div class="u-sec u-gold kwn"><div class="u-hi"><svg class="u-ic"><use href="#i-pencil"></use></svg></div><h2>سابعًا · أسئلة مقالية</h2></div>
 <div class="u-sub kwn"><span class="u-sn">1</span>طبّق ما تعلمته — صفحة نتائج المدرسة</div>
 <div class="u-ecard">
@@ -2127,20 +2138,20 @@ window.addEventListener('load', async () => {
 <div class="u-chk"><span><i></i>ابدأ باختيار الألوان والخطوط</span><span><i></i>ابدأ من المستخدم، ثم صمّم</span></div>
 <div class="u-abox" style="margin-top:3.76pt"><div class="u-aline"></div><div class="u-aline"></div></div>
 <div class="u-elem"><span class="u-lab">تلميح الكتاب:</span> هل تواجه صعوبة؟ ابدأ بجدولك التكراري: أي حاجة ظهرت أكثر؟ ضع هذا القسم في الأعلى. ثم اسأل عن كل قسم — هل <b>يُبرز</b>، أم <b>يوحّد</b>، أم <b>ينظّم</b>، أم <b>يجمّع</b>؟ واختر مبدأ CRAP الذي يعالج أضعف نقطة بالنسبة للمستخدم الذي أضفته. وقدّم <b>دليلًا</b> على إجابتك.</div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">1</span>عرّف شخصية المستخدم كما يذكرها الكتاب، واذكر المعلومات التي تُدرَج فيها والمعلومات التي لا تُدرَج إلا إذا كانت مهمة للتصميم.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">2</span>اذكر مبادئ CRAP الأربعة، وبيّن الغرض من كل مبدأ مع مثال واحد من الكتاب لكل واحد.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">3</span>اشرح خطوات التصميم المتمحور حول المستخدم وهدفيه، ووضّح لماذا لا تكفي المبادئ البصرية وحدها لتحقيقهما.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">4</span>اذكر الفارق الأساسي بين تصميم الموقع بالاعتماد على ذوق المصمم الشخصي وبين الاعتماد على نهج «التصميم المتمحور حول المستخدم (UCD)».</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">5</span>ما المقصود بمصطلحي «قابلية الاستخدام (Usability)» و«إمكانية الوصول (Accessibility)» في سياق تصميم المواقع الإلكترونية؟</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">6</span>وضّح بالتفصيل كيف يحقق مبدأ «التقارب (Proximity)» تنظيم المعلومات بحيث يدركها المستخدم كمجموعة واحدة من أول نظرة.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">7</span>اشرح كيف تتكامل خطوات التصميم بدءًا من تصوّر «شخصية المستخدم» مرورًا بـ«المخطط الهيكلي» ووصولًا إلى تطبيق مبادئ «CRAP» للوصول إلى تصميم ناجح متمحور حول المستخدم.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">8</span>قارن بين مبدأ «التكرار (Repetition)» ومبدأ «التقارب (Proximity)» من حيث الأثر البصري المترتب على كل منهما في تنظيم محتوى صفحات الويب.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">9</span>اشرح كيف يؤدي تجاهل معايير «إمكانية الوصول (Accessibility)» إلى حرمان فئات معينة من المستخدمين (مثل ضعاف البصر أو ذوي الإعاقة) من التفاعل الفعّال مع خدمات الموقع الإلكتروني.</div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">1</span><span class="u-qtx">عرّف شخصية المستخدم كما يذكرها الكتاب، واذكر المعلومات التي تُدرَج فيها والمعلومات التي لا تُدرَج إلا إذا كانت مهمة للتصميم.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">2</span><span class="u-qtx">اذكر مبادئ CRAP الأربعة، وبيّن الغرض من كل مبدأ مع مثال واحد من الكتاب لكل واحد.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">3</span><span class="u-qtx">اشرح خطوات التصميم المتمحور حول المستخدم وهدفيه، ووضّح لماذا لا تكفي المبادئ البصرية وحدها لتحقيقهما.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">4</span><span class="u-qtx">اذكر الفارق الأساسي بين تصميم الموقع بالاعتماد على ذوق المصمم الشخصي وبين الاعتماد على نهج «التصميم المتمحور حول المستخدم (UCD)».</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">5</span><span class="u-qtx">ما المقصود بمصطلحي «قابلية الاستخدام (Usability)» و«إمكانية الوصول (Accessibility)» في سياق تصميم المواقع الإلكترونية؟</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">6</span><span class="u-qtx">وضّح بالتفصيل كيف يحقق مبدأ «التقارب (Proximity)» تنظيم المعلومات بحيث يدركها المستخدم كمجموعة واحدة من أول نظرة.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">7</span><span class="u-qtx">اشرح كيف تتكامل خطوات التصميم بدءًا من تصوّر «شخصية المستخدم» مرورًا بـ«المخطط الهيكلي» ووصولًا إلى تطبيق مبادئ «CRAP» للوصول إلى تصميم ناجح متمحور حول المستخدم.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">8</span><span class="u-qtx">قارن بين مبدأ «التكرار (Repetition)» ومبدأ «التقارب (Proximity)» من حيث الأثر البصري المترتب على كل منهما في تنظيم محتوى صفحات الويب.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">9</span><span class="u-qtx">اشرح كيف يؤدي تجاهل معايير «إمكانية الوصول (Accessibility)» إلى حرمان فئات معينة من المستخدمين (مثل ضعاف البصر أو ذوي الإعاقة) من التفاعل الفعّال مع خدمات الموقع الإلكتروني.</span></div><div class="u-abox"><div class="u-aline"></div><div class="u-aline"></div><div class="u-aline"></div></div></div>
 <div class="u-sec u-tool kwn" style="margin-top:3.76pt"><div class="u-hi"><svg class="u-ic"><use href="#i-bulb"></use></svg></div><h2>أنشطة</h2></div>
-<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">10</span><b>توقّف وفكّر:</b> لماذا يُحدَّد مكان المعلومات (المخطط الهيكلي) قبل اختيار الألوان والخطوط؟</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">11</span><b>توقّف وفكّر:</b> أي مبدأ يجمع العناصر المرتبطة معًا، وأيها يجعل العنصر الأهم بارزًا؟</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">12</span><b>توقّف وفكّر:</b> لكل تحسين في تدرّب، اسأل: هل يُبرز، أم يوحّد، أم ينظّم، أم يجمّع؟</div></div>
-<div class="u-grp"><div class="u-item"><span class="u-qn">13</span><b>اختبر فهمك:</b> أجب عن أسئلة هذا البنك دون الرجوع إلى الشرح، ثم راجع إجاباتك.</div></div>
+<div class="u-grp"><div class="u-item"><span class="u-tqbadge">تقييمات</span><span class="u-qn">10</span><span class="u-qtx"><b>توقّف وفكّر:</b> لماذا يُحدَّد مكان المعلومات (المخطط الهيكلي) قبل اختيار الألوان والخطوط؟</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">11</span><span class="u-qtx"><b>توقّف وفكّر:</b> أي مبدأ يجمع العناصر المرتبطة معًا، وأيها يجعل العنصر الأهم بارزًا؟</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">12</span><span class="u-qtx"><b>توقّف وفكّر:</b> لكل تحسين في تدرّب، اسأل: هل يُبرز، أم يوحّد، أم ينظّم، أم يجمّع؟</span></div></div>
+<div class="u-grp"><div class="u-item"><span class="u-qn">13</span><span class="u-qtx"><b>اختبر فهمك:</b> أجب عن أسئلة هذا البنك دون الرجوع إلى الشرح، ثم راجع إجاباتك.</span></div></div>
 </main>
 </body>
 </html>
