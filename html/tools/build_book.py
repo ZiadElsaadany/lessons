@@ -164,8 +164,10 @@ def cover_page(lessons):
     <p class="cv-grade">الصف الثاني الثانوي — <b>الترم الأول</b></p></div>
   <div class="cv-units">{units}</div>
   <div class="cv-quote"><span class="q">”</span><p>الكود مجرد أداة… <b>القوة الحقيقية في طريقة تفكيرك.</b></p></div>
-  <div class="cv-foot"><div class="cv-t"><b>أ/ زياد السعدني</b><span>أكواد مع زياد</span></div>
-    <div class="cv-c"><div class="cv-qr"><img src="assets/qr_fb.svg" alt=""></div><div class="cv-qt"><b>صفحتنا على فيسبوك</b><span>امسح الكود بكاميرا الموبايل</span><span class="wa">واتساب {num("01124840835")}</span></div></div></div>
+  <div class="cv-foot"><div class="cv-t"><b>أ/ زياد السعدني</b><span>أكواد مع زياد</span><em>واتساب {num("01124840835")}</em></div>
+    <div class="cv-c"><div class="cv-qt"><b>تابعنا</b><span>امسح الكود<br>بكاميرا الموبايل</span></div>
+      <div class="cv-q"><div class="cv-qr"><img src="assets/qr_yt.svg" alt=""></div><b>يوتيوب</b></div>
+      <div class="cv-q"><div class="cv-qr"><img src="assets/qr_fb.svg" alt=""></div><b>فيسبوك</b></div></div></div>
 </div></section>'''
 
 
@@ -252,13 +254,15 @@ BOOK_PAGES_CSS = r"""
 .cv-foot{position:absolute;bottom:34pt;left:44pt;right:44pt;display:flex;justify-content:space-between;align-items:center;border-top:.8pt solid rgba(255,255,255,.18);padding-top:12pt}
 .cv-t b{display:block;font-size:17pt;font-weight:800;color:#fff;line-height:1.2}
 .cv-t span{font-size:10.5pt;color:#f1c88b;font-weight:700}
-.cv-c{display:flex;align-items:center;gap:10pt}
-.cv-qr{flex:none;width:72pt;height:72pt;background:#fff;border-radius:9pt;padding:6pt;box-shadow:0 0 0 2pt rgba(226,148,51,.8)}
+.cv-c{display:flex;align-items:center;gap:12pt}
+.cv-q{display:flex;flex-direction:column;align-items:center;gap:6pt}
+.cv-q b{font-size:9.6pt;font-weight:800;color:#f1c88b;line-height:1.1}
+.cv-qr{flex:none;width:66pt;height:66pt;background:#fff;border-radius:8pt;padding:5pt;box-shadow:0 0 0 2pt rgba(226,148,51,.8)}
 .cv-qr img{display:block;width:100%;height:100%}
-.cv-qt{display:flex;flex-direction:column;align-items:flex-start;gap:1pt;line-height:1.3}
-.cv-qt b{font-size:11pt;font-weight:800;color:#fff}
-.cv-qt span{font-size:9pt;font-weight:600;color:#9fb3da}
-.cv-qt .wa{margin-top:3pt;font-size:10pt;font-weight:700;color:#c9d6f2}
+.cv-qt{display:flex;flex-direction:column;align-items:flex-start;gap:1pt;line-height:1.3;margin-left:4pt}
+.cv-qt b{font-size:12pt;font-weight:800;color:#fff}
+.cv-qt span{font-size:8.8pt;font-weight:600;color:#9fb3da}
+.cv-t em{display:block;font-style:normal;margin-top:4pt;font-size:10pt;font-weight:700;color:#c9d6f2}
 /* الفهرس */
 .toc{position:absolute;top:44pt;left:40pt;right:40pt;bottom:50pt}
 .toch{display:flex;align-items:baseline;gap:14pt;border-bottom:2pt solid #17263f;padding-bottom:6pt;margin-bottom:10pt}

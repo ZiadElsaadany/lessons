@@ -176,3 +176,5 @@ python3 tools/check.py lesson_X_Y.html --shots      # لازم RESULT: ALL OK (c
 - بعد أي تعديل في درس: ولّد الدرس (gen_lXY.py) وبعدين ابني الكتاب تاني — الفهرس وأرقام الصفحات بتتحسب لوحدها.
 - كل درس بيتنسخ بصفحاته بعد ما بتترسم في Chromium، وستايله محصور تحت `.Lxy` والـid بتاخد بادئة الدرس؛ ستايل صفحات الكتاب نفسه تحت `.bkp`.
 - الطباعة لـPDF: من Chromium بـ«حجم الصفحة من CSS» + «Background graphics» (أو بسكريبت playwright `page.pdf(prefer_css_page_size=True, print_background=True)`).
+- الغلاف الخارجي (وش + ضهر) ملف لوحده: `python3 tools/build_cover.py` ← `html/term1_cover.html`، كل صفحة 216×303 مم (A4 + هامش قص 3 مم من كل ناحية)، والكلام جوه ≥ 12 مم من الحرف.
+- أكواد الـQR: `assets/qr_fb.svg` (facebook.com/61592749346697) و`assets/qr_yt.svg` (youtube.com/@ZiadElsa3dany) — اتعملوا بـsegno واتقروا بقارئ QR بعد الرسم.
