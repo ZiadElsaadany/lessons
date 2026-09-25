@@ -42,7 +42,7 @@ JS_BIDI = r"""()=>{const out=[];const sheets=[...document.querySelectorAll('.she
 const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;const blocks=new Set();
 while(n=w.nextNode()){if(!n.textContent.trim())continue;let b=n.parentElement;while(b&&getComputedStyle(b).display==='inline')b=b.parentElement;blocks.add(b)}
 const re=/[A-Za-z0-9][A-Za-z0-9.]*\s*(—|·|،|=|:|-)\s*[A-Za-z]/g;
-blocks.forEach(b=>{let t='';const walk=el=>{for(const c of el.childNodes){if(c.nodeType===3)t+=c.textContent;else if(c.nodeType===1){const cs=getComputedStyle(c);if(cs.display!=='inline'){t+='\n';continue}if(cs.unicodeBidi==='isolate'||c.tagName==='BDI'){t+='⁨X⁩';continue}walk(c)}}};walk(b);
+blocks.forEach(b=>{if(b.tagName==='BDI'||getComputedStyle(b).unicodeBidi==='isolate')return;let t='';const walk=el=>{for(const c of el.childNodes){if(c.nodeType===3)t+=c.textContent;else if(c.nodeType===1){const cs=getComputedStyle(c);if(cs.display!=='inline'){t+='\n';continue}if(cs.unicodeBidi==='isolate'||c.tagName==='BDI'){t+='⁨X⁩';continue}walk(c)}}};walk(b);
 let m;re.lastIndex=0;while(m=re.exec(t)){const s=sheets.find(p=>p.contains(b));out.push([s?+s.dataset.page:-1,t.slice(Math.max(0,m.index-25),m.index+m[0].length+25).replace(/\n/g,' ')])}});return out}"""
 
 # العدادات: بنمشي على عناصر المحتوى بالترتيب ونعدّ جوه كل قسم (h2.cat). الأجزاء المكمّلة (.cont) مش بتتعد.
