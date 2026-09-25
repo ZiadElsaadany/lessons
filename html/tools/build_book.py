@@ -166,7 +166,7 @@ def cover_page(lessons):
   <div class="cv-feat"><span>شرح بالعامية المصرية ونص الكتاب زي ما هو</span><i></i><span>أمثلة ورسومات «للفهم»</span><i></i><span>بنك أسئلة بعد كل درس + أسئلة التقييمات</span></div>
   <div class="cv-flow"><small>جوه كل درس:</small><span>الشرح</span><i>←</i><span>الخلاصة</span><i>←</i><span>اتأكد إنك قادر على</span><i>←</i><span>لخّص بأسلوبك</span><i>←</i><span>بنك الأسئلة</span></div>
   <div class="cv-foot"><div class="cv-t"><b>أ/ زياد السعدني</b><span>أكواد مع زياد</span></div>
-    <div class="cv-c"><span>{num("fb.com/61592749346697")}</span><span>واتساب {num("01124840835")}</span></div></div>
+    <div class="cv-c"><div class="cv-qr"><img src="assets/qr_fb.svg" alt=""></div><div class="cv-qt"><b>صفحتنا على فيسبوك</b><span>امسح الكود بكاميرا الموبايل</span><span class="wa">واتساب {num("01124840835")}</span></div></div></div>
 </div></section>'''
 
 
@@ -252,10 +252,16 @@ BOOK_PAGES_CSS = r"""
 .cv-flow span{background:rgba(255,255,255,.07);border:.8pt solid rgba(255,255,255,.2);border-radius:14pt;padding:2pt 10pt;font-size:9.2pt;font-weight:700;color:#fff}
 .cv-flow i{font-style:normal;color:#e29433;font-weight:800}
 .cv-feat i{width:5pt;height:5pt;border-radius:50%;background:#e29433;flex:none}
-.cv-foot{position:absolute;bottom:40pt;left:44pt;right:44pt;display:flex;justify-content:space-between;align-items:flex-end;border-top:.8pt solid rgba(255,255,255,.18);padding-top:12pt}
+.cv-foot{position:absolute;bottom:34pt;left:44pt;right:44pt;display:flex;justify-content:space-between;align-items:center;border-top:.8pt solid rgba(255,255,255,.18);padding-top:12pt}
 .cv-t b{display:block;font-size:17pt;font-weight:800;color:#fff;line-height:1.2}
 .cv-t span{font-size:10.5pt;color:#f1c88b;font-weight:700}
-.cv-c{display:flex;flex-direction:column;align-items:flex-start;gap:2pt;font-size:10pt;font-weight:700;color:#c9d6f2}
+.cv-c{display:flex;align-items:center;gap:10pt}
+.cv-qr{flex:none;width:72pt;height:72pt;background:#fff;border-radius:9pt;padding:6pt;box-shadow:0 0 0 2pt rgba(226,148,51,.8)}
+.cv-qr img{display:block;width:100%;height:100%}
+.cv-qt{display:flex;flex-direction:column;align-items:flex-start;gap:1pt;line-height:1.3}
+.cv-qt b{font-size:11pt;font-weight:800;color:#fff}
+.cv-qt span{font-size:9pt;font-weight:600;color:#9fb3da}
+.cv-qt .wa{margin-top:3pt;font-size:10pt;font-weight:700;color:#c9d6f2}
 /* الفهرس */
 .toc{position:absolute;top:44pt;left:40pt;right:40pt;bottom:50pt}
 .toch{display:flex;align-items:baseline;gap:14pt;border-bottom:2pt solid #17263f;padding-bottom:6pt;margin-bottom:10pt}
