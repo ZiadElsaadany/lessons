@@ -1,0 +1,1456 @@
+<!doctype html>
+<!--
+  أكواد مع زياد — مذكرة تانية ثانوي — الدرس 2-2 (الشرح + بنك الأسئلة) — مصدر HTML قابل للتعديل
+  - كل المحتوى جوه <main class="flow"> بالترتيب. عند فتح الملف بيتوزع تلقائيًا على صفحات A4
+    (أي حاجة مش داخلة بتنزل للصفحة اللي بعدها)، والهيدر والفوتر والعلامة المائية والترقيم بيتضافوا لوحدهم.
+  - عشان تبدأ صفحة جديدة إجباري: <div class="pb"></div>
+  - العناوين (.part / .rule / h2.sec / .big / h3.sub / .chip / أي عنصر عليه class="kwn") بتفضل لازقة في اللي بعدها.
+  - اسم الدرس ورقم أول صفحة وإجمالي صفحات الوحدة في <body data-lesson data-start data-total>.
+  - الطباعة لـPDF من المتصفح: Cmd+P → الهوامش None → تفعيل Background graphics.
+  - الستايل كله جوه <style> في نفس الملف. الخطوط في fonts/ والصور في assets/ — لازم يفضلوا جنب الملف.
+  - لو المتصفح مفعّل «أقل حجم للخط»، الصفحة بتعرف لوحدها وبتحمي التصميم (السكريبت immunize).
+-->
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>الدرس 2-2 — تصميم أمان الشبكات</title>
+<style>
+/* ===== أكواد مع زياد — مذكرة تانية ثانوي — ستايل الشرح (إعادة بناء HTML) ===== */
+
+@font-face{font-family:'Baloo Bhaijaan 2';font-weight:400 800;src:url(fonts/BalooBhaijaan2.ttf) format('truetype')}
+@font-face{font-family:'DejaVuArr';font-weight:700;src:url(fonts/DejaVuSans-Bold.ttf) format('truetype');unicode-range:U+2190-21FF}
+
+:root{
+  --navy:#17263f; --navy2:#22375c; --blue:#2e4a78; --gold:#e29433; --gold2:#a9670f; --gold3:#dd860f;
+  --text:#33445f; --text2:#1c2a44; --muted:#4e5f7c; --muted2:#6e7f9c;
+  --line:#dce5f1; --line2:#d7e4f5; --bg:#eef4fc; --bg2:#f1f6fc;
+  --cream:#fbf4de; --cream2:#fdf3e2; --creamb:#eee0b8; --creamb2:#efce9c;
+  --green:#22375c; --green2:#3fa97c; --greenb:#bfe0d1; --greenbg:#eaf6f0;
+  --red:#c0453a; --teal:#3e9ccb;
+}
+
+@page{ size:210mm 297mm; margin:0 }
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:'Baloo Bhaijaan 2';font-weight:500;font-size:9.9pt;line-height:1.5;color:var(--text);direction:rtl;text-align:right;background:#e6eaf0;padding:18pt 0}
+b,strong{font-weight:700;color:var(--navy2)}
+p{margin:0}
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+.num{direction:ltr;unicode-bidi:isolate}
+
+/* ---------- الصفحة A4 (sheet) ---------- */
+.page{position:relative;width:210mm;height:297mm;margin:0 auto 18pt auto;background:#fff;overflow:hidden;box-shadow:0 2pt 14pt rgba(23,38,63,.18)}
+.sheet{position:absolute;left:0;top:0;width:210mm;height:297mm;background:#fff;overflow:hidden;transform-origin:0 0}
+.sheet .content{position:absolute;top:31.5pt;left:31.6pt;right:31.6pt;bottom:36.4pt}
+.sheet .hdr{position:absolute;top:0;left:0;right:0;height:31.5pt;font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:7.2pt;line-height:1}
+.sheet .hdr .r{position:absolute;right:25.4pt;top:17.6pt;color:var(--navy);white-space:nowrap}
+.sheet .hdr .l{position:absolute;left:39.7pt;top:17.6pt;color:var(--gold2);white-space:nowrap}
+.sheet .hdr::after{content:'';position:absolute;left:0;right:0;top:27.8pt;height:.7pt;background:var(--gold)}
+.sheet .ftr{position:absolute;bottom:0;left:0;right:0;height:36.4pt;font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:7.39pt;line-height:1;color:var(--muted)}
+.sheet .ftr img{position:absolute;right:28.2pt;top:10.7pt;width:10.5pt;height:10.5pt;border-radius:50%}
+.sheet .ftr .r{position:absolute;right:43.2pt;top:11.9pt;white-space:nowrap}
+.sheet .ftr .r b{color:var(--navy);font-weight:700}
+.sheet .ftr .sep{margin:0 5pt;color:#9aa8bd}
+.sheet .ftr .pn{position:absolute;left:45pt;top:11.5pt;font-family:'Baloo Bhaijaan 2';font-weight:600;font-size:7.39pt;color:var(--navy);direction:ltr}
+/* العلامة المائية */
+.sheet .wm{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:5}
+.sheet .wm .big{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-30deg);font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:62pt;white-space:nowrap;color:transparent;-webkit-text-stroke:.9pt rgba(23,38,63,.10);line-height:1}
+.sheet .wm .tile{position:absolute;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:19pt;white-space:nowrap;color:transparent;-webkit-text-stroke:.6pt rgba(23,38,63,.085);transform:rotate(-30deg);line-height:1}
+@media print{
+  body{background:#fff;padding:0}
+  .page{margin:0;box-shadow:none;break-after:page;page-break-after:always}
+  .page:last-of-type{break-after:auto;page-break-after:auto}
+}
+
+/* ---------- شريط رأس الدرس ---------- */
+.band{background:var(--navy);border-right:3pt solid var(--gold);border-radius:8pt;height:62.5pt;display:flex;align-items:center;padding:0 12pt 0 14pt;position:relative;margin-bottom:10pt}
+.band .badge{width:41.5pt;height:39pt;border-radius:6pt;background:rgba(255,255,255,.09);border:1pt solid rgba(255,255,255,.18);display:flex;flex-direction:column;align-items:center;justify-content:center;flex:none}
+.band .badge .l{font-family:'Baloo Bhaijaan 2';font-weight:600;font-size:7.4pt;color:#a9bdd8;line-height:1}
+.band .badge .n{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:15pt;color:var(--gold);line-height:1.1;direction:ltr}
+.band h1{flex:1;margin:0;text-align:center;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:15.4pt;color:#fff;letter-spacing:.2pt}
+.band .who{display:flex;align-items:center;gap:9pt;flex:none}
+.band .who .t{display:flex;flex-direction:column;justify-content:center;gap:1pt}
+.band .who .u{font-family:'Baloo Bhaijaan 2';font-weight:600;font-size:8pt;color:#a9bdd8;line-height:1.3}
+.band .who .k{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:8.6pt;color:#fff;line-height:1.3}
+.band .who img{width:42.75pt;height:42.75pt;border-radius:7pt;border:1pt solid rgba(255,255,255,.25);display:block}
+
+/* ---------- صندوقا المقدمة وأهداف التعلم ---------- */
+.two{display:flex;gap:11.6pt;align-items:stretch;margin-bottom:6.5pt}
+.two .intro{flex:0 0 297pt;background:#fff;border:.75pt solid var(--line);border-radius:8pt;padding:12pt 11.6pt 11pt 11.6pt;position:relative}
+.two .goals{flex:1;background:#fff;border:.75pt solid var(--line);border-right:2.5pt solid var(--gold);border-radius:8pt;padding:9pt 11pt 8pt 12pt}
+.intro h3{margin:0 0 4pt 0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11.8pt;line-height:1.45;color:var(--gold)}
+.intro .body{font-size:9.49pt;line-height:15.4pt;color:var(--text2)}
+.intro .body p{margin:0}
+.intro .body p+p{margin-top:0}
+.intro .body ul{margin:0;padding:0 12pt 0 0;list-style:none}
+.intro .body li{position:relative}
+.intro .body li::before{content:'';position:absolute;right:-9pt;top:5.6pt;width:3.6pt;height:3.6pt;border-radius:50%;background:var(--gold)}
+.intro .body b{color:var(--navy2)}
+.intro .robot{float:left;width:35.3pt;height:46.2pt;margin:2pt 0 3pt 12pt}
+.intro .robot svg{width:100%;height:100%;display:block}
+.intro .foot{display:flex;justify-content:flex-start;margin-top:8pt}
+.pill-dark{display:inline-flex;align-items:center;gap:6pt;background:var(--navy);color:#fff;border-radius:9pt;padding:0 9pt 0 12pt;height:18pt;font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:8.6pt;line-height:1}
+.pill-dark::before{content:'';width:6.5pt;height:6.5pt;border-radius:50%;background:var(--gold);flex:none}
+.goals h3{margin:0 0 7pt 0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.6pt;color:var(--gold);line-height:1.5}
+.goals .g{display:flex;align-items:center;gap:8pt;padding:9pt 0 9.5pt 0}
+.goals .g+.g{border-top:.75pt dashed var(--line)}
+.goals .g .tag{flex:none;width:41.3pt;height:16.5pt;border-radius:8.5pt;background:var(--cream2);border:.75pt solid var(--creamb2);display:flex;align-items:center;justify-content:center;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:8.8pt;color:var(--gold2);line-height:1}
+.goals .g .x{flex:1;font-size:9.19pt;line-height:15pt;color:var(--text);text-align:right}
+
+/* ---------- ملاحظة «للفهم» بخلفية ---------- */
+.note-box{position:relative;background:var(--bg);border:.75pt dashed var(--line2);border-radius:6pt;padding:6pt 11pt 5pt 12pt;font-size:9.3pt;line-height:14.7pt;color:var(--text);margin-bottom:6pt}
+.note-box .tag,.note-line .tag{position:absolute;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:7.6pt;color:var(--blue);background:#fff;border:.75pt solid var(--blue);border-radius:7pt;height:13.5pt;line-height:12pt;padding:0 6pt;display:inline-block}
+.note-box .tag{position:static;display:inline-block;margin-left:5pt;vertical-align:1pt}
+/* ملاحظة «للفهم» بخط منقّط علوي والشارة على الشمال */
+.note-line{position:relative;border-top:.75pt dashed var(--line);padding:5pt 0 0 0;margin-top:9pt;font-size:9.8pt;line-height:15.4pt;color:var(--text)}
+.note-line .tag{left:0;top:-6.7pt}
+.note-line .lead{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.8pt;color:var(--gold);margin-left:4pt}
+.note-line b{color:var(--navy2)}
+
+/* ---------- الشبكة الرباعية (الكروت بتكبر على قد محتواها) ---------- */
+.map{display:grid;grid-template-columns:1fr 132pt 1fr;grid-template-rows:auto auto;column-gap:20pt;row-gap:7pt;background:#fff;border:.75pt solid var(--line);border-radius:8pt;padding:7pt 8.5pt;margin-bottom:9pt}
+.map .cell{background:#fff;border:.75pt solid var(--line);border-radius:6pt;border-top-width:3pt;padding:4pt 8pt 5pt 8pt}
+.map .cell h4{margin:0 0 1pt 0;font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:9.9pt;line-height:1.5}
+.map .cell ul{margin:0;padding:0 9pt 0 0;list-style:none;font-size:8.9pt;line-height:14pt;color:var(--text)}
+.map .cell li{position:relative;margin-bottom:1.5pt}
+.map .cell li::before{content:'•';position:absolute;right:-9pt;top:0;color:var(--text)}
+.map .cell .en{direction:ltr;unicode-bidi:isolate;font-weight:600;color:var(--muted)}
+.map .c1{grid-column:1;grid-row:1;border-top-color:var(--navy2)} .map .c1 h4{color:var(--navy2)}
+.map .c2{grid-column:1;grid-row:2;border-top-color:var(--navy2)} .map .c2 h4{color:var(--navy2)}
+.map .c3{grid-column:3;grid-row:1;border-top-color:var(--navy2)} .map .c3 h4{color:var(--navy2)}
+.map .c4{grid-column:3;grid-row:2;border-top-color:var(--gold)} .map .c4 h4{color:var(--gold2)}
+.map .hub{grid-column:2;grid-row:1 / 3;align-self:center;position:relative;min-height:48.7pt;background:var(--navy);border-radius:8pt;color:#fff;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11pt;line-height:1.35;display:flex;align-items:center;justify-content:center;text-align:center;padding:6pt 8pt}
+.map .hub .lk{position:absolute;width:20pt;height:16pt}
+.map .hub .lk.r1{left:100%;top:-6pt} .map .hub .lk.r2{left:100%;bottom:-6pt}
+.map .hub .lk.l1{right:100%;top:-6pt} .map .hub .lk.l2{right:100%;bottom:-6pt}
+.arr{font-family:'DejaVuArr','Baloo Bhaijaan 2'}
+
+/* ---------- الفكرة الأساسية + السؤال الرئيسي ---------- */
+.iq{display:flex;gap:10pt;align-items:stretch;margin-bottom:6pt}
+.iq .q{flex:0 0 261.7pt;border-top:.75pt solid var(--line2);border-bottom:.75pt solid var(--line2);padding:8pt 8pt 8pt 4pt;text-align:center}
+.iq .q .lab{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:9.2pt;color:var(--gold2);line-height:1.5}
+.iq .q .qq{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:10.6pt;color:var(--navy);line-height:1.45;margin-top:1pt}
+.iq .idea{flex:1;position:relative;background:var(--cream);border:.75pt solid var(--creamb);border-radius:6pt;padding:7pt 12pt 7pt 30pt;font-size:10pt;line-height:15.5pt;color:var(--text2)}
+.iq .idea b{color:var(--navy2)}
+.qmark{position:absolute;left:7pt;top:-4pt;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:30pt;color:var(--creamb);line-height:1}
+
+/* ---------- عناوين ---------- */
+.big{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:15pt;color:var(--navy);text-align:center;line-height:1.4;margin:4pt 0 2pt 0}
+.content>.big{padding:4pt 14pt;background:#eef2f8;border-radius:9pt;border-right:3pt solid #e29433;margin:4pt 0 6pt 0}
+.content>.big+hr.rule{display:none}
+.part{display:flex;justify-content:center;margin:4pt 0 0 0}
+.part span{display:inline-block;border-radius:7pt;padding:0 8pt;height:14.2pt;line-height:13pt;font-weight:700;font-size:8.8pt}
+.part.p1 span{background:var(--bg);border:.75pt solid var(--line2);color:var(--blue)}
+.part.p2 span{background:var(--bg);border:.75pt solid var(--line2);color:var(--blue)}
+.part.p3 span{background:var(--bg);border:.75pt solid var(--line2);color:var(--blue)}
+.rule{border:0;border-top:.75pt solid var(--line);margin:9pt 0 0 0}
+h2.sec{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:13.4pt;color:var(--navy);line-height:1.35;margin:9pt 0 8pt 0;padding:6pt 14pt;background:#eef2f8;border-radius:9pt;border-right:3pt solid var(--gold);break-after:avoid}
+h2.sec.g,h2.sec.t{border-right-color:var(--gold)}
+h2.sec .dot{color:var(--navy);margin:0 3pt}
+
+/* ---------- اقتباس الكتاب ---------- */
+.quote{position:relative;background:var(--cream);border-left:.75pt solid var(--creamb);border-radius:6pt;padding:7.5pt 12pt 7.5pt 34pt;font-size:10.5pt;line-height:16.5pt;color:var(--text);margin-bottom:9pt}
+.quote b{color:var(--navy2)}
+
+/* ---------- شارة عنوان صغيرة + بانر التعريف ---------- */
+.chip{display:inline-block;background:var(--bg2);border-radius:6pt;padding:0 12pt;height:21pt;line-height:20pt;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:10.4pt;color:var(--navy);margin-bottom:5pt}
+.banner{background:var(--navy);color:#fff;padding:9pt 16pt 8pt 22pt;margin:0 0 0 68pt;font-size:9.9pt;line-height:15.3pt;clip-path:polygon(0.3% 6%,3% 2%,12% 0,30% 3%,52% 0,70% 2%,88% 0,100% 4%,99.6% 60%,100% 100%,80% 97%,62% 100%,40% 96%,20% 100%,6% 97%,0 100%,1% 40%)}
+.banner b{color:#ffd08a}
+
+/* ---------- الأعمدة الثلاثة بالأيقونات ---------- */
+.cols3{display:flex;gap:16pt;align-items:flex-start;margin:6pt 0 12pt 0}
+.cols3 .c{flex:1;text-align:center}
+.cols3 .ic{height:95pt;display:flex;align-items:center;justify-content:center}
+.cols3 .ic svg{height:92pt;width:auto}
+.cols3 h4{margin:6pt 0 0 0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:12.6pt;color:var(--navy);line-height:1.45}
+.cols3 .en{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:7.6pt;color:var(--gold2);letter-spacing:1.4pt;line-height:1.3;direction:ltr}
+.cols3 .bar{width:31.5pt;height:2.3pt;border-radius:2pt;background:var(--gold);margin:7pt auto 8pt auto}
+.cols3 .d{font-size:9.7pt;line-height:15.7pt;color:var(--text);text-align:center;padding:0 2pt}
+.cols3 .d b{color:var(--navy2)}
+.tagp{display:inline-block;background:var(--bg);border:.75pt solid var(--line2);border-radius:7pt;padding:0 8pt;height:14.2pt;line-height:13pt;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:7.8pt;color:var(--blue);margin-top:5pt}
+
+/* ---------- الطبقات الثلاث: كروت + جدول (تصميم زياد 24 سبتمبر) ---------- */
+.l3{position:relative;overflow:hidden;padding:6pt 0 2pt 0;margin-bottom:6pt;--or:#e29433;--orl:#f5f7fb;--orb:#dde5ef;--orp:#eef2f8;--bl:#2e4a78;--bll:#f5f7fb;--blb:#dde5ef;--blp:#eef2f8}
+.l3 .dec{position:absolute;pointer-events:none;z-index:0}
+.l3 .d1{left:-60pt;top:-50pt;width:150pt;height:150pt;border-radius:50%;background:#eef4fb}
+.l3 .d2{right:-40pt;top:-58pt;width:110pt;height:110pt;border-radius:50%;background:#f1f6fc;border:.8pt solid #f3c98d;border-color:transparent transparent #f3c98d #f3c98d;transform:rotate(-20deg)}
+.l3 .d3{right:78pt;top:14pt;width:12pt;height:12pt;border-radius:50%;background:#fbe3c2}
+.l3 .dots{left:14pt;top:12pt;width:34pt;height:20pt;background-image:radial-gradient(#c9d6e6 .9pt,transparent 1pt);background-size:6.5pt 6.5pt}
+.l3>*:not(.dec){position:relative;z-index:1}
+.l3-title{display:flex;align-items:center;justify-content:center;gap:10pt;margin:0 0 10pt 0}
+.l3-title h3{margin:0;background:#eef2f8;border-radius:14pt;padding:3pt 20pt 4pt 20pt;font-weight:800;font-size:15pt;line-height:1.35;color:var(--navy);position:relative}
+.l3-title h3::after{content:'';position:absolute;left:50%;transform:translateX(-50%);bottom:-4pt;width:48pt;height:3.2pt;border-radius:2pt;background:#e29433}
+.l3-title .spk{width:12pt;height:16pt;position:relative}
+.l3-title .spk::before,.l3-title .spk::after{content:'';position:absolute;height:2.2pt;border-radius:1pt;background:#e29433}
+.l3-title .spk.r::before{width:7pt;right:1pt;top:3pt;transform:rotate(-50deg)} .l3-title .spk.r::after{width:7pt;right:3pt;top:11pt}
+.l3-title .spk.l::before{width:7pt;left:1pt;top:3pt;transform:rotate(50deg)} .l3-title .spk.l::after{width:7pt;left:3pt;top:11pt}
+.l3-cards{display:flex;gap:8pt;margin-bottom:8pt}
+.l3c{flex:1;border-radius:10pt;border:.75pt solid;padding:8pt 9pt 9pt 9pt;text-align:center;display:flex;flex-direction:column;align-items:center}
+.l3c.warm{background:var(--orl);border-color:var(--orb)} .l3c.cool{background:var(--bll);border-color:var(--blb)}
+.l3c .halo{position:relative;width:62pt;height:62pt;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:4pt}
+.l3c.warm .halo{background:#eef2f8} .l3c.cool .halo{background:#eef2f8}
+.l3c .halo>svg:not(.sp){width:40pt;height:auto}
+.l3c .halo .sp{position:absolute;left:-18pt;top:6pt;width:98pt;height:40pt}
+.l3c h4{margin:0;font-weight:800;font-size:12pt;line-height:1.35;color:var(--navy)}
+.l3c .bar{width:26pt;height:2.4pt;border-radius:2pt;background:#e29433;margin:4pt 0 6pt 0}
+.l3c p{flex:1;font-size:9.8pt;line-height:15.2pt;color:var(--text2);margin:0 0 7pt 0}
+.l3c p b{color:var(--navy2)}
+.l3c .pill{display:inline-flex;align-items:center;gap:5pt;border-radius:11pt;padding:0 12pt;height:21pt;font-weight:700;font-size:9.4pt;line-height:1}
+.l3c.warm .pill{background:var(--orp);color:#a9670f} .l3c.cool .pill{background:var(--blp);color:#2e4a78}
+.l3c .pill svg{width:11pt;height:11pt;flex:none}
+table.l3t{width:100%;border-collapse:separate;border-spacing:0;border:.75pt solid var(--blb);border-radius:9pt;overflow:hidden;font-size:9.6pt;line-height:14.8pt;color:var(--text2)}
+table.l3t th{background:#f5f7fb;font-weight:700;font-size:10pt;color:var(--navy);text-align:center;padding:5pt 8pt 4pt 8pt;border-bottom:.75pt solid var(--blb)}
+table.l3t th+th,table.l3t td+td{border-right:.75pt solid #dde5ef}
+table.l3t td{padding:6pt 10pt;vertical-align:middle;border-top:.75pt solid #dde5ef}
+table.l3t tr:first-child td{border-top:0}
+table.l3t tr.warm td{background:#f5f7fb} table.l3t tr.cool td{background:#f5f7fb}
+table.l3t td.k{font-weight:800;font-size:11pt;color:var(--navy);white-space:nowrap}
+table.l3t td.k .ic{display:inline-flex;align-items:center;justify-content:center;width:32pt;height:32pt;border-radius:50%;margin-left:8pt;vertical-align:middle}
+table.l3t tr.warm td.k .ic{background:#eef2f8} table.l3t tr.cool td.k .ic{background:#eef2f8}
+table.l3t td.k .ic svg{width:20pt;height:auto}
+table.l3t td b{color:var(--navy2)}
+table.l3t ul{margin:0;padding:0 11pt 0 0;list-style:none}
+table.l3t li{position:relative;line-height:15pt}
+table.l3t li::before{content:'';position:absolute;right:-10pt;top:5.6pt;width:4.2pt;height:4.2pt;border-radius:50%}
+table.l3t tr.warm li::before{background:#e29433} table.l3t tr.cool li::before{background:#2e4a78}
+
+/* ---------- الجداول ---------- */
+table.t{width:100%;border-collapse:separate;border-spacing:0;border:.75pt solid var(--line);border-radius:8pt;overflow:hidden;font-size:9.9pt;line-height:14.3pt;color:var(--text);margin-bottom:8pt}
+table.t th{background:var(--bg);font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:9.6pt;color:var(--navy);text-align:right;padding:5pt 10pt 4pt 10pt;border-bottom:.75pt solid var(--line2);box-shadow:0 .75pt 0 var(--line);line-height:1.5;vertical-align:middle}
+table.t th .sub{display:block;font-size:8.8pt;color:var(--muted2);font-weight:700;line-height:1.3}
+table.t td{padding:6.5pt 10pt 5.5pt 10pt;vertical-align:top;border-top:.75pt solid var(--line)}
+table.t tr:first-child td{border-top:0}
+table.t tbody tr:nth-child(even) td{background:var(--bg)}
+table.t td b{color:var(--navy2)}
+table.t td.k{font-weight:700;color:var(--navy2);white-space:nowrap}
+table.t.t4 td.k{white-space:normal}
+table.t.t4 th,table.t.t4 td{text-align:right}
+
+/* ---------- الأشكال ---------- */
+.fig{background:#fff;border:.75pt solid var(--line);border-radius:8pt;padding:12pt 9.5pt 6pt 9.5pt;margin-bottom:8pt}
+.fig .cap{border-top:.75pt dashed var(--line);margin-top:8pt;padding-top:5pt;text-align:center;font-family:'Baloo Bhaijaan 2';font-weight:600;font-size:8.8pt;color:var(--text);line-height:1.5}
+/* الشكل 3.1.1 */
+.layers .lay{border:.75pt solid #c9d9ee;background:#e8f0fb;border-radius:10pt;height:52pt;display:flex;align-items:center;padding:0 18pt 0 24pt;gap:14pt}
+.layers .lay.mid{background:var(--cream2);border-color:var(--creamb2)}
+.layers .lay .n{flex:0 0 118pt;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:12.8pt;color:var(--navy);line-height:1.2;text-align:center}
+.layers .lay .n small{display:block;font-size:9.2pt;font-weight:700;color:var(--gold2);letter-spacing:1pt;direction:ltr;margin-top:1pt}
+.layers .lay .n.g{color:var(--gold2)}
+.layers .lay .d{flex:1;text-align:center;font-size:11pt;line-height:1.35;color:var(--text)}
+.layers .lay .d em{display:block;font-style:normal;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11pt;color:var(--gold2);margin-top:1pt}
+.layers .arrows{height:24pt;position:relative}
+.layers .arrows .a{position:absolute;top:2pt;width:14pt;height:20pt}
+.layers .arrows .down{right:75pt} .layers .arrows .up{left:118pt}
+/* الشكل 3.1.2 */
+.seq{position:relative;height:238pt}
+.seq .hd{position:absolute;top:3pt;height:37pt;border-radius:9pt;display:flex;align-items:center;justify-content:center;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11.5pt;color:var(--navy);background:#e8f0fb;border:.75pt solid #c9d9ee}
+.seq .hd.mid{background:var(--cream2);border-color:var(--creamb2);color:var(--gold2)}
+.seq .h1{right:6pt;width:128pt} .seq .h2{left:196pt;width:126pt} .seq .h3{left:6pt;width:126pt}
+.seq svg{position:absolute;left:0;top:0;width:100%;height:100%}
+.seq .st{position:absolute;font-size:10.1pt;color:var(--text);line-height:1.3;white-space:nowrap}
+.seq .st.g{color:var(--gold2)} .seq .st.b{color:var(--blue)}
+.seq .no{position:absolute;right:20pt;width:18.4pt;height:18.4pt;border-radius:50%;background:var(--gold3);color:#fff;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.6pt;display:flex;align-items:center;justify-content:center;line-height:1}
+
+/* ---------- الخطوات الست ---------- */
+.steps{position:relative;padding-right:22pt;margin:0 0 6pt 0}
+.steps::before{content:'';position:absolute;right:6pt;top:8pt;bottom:14pt;width:1.5pt;background:var(--gold);border-radius:1pt}
+.steps .s{position:relative;padding:0 0 12.5pt 0}
+.steps .s .n{position:absolute;right:-22.7pt;top:3pt;width:13.5pt;height:13.5pt;border-radius:50%;background:var(--gold);color:#fff;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:8.2pt;display:flex;align-items:center;justify-content:center;line-height:1}
+.steps .s h4{margin:0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:10.6pt;color:var(--navy);line-height:1.5}
+.steps .s p{font-size:9.9pt;line-height:14.5pt;color:var(--text)}
+
+/* ---------- صناديق ملوّنة ---------- */
+.box{border-radius:8pt;padding:8pt 12pt 8pt 12pt;margin-bottom:8pt;border:.75pt solid}
+.box h3{margin:0 0 3pt 0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.9pt;line-height:1.5}
+.box.cream{background:var(--cream);border-color:var(--creamb)} .box.cream h3{color:var(--gold2)}
+.box.green{background:var(--greenbg);border-color:var(--greenb)} .box.green h3{color:var(--green);font-size:10pt}
+.box.white{background:#fff;border-color:var(--greenb)} .box.white h3{color:var(--green);font-size:10.5pt}
+.box p,.box li{font-size:10.5pt;line-height:16.5pt;color:var(--text)}
+.box p+p{margin-top:3pt}
+.box ul{margin:0;padding:0 14pt 0 0;list-style:none}
+.box ul li{position:relative}
+.box ul li::before{content:'•';position:absolute;right:-12pt;top:0;color:var(--gold2)}
+.box ol{margin:0;padding:0 16pt 0 0;list-style:none;counter-reset:n}
+.box ol li{position:relative;counter-increment:n;margin-bottom:3pt}
+.box ol li::before{content:counter(n) '.';position:absolute;right:-16pt;top:0;color:var(--text)}
+.tip{background:var(--cream2);border:.75pt solid #f2dcbb;border-right:3pt solid var(--gold);border-radius:6pt;padding:6pt 12pt 6pt 12pt;margin:6pt 0 2pt 0;font-size:9.4pt;line-height:15pt;color:var(--text2)}
+.tip .l{font-weight:700;color:var(--gold2)}
+
+/* ---------- سؤال على نمط الامتحان ---------- */
+.exam{background:var(--cream);border:.75pt solid var(--creamb);border-radius:8pt;padding:7pt 11pt 9pt 11pt;margin-bottom:8pt}
+.exam .hd{display:flex;align-items:center;gap:7pt;margin-bottom:4pt}
+.exam .hd .n{width:18.8pt;height:16.5pt;border-radius:4pt;background:var(--navy);color:#fff;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.4pt;display:flex;align-items:center;justify-content:center;line-height:1}
+.exam .hd .t{flex:1;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:10.4pt;color:var(--navy);line-height:1.5}
+.exam .hd .m{background:#fff;border-radius:7pt;padding:0 7pt;height:14.2pt;line-height:13.5pt;font-weight:700;font-size:8.4pt;color:var(--gold2)}
+.exam .qt{font-weight:700;font-size:10.5pt;line-height:16pt;color:var(--navy2);margin:2pt 0 6pt 0}
+.exam .hint{background:var(--bg);border:.75pt solid var(--line2);border-radius:5pt;padding:3pt 9pt;font-size:9.4pt;line-height:15pt;color:var(--text)}
+.exam .hint b{color:var(--navy2)}
+h3.sub{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:11.2pt;color:var(--navy);margin:8pt 0 6pt 0;line-height:1.4;padding:5pt 14pt;background:#eef2f8;border-radius:9pt;border-right:3pt solid var(--gold);break-after:avoid}
+
+
+/* ---------- إجابة السؤال الرئيسي ---------- */
+.mq{border-top:.75pt solid var(--line2);border-bottom:.75pt solid var(--line2);text-align:center;padding:6pt 0 7pt 0;margin:0 0 8pt 0}
+.mq .lab{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:9.2pt;color:var(--gold2);line-height:1.5}
+.mq .qq{font-family:'Baloo Bhaijaan 2';font-weight:700;font-size:13pt;color:var(--navy);line-height:1.45}
+
+/* ---------- الخلاصة في دقيقة ---------- */
+.dark{background:var(--navy);border-radius:8pt;padding:8pt 12pt 6pt 12pt;color:#fff;margin-bottom:8pt}
+.dark h3{margin:0 0 4pt 0;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.8pt;color:#f1c88b;line-height:1.5}
+.dark .g2{display:flex;gap:18pt}
+.dark ul{flex:1;margin:0;padding:0 12pt 0 0;list-style:none;font-size:9pt;line-height:14.2pt;color:#fff}
+.dark li{position:relative;margin-bottom:3.5pt}
+.dark li::before{content:'•';position:absolute;right:-11pt;top:0;color:#fff}
+.dark b{color:#ffd9a0}
+
+/* ---------- اتأكد إنك قادر على ---------- */
+.check{background:#fff;border:.75pt solid var(--line);border-radius:8pt;padding:8pt 13pt 6pt 13pt;margin-bottom:6pt}
+.check h3{margin:0;padding-bottom:5pt;border-bottom:.75pt solid var(--line);font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:9.8pt;color:var(--navy);line-height:1.5}
+.check .g2{display:flex;gap:16pt;margin-top:6pt}
+.check ul{flex:1;margin:0;padding:0;list-style:none}
+.check li{display:flex;gap:7pt;align-items:flex-start;font-size:9pt;line-height:14.2pt;color:var(--text);margin-bottom:5pt}
+.check li::before{content:'';flex:none;width:12pt;height:12pt;border-radius:3pt;background:#fffbf4;border:.75pt solid var(--gold);margin-top:.5pt}
+.check b{color:var(--navy2)}
+.endline{border-top:.75pt solid var(--line);margin-top:0;padding-top:3pt;text-align:center;font-size:8.6pt;color:var(--muted2);line-height:1.5}
+
+/* ---------- صفحة التلخيص ---------- */
+.instr{background:var(--bg);border:.75pt solid var(--line2);border-radius:6pt;padding:5pt 12pt;font-size:9.2pt;line-height:15.4pt;color:var(--text);margin-bottom:18pt}
+.instr b{color:var(--navy2)}
+.lines div{height:26.6pt;border-bottom:.75pt solid var(--line)}
+
+
+/* ===================================================================
+   توزيع تلقائي: المحتوى بيتكتب في .flow والسكريبت بيوزّعه على .sheet
+   =================================================================== */
+.flow{width:532.7pt;margin:0 auto;background:#fff}
+.pb{display:none}
+
+/* ===================================================================
+   تصميمات زياد (24 سبتمبر) — القسم 3 (رحلة الطلب) · التعاون التسلسلي · القسم 4 · القسم 5
+   =================================================================== */
+.ctitle{text-align:center;margin:4pt 0 8pt 0;padding:6pt 14pt;background:#eef2f8;border-radius:9pt;border-right:3pt solid #e29433}
+.ctitle h2{margin:0;font-weight:800;font-size:16pt;color:var(--navy);line-height:1.3}
+.ctitle .st{font-weight:500;font-size:10.5pt;color:var(--muted2);line-height:1.35}
+.quote.q2{border:.75pt solid #dde5ef;border-radius:9pt;background:#fbf6e8;font-size:10.4pt;line-height:16pt}
+.quote.q2 .exl{color:#a9670f;font-weight:700;text-decoration:underline;text-underline-offset:2pt}
+.panel{border-radius:11pt;background:#f5f7fb;padding:0 6pt 6pt 6pt;margin-bottom:8pt}
+.panel .ph{font-weight:700;font-size:11pt;color:var(--navy);padding:5pt 7pt 4pt 7pt;line-height:1.4}
+.panel .pbody{background:#fff;border-radius:9pt;padding:7pt}
+/* المسار العام */
+.path{display:flex;align-items:center;justify-content:space-between}
+.path .pc{width:61pt;height:68pt;border-radius:8pt;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:3pt 2pt}
+.path .pc svg{width:23pt;height:23pt;margin-bottom:4pt}
+.path .pc b{font-weight:800;font-size:8.4pt;color:var(--navy);line-height:1.2}
+.path .pc small{font-weight:500;font-size:7.6pt;color:var(--muted);line-height:1.3;margin-top:1pt}
+.path .pc.b{background:#f5f7fb} .path .pc.o{background:#f5f7fb} .path .pc.p{background:#f5f7fb} .path .pc.g{background:#f5f7fb}
+.path .ar{flex:none;color:#e29433;font-family:'DejaVuArr';font-weight:700;font-size:10.5pt;line-height:1}
+/* الخطوات بالتفصيل */
+.steps2 .stp{display:flex;align-items:center;gap:10pt;border-radius:9pt;padding:5pt 10pt;margin-bottom:5pt;min-height:43pt}
+.steps2 .stp:last-child{margin-bottom:0}
+.steps2 .stp.cool{background:#f5f7fb} .steps2 .stp.warm{background:#f5f7fb}
+.steps2 .stp .n{flex:none;width:21pt;height:21pt;border-radius:50%;background:#e29433;color:#fff;font-weight:800;font-size:11.5pt;display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 0 0 2.2pt #fff}
+.steps2 .stp .tx{flex:1}
+.steps2 .stp h4{margin:0;font-weight:700;font-size:10.8pt;color:var(--navy);line-height:1.35}
+.steps2 .stp p{font-size:9.7pt;line-height:15pt;color:var(--text2)}
+.steps2 .stp .ic{flex:none;width:46pt;display:flex;justify-content:center;align-items:center}
+.steps2 .stp .ic>svg{width:40pt;height:auto}
+.steps2 .stp .dbret{display:flex;align-items:center;gap:2pt}
+.steps2 .stp .dbret svg:first-child{width:13pt;height:8pt} .steps2 .stp .dbret svg:last-child{width:26pt;height:28pt}
+/* شرائط المعلومة */
+.info{display:flex;align-items:center;gap:12pt;border-radius:9pt;border:.75pt solid;padding:7pt 14pt;margin-bottom:8pt}
+.info .lab{flex:none;display:flex;align-items:center;gap:5pt;font-weight:800;font-size:12pt;line-height:1;padding-left:12pt;border-left:1pt solid}
+.info .lab svg{width:21pt;height:21pt}
+.info p{flex:1;font-size:9.8pt;line-height:14.5pt;color:var(--text2)}
+.info.green{background:#f5f7fb;border-color:#dde5ef} .info.green .lab{color:#a9670f;border-color:#dde5ef}
+.info.gray{background:#f5f7fb;border-color:#dde5ef} .info.gray .lab{color:var(--navy);font-size:14pt;padding:0 14pt 0 16pt;border-color:#dde5ef}
+.info.blue{background:#f5f7fb;border-color:#dde5ef} .info.blue .lab{color:#2e4a78;border-color:transparent;padding-left:4pt}
+
+/* ---------- كيفية تعاون الطبقات الثلاث (رسم تسلسلي) ---------- */
+.sqsub{display:flex;align-items:center;justify-content:space-between;margin:0 2pt 8pt 2pt}
+.sqsub .st{font-size:11pt;color:var(--text);font-weight:600;line-height:1.4}
+.sqsub .legend{display:flex;gap:12pt;font-size:9pt;color:var(--text);font-weight:600}
+.sqsub .legend span{display:inline-flex;align-items:center;gap:4pt}
+.sqsub .legend svg{width:26pt;height:8pt}
+.sqh{display:flex;align-items:flex-end;justify-content:space-between;margin:4pt 0 8pt 0}
+.sqh h3{margin:0;font-weight:800;font-size:19pt;color:var(--navy);line-height:1.3}
+.sqh .st{font-size:11pt;color:var(--text);font-weight:500;line-height:1.4}
+.sqh .legend{display:flex;gap:12pt;font-size:9pt;color:var(--text);font-weight:600;padding-bottom:3pt}
+.sqh .legend span{display:inline-flex;align-items:center;gap:4pt}
+.sqh .legend svg{width:26pt;height:8pt}
+.sq{position:relative;width:532pt;height:264pt;margin-bottom:8pt}
+.sq .hd{position:absolute;top:0;width:110pt;height:26pt;border-radius:5pt;border:.75pt solid #dde5ef;background:#f5f7fb;color:var(--navy);font-weight:700;font-size:10pt;display:flex;align-items:center;justify-content:center;line-height:1;z-index:2}
+.sq .hd.u{background:#2e4a78;border-color:#2e4a78;color:#fff}
+.sq svg.lines{position:absolute;left:0;top:0;width:532pt;height:264pt}
+.sq .lb{position:absolute;transform:translateX(-50%);font-size:9pt;line-height:11pt;color:var(--text2);text-align:center;white-space:nowrap;font-weight:500}
+.sq .nb{position:absolute;width:14pt;height:14pt;border-radius:50%;color:#fff;font-weight:800;font-size:8.4pt;display:flex;align-items:center;justify-content:center;line-height:1;transform:translate(-50%,-50%)}
+.sq .nb.r{background:#2e4a78} .sq .nb.o{background:#e29433}
+
+/* ---------- القسم 4: الخدمات ---------- */
+.tbar{background:#eef2f8;border-radius:9pt;border-right:3pt solid #e29433;padding:6pt 14pt;margin:4pt 0 8pt 0}
+.tbar h2{margin:0;font-weight:800;font-size:13.4pt;color:var(--navy);line-height:1.35}
+.warn{display:flex;align-items:center;gap:10pt;background:#fbf6e8;border:.75pt solid #dde5ef;border-radius:9pt;padding:6pt 12pt;margin-bottom:8pt;font-size:10pt;line-height:14.5pt;color:var(--text2)}
+.warn .ex{flex:none;width:20pt;height:20pt;border-radius:50%;background:#e29433;color:#fff;font-weight:800;font-size:12pt;display:flex;align-items:center;justify-content:center;line-height:1}
+.svc{display:grid;grid-template-columns:88pt 1fr 1fr 1fr;border:.75pt solid #dde5ef;border-radius:10pt;overflow:hidden;margin-bottom:6pt;background:#fff}
+.svc .nm{background:#f5f7fb;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8pt 6pt;gap:6pt}
+.svc .nm .ci{width:42pt;height:42pt;border-radius:50%;background:#eef2f8;display:flex;align-items:center;justify-content:center}
+.svc .nm .ci svg{width:25pt;height:25pt}
+.svc .nm h4{margin:0;font-weight:700;font-size:10.8pt;color:var(--navy);line-height:1.25}
+.svc .col{padding:5pt 7pt 4pt 7pt;border-right:.75pt solid #dde5ef}
+.svc .ch{display:flex;align-items:center;gap:6pt;border-radius:7pt;padding:3pt 7pt;margin-bottom:4pt}
+.svc .ch svg{width:20pt;height:20pt;flex:none}
+.svc .ch b{display:block;font-weight:800;font-size:10pt;line-height:1.25;color:var(--navy)}
+.svc .ch small{display:block;font-weight:700;font-size:8.2pt;color:#8795ab;line-height:1.25}
+.svc .col.f .ch{background:#f5f7fb} .svc .col.b .ch{background:#f5f7fb} .svc .col.b .ch b{color:#a9670f} .svc .col.d .ch{background:#f5f7fb}
+.svc ul{margin:0;padding:0 11pt 0 0;list-style:none;font-size:9.2pt;line-height:14.6pt;color:var(--text2)}
+.svc li{position:relative;margin-bottom:2.5pt}
+.svc li::before{content:'';position:absolute;right:-10pt;top:4.7pt;width:4.2pt;height:4.2pt;border-radius:50%}
+.svc .col.f li::before{background:#2e4a78} .svc .col.b li::before{background:#e29433} .svc .col.d li::before{background:#98a4b5}
+.simply{display:flex;align-items:stretch;background:#fbf6e8;border:.75pt solid #dde5ef;border-radius:9pt;overflow:hidden;margin-bottom:8pt}
+.simply .lab{flex:none;display:flex;align-items:center;gap:5pt;background:#eef2f8;color:#a9670f;font-weight:800;font-size:11pt;padding:0 14pt}
+.simply .lab svg{width:18pt;height:18pt}
+.simply p{flex:1;padding:6pt 12pt;font-size:9.8pt;line-height:14.5pt;color:var(--text2)}
+
+/* ---------- القسم 5: نفس النموذج في خدمات مختلفة ---------- */
+.ntitle{margin:4pt 0 7pt 0}
+.ntitle h2{margin:0;font-weight:800;font-size:18pt;color:var(--navy);line-height:1.35}
+.ntitle h2 .n5{color:#e29433;margin-left:7pt}
+.ntitle .st{font-size:10pt;color:var(--muted);line-height:1.5;font-weight:500}
+.exw{background:#f5f7fb;border:.75pt solid #f1e0b0;border-radius:11pt;padding:7pt 9.2pt 4pt 9.2pt;margin-bottom:8pt}
+.exw .eh{display:flex;align-items:center;gap:9pt;margin-bottom:6pt}
+.exw .eh .tag{display:inline-flex;align-items:center;gap:6pt;background:#eef2f8;border-radius:12pt;padding:1pt 12pt 1pt 5pt;font-weight:800;font-size:12.5pt;color:#a9670f;line-height:1.4}
+.exw .eh .tag svg{width:20pt;height:18pt}
+.exw .eh .sub{font-size:9.6pt;color:var(--text2);font-weight:600}
+.exg{display:grid;grid-template-columns:92pt 16pt 110pt 16pt 136pt 16pt 1fr;align-items:stretch}
+.exg .arrs{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12pt}
+.exg .arrs svg{width:16pt;height:9pt}
+.ecard{background:#fff;border:.75pt solid #dde5ef;border-radius:9pt;overflow:hidden;display:flex;flex-direction:column}
+.ecard .eh2{display:flex;align-items:center;gap:5pt;padding:4pt 7pt;font-weight:800;font-size:10.2pt;line-height:1.3}
+.ecard .eh2 svg{width:17pt;height:17pt;flex:none}
+.ecard.f .eh2{background:#f5f7fb;color:var(--navy)} .ecard.b .eh2{background:#eef2f8;color:#a9670f} .ecard.d .eh2{background:#f5f7fb;color:#2e4a78}
+.ecard.b{border-color:#dde5ef} .ecard.d{border-color:#dde5ef}
+.ecard .eb{padding:6pt 6pt 6pt 6pt;font-size:8.5pt;line-height:13.2pt;color:var(--text2);flex:1}
+.ecard ul{margin:0;padding:0 9pt 0 0;list-style:none}
+.ecard li{position:relative;margin-bottom:2pt}
+.ecard ul.dots li::before{content:'';position:absolute;right:-8pt;top:4.4pt;width:3.6pt;height:3.6pt;border-radius:50%;background:#2e4a78}
+.ecard .mock{background:#f5f7fb;border-radius:6pt;padding:5pt;margin-bottom:6pt}
+.msearch{display:flex;align-items:center;height:17pt;background:#fff;border:.75pt solid #dde5ef;border-radius:5pt;overflow:hidden}
+.msearch .q{flex:1;padding:0 6pt;font-weight:600;font-size:8.4pt;color:var(--navy)}
+.msearch .go{width:18pt;height:100%;background:#2e4a78;display:flex;align-items:center;justify-content:center}
+.msearch .go svg{width:10pt;height:10pt}
+.ecard .mock .ghost{height:4pt;border-radius:2pt;background:#dde4ee;margin-top:5pt;width:70%}
+.ecard .chk{display:flex;gap:4pt;align-items:center;background:#f5f7fb;border-radius:6pt;padding:4pt 5pt;margin-bottom:5pt}
+.ecard .chk ul{flex:1;padding:0}
+.ecard .chk li{display:flex;align-items:center;gap:4pt;margin-bottom:2.5pt}
+.ecard .chk li svg{width:9pt;height:9pt;flex:none}
+.ecard .chk .gr svg{width:21pt;height:21pt}
+.ecard .rules{border:.9pt dashed #dde5ef;border-radius:6pt;padding:4pt 5pt}
+.ecard .rules b{display:block;font-weight:800;font-size:8.6pt;color:var(--navy);margin-bottom:1pt}
+.ecard .rules li::before{content:'';position:absolute;right:-8pt;top:4.4pt;width:3.6pt;height:3.6pt;border-radius:50%;background:#2e4a78}
+.ecard .dr{display:flex;align-items:center;gap:6pt;background:#f5f7fb;border-radius:6pt;padding:4pt 5pt;margin-bottom:4pt}
+.ecard .dr:last-child{margin-bottom:0}
+.ecard .dr svg{width:15pt;height:15pt;flex:none}
+.ecard .dr b{display:block;font-weight:800;font-size:8.6pt;color:var(--navy);line-height:1.25}
+.ecard .dr small{display:block;font-size:7.4pt;color:var(--muted);line-height:1.3}
+.phonecol{display:flex;flex-direction:column;gap:5pt}
+.ucard{background:#f5f7fb;border-radius:8pt;padding:5pt 6pt;display:flex;gap:5pt;align-items:flex-start}
+.ucard .n1{width:15pt;height:15pt;border-radius:50%;background:#2e4a78;color:#fff;font-weight:800;font-size:8.6pt;display:flex;align-items:center;justify-content:center;flex:none;line-height:1}
+.ucard b{display:block;font-weight:800;font-size:10pt;color:#2e4a78;line-height:1.25}
+.ucard small{display:block;font-size:7.8pt;color:var(--text2);line-height:1.35}
+.phone{flex:1;background:#22375c;border-radius:13pt;padding:5pt 4pt}
+.phone .scr{background:#fff;border-radius:9pt;height:100%;padding:5pt 5pt;font-size:6.8pt;color:var(--text2);line-height:1.3}
+.phone .loc{display:flex;align-items:center;gap:2pt;font-weight:700;color:var(--navy);margin-bottom:4pt}
+.phone .loc svg{width:8pt;height:8pt} .phone .loc .dd{font-size:6pt;color:var(--muted)}
+.phone .ms{display:flex;align-items:center;height:14pt;border:.6pt solid #dde5ef;border-radius:5pt;overflow:hidden;margin-bottom:4pt}
+.phone .ms .q{flex:1;padding:0 4pt;font-weight:700;color:var(--navy)}
+.phone .ms .go{width:15pt;height:100%;background:#22375c;display:flex;align-items:center;justify-content:center}
+.phone .ms .go svg{width:8pt;height:8pt}
+.phone .chips{display:flex;gap:2pt;margin-bottom:4pt}
+.phone .chips span{border-radius:5pt;background:#eef2f7;padding:0 3.5pt;font-size:6pt;line-height:9pt}
+.phone .chips span.on{background:#6b7486;color:#fff}
+.phone .ri{display:flex;align-items:center;gap:4pt;background:#fff;border:.5pt solid #eef1f5;border-radius:5pt;padding:2.5pt;margin-bottom:3pt;box-shadow:0 .6pt 1.5pt rgba(23,38,63,.08)}
+.phone .ri .th svg{width:20pt;height:20pt;display:block}
+.phone .ri .rn b{display:block;font-weight:800;font-size:7pt;color:var(--navy)}
+.phone .ri .rn i{font-style:normal;font-weight:700;font-size:6.6pt;color:var(--text)} .phone .ri .rn em{font-style:normal;color:#e29433}
+.ret{position:relative;height:28pt}
+.ret svg{position:absolute;left:0;top:0;width:512.7pt;height:30pt}
+.ret .rl{position:absolute;left:280pt;top:4.5pt;transform:translateX(-50%);background:#2e4a78;color:#fff;border-radius:6pt;padding:0 9pt;font-weight:700;font-size:8.2pt;line-height:15pt;white-space:nowrap}
+.probs{background:#fdf2f2;border:.75pt solid #f3d3d3;border-radius:11pt;padding:6pt 10pt 8pt 10pt;margin-bottom:8pt}
+.probs .ph2{display:flex;align-items:center;gap:6pt;font-weight:800;font-size:13pt;color:#b3261e;margin-bottom:5pt;line-height:1.3}
+.probs .ph2 svg{width:20pt;height:18pt}
+.probs .pg{display:grid;grid-template-columns:1.3fr 1fr;gap:8pt}
+.pcard{background:#fff;border:.75pt solid #f3d9d9;border-radius:9pt;padding:6pt 9pt;display:flex;gap:8pt;align-items:center}
+.pcard>div{flex:1}
+.pcard>svg{width:30pt;height:30pt;flex:none}
+.pcard h5{margin:0 0 2pt 0;font-weight:800;font-size:10.4pt;color:#b3261e;line-height:1.35}
+.pcard ul{margin:0;padding:0 10pt 0 0;list-style:none;font-size:9pt;line-height:14.2pt;color:var(--text2)}
+.pcard li{position:relative} .pcard li::before{content:'•';position:absolute;right:-9pt;color:#b3261e}
+.others{background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:11pt;padding:6pt 10pt 8pt 10pt;margin-bottom:8pt}
+.others .ph2{font-weight:800;font-size:13pt;color:var(--navy);margin-bottom:5pt;line-height:1.3}
+.others .og{display:grid;grid-template-columns:repeat(3,1fr);gap:7pt}
+.ocard{background:#fff;border:.75pt solid #dde5ef;border-radius:9pt;padding:6pt 7pt;display:flex;gap:5pt;align-items:center}
+.ocard .ot{flex:1}
+.ocard h5{display:flex;align-items:center;gap:4pt;margin:0 0 2pt 0;font-weight:800;font-size:10.2pt;color:var(--navy);line-height:1.3}
+.ocard h5 svg{width:15pt;height:15pt}
+.ocard ul{margin:0;padding:0 9pt 0 0;list-style:none;font-size:8.4pt;line-height:13.2pt;color:var(--text2)}
+.ocard li{position:relative} .ocard li::before{content:'•';position:absolute;right:-8pt;color:var(--muted)}
+.ocard .mk{flex:none;width:46pt}
+.mk i{display:block;height:3pt;border-radius:2pt;background:#dde4ee;margin-top:3pt}
+.bankm .ph3{background:#22375c;border-radius:7pt;padding:3pt}
+.bankm .ph3 small,.bankm .ph3 b{display:block;background:#fff;text-align:center;line-height:1.3}
+.bankm .ph3 small{font-size:5.6pt;color:var(--muted);border-radius:5pt 5pt 0 0;padding-top:3pt}
+.bankm .ph3 b{font-size:6.6pt;font-weight:800;color:var(--navy);padding-bottom:3pt}
+.bankm .ph3 i{background:#3a4458}
+.vidm .pl{background:#22375c;border-radius:4pt;overflow:hidden;line-height:0}
+.vidm .pl svg{width:100%;height:auto;display:block}
+.shopm{text-align:center}
+.shopm .pr{background:#f5f7fb;border-radius:5pt;padding:4pt 0;line-height:0}
+.shopm .pr svg{width:22pt;height:20pt}
+.shopm .btn{display:block;margin-top:3pt;background:#e29433;color:#fff;border-radius:3pt;font-weight:700;font-size:5.6pt;line-height:9pt}
+
+/* ---------- مثال من حياتنا تحت الرسم التسلسلي (الصورة 3) ---------- */
+.ex3{position:relative;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:11pt;padding:0 9pt 8pt 9pt;margin-bottom:8pt;overflow:hidden}
+.ex3 .fk{position:absolute;left:12pt;top:6pt;width:24pt;height:32pt}
+.ex3 .fk svg{width:100%;height:100%}
+.ex3 .e3h{display:flex;justify-content:flex-start;margin:0 -9pt 0 0}
+.ex3 .e3h h3{margin:0;background:#eef2f8;border-radius:0 0 0 18pt;padding:3pt 14pt 4pt 22pt;font-weight:800;font-size:12pt;color:#2e4a78;line-height:1.35}
+.ex3 .e3s{font-size:9.6pt;color:var(--text2);font-weight:500;margin:4pt 2pt 7pt 0}
+.e3g{display:grid;grid-template-columns:98pt 18pt 1fr 18pt 1fr 18pt 1fr;align-items:stretch}
+.e3g .garr{display:flex;align-items:center;justify-content:center}
+.e3g .garr svg{width:15pt;height:10pt}
+.e3c{background:#fff;border:.75pt solid #dde5ef;border-radius:8pt;padding:6pt 6pt 7pt 6pt;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.e3c h5{margin:0 0 5pt 0;font-weight:800;font-size:10.4pt;color:var(--navy);line-height:1.3}
+.e3c .ico{height:36pt;display:flex;align-items:center;justify-content:center;margin-bottom:6pt}
+.e3c .ico svg{height:34pt;width:auto}
+.e3c p{font-size:8.8pt;line-height:13.8pt;color:var(--text2)}
+.p3col{display:flex;flex-direction:column;align-items:center;gap:5pt}
+.phone.p3{width:78pt;flex:none;border-radius:12pt;padding:4pt 3.5pt;background:#22375c}
+.phone.p3 .scr{padding:0 0 4pt 0;overflow:hidden;border-radius:9pt}
+.phone.p3 .hero{height:34pt;background:#eef2f8;display:flex;align-items:center;justify-content:center;margin-bottom:-6pt}
+.phone.p3 .hero svg{width:40pt;height:40pt;margin-top:8pt}
+.phone.p3 .ms{position:relative;margin:0 4pt 4pt 4pt;background:#fff;border-color:#dde5ef;box-shadow:0 .8pt 2pt rgba(23,38,63,.15);height:13pt}
+.phone.p3 .ms .go{width:13pt;background:transparent}
+.phone.p3 .ms .q{font-size:6.6pt}
+.phone.p3 .ri{margin:0 4pt 3pt 4pt;padding:2pt}
+.phone.p3 .ri .th svg{width:17pt;height:17pt}
+.phone.p3 .ri .bars{flex:1}
+.phone.p3 .ri .bars i{display:block;height:2.8pt;border-radius:2pt;background:#dde4ee;margin:2pt 0}
+.phone.p3 .ri .bars i+i{width:60%}
+.ucard2{display:flex;align-items:center;gap:5pt;background:#fff;border:.75pt solid #dde5ef;border-radius:7pt;padding:4pt 7pt}
+.ucard2 .n1{width:14pt;height:14pt;border-radius:50%;background:#2e4a78;color:#fff;font-weight:800;font-size:8.4pt;display:flex;align-items:center;justify-content:center;flex:none;line-height:1}
+.ucard2 b{font-weight:800;font-size:8.8pt;color:var(--navy);line-height:1.3}
+.e3r{position:relative;height:31pt;margin-bottom:5pt}
+.e3r svg.rp{position:absolute;left:0;top:0;width:100%;height:24pt}
+.e3r .rl{position:absolute;left:199pt;transform:translateX(-50%);top:13pt;display:inline-flex;align-items:center;gap:5pt;background:#fff;border:.75pt solid #dde5ef;border-radius:11pt;padding:2pt 11pt;font-weight:600;font-size:9pt;color:var(--text2);line-height:1.3;white-space:nowrap}
+.e3r .rl svg{width:11pt;height:11pt}
+.e3p{display:flex;align-items:center;gap:14pt;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:9pt;padding:6pt 14pt;margin-bottom:6pt}
+.e3p .pt{flex:none;display:flex;align-items:center;gap:6pt}
+.e3p .pt svg{width:24pt;height:22pt}
+.e3p .pt b{font-weight:800;font-size:12pt;color:#a9670f}
+.e3p ul{flex:1;margin:0;padding:0 11pt 0 0;list-style:none;font-size:9.4pt;line-height:14pt;color:var(--text2)}
+.e3p li{position:relative} .e3p li::before{content:'';position:absolute;right:-10pt;top:5pt;width:4.2pt;height:4.2pt;border-radius:50%;background:#e29433}
+.e3t{display:flex;align-items:center;gap:8pt;background:#f5f7fb;border-radius:9pt;padding:5pt 12pt}
+.e3t svg{width:18pt;height:18pt;flex:none}
+.e3t p{font-size:9.4pt;line-height:13.5pt;color:var(--text2)}
+
+/* المسار العام على 3 سطور (طلب · معالجة · نتيجة) */
+.path3{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;justify-items:center;column-gap:7pt;row-gap:2pt}
+.path3 .pc{width:100%;min-height:38pt;border-radius:8pt;background:#f5f7fb;border:.75pt solid #dde5ef;display:flex;flex-direction:row;align-items:center;gap:8pt;padding:5pt 10pt;text-align:right}
+.path3 .pc svg{width:22pt;height:22pt;flex:none}
+.path3 .pc .tt{display:flex;flex-direction:column}
+.path3 .pc b{font-weight:700;font-size:9.8pt;color:var(--navy);line-height:1.3}
+.path3 .pc small{font-weight:500;font-size:8.8pt;color:var(--muted);line-height:1.35}
+.path3 .ar{flex:none;color:#e29433;font-family:'DejaVuArr';font-weight:700;font-size:11pt;line-height:1}
+.path3 .pdown{color:#e29433;font-family:'DejaVuArr';font-weight:700;font-size:11pt;line-height:1.2}
+
+/* ---------- علامة «للفهم» (أي حاجة مش من الكتاب) ---------- */
+.fx{display:inline-block;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:7.6pt;color:var(--blue);background:#fff;border:.75pt solid var(--blue);border-radius:7pt;line-height:12pt;padding:0 6pt;margin-right:7pt;vertical-align:2pt;white-space:nowrap}
+.fx.abs{position:absolute;top:-7pt;left:12pt;margin:0;z-index:3}
+.fx.fl{float:left;margin:1pt 8pt 2pt 0;vertical-align:0}
+.map,.info,.simply{position:relative}
+.simply{overflow:visible}
+.simply .lab{border-radius:0 9pt 9pt 0}
+.dark h3 .fx{background:#fff}
+/* ---------- توقّف وفكّر (من الكتاب) ---------- */
+.stop{background:#fbf6e8;border:.75pt solid #eee0b8;border-right:3pt solid #e29433;border-radius:9pt;padding:6pt 12pt 7pt 12pt;margin-bottom:6pt}
+.stop .sh{display:flex;align-items:center;gap:5pt;margin-bottom:2pt}
+.stop .sh svg{width:17pt;height:17pt}
+.stop .sh b{font-weight:800;font-size:11pt;color:var(--gold2)}
+.stop p{font-size:10pt;line-height:15.5pt;color:var(--text2);font-weight:600}
+
+/* ===================== بنك الأسئلة ===================== */
+.qstats{display:grid;grid-template-columns:repeat(8,1fr);border:.75pt solid #dde5ef;border-radius:9pt;overflow:hidden;margin-bottom:12pt;background:#fff}
+.qstats>div{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6pt 2pt 5pt 2pt;border-left:.75pt solid #eef2f8}
+.qstats>div:last-child{border-left:0}
+.qstats b{font-weight:800;font-size:14pt;color:var(--navy);line-height:1.2}
+.qstats span{font-weight:600;font-size:8.6pt;color:var(--muted);line-height:1.3}
+h2.cat{display:flex;align-items:center;gap:6pt;font-weight:800;font-size:13.4pt;color:var(--navy);line-height:1.4;margin:10pt 0 7pt 0;padding:5pt 14pt;border-right:3pt solid #e29433;background:#eef2f8;border-radius:9pt}
+h2.cat .cnt{margin-right:auto;font-weight:700;font-size:8.6pt;color:var(--gold2);background:#fbf6e8;border:.75pt solid #eee0b8;border-radius:7pt;line-height:13pt;padding:0 7pt}
+h2.cat .fx{vertical-align:0}
+.qcard{background:#fff;border:.75pt solid #dde5ef;border-right:3pt solid #e29433;border-radius:9pt;padding:7pt 11pt 8pt 11pt;margin-bottom:8pt}
+.qcard.cont{border-top-right-radius:0}
+.qcard h4{display:flex;align-items:center;margin:0 0 4pt 0;font-weight:800;font-size:10.8pt;color:var(--gold2);line-height:1.4}
+.qcard h4 .n{direction:ltr;unicode-bidi:isolate;margin-left:3pt}
+.qcard h4 .mk{margin-right:auto;font-weight:700;font-size:8.4pt;color:var(--navy2);background:#fff;border:.75pt solid #dde5ef;border-radius:7pt;padding:0 7pt;line-height:14pt}
+.qi,.qs,.para{font-size:9.8pt;line-height:15.6pt;color:var(--text2);margin:0 0 5pt 0}
+.qs b,.qi b,.para b{color:var(--navy2)}
+.para{line-height:20pt}
+.bl{display:inline-block;border-bottom:1pt dotted #8a9ab3;height:11pt;vertical-align:-1pt;margin:0 3pt}
+.ab{display:inline-block;flex:none;width:26pt;height:14pt;border:1pt solid #b9c6d8;border-radius:4pt;background:#fff;margin-right:6pt}
+.ab.w{width:62pt}
+.qq{display:flex;gap:7pt;align-items:flex-start;margin:4pt 0 4pt 0}
+.qq .k,.cl .k,.sa .k,.frow .k,.tfb .k{flex:none;display:inline-flex;align-items:center;justify-content:center;width:16pt;height:16pt;border-radius:50%;background:#fbf6e8;border:.75pt solid #eee0b8;font-weight:800;font-size:8.6pt;color:var(--gold2);line-height:1}
+.qq p{flex:1;font-size:9.8pt;line-height:15pt;color:var(--text2)}
+.qq p b{color:var(--navy2)}
+ul.op{margin:2pt 0 6pt 0;padding:0 17pt 0 0;list-style:none;display:grid;gap:1pt 14pt}
+ul.op.c1{grid-template-columns:1fr} ul.op.c2{grid-template-columns:1fr 1fr} ul.op.c3{grid-template-columns:repeat(3,1fr)}
+ul.op li{font-size:9.4pt;line-height:14.2pt;color:var(--text2)}
+ul.op li{display:flex;align-items:flex-start;gap:6pt}
+ul.op li b{display:inline-flex;flex:none;align-items:center;justify-content:center;width:15pt;height:15pt;padding-bottom:1pt;margin-top:-.3pt;border-radius:50%;background:#eef2f8;border:.75pt solid #dde5ef;font-weight:800;font-size:8.2pt;color:var(--navy2);line-height:1}
+ul.tf{margin:2pt 0 0 0;padding:0;list-style:none}
+ul.tf li,ul.tfb li{display:flex;align-items:center;gap:8pt;padding:3.5pt 4pt;border-top:.75pt solid #eef2f8;font-size:9.6pt;line-height:14.4pt;color:var(--text2)}
+ul.tf li:first-child{border-top:0}
+ul.tf li b{display:inline-flex;flex:none;align-items:center;justify-content:center;width:15pt;height:15pt;padding-bottom:1pt;border-radius:50%;background:#eef2f8;border:.75pt solid #dde5ef;font-weight:800;font-size:8.2pt;color:var(--navy2);line-height:1}
+ul.tf .t,ul.tfb .t{flex:1}
+.pr{flex:none;font-weight:600;color:#8a9ab3;letter-spacing:1pt}
+ul.tfb{margin:0 0 7pt 0;padding:0;list-style:none;background:#fff;border:.75pt solid #dde5ef;border-radius:8pt;overflow:hidden}
+ul.tfb li{border-top:0;border-bottom:.75pt solid #e3e9f1;padding:6pt 10pt}
+ul.tfb li:last-child{border-bottom:0}
+ul.tfb li:nth-child(even){background:#f8fafc}
+.match{display:grid;grid-template-columns:1.35fr 1fr;gap:10pt;margin-top:3pt}
+.match .mb{border:.75pt solid #dde5ef;border-radius:8pt;padding:6pt 10pt 7pt 10pt;background:#fbfcfe}
+.match h5{margin:0 0 3pt 0;font-weight:800;font-size:10pt;color:var(--navy);line-height:1.4}
+.match ol{margin:0;padding:0 14pt 0 0;font-size:9.4pt;line-height:14.5pt;color:var(--text2)}
+.match ol li{margin-bottom:3pt}
+.match ol li span{margin-left:6pt}
+.match ol li .ab{vertical-align:-3pt;margin-right:0}
+.sa{display:grid;grid-template-columns:1fr 1fr;gap:7pt}
+.sa>div{border:.75pt solid #e3e9f1;border-radius:7pt;padding:5pt 8pt;background:#fbfcfe}
+.sa>div,.frow>div{display:flex;gap:7pt;align-items:flex-start}
+.sa p,.frow p{flex:1;font-size:9.6pt;line-height:17pt;color:var(--text2)}
+ul.cl{margin:3pt 0 5pt 0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:0 18pt}
+ul.cl li{display:flex;align-items:center;gap:7pt;padding:5pt 0;border-bottom:.75pt solid #e3e9f1;font-size:9.6pt;line-height:14pt;color:var(--text2)}
+ul.cl li .t{flex:1}
+.mrow{display:grid;grid-template-columns:1fr 1fr;gap:7pt;margin-bottom:7pt}
+.mq{border:.75pt solid #dde5ef;border-radius:8pt;background:#fff;padding:5pt 9pt 5pt 9pt}
+.mq .qq{margin:0 0 4pt 0}
+.mq ul.op{margin:0;padding:4pt 0 0 0;border-top:.75pt dashed #e3e9f1;gap:3pt 10pt}
+.mrow .mq ul.op{margin-bottom:2pt}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:7pt;margin-bottom:7pt}
+.frow>div{border:.75pt solid #dde5ef;border-radius:8pt;background:#fff;padding:6pt 9pt}
+.hint{background:#fbf6e8;border:.75pt solid #eee0b8;border-radius:7pt;padding:4pt 10pt;font-size:9pt;line-height:14pt;color:var(--text2);margin:2pt 0 4pt 0}
+.hint>b:first-child{font-weight:800;color:var(--gold2);margin-left:5pt}
+.hint b{color:var(--navy2)}
+.wl i{display:block;height:17pt;border-bottom:.75pt dotted #b9c6d8}
+.why{border:.75pt solid #dde5ef;border-radius:8pt;background:#fff;padding:6pt 10pt 7pt 10pt;margin-bottom:7pt}
+.why .wl{margin-right:23pt}
+table.cmp{width:100%;border-collapse:separate;border-spacing:0;border:.75pt solid #dde5ef;border-radius:8pt;overflow:hidden;margin:4pt 0 8pt 0;font-size:9.6pt;line-height:14pt}
+table.cmp th{background:#eef2f8;font-weight:800;color:var(--navy);text-align:right;padding:4pt 10pt;border-bottom:.75pt solid #dde5ef}
+table.cmp td{height:22pt;padding:3pt 10pt;border-top:.75pt solid #eef2f8;border-left:.75pt solid #eef2f8}
+table.cmp th+th{border-right:.75pt solid #dde5ef}
+table.cmp td.k{width:118pt;font-weight:700;color:var(--navy2);background:#fbfcfe}
+table.cmp.tall td{height:38pt}
+.qcard table.cmp{margin-bottom:2pt}
+.chx{display:flex;flex-wrap:wrap;gap:4pt 18pt;font-size:9.4pt;line-height:14pt;color:var(--text2);margin:2pt 0 2pt 0}
+.drawbox{height:150pt;margin:4pt 0 0 23pt;border:1pt dashed #b9c6d8;border-radius:8pt;background:#fbfcfe}
+.why.cont{border-top-right-radius:0;border-top-left-radius:0;padding-top:2pt}
+/* ---------- علامة «تقييمات» ---------- */
+.mq,.why,.qcard{position:relative}
+.tq{position:absolute;top:-6.5pt;left:10pt;z-index:3;display:inline-block;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:7.6pt;color:#17263f;background:#e29433;border-radius:7pt;line-height:12pt;padding:0 6pt;white-space:nowrap}
+.qstats .tq{position:static;margin-top:2pt;font-size:8pt;line-height:13pt}
+.content>.tqtop{margin-top:9pt}
+.tqin .tq{top:-3.2pt}
+/* ===== صناديق الكتاب الجانبية: الفكرة الرئيسة · مصطلحات أساسية · تذكّر · الحل · تعليق الصورة ===== */
+.kidea{background:#22375c;border-right:3pt solid #e29433;border-radius:9pt;padding:8pt 14pt 9pt 14pt;margin:12pt 0 9pt 0}
+.kidea .kh{font-weight:800;font-size:9.8pt;line-height:15pt;color:#f1c88b;margin-bottom:2pt}
+.kidea p{font-size:10.4pt;line-height:17pt;color:#fff;margin:0}
+.kidea p b{color:#ffd08a}
+.terms{background:#fff;border:.75pt solid #dde5ef;border-radius:8pt;padding:6pt 12pt 7pt 12pt;margin:0 0 8pt 0}
+.terms .th{display:flex;align-items:center;gap:10pt;margin:0 0 5pt 0;padding-bottom:4pt;border-bottom:.75pt solid #dde5ef}
+.terms h3{flex:none;margin:0;font-weight:800;font-size:9.8pt;line-height:1.5;color:var(--navy)}
+.terms .t3{flex:1;display:flex;gap:6pt}
+.terms .t3 span{flex:1;background:#f5f7fb;border-radius:6pt;padding:1pt 6pt;text-align:center;font-size:9.2pt;line-height:14pt;white-space:nowrap;color:var(--text)}
+.terms .t2{display:grid;grid-template-columns:1fr 1fr;gap:5pt 6pt}
+.terms .t2 div{background:#f5f7fb;border-radius:6pt;padding:3pt 9pt;font-size:9.3pt;line-height:14.5pt;color:var(--text)}
+.terms b{color:#a9670f;font-weight:800}
+.dark .rem{font-size:9.3pt;line-height:14.5pt;color:#fff;margin:0 0 5pt 0;padding-bottom:5pt;border-bottom:.75pt solid rgba(255,255,255,.2)}
+.dark .rem b{color:#f1c88b}
+.qcard.sol .ck{display:inline-flex;align-items:center;justify-content:center;width:14pt;height:14pt;border-radius:50%;background:#e29433;color:#fff;font-size:9pt;margin-left:3pt}
+.qcard.sol .sg{display:grid;grid-template-columns:1.5fr 1fr;gap:14pt}
+.qcard.sol .sp{font-weight:800;color:var(--navy2);font-size:9.6pt;line-height:15pt;margin-bottom:2pt}
+.qcard.sol .sr{display:flex;gap:6pt;font-size:9.6pt;line-height:15pt;color:var(--text);margin-bottom:2pt}
+.qcard.sol .sr b{flex:none;min-width:12pt;color:#a9670f;font-weight:800}
+.qcard.sol .sr i{font-style:normal;font-weight:800;color:#a9670f}
+.terms .t2+.t2{margin-top:5pt}
+.terms .t2.c3{grid-template-columns:1fr 1fr 1fr}
+.terms .t2 .full{grid-column:1/-1}
+.icap{margin:5pt 0 8pt 0;padding-top:4pt;border-top:.75pt dashed #dde5ef;text-align:center;font-size:8.8pt;line-height:13pt;color:var(--muted)}
+
+/* ---------- إضافات الدرس 2-2 (مبنية على 2-1) ---------- */
+.banner{text-wrap:pretty}
+.quote,.note-line,.box p,.box li,.stg p,.hf .hs p{text-wrap:pretty}
+.intro .body p+p{margin-top:4pt}
+.map .cell li{text-wrap:pretty}
+.map.m2 .cell h4{display:flex;align-items:flex-start;gap:5pt;line-height:1.4;margin-bottom:2pt}
+.map.m2 .cell h4 .mn{flex:none;display:inline-flex;align-items:center;justify-content:center;width:13pt;height:13pt;border-radius:50%;background:var(--navy2);color:#fff;font-size:7.8pt;font-weight:800;margin-top:1.5pt}
+.map.m2{grid-template-columns:1fr 104pt 1fr;column-gap:15pt}
+.map.m2 .hub{font-size:10.4pt;padding:6pt 6pt}
+.nw{white-space:nowrap}
+.box.plain{background:#f5f7fb;border-color:#dde5ef} .box.plain h3{color:var(--navy)}
+.box.plain p{text-wrap:pretty}
+.cmpw{position:relative}
+/* مراحل اتصال HTTPS (جدول الكتاب ككروت) */
+.stg{display:flex;flex-direction:column;gap:6pt;margin:0 0 4pt 0}
+.stg .sh{display:grid;grid-template-columns:1fr 112pt;gap:10pt;padding:0 11pt 0 11pt;font-weight:700;font-size:8.6pt;color:var(--muted);line-height:1.3}
+.stg .sh span:first-child{padding-right:30pt}
+.stg .sh span:last-child{text-align:center}
+.stg .sc{display:grid;grid-template-columns:20pt 1fr 112pt;align-items:center;gap:10pt;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:9pt;padding:7pt 11pt}
+.stg .sn{width:20pt;height:20pt;border-radius:50%;background:#e29433;color:#fff;font-weight:800;font-size:10.5pt;display:flex;align-items:center;justify-content:center;line-height:1}
+.stg h4{margin:0 0 1pt 0;font-weight:800;font-size:10.6pt;color:var(--navy);line-height:1.4}
+.stg p{font-size:9.7pt;line-height:15pt;color:var(--text2)}
+.stg p b{color:var(--navy2)}
+.stg .mc{align-self:stretch;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2pt;text-align:center;background:#fff;border:.75pt solid #dde5ef;border-radius:8pt;padding:4pt 6pt}
+.stg .mc svg{width:22pt;height:22pt}
+.stg .mc b{font-size:9.6pt;font-weight:800;line-height:1.35}
+.stg .mc.pk b{color:#2e4a78} .stg .mc.sy b{color:#a9670f}
+.stg .mc.sy{background:#fbf6e8;border-color:#eee0b8}
+/* شكل الكتاب: تدفق اتصال HTTPS */
+.hf{padding-top:9pt}
+.hf .hfh{display:flex;justify-content:space-between}
+.hf .nd{width:150pt;border-radius:8pt;text-align:center;padding:4pt 6pt 5pt 6pt;line-height:1.3}
+.hf .nd b{display:block;font-weight:800;font-size:11pt}
+.hf .nd small{display:block;font-size:8.2pt;font-weight:600}
+.hf .nd.b{background:#fff;border:1.2pt solid #22375c} .hf .nd.b b{color:var(--navy)} .hf .nd.b small{color:var(--muted)}
+.hf .nd.s{background:#22375c;border:1.2pt solid #22375c} .hf .nd.s b{color:#fff} .hf .nd.s small{color:#c9d6e6}
+.hf .hfb{position:relative;padding:8pt 0 6pt 0}
+.hf .hfb::before,.hf .hfb::after{content:'';position:absolute;top:0;bottom:0;width:0;border-left:1.2pt dashed #b9c6d8}
+.hf .hfb::before{right:75pt} .hf .hfb::after{left:75pt}
+.hf .hs{margin:0 75pt;position:relative}
+.hf .hs+.hs{margin-top:9pt}
+.hf .hs .pl{display:flex;justify-content:center;margin-bottom:4pt}
+.hf .hs .pl span{display:inline-flex;align-items:center;gap:5pt;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:9pt;padding:0 10pt 0 8pt;font-weight:800;font-size:9.4pt;line-height:17pt;color:var(--navy)}
+.hf .hs .pl i{font-style:normal;flex:none;width:13pt;height:13pt;border-radius:50%;background:#e29433;color:#fff;font-size:8pt;display:inline-flex;align-items:center;justify-content:center;line-height:1}
+.hf .ar{position:relative;height:10pt}
+.hf .ar::before{content:'';position:absolute;left:0;right:0;top:4.2pt;border-top:1.6pt solid #22375c}
+.hf .ar i{position:absolute;top:0;width:0;height:0;border-top:5pt solid transparent;border-bottom:5pt solid transparent}
+.hf .ar .hr{right:-1pt;border-left:9pt solid #22375c}
+.hf .ar .hl{left:-1pt;border-right:9pt solid #22375c}
+.hf .ar.g::before{border-top-color:#e29433} .hf .ar.g .hr{border-left-color:#e29433} .hf .ar.g .hl{border-right-color:#e29433}
+.hf .hs p{text-align:center;font-size:9.3pt;line-height:14pt;color:var(--text2);margin-top:3pt;padding:0 6pt}
+.hf .hff{background:#eef2f8;border-radius:7pt;text-align:center;font-size:8.8pt;line-height:13.5pt;color:var(--text2);padding:3pt 10pt}
+.hf .hff b{color:var(--navy2)}
+/* صورة من الكتاب جنب نص */
+.sf{display:grid;grid-template-columns:1fr 200pt;gap:12pt;align-items:center;margin:0 0 9pt 0}
+.sf .quote{margin:0}
+.im{background:#fff;border:.75pt solid #dde5ef;border-radius:9pt;padding:5pt 5pt 0 5pt}
+.im img{display:block;width:100%;height:auto;border-radius:6pt}
+.im .icap{margin:4pt 2pt 4pt 2pt;text-wrap:pretty}
+/* المفتاح العام × المتماثل */
+.kp .kg{display:grid;grid-template-columns:1fr 1fr;gap:10pt}
+.kp .kc{display:flex;align-items:center;gap:10pt;border-radius:9pt;padding:8pt 11pt;border:.75pt solid #dde5ef;background:#f5f7fb}
+.kp .kc.sy{background:#fbf6e8;border-color:#eee0b8}
+.kp .kc .ic{flex:none;display:flex;flex-direction:column;align-items:center;gap:1pt;width:38pt}
+.kp .kc .ic svg{width:34pt;height:17pt}
+.kp .kt{flex:1}
+.kp h4{margin:0 0 2pt 0;font-weight:800;font-size:11pt;color:var(--navy);line-height:1.35}
+.kp .kc.sy h4{color:#a9670f}
+.kp p{font-size:9.4pt;line-height:14.2pt;color:var(--text2)}
+.kp .tg{flex:none;font-weight:800;font-size:8.6pt;border-radius:7pt;padding:0 8pt;line-height:15pt;background:#fff;border:.75pt solid #dde5ef;color:#2e4a78}
+.kp .kc.sy .tg{border-color:#eee0b8;color:#a9670f}
+/* فئات عوامل المصادقة */
+.fac .fg3{display:grid;grid-template-columns:repeat(3,1fr);gap:9pt}
+.fac .fc{display:flex;flex-direction:column;align-items:center;text-align:center;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:9pt;padding:7pt 8pt 7pt 8pt}
+.fac .fc .ic{width:34pt;height:34pt;border-radius:50%;background:#fff;border:.75pt solid #dde5ef;display:flex;align-items:center;justify-content:center;margin-bottom:3pt}
+.fac .fc .ic svg{width:20pt;height:20pt}
+.fac h4{margin:0;font-weight:800;font-size:11.4pt;color:var(--navy);line-height:1.35}
+.fac .fc p{font-size:9.4pt;line-height:14pt;color:var(--text2);margin-top:1pt}
+.fac .fc small{flex:1;font-size:8.8pt;line-height:13.4pt;color:var(--muted);margin:2pt 0 4pt 0}
+.fac .tg{font-weight:800;font-size:8.4pt;color:#a9670f;background:#fff;border:.75pt solid #eee0b8;border-radius:7pt;padding:0 9pt;line-height:14pt}
+.fac .fn{margin-top:7pt;padding:4pt 10pt;border-radius:7pt;background:#fbf6e8;border-right:3pt solid #e29433;font-size:9.2pt;line-height:14.2pt;color:var(--text2);text-wrap:pretty}
+.fac .fn b{color:var(--navy2)}
+/* جدول الخدمات */
+table.svt td{vertical-align:middle}
+table.svt td.k{white-space:normal}
+.fk{font-size:8.8pt;font-weight:700}
+.fk.f1{color:#a9670f} .fk.f2{color:#2e4a78} .fk.f3{color:#6e7f9c}
+/* جدول التقنيات والتأثير + صورة الشهادة */
+.tx{display:grid;grid-template-columns:1fr 150pt;gap:12pt;align-items:center;margin:0 0 9pt 0}
+.tx .tl{border:.75pt solid #dde5ef;border-radius:9pt;overflow:hidden;background:#fff}
+.tx .th{display:grid;grid-template-columns:132pt 1fr;background:#eef2f8;font-weight:800;font-size:9.6pt;color:var(--navy);line-height:1.5}
+.tx .th span{padding:3pt 10pt}
+.tx .tr{display:grid;grid-template-columns:132pt 1fr;border-top:.75pt solid #e3e9f1}
+.tx .tn{display:flex;align-items:center;gap:7pt;padding:6pt 9pt;background:#f5f7fb;border-left:.75pt solid #e3e9f1}
+.tx .tn .ic{flex:none;width:26pt;height:26pt;border-radius:50%;background:#fff;border:.75pt solid #dde5ef;display:flex;align-items:center;justify-content:center}
+.tx .tn .ic svg{width:15pt;height:15pt}
+.tx .tn b{display:block;font-weight:800;font-size:10pt;color:var(--navy);line-height:1.35}
+.tx .tn small{display:block;font-size:7.8pt;line-height:11pt;color:var(--muted);font-weight:600}
+.tx .te{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:3pt;padding:6pt 10pt}
+.tx .te p{font-size:9.4pt;line-height:14.2pt;color:var(--text2);text-wrap:pretty}
+.tx .te p b{color:var(--navy2)}
+.tx .tg{font-weight:700;font-size:8pt;color:#a9670f;background:#fbf6e8;border:.75pt solid #eee0b8;border-radius:6pt;padding:0 7pt;line-height:13pt}
+.tx .txs{background:#fbf6e8;border-top:.75pt solid #eee0b8;padding:3pt 10pt;font-size:9pt;line-height:14pt;color:var(--text2)}
+.tx .txs .fx{margin:0 0 0 6pt}
+.tx .txs em,.tx .px em{font-style:normal;font-weight:800;color:#a9670f}
+.tx .te .px{align-self:stretch;margin-top:2pt;padding-top:3pt;border-top:.75pt dashed #dde5ef;font-size:8.9pt;line-height:13.4pt;color:var(--text);text-wrap:pretty}
+.exs{position:relative;background:#fbfcfe;border:.75pt dashed #e2c48f;border-radius:9pt;padding:5pt 12pt;margin:5pt 0 7pt 0;font-size:9.6pt;line-height:15pt;color:var(--text);text-wrap:pretty}
+.exs .eh{font-weight:800;color:#a9670f;margin-left:5pt}
+.exs b{color:var(--navy)}
+/* التهديد ← التقنية */
+.thr{padding-top:10pt}
+.thr .th2{display:flex;align-items:center;justify-content:center;gap:8pt;margin-bottom:6pt;font-weight:800;font-size:10pt;line-height:1.35}
+.thr .th2 .a{color:#a9670f} .thr .th2 .b{color:var(--navy)}
+.thr .tgr{display:grid;grid-template-columns:1fr 1fr;gap:6pt 16pt}
+.thr .trw{display:grid;grid-template-columns:1.15fr 30pt 1fr;align-items:stretch}
+.thr .t1,.thr .t2{display:flex;align-items:center;justify-content:center;border-radius:8pt;padding:3pt 8pt;text-align:center;font-size:9.6pt;line-height:13.6pt;text-wrap:pretty}
+.thr .t1{background:#fbf6e8;border:.75pt solid #eee0b8;color:var(--text2)}
+.thr .t2{background:#f5f7fb;border:.75pt solid #dde5ef;color:var(--navy);font-weight:800}
+.thr .ar{display:flex;align-items:center;justify-content:center}
+.thr .ar svg{width:24pt;height:9pt}
+/* بنك */
+.match ol.la{list-style:none;padding:0}
+.match ol.la li{display:flex;align-items:center;gap:6pt}
+.match ol.la li b{flex:none;display:inline-flex;align-items:center;justify-content:center;width:15pt;height:15pt;border-radius:50%;background:#eef2f8;border:.75pt solid #dde5ef;font-weight:800;font-size:8.2pt;color:var(--navy2);line-height:1;margin-top:0}
+.match ol.la li span:not(.ab){flex:1;margin-left:0}
+.match ol.la li .ab{margin-top:0}
+.qs.rd{background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:7pt;padding:5pt 10pt;text-wrap:pretty}
+/* ---------- جديد في 2-2 ---------- */
+.banner .bx{display:block;margin-top:2pt;font-style:italic;font-weight:600;opacity:.92}
+.cn{flex:none;display:inline-flex;align-items:center;justify-content:center;width:15pt;height:15pt;border-radius:50%;background:#e29433;color:#fff;font-weight:800;font-size:8.4pt;line-height:1}
+.lar{font-style:normal;display:flex;align-items:center;justify-content:center}
+.lar svg{width:22pt;height:10pt}
+.dyh{font-weight:800;font-size:10.6pt;color:var(--navy);margin:0 0 7pt 0;line-height:1.5}
+.dyh b{color:#a9670f}
+.rcl{display:flex;align-items:center;gap:10pt;background:#22375c;border-radius:10pt;padding:7pt 12pt;margin:0 0 10pt 0}
+.rcl .rl{flex:none;background:#e29433;color:#17263f;font-weight:800;font-size:9.6pt;line-height:18pt;padding:0 11pt;border-radius:8pt}
+.rcl .rc{flex:1;display:flex;align-items:center;justify-content:center;gap:8pt;flex-wrap:wrap}
+.rcl .rc span{background:#2e4a78;border:.75pt solid #4a6fa5;border-radius:8pt;padding:1pt 12pt;color:#fff;font-weight:800;font-size:10.2pt;line-height:17pt}
+.rcl .rc i{font-style:normal;color:#f1c88b;font-weight:800}
+figure.bimg{margin:0 auto 9pt auto;width:55%;background:#fff;border:.75pt solid #dde5ef;border-radius:9pt;padding:5pt 5pt 0 5pt}
+figure.bimg img{display:block;width:100%;height:auto;border-radius:6pt}
+figure.bimg .icap{margin:4pt 2pt 5pt 2pt;text-align:center}
+/* جدار الحماية: قواعد المثال + الصورة */
+.fwx{display:grid;grid-template-columns:1fr 215pt;gap:12pt;align-items:center;margin:0 0 9pt 0}
+.fwx .fig{margin:0}
+.fwr{padding-top:10pt}
+.fwh{font-weight:800;font-size:10.4pt;color:var(--navy);margin-bottom:6pt}
+.fr{display:grid;grid-template-columns:1fr 30pt 1fr 62pt;align-items:center;gap:6pt;margin-bottom:6pt}
+.fr .a{display:flex;align-items:center;gap:6pt;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:8pt;padding:5pt 8pt}
+.fr .a svg{flex:none;width:17pt;height:17pt}
+.fr .a b{font-weight:800;font-size:9.4pt;color:var(--navy);line-height:1.35}
+.fr .w{display:flex;justify-content:center}
+.fr .w svg{width:24pt;height:24pt}
+.fr .st{display:flex;align-items:center;justify-content:center;gap:4pt;border-radius:8pt;font-weight:800;font-size:9.4pt;color:#fff;line-height:22pt}
+.fr .st svg{width:12pt;height:12pt}
+.fr.ok .st{background:#2e7d5b} .fr.no .st{background:#a33a30}
+.fr.no .a:last-of-type{border-color:#efc6c1;background:#fbeceb}
+.fwp{display:flex;align-items:center;flex-wrap:wrap;gap:5pt;margin-top:3pt;padding-top:6pt;border-top:.75pt dashed #dde5ef}
+.fwp span{background:#fff;border:.75pt solid #dde5ef;border-radius:8pt;padding:0 9pt;font-weight:700;font-size:9pt;color:var(--navy);line-height:17pt}
+.fwp .pl{background:#fbf6e8;border-color:#eee0b8;color:#a9670f}
+/* VPN */
+.vpu{padding-top:10pt}
+.vu2{display:grid;grid-template-columns:1fr 1fr;gap:10pt}
+.vc{background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:9pt;padding:6pt 9pt 8pt 9pt}
+.vc h5{display:flex;align-items:center;gap:6pt;margin:0 0 6pt 0;font-weight:800;font-size:10.4pt;color:var(--navy)}
+.tn{display:grid;grid-template-columns:62pt 1fr 62pt;align-items:center;gap:4pt}
+.tn .e{display:flex;flex-direction:column;align-items:center;gap:2pt;text-align:center}
+.tn .e svg{width:24pt;height:24pt}
+.tn .e b{font-weight:700;font-size:8.6pt;line-height:1.3;color:var(--navy)}
+.tn .tb{position:relative;display:flex;align-items:center}
+.tn .tb i{flex:1;height:0;border-top:1.6pt dashed #e29433}
+.tn .tb em{flex:none;display:flex;align-items:center;gap:3pt;font-style:normal;background:#fbf6e8;border:1.2pt solid #e29433;border-radius:11pt;padding:1pt 8pt;font-weight:800;font-size:8.4pt;color:#a9670f;line-height:15pt}
+.tn .tb em svg{width:11pt;height:11pt}
+.vw{display:grid;grid-template-columns:1fr 1fr;gap:10pt;margin-top:8pt}
+.vb{border-radius:9pt;padding:5pt 10pt;background:#fbeceb;border:.75pt solid #efc6c1}
+.vb.g{background:#eaf5ef;border-color:#b9dcc9}
+.vb .vl{display:flex;align-items:center;gap:5pt;font-weight:800;font-size:9.4pt;color:#a33a30;line-height:1.5}
+.vb.g .vl{color:#2e7d5b}
+.vb .vl svg{width:15pt;height:15pt}
+.vb p{font-size:9.4pt;line-height:14pt;color:var(--text2)}
+/* شكل الكتاب: تكوين DMZ */
+.dmz{padding-top:9pt}
+.dzh{text-align:center;font-weight:800;font-size:11pt;color:var(--navy);margin-bottom:8pt}
+.dz{display:grid;grid-template-columns:1fr 34pt 1.25fr 34pt 1fr;align-items:stretch;gap:5pt}
+.zc{border-radius:10pt;padding:6pt 7pt 8pt 7pt;display:flex;flex-direction:column;align-items:center;gap:6pt}
+.zc h5{margin:0;text-align:center;font-weight:800;font-size:10.2pt;color:var(--navy);line-height:1.3}
+.zc h5 small{display:block;font-weight:600;font-size:8.2pt;color:var(--muted)}
+.zc.ext{background:#fbf6e8;border:.75pt solid #eee0b8}
+.zc.dmzz{background:#fff;border:1.4pt dashed #a9670f}
+.zc.int{background:#eef4fb;border:.75pt solid #c9d6e6}
+.dr{display:flex;gap:6pt;justify-content:center;flex-wrap:wrap}
+.dn{display:flex;flex-direction:column;align-items:center;gap:2pt;background:#fff;border:.75pt solid #dde5ef;border-radius:8pt;padding:5pt 6pt;min-width:54pt;text-align:center}
+.dn svg{width:20pt;height:20pt}
+.dn span{font-weight:700;font-size:8.2pt;line-height:1.3;color:var(--navy)}
+.zx{text-align:center;background:#f5f7fb;border-radius:7pt;padding:3pt 8pt;line-height:1.35}
+.zx b{display:block;font-weight:800;font-size:9pt;color:var(--navy)}
+.zx small{display:block;font-size:8pt;color:var(--muted)}
+.zx.s{background:#22375c} .zx.s b{color:#fff}
+.fw{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4pt;background:#22375c;border-radius:6pt;padding:6pt 0}
+.fw i svg{width:18pt;height:18pt}
+.fw>span:not(.lbn){writing-mode:vertical-rl;transform:rotate(180deg);color:#fff;font-weight:800;font-size:8.4pt;letter-spacing:.3pt}
+.dzf{margin-top:8pt;text-align:center;font-weight:800;font-size:9.4pt;color:var(--navy2);background:#eef2f8;border-radius:7pt;padding:3pt 10pt}
+.bnk{padding-top:10pt}
+.bnk .zc,.bnk .fw{position:relative}
+.lbn{position:absolute;top:-7pt;right:-6pt;width:16pt;height:16pt;border-radius:50%;background:#e29433;color:#fff;font-weight:800;font-size:8.6pt;display:flex;align-items:center;justify-content:center;line-height:1;z-index:2;border:1.2pt solid #fff}
+.bnk .fw .lbn{right:auto;left:50%;margin-left:-8pt;top:-9pt;writing-mode:horizontal-tb;transform:none;letter-spacing:0}
+.bnk .dz{grid-template-columns:1.35fr 34pt 1fr 34pt 1fr}
+.bnk .dn{min-width:48pt;padding:4pt 5pt}
+.dn.ep{position:relative}
+.dn small{font-size:7.8pt;color:#2e7d5b;font-weight:700;line-height:1.3}
+.vtn{position:relative;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:6pt;margin-top:9pt;background:#fbf6e8;border:.75pt solid #eee0b8;border-radius:9pt;padding:6pt 12pt}
+.vtn .e{display:flex;align-items:center;gap:4pt;font-weight:700;font-size:8.8pt;color:var(--navy)}
+.vtn .e svg{width:16pt;height:16pt}
+.vtn .tb{display:flex;align-items:center}
+.vtn .tb i{flex:1;height:0;border-top:1.6pt dashed #e29433}
+.vtn .tb em{flex:none;display:flex;align-items:center;gap:3pt;font-style:normal;background:#fff;border:1.2pt solid #e29433;border-radius:11pt;padding:1pt 8pt;font-weight:800;font-size:8.6pt;color:#a9670f;line-height:15pt}
+.vtn .tb em svg{width:11pt;height:11pt}
+.vtn>.lbn{top:-8pt;right:-6pt}
+.per{padding-top:10pt}
+.pr2{display:grid;grid-template-columns:1fr 30pt 1fr;align-items:stretch}
+.per .pc{display:flex;flex-direction:column;gap:6pt;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:9pt;padding:6pt 9pt 7pt 9pt}
+.per .pc.now{background:#fbf6e8;border-color:#eee0b8}
+.per h5{margin:0;font-weight:800;font-size:10.2pt;color:var(--navy);text-align:center}
+.per .pc.now h5{color:#a9670f}
+.pw{position:relative;display:flex;justify-content:center;gap:6pt;border:2.2pt solid #22375c;border-radius:10pt;padding:14pt 6pt 6pt 6pt;background:#fff}
+.pw.dash{border-style:dashed;border-color:#6e7f9c}
+.pw .pt{position:absolute;top:-8pt;right:10pt;background:#22375c;color:#fff;font-weight:800;font-size:8.2pt;border-radius:6pt;padding:0 7pt;line-height:14pt}
+.pw.dash .pt{background:#6e7f9c}
+.po{display:flex;justify-content:center;gap:6pt}
+.pm{display:flex;flex-direction:column;align-items:center;gap:2pt;text-align:center;min-width:58pt;padding:3pt 5pt;border-radius:7pt}
+.pm svg{width:20pt;height:20pt}
+.pm span{font-weight:700;font-size:8.4pt;line-height:1.3;color:var(--navy)}
+.pm.out{background:#fff;border:1.2pt dashed #e29433}
+.pm.out span{color:#a9670f}
+.per .pc p{font-size:9.2pt;line-height:14pt;color:var(--text2);text-align:center;text-wrap:pretty}
+.per .pc p b{color:var(--navy2)}
+/* جدول الطبقات + لو حاجة فشلت */
+table.lyt td.k{white-space:nowrap}
+.flx{padding-top:10pt}
+.flc,.flr{display:grid;grid-template-columns:1fr 30pt 1fr;align-items:stretch;gap:0}
+.flc span{font-weight:800;font-size:8.8pt;color:var(--muted);text-align:center;padding-bottom:3pt}
+.flr+.flr{margin-top:6pt}
+.flr .f1,.flr .f2{display:flex;align-items:center;gap:7pt;border-radius:8pt;padding:5pt 9pt}
+.flr .f1{background:#fbeceb;border:.75pt solid #efc6c1}
+.flr .f2{background:#eaf5ef;border:.75pt solid #b9dcc9}
+.flr svg{flex:none;width:18pt;height:18pt}
+.flr p{font-size:9.4pt;line-height:14pt;color:var(--text);text-wrap:pretty}
+/* شكل الكتاب: الأمان التقليدي × انعدام الثقة */
+.ztf{padding-top:9pt}
+.zt2{display:grid;grid-template-columns:1fr 1fr;gap:12pt;align-items:stretch}
+.zs{display:flex;flex-direction:column;gap:5pt}
+.zs h5{margin:0;text-align:center;font-weight:800;font-size:10pt;color:#fff;border-radius:6pt;line-height:19pt}
+.zs.zero h5{background:#22375c} .zs.trad h5{background:#6e7f9c}
+.zb{flex:1;border-radius:9pt;padding:6pt 7pt;display:flex;flex-direction:column;align-items:center;gap:5pt}
+.zs.zero .zb{background:#f5f7fb;border:1.3pt dashed #22375c}
+.zb.o{background:#fff;border:.75pt solid #c9d3e0} .zb.i{background:#f5f7fb;border:.75pt solid #c9d3e0}
+.zl{text-align:center;font-weight:800;font-size:9.4pt;color:var(--navy);line-height:1.35}
+.zl small{display:block;font-weight:600;font-size:8.2pt;color:var(--muted)}
+.zr{display:flex;gap:6pt;justify-content:center;flex-wrap:wrap}
+.zp{position:relative;display:flex;flex-direction:column;align-items:center;gap:2pt;background:#fff;border:.75pt solid #dde5ef;border-radius:8pt;padding:5pt 6pt;min-width:52pt;text-align:center}
+.zp svg{width:19pt;height:19pt}
+.zp span{font-weight:700;font-size:8.2pt;line-height:1.3;color:var(--navy)}
+.zp i{position:absolute;top:-6pt;left:-6pt;width:15pt;height:15pt;border-radius:50%;background:#e29433;display:flex;align-items:center;justify-content:center}
+.zp i svg{width:10pt;height:10pt}
+.zv{font-weight:800;font-size:9.2pt;color:#a9670f}
+.zfw{text-align:center;background:#22375c;color:#fff;font-weight:800;font-size:8.8pt;border-radius:5pt;line-height:16pt}
+/* انعدام الثقة: 3 فحوصات */
+.ztc{padding-top:10pt}
+.zc3{display:grid;grid-template-columns:repeat(3,1fr);gap:9pt}
+.zc3>div{display:flex;flex-direction:column;align-items:center;text-align:center;background:#f5f7fb;border:.75pt solid #dde5ef;border-radius:9pt;padding:7pt 8pt}
+.zc3 .zi{width:32pt;height:32pt;border-radius:50%;background:#fff;border:.75pt solid #dde5ef;display:flex;align-items:center;justify-content:center;margin-bottom:3pt}
+.zc3 .zi svg{width:18pt;height:18pt}
+.zc3 h5{margin:0;font-weight:800;font-size:10.8pt;color:var(--navy)}
+.zc3 small{font-size:9pt;color:#a9670f;font-weight:700;line-height:1.5}
+.zc3 p{margin-top:4pt;padding-top:4pt;border-top:.75pt dashed #dde5ef;font-size:9pt;line-height:13.6pt;color:var(--text);text-wrap:pretty}
+.zc3 p em{font-style:normal;font-weight:800;color:#a9670f}
+.zcf{margin-top:8pt;background:#eef2f8;border-radius:7pt;padding:4pt 10pt;text-align:center;font-size:9.2pt;line-height:14pt;color:var(--text2)}
+.zcf b{color:var(--navy2)}
+/* ==== fxflag: بادج «للفهم» علم مموّج طالع من الجنب + علم واحد بقوس وأسهم لكذا حاجة ورا بعض (tools/fxflag.py) ==== */
+.fx.abs,.fx.fl,.note-line .tag{position:absolute;left:-17pt;right:auto;top:50%;bottom:auto;float:none;transform:translateY(-50%) rotate(180deg);writing-mode:vertical-rl;width:26pt;height:auto;min-height:46pt;box-sizing:border-box;padding:9pt 0;margin:0;display:flex;align-items:center;justify-content:center;border:0;border-radius:0;background:#e29433;color:#17263f;font-size:11pt;line-height:26pt;font-weight:800;z-index:3;-webkit-mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 100' preserveAspectRatio='none'%3E%3Cpath d='M3,0 Q7,5 3,10 T3,20 T3,30 T3,40 T3,50 T3,60 T3,70 T3,80 T3,90 T3,100 L23,100 Q19,95 23,90 T23,80 T23,70 T23,60 T23,50 T23,40 T23,30 T23,20 T23,10 T23,0 Z'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat;mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 100' preserveAspectRatio='none'%3E%3Cpath d='M3,0 Q7,5 3,10 T3,20 T3,30 T3,40 T3,50 T3,60 T3,70 T3,80 T3,90 T3,100 L23,100 Q19,95 23,90 T23,80 T23,70 T23,60 T23,50 T23,40 T23,30 T23,20 T23,10 T23,0 Z'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat}
+.note-line{padding-left:14pt}
+.note-line .tag{left:-12pt;top:-1pt;transform:rotate(180deg);min-height:31pt;padding:2pt 0}
+.instr:has(>.fx.fl){position:relative;padding-left:24pt}
+*:has(>.fx.abs:not(.gflag)){position:relative;padding-left:max(24pt,var(--fpl,0pt))}
+.note-box .tag{background:#e29433;border-color:#e29433;color:#17263f}
+.fxr{position:relative;margin-left:20pt!important}
+.note-line.fxr,.bridge.fxr{padding-left:0}
+.fxr>.gline{position:absolute;left:-26pt;top:-15pt;bottom:-1pt;width:0;border-left:1.6pt solid #e29433;z-index:2}
+.fxr1>.gline{top:4pt;width:7pt;border-top:1.6pt solid #e29433;border-top-left-radius:6pt}
+.fxrN>.gline{bottom:4pt;width:7pt;border-bottom:1.6pt solid #e29433;border-bottom-left-radius:6pt}
+.fxr>.gflag{left:-39pt;min-height:44pt}
+.garr{position:absolute;left:-26pt;top:50%;width:23pt;height:0;border-top:1.6pt solid #e29433;margin-top:-.8pt;z-index:2;font-style:normal}
+.garr::after{content:"";position:absolute;right:-1pt;top:-4.6pt;border-left:6pt solid #e29433;border-top:3.8pt solid transparent;border-bottom:3.8pt solid transparent}
+</style>
+<script>
+// ===== 1) توزيع المحتوى على صفحات A4 =====
+function paginate(){
+  const flow = document.querySelector('.flow');
+  const blocks = [...flow.children];
+  let content;
+  // كل صفحة = .page بمقاس A4، وجواها .sheet مرسومة ×3 ومتصغّرة ÷3
+  // (عشان إعداد «أقل حجم للخط» في المتصفح مايكبّرش الخطوط الصغيرة ويبوّظ التصميم)
+  const newSheet = () => {
+    const p = document.createElement('section'); p.className = 'page';
+    const s = document.createElement('div'); s.className = 'sheet';
+    content = document.createElement('div'); content.className = 'content';
+    s.appendChild(content); p.appendChild(s); flow.before(p);
+  };
+  const KWN = el => el.matches('.part, hr.rule, h2.sec, .big, h3.sub, .chip, .kwn');
+  const over = () => { const last = content.lastElementChild; if (!last) return false;
+    return last.getBoundingClientRect().bottom > content.getBoundingClientRect().bottom + 0.5; };
+  // كارت أطول من المساحة الفاضية: نسيب أوله هنا ونكمّل الباقي في الصفحة الجاية (عند حدود أجزائه)
+  // سؤال (نصه + مكان إجابته أو اختياراته) ما يتقسمش على صفحتين: التقسيم في كروت الأسئلة
+  // (.why و.qcard) مسموح بس قبل بداية سؤال جديد (.qq / .qi / .qs). لو مفيش نقطة زي كده، الكارت كله ينزل.
+  const QSTART = x => x && x.matches('.qq, .qi, .qs');
+  const trySplit = (el, loose) => {
+    const cont = el.cloneNode(false); cont.classList.add('cont');
+    const keep = (el.firstElementChild && /^H[34]$/.test(el.firstElementChild.tagName)) || el.classList.contains('why') ? 2 : 1;
+    const mv = () => cont.insertBefore(el.lastElementChild, cont.firstChild);
+    const back = () => { while (cont.firstChild) el.appendChild(cont.firstChild); return false; };
+    while (over() && el.children.length > keep) mv();
+    const strict = !loose && el.matches('.why, .qcard');
+    if (strict) {
+      for (let ch = true; ch; ) { ch = false;
+        while (el.children.length > keep && cont.children.length && !QSTART(cont.firstElementChild)) { mv(); ch = true; }
+        while (el.children.length > 1 && cont.children.length && QSTART(el.lastElementChild)) { mv(); ch = true; }
+      }
+      if (cont.children.length && !QSTART(cont.firstElementChild)) return back();
+    } else {
+      // نص السؤال ما يفضلش لوحده في آخر الصفحة: ينزل مع اختياراته
+      while (el.children.length > 1 && cont.children.length && el.lastElementChild.matches('.qq, .qi, .qs')) mv();
+    }
+    if (el.children.length < keep) return back();
+    if (over() || !cont.children.length) return back();
+    newSheet(); content.appendChild(cont);
+    if (over()) trySplit(cont) || trySplit(cont, true);
+    return true;
+  };
+  newSheet();
+  for (let i = 0; i < blocks.length; ) {
+    const el = blocks[i];
+    if (el.classList.contains('pb')) { if (content.children.length) newSheet(); i++; continue; }
+    const group = [el]; let j = i;
+    while (KWN(blocks[j]) && j + 1 < blocks.length && !blocks[j + 1].classList.contains('pb')) { j++; group.push(blocks[j]); }
+    // عنوان قسم في البنك (زي «علّل») مايفضلش في آخر الصفحة ومعاه سؤال واحد بس: بياخد معاه السؤال اللي بعده
+    if (group[0].matches('h2.cat') && group[group.length - 1].matches('.why') && j + 1 < blocks.length && blocks[j + 1].matches('.why')) { j++; group.push(blocks[j]); }
+    const wasEmpty = content.children.length === 0;
+    group.forEach(g => content.appendChild(g));
+    const last = group[group.length - 1];
+    if (over()) {
+      if (last.classList.contains('split') && trySplit(last)) { /* اتقسم */ }
+      else if (!wasEmpty) { newSheet(); group.forEach(g => content.appendChild(g)); if (over() && last.classList.contains('split')) trySplit(last) || trySplit(last, true); }
+    }
+    i = j + 1;
+  }
+  flow.remove();
+}
+// ===== 2) الإطار: هيدر + فوتر + علامة مائية + ترقيم =====
+// علامة «تقييمات» فوق أول سؤال في الصفحة بتلمس خط الهيدر: ننزّل السؤال سنة بعد الترقيم.
+// لو الصفحة مليانة، ناخد المسافة من الفراغات اللي بين الأسئلة في نفس الصفحة (أقل من 1pt لكل فراغ).
+function tqTop(){
+  const k = (typeof K === 'number' && K > 0) ? K : 1;
+  const overBy = c => c.lastElementChild.getBoundingClientRect().bottom - c.getBoundingClientRect().bottom;
+  document.querySelectorAll('.content').forEach(c => {
+    const f = c.firstElementChild; if (!f || !f.querySelector('.tq')) return;
+    f.classList.add('tqtop');
+    let d = overBy(c); if (d <= 0) return;
+    const kids = [...c.children].slice(0, -1);
+    const per = (d + 1) * k / kids.length;
+    kids.forEach(e => { e.dataset.mb = e.style.marginBottom; e.style.marginBottom = Math.max(0, parseFloat(getComputedStyle(e).marginBottom) - per) + 'px'; });
+    if (overBy(c) > 0.5) { kids.forEach(e => { e.style.marginBottom = e.dataset.mb; }); f.classList.remove('tqtop'); f.classList.add('tqin'); }
+    kids.forEach(e => delete e.dataset.mb);
+  });
+}
+function frame(){
+  const B = document.body.dataset, START = +B.start || 1, TOTAL = B.total;
+  const LESSON = B.lesson.replace(/(\d+-\d+)/g, '<span class="num">$1</span>');
+  const tiles = [];
+  for (let r = 0; r < 7; r++) for (let c = 0; c < 3; c++) {
+    const x = -20 + c * 215 + (r % 2) * 60, y = -30 + r * 135;
+    tiles.push(`<span class="tile" style="left:${x * K}pt;top:${y * K}pt">زياد السعدني</span>`);
+  }
+  document.querySelectorAll('.sheet').forEach((s, k) => {
+    s.dataset.page = START + k;
+    s.insertAdjacentHTML('afterbegin', `<div class="hdr"><span class="r">${LESSON}</span><span class="l">أكواد مع زياد</span></div>`);
+    s.insertAdjacentHTML('beforeend', `<div class="ftr"><img src="assets/badge.png" alt=""><span class="r"><b>أكواد مع زياد</b><span class="sep">|</span>أ/ زياد السعدني<span class="sep">|</span><span class="num">fb.com/61592749346697</span><span class="sep">|</span>واتساب <span class="num">01124840835</span></span><span class="pn">${START + k} / ${TOTAL}</span></div><div class="wm">${tiles.join('')}<span class="big">زياد السعدني</span></div>`);
+  });
+}
+// ===== 0) لو المتصفح مفعّل «أقل حجم للخط» (Minimum font size) بيكبّر الخطوط الصغيرة ويبوّظ التصميم.
+// الحل: نكبّر كل المقاسات ×K ونصغّر الصفحة ÷K بـ transform (الـtransform مابيتأثرش بالإعداد ده).
+let K = 1;
+function immunize(){
+  const t = document.createElement('span'); t.style.fontSize = '1px'; t.textContent = 'x';
+  document.body.appendChild(t); const mc = parseFloat(getComputedStyle(t).fontSize); t.remove();
+  const wid = px => { const s = document.createElement('span');
+    s.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;font-family:sans-serif;font-size:' + px + 'px';
+    s.textContent = 'abcdefghij'; document.body.appendChild(s); const w = s.getBoundingClientRect().width; s.remove(); return w; };
+  const mr = 4 * wid(4) / (wid(40) / 10);   // الحجم الفعلي اللي اترسم بيه نص طالب 4px
+  // بدون الإعداد: نص الـ4px بيترسم ≈4px (ممكن يزيد شوية من التقريب) — فمانعتبرهوش مفعّل غير لو أكبر من 6px
+  const m = Math.max(mc, mr > 6 ? mr : 0);
+  if (!(m > 1.5)) return;
+  K = Math.max(2, Math.ceil(m / 7));
+  const sc = v => v.replace(/(-?\d*\.?\d+)(pt|px|mm)\b/g, (_, n, u) => (parseFloat(n) * K).toFixed(3) + u);
+  const walk = rules => { for (const r of rules) {
+    if (r instanceof CSSMediaRule) { walk(r.cssRules); continue; }
+    if (!(r instanceof CSSStyleRule)) continue;
+    if (/^(html|body|\.page|html,\s*body)$/.test(r.selectorText.trim())) continue;
+    for (let i = 0; i < r.style.length; i++) { const p = r.style[i], v = r.style.getPropertyValue(p);
+      if (/\d(pt|px|mm)/.test(v)) r.style.setProperty(p, sc(v), r.style.getPropertyPriority(p)); }
+  } };
+  for (const s of document.styleSheets) { try { walk(s.cssRules); } catch (e) {} }
+  document.querySelectorAll('.flow [style]').forEach(el => { el.style.cssText = sc(el.style.cssText); });
+  // الطريقة 1 (Chrome): zoom = 1/K — الصفحة بتفضل بمقاسها الحقيقي فالطباعة سليمة.
+  // الطريقة 2 (احتياطي): transform: scale(1/K) — لو المتصفح بيطبّق الحد الأدنى بعد الـzoom.
+  const probe = css => { const w = document.createElement('div'); w.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;' + css;
+    const s = document.createElement('span'); s.style.fontSize = (6 * K) + 'px'; s.textContent = 'abcdefghij';
+    w.appendChild(s); document.body.appendChild(w); const r = s.getBoundingClientRect().width; w.remove(); return r; };
+  const big = probe(''), zoomed = probe('zoom:' + (1 / K));
+  const zoomOK = Math.abs(zoomed - big / K) < 1.5;
+  const st = document.createElement('style');
+  st.textContent = zoomOK ? `.sheet{zoom:${1 / K}}` : `.sheet{transform:scale(${1 / K})}`;
+  document.head.appendChild(st); document.body.dataset.mode = zoomOK ? 'zoom' : 'transform';
+}
+window.addEventListener('load', async () => {
+  const F = "'Baloo Bhaijaan 2'";
+  await Promise.all([500, 600, 700, 800].map(w => document.fonts.load(`${w} 10pt ${F}`, 'أبجد')));
+  await document.fonts.ready;
+  immunize(); paginate(); tqTop(); frame();
+  document.body.dataset.ready = '1'; document.body.dataset.k = K;
+});
+</script>
+</head>
+<body data-lesson="الدرس 2-2 — تصميم أمان الشبكات" data-start="22" data-total="99">
+<main class="flow">
+<div class="band">
+  <div class="badge"><span class="l">الدرس</span><span class="n">2-2</span></div>
+  <h1>تصميم أمان الشبكات</h1>
+  <div class="who">
+    <div class="t"><span class="u">الوحدة الثانية</span><span class="k">الشرح والمراجعة</span></div>
+    <img src="assets/avatar.png" alt="">
+  </div>
+</div>
+<div class="two">
+  <div class="intro">
+    <h3>لو الحرامي عدّى الباب .. يبقى خلاص؟</h3>
+    <div class="body">
+      <img class="robot" src="assets/robot.svg" alt="">
+      <p>في الدرس اللي فات <b>(2-1)</b> اتكلمنا عن حماية <b>الاتصال والحسابات</b> بالتشفير والمصادقة. الدرس ده بيوسّع الحماية لـ<b>تصميم الشبكة نفسها</b> — يعني إزاي مؤسسة ترتّب شبكتها.</p>
+      <p>والفكرة الأساسية: <b>ما نعتمدش على وسيلة واحدة</b>. لو طبقة فشلت، تفضل فيه طبقات تانية تساعد على <b>تقليل الخطر والحد من أثر الاختراق</b> — وده اسمه <b>الدفاع في العمق</b>.</p>
+      <p>وهنتعرّف كمان على <b>نهج انعدام الثقة</b>: الجهاز أو المستخدم <b>مايتوثقش فيه تلقائيًا</b> لمجرد إنه جوّه الشبكة — لازم يتفحص <b>الهوية والصلاحيات والسياق</b> عند الوصول.</p>
+    </div>
+    <div class="foot"><span class="pill-dark">نبدأ من جدار الحماية</span></div>
+  </div>
+  <div class="goals">
+    <h3>أهداف التعلم</h3>
+    <div class="g"><span class="tag">اشرح</span><span class="x">أدوار جدار الحماية، و<bdi>VPN</bdi>، و<bdi>DMZ</bdi>، وضوابط الأجهزة الطرفية في حماية الشبكة.</span></div>
+    <div class="g"><span class="tag">اشرح</span><span class="x">لماذا يوفر الدفاع في العمق حماية أقوى من الاعتماد على إجراء أمني واحد.</span></div>
+    <div class="g"><span class="tag">قيّم</span><span class="x">تصميمًا أمنيًا لشبكة، وبرر اختيار الضوابط المناسبة وفق الأصول والتهديدات.</span></div>
+  </div>
+</div>
+<div class="note-box"><span class="tag">للفهم</span>أي جزء عليه علامة «للفهم» هو شرح أو رسم إضافي للتوضيح، ومش مطلوب حفظه كنص من الكتاب.</div>
+<div class="map m2">
+  <div class="cell c1"><h4><span class="mn">1</span>الضوابط الأربعة</h4><ul>
+    <li><b>جدار الحماية</b> — يسمح بحركة المرور أو يمنعها وفق قواعد.</li>
+    <li><b><bdi class="nw">VPN</bdi></b> — اتصال خاص عبر شبكة عامة.</li>
+    <li><b><bdi class="nw">DMZ</bdi></b> — الخوادم المواجهة للجمهور منفصلة عن الداخل.</li>
+    <li><b>الأجهزة الطرفية</b> — مكافحة فيروسات وتحديث النظام.</li></ul></div>
+  <div class="cell c3"><h4><span class="mn">2</span>الدفاع في العمق</h4><ul>
+    <li>طبقات متعددة من الضوابط الأمنية.</li>
+    <li>لو فشلت طبقة، تساعد الطبقات الأخرى على تقليل الخطر والحد من الأثر.</li></ul></div>
+  <div class="hub">تصميم أمان<br>الشبكات
+    <svg class="lk r1" viewBox="0 0 20 16"><path d="M0 14 C7 14 10 3 17 3" fill="none" stroke="#22375c" stroke-width="1.55" stroke-linecap="round"/><circle cx="17.5" cy="3" r="2" fill="#22375c"/></svg>
+    <svg class="lk r2" viewBox="0 0 20 16"><path d="M0 2 C7 2 10 13 17 13" fill="none" stroke="#e29433" stroke-width="1.55" stroke-linecap="round"/><circle cx="17.5" cy="13" r="2" fill="#e29433"/></svg>
+    <svg class="lk l1" viewBox="0 0 20 16"><path d="M20 14 C13 14 10 3 3 3" fill="none" stroke="#2e4a78" stroke-width="1.55" stroke-linecap="round"/><circle cx="2.5" cy="3" r="2" fill="#2e4a78"/></svg>
+    <svg class="lk l2" viewBox="0 0 20 16"><path d="M20 2 C13 2 10 13 3 13" fill="none" stroke="#a9670f" stroke-width="1.55" stroke-linecap="round"/><circle cx="2.5" cy="13" r="2" fill="#a9670f"/></svg>
+  </div>
+  <div class="cell c2"><h4><span class="mn">3</span>الطبقات الأربع</h4><ul>
+    <li>مدخل الشبكة — جدار الحماية</li>
+    <li>مسار الاتصال — <bdi class="nw">VPN</bdi></li>
+    <li>وضع الخوادم — <bdi class="nw">DMZ</bdi></li>
+    <li>الأجهزة الطرفية — مكافحة الفيروسات والتحديث</li></ul></div>
+  <div class="cell c4"><h4><span class="mn">4</span>نهج انعدام الثقة</h4><ul>
+    <li>لا ثقة تلقائية لمجرد الوجود داخل الشبكة.</li>
+    <li>تُفحص الهوية والصلاحيات والسياق عند الوصول.</li>
+    <li>حماية المحيط الأمني وحدها لم تعد كافية.</li></ul></div>
+</div>
+<div class="iq">
+  <div class="q">
+    <div class="lab">السؤال الرئيسي — الدرس كله بيجاوب عليه</div>
+    <div class="qq">كيف يمكن لمؤسسة أن تصمم شبكتها بحيث، حتى لو تم اختراق أحد الدفاعات، يظل النظام محميًا؟</div>
+  </div>
+  <div class="idea"><span class="qmark">”</span><b>الفكرة الأساسية:</b> يأتي أمان الشبكات القوي من <b>تكديس الإجراءات</b> – جدار الحماية، والشبكة الافتراضية الخاصة، والمنطقة المعزولة، وحماية الأجهزة الطرفية – ومن <b>التحقق من كل عملية وصول</b> (نهج انعدام الثقة)، <b>وليس من حاجز واحد</b>.</div>
+</div>
+<div class="part p1"><span>الجزء الأول</span></div>
+<hr class="rule">
+<div class="quote kwn"><span class="qmark">”</span>تحتفظ شبكات المؤسسات ببيانات وخدمات مهمة قد يحاول مهاجم الوصول إليها. <b>ولا تكفي وسيلة حماية واحدة؛ فإذا فشلت، قد تتعرض موارد أخرى للخطر</b>. لذلك يُستخدم <b>الدفاع في العمق</b>، فتعمل <b>طبقات متعددة</b> على تقليل احتمال الاختراق والحد من أثره.</div>
+<div class="exs"><span class="fx abs">للفهم</span><span class="eh">مثال للتبسيط:</span>هنمشي في الدرس كله على <b>بنك</b> عنده: <b>موقع إلكتروني</b> لأي عميل · <b>قاعدة بيانات حسابات العملاء</b> (سرية) · <b>موظفين بيشتغلوا من البيت</b> · و<b>فروع</b> في مدن تانية. وهنشوف كل إجراء بيحمي إيه فيهم.</div>
+<h2 class="sec"><span class="num">1</span><span class="dot">·</span> دور جدران الحماية</h2>
+<span class="chip">جدار الحماية</span>
+<div class="banner kwn"><b>نظام أو برنامج يراقب حركة مرور الشبكة ويسمح بها أو يمنعها وفق قواعد أمنية</b>. وقد يوجد <b>عند حدود الشبكة أو بين أجزائها أو على جهاز مضيف</b>. <span class="bx">مثال: السماح بالوصول إلى خادم الويب مع منع الوصول الخارجي المباشر إلى قاعدة البيانات.</span></div>
+<div class="fwx keep">
+  <div class="fig fwr"><span class="fx abs">للفهم</span><div class="fwh">مثال الكتاب كقواعد</div><div class="fr ok"><span class="a"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9M12 3c-2.6 2.6-3.8 5.6-3.8 9s1.2 6.4 3.8 9"/></svg><b>زائر من الإنترنت</b></span><i class="w"><svg viewBox="0 0 24 24" fill="none" stroke="#a9670f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="16" rx="1.5"/><path d="M2.5 9.3h19M2.5 14.7h19M8 4v5.3M16 4v5.3M12 9.3v5.4M5 14.7V20M19 14.7V20M12 14.7V20"/></svg></i><span class="a"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="17" height="7" rx="1.6"/><circle cx="7.3" cy="7" r=".9" fill="#22375c" stroke="none"/><circle cx="7.3" cy="17" r=".9" fill="#22375c" stroke="none"/><path d="M11 7h6M11 17h6"/></svg><b>خادم الويب</b></span><span class="st"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17 19 7"/></svg>مسموح</span></div><div class="fr no"><span class="a"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9M12 3c-2.6 2.6-3.8 5.6-3.8 9s1.2 6.4 3.8 9"/></svg><b>زائر من الإنترنت</b></span><i class="w"><svg viewBox="0 0 24 24" fill="none" stroke="#a9670f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="16" rx="1.5"/><path d="M2.5 9.3h19M2.5 14.7h19M8 4v5.3M16 4v5.3M12 9.3v5.4M5 14.7V20M19 14.7V20M12 14.7V20"/></svg></i><span class="a"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="7" ry="2.8"/><path d="M5 6v12c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8V6M5 12c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8"/></svg><b>قاعدة البيانات مباشرة</b></span><span class="st"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg>ممنوع</span></div><div class="fwp"><span class="pl">ممكن يكون فين؟</span><span>عند حدود الشبكة</span><span>بين أجزائها</span><span>على جهاز مضيف</span></div></div>
+  <div class="im"><img src="assets/u2/l22_firewall.jpg" alt=""><div class="icap">يسمح جدار الحماية بمرور البيانات أو يمنعها وفقًا لقواعد محددة.</div></div>
+</div>
+<div class="note-line fxr fxr1"><span class="fx abs gflag">للفهم</span><i class="gline"></i><i class="garr"></i><span class="lead">ببساطة</span>اعتبره <b>بوّاب بقائمة</b>: كل اتصال جاي أو رايح بيتقاس على <b>قواعد محددة مسبقًا</b> — مسموح ولا ممنوع. وخُد بالك: الكتاب قال إنه ممكن يكون <b>مش بس على حدود الشبكة</b> — كمان <b>بين أجزائها</b> أو <b>على جهاز واحد</b>.</div>
+<div class="exs fxr fxrN"><i class="gline"></i><i class="garr"></i><span class="eh">مثال للتبسيط:</span>جدار حماية على حدود شبكة البنك: <b>يسمح</b> لأي عميل يفتح موقع البنك، و<b>يمنع</b> أي اتصال من برّه يحاول يوصل لقاعدة بيانات الحسابات <b>مباشرة</b>.</div>
+<h2 class="sec"><span class="num">2</span><span class="dot">·</span> الشبكة الافتراضية الخاصة <bdi class="nw">(VPN)</bdi></h2>
+<span class="chip">الشبكة الافتراضية الخاصة <bdi class="nw">(VPN - Virtual Private Network)</bdi></span>
+<div class="banner kwn"><b>اتصال أو شبكة منطقية خاصة عبر شبكة عامة مثل الإنترنت</b>، تستخدم <b>عادةً التشفير وتقنيات النفق</b> لحماية البيانات بين الطرفين.</div>
+<div class="sf">
+  <div class="quote"><span class="qmark">”</span><b>الاستخدامات الرئيسية للشبكة الافتراضية الخاصة:</b><br>① <b>العمل عن بُعد</b>... الاتصال بأمان بشبكة المؤسسة من المنزل أو أثناء التنقل.<br>② <b>ربط الفروع</b>... ربط المكاتب في مواقع مختلفة بأمان.<br>ونظرًا لأن <b>محتوى الاتصال يُشفَّر</b> عند استخدام الشبكة الافتراضية الخاصة، <b>تقل مخاطر التنصت</b> حتى عند استخدام شبكة <bdi class="nw">Wi-Fi</bdi> عامة.</div>
+  <div class="im"><img src="assets/u2/l22_vpn.jpg" alt=""><div class="icap">تنقل الشبكة الافتراضية الخاصة <bdi>(VPN)</bdi> البيانات بأمان عبر شبكة غير موثوقة.</div></div>
+</div>
+<div class="fig vpu keep fxr fxr1"><span class="fx abs gflag">للفهم</span><i class="gline"></i><i class="garr"></i>
+  <div class="vu2">
+    <div class="vc"><h5><span class="cn">1</span>العمل عن بُعد</h5><div class="tn"><span class="e"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 11 12 4l8.5 7"/><path d="M6 9.5V20h12V9.5"/><path d="M10 20v-5h4v5"/></svg><b>موظف في البيت</b></span><span class="tb"><i></i><em><svg viewBox="0 0 24 24" fill="none" stroke="#a9670f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10.5" rx="2.2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.7" r="1.3" fill="#a9670f" stroke="none"/></svg>نفق مشفّر عبر الإنترنت</em><i></i></span><span class="e"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="3.5" width="15" height="17" rx="1.2"/><path d="M8 7.5h2M14 7.5h2M8 11h2M14 11h2M8 14.5h2M14 14.5h2M10.5 20.5v-3h3v3"/></svg><b>شبكة المؤسسة</b></span></div></div>
+    <div class="vc"><h5><span class="cn">2</span>ربط الفروع</h5><div class="tn"><span class="e"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="3.5" width="15" height="17" rx="1.2"/><path d="M8 7.5h2M14 7.5h2M8 11h2M14 11h2M8 14.5h2M14 14.5h2M10.5 20.5v-3h3v3"/></svg><b>فرع في مدينة تانية</b></span><span class="tb"><i></i><em><svg viewBox="0 0 24 24" fill="none" stroke="#a9670f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10.5" rx="2.2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.7" r="1.3" fill="#a9670f" stroke="none"/></svg>نفق مشفّر عبر الإنترنت</em><i></i></span><span class="e"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="3.5" width="15" height="17" rx="1.2"/><path d="M8 7.5h2M14 7.5h2M8 11h2M14 11h2M8 14.5h2M14 14.5h2M10.5 20.5v-3h3v3"/></svg><b>المقر الرئيسي</b></span></div></div>
+  </div>
+  <div class="vw">
+    <div class="vb"><span class="vl"><svg viewBox="0 0 24 24" fill="none" stroke="#a33a30" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 9a14 14 0 0 1 19 0M5.5 12.3a9.5 9.5 0 0 1 13 0M8.6 15.5a5 5 0 0 1 6.8 0"/><circle cx="12" cy="18.8" r="1" fill="#a33a30" stroke="none"/></svg><span>على <bdi class="nw">Wi-Fi</bdi> عامة من غير <bdi class="nw">VPN</bdi></span></span><p>محتوى الاتصال ممكن يتعرّض <b>للتنصت</b></p></div>
+    <div class="vb g"><span class="vl"><svg viewBox="0 0 24 24" fill="none" stroke="#2e7d5b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 9a14 14 0 0 1 19 0M5.5 12.3a9.5 9.5 0 0 1 13 0M8.6 15.5a5 5 0 0 1 6.8 0"/><circle cx="12" cy="18.8" r="1" fill="#2e7d5b" stroke="none"/></svg><span>على <bdi class="nw">Wi-Fi</bdi> عامة مع <bdi class="nw">VPN</bdi></span></span><p>المحتوى <b>مشفّر</b> ← <b>تقل</b> مخاطر التنصت</p></div>
+  </div>
+  <div class="cap">الاستخدامين الرئيسيين — والفرق على شبكة عامة. (الكتاب قال «تقل» مش «تنعدم».)</div>
+</div>
+<div class="exs fxr fxrN"><i class="gline"></i><i class="garr"></i><span class="eh">مثال للتبسيط:</span>موظف البنك بيشتغل <b>من البيت</b>، وفرع البنك في مدينة تانية <b>بيتوصل بالمقر</b> — الاتنين عبر <bdi class="nw">VPN</bdi>، فبيانات العملاء بتعدّي الإنترنت <b>مشفّرة</b> جوّه نفق. ولو الموظف اتوصل من <b>واي فاي كافيه</b>، اللي بيتنصت على الشبكة <b>مايقدرش يقرا</b> المحتوى.</div>
+<h2 class="sec"><span class="num">3</span><span class="dot">·</span> المنطقة المعزولة <bdi class="nw">(DMZ – Demilitarized Zone)</bdi></h2>
+<span class="chip">المنطقة المعزولة <bdi class="nw">(DMZ)</bdi></span>
+<div class="banner kwn">منطقة تُوضع فيها <b>الخوادم المعرَّضة للشبكة الخارجية</b> (خوادم الويب، خوادم البريد، إلخ) <b>بشكل منفصل عن الشبكة الداخلية</b>.</div>
+<div class="quote"><span class="qmark">”</span>يساعد فصل الخوادم العامة في منطقة معزولة على <b>تقليل احتمال وصول الهجوم منها إلى الشبكة الداخلية</b> إذا تعرض أحدها للاختراق.</div>
+<div class="fig dmz keep">
+  <div class="dzh">تكوين شبكة المنطقة المعزولة <bdi>(DMZ)</bdi></div>
+  <div class="dz">
+    <div class="zc ext"><h5>الشبكة الخارجية<small>(الإنترنت)</small></h5><div class="dn"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9M12 3c-2.6 2.6-3.8 5.6-3.8 9s1.2 6.4 3.8 9"/></svg><span>الإنترنت</span></div><div class="dr"><div class="dn"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c.8-4 3.6-6.3 7-6.3s6.2 2.3 7 6.3"/></svg><span>المستخدمون</span></div><div class="dn"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7.5" y="8" width="9" height="12" rx="4.5"/><path d="M9.5 8a2.5 2.5 0 0 1 5 0M4 11h3.5M16.5 11H20M4 16h3.5M16.5 16H20M7 5.5 9 7.5M17 5.5l-2 2"/></svg><span>مهاجم</span></div></div></div>
+    <div class="fw"><i><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="16" rx="1.5"/><path d="M2.5 9.3h19M2.5 14.7h19M8 4v5.3M16 4v5.3M12 9.3v5.4M5 14.7V20M19 14.7V20M12 14.7V20"/></svg></i><span>جدار الحماية</span></div>
+    <div class="zc dmzz"><h5><bdi>DMZ</bdi><small>(المنطقة المعزولة)</small></h5><div class="dr"><div class="dn"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="17" height="7" rx="1.6"/><circle cx="7.3" cy="7" r=".9" fill="#22375c" stroke="none"/><circle cx="7.3" cy="17" r=".9" fill="#22375c" stroke="none"/><path d="M11 7h6M11 17h6"/></svg><span>خادم الويب</span></div><div class="dn"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="1.8"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/></svg><span>خادم البريد الإلكتروني</span></div></div><div class="zx"><b>الخوادم المعرَّضة للإنترنت</b><small>(منفصلة عن الشبكة الداخلية)</small></div></div>
+    <div class="fw"><i><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="16" rx="1.5"/><path d="M2.5 9.3h19M2.5 14.7h19M8 4v5.3M16 4v5.3M12 9.3v5.4M5 14.7V20M19 14.7V20M12 14.7V20"/></svg></i><span>جدار الحماية</span></div>
+    <div class="zc int"><h5>الشبكة الداخلية<small>(المنظمة)</small></h5><div class="dr"><div class="dn"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="5" width="15" height="10" rx="1.4"/><path d="M2.5 18.5h19"/></svg><span>جهاز الكمبيوتر الشخصي</span></div><div class="dn"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="7" ry="2.8"/><path d="M5 6v12c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8V6M5 12c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8"/></svg><span>خادم قاعدة بيانات</span></div></div><div class="zx s"><b>بيانات سرية</b></div></div>
+  </div>
+  <div class="dzf">إذا تمت مهاجمة خادم عام، فإن الشبكة الداخلية لا تزال محمية.</div>
+  <div class="cap">تكوين شبكة المنطقة المعزولة <bdi>(DMZ)</bdi></div>
+</div>
+<div class="note-line fxr fxr1"><span class="fx abs gflag">للفهم</span><i class="gline"></i><i class="garr"></i><span class="lead">خُد بالك</span>تعريف الكتاب بيقول إن <bdi class="nw">DMZ</bdi> بتساعد على <b>«تقليل احتمال»</b> وصول الهجوم للشبكة الداخلية — مش <b>«تمنعه»</b>. والفرق ده بيتحوّل لسؤال صح وخطأ. وكمان: <bdi class="nw">DMZ</bdi> <b>مش</b> نظام بيعرّض <b>جميع</b> الخوادم للخارج — بس الخوادم <b>المواجهة للجمهور</b>.</div>
+<div class="exs fxr"><i class="gline"></i><i class="garr"></i><span class="eh">مثال للتبسيط:</span><b>موقع البنك</b> و<b>خادم البريد</b> في <bdi class="nw">DMZ</bdi>، و<b>قاعدة بيانات الحسابات</b> جوّه الشبكة الداخلية. لو حد اخترق موقع البنك، <b>يقل احتمال</b> إن الهجوم يعدّي منه للحسابات.</div>
+<div class="fig bnk keep fxr fxrN"><i class="gline"></i><i class="garr"></i><div class="dyh">البنك كله على بعضه — كل إجراء واقف فين؟ <b>(والرقم = رقم الطبقة اللي هتيجي في القسم 4)</b></div>
+  <div class="dz">
+    <div class="zc ext"><h5>الإنترنت</h5><div class="dr"><div class="dn"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c.8-4 3.6-6.3 7-6.3s6.2 2.3 7 6.3"/></svg><span>عميل</span></div><div class="dn"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7.5" y="8" width="9" height="12" rx="4.5"/><path d="M9.5 8a2.5 2.5 0 0 1 5 0M4 11h3.5M16.5 11H20M4 16h3.5M16.5 16H20M7 5.5 9 7.5M17 5.5l-2 2"/></svg><span>مهاجم</span></div></div><div class="dr"><div class="dn"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 11 12 4l8.5 7"/><path d="M6 9.5V20h12V9.5"/><path d="M10 20v-5h4v5"/></svg><span>موظف في البيت</span></div><div class="dn"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="3.5" width="15" height="17" rx="1.2"/><path d="M8 7.5h2M14 7.5h2M8 11h2M14 11h2M8 14.5h2M14 14.5h2M10.5 20.5v-3h3v3"/></svg><span>فرع البنك</span></div></div></div>
+    <div class="fw"><span class="lbn"><span class="num">1</span></span><i><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="16" rx="1.5"/><path d="M2.5 9.3h19M2.5 14.7h19M8 4v5.3M16 4v5.3M12 9.3v5.4M5 14.7V20M19 14.7V20M12 14.7V20"/></svg></i><span>جدار الحماية</span></div>
+    <div class="zc dmzz"><span class="lbn"><span class="num">3</span></span><h5><bdi>DMZ</bdi></h5><div class="dr"><div class="dn"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="17" height="7" rx="1.6"/><circle cx="7.3" cy="7" r=".9" fill="#22375c" stroke="none"/><circle cx="7.3" cy="17" r=".9" fill="#22375c" stroke="none"/><path d="M11 7h6M11 17h6"/></svg><span>موقع البنك</span></div><div class="dn"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="1.8"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/></svg><span>خادم البريد</span></div></div><div class="zx"><b>اللي الجمهور بيوصله</b></div></div>
+    <div class="fw"><span class="lbn"><span class="num">1</span></span><i><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="16" rx="1.5"/><path d="M2.5 9.3h19M2.5 14.7h19M8 4v5.3M16 4v5.3M12 9.3v5.4M5 14.7V20M19 14.7V20M12 14.7V20"/></svg></i><span>جدار الحماية</span></div>
+    <div class="zc int"><h5>الشبكة الداخلية</h5><div class="dr"><div class="dn"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="7" ry="2.8"/><path d="M5 6v12c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8V6M5 12c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8"/></svg><span>حسابات العملاء</span></div></div><div class="dr"><div class="dn ep"><span class="lbn"><span class="num">4</span></span><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="5" width="15" height="10" rx="1.4"/><path d="M2.5 18.5h19"/></svg><span>أجهزة الموظفين</span><small>مكافحة فيروسات + تحديث</small></div></div></div>
+  </div>
+  <div class="vtn"><span class="lbn"><span class="num">2</span></span><span class="e"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 11 12 4l8.5 7"/><path d="M6 9.5V20h12V9.5"/><path d="M10 20v-5h4v5"/></svg>موظف في البيت · <svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="3.5" width="15" height="17" rx="1.2"/><path d="M8 7.5h2M14 7.5h2M8 11h2M14 11h2M8 14.5h2M14 14.5h2M10.5 20.5v-3h3v3"/></svg>الفرع</span><span class="tb"><i></i><em><svg viewBox="0 0 24 24" fill="none" stroke="#a9670f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10.5" rx="2.2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.7" r="1.3" fill="#a9670f" stroke="none"/></svg>نفق <bdi class="nw">VPN</bdi> مشفّر عبر الإنترنت</em><i></i></span><span class="e"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="7" ry="2.8"/><path d="M5 6v12c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8V6M5 12c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8"/></svg>الشبكة الداخلية</span></div>
+  <div class="cap">مثال توضيحي مبسّط على بنك — كل إجراء بيحمي حاجة مختلفة، ومع بعض بيعملوا طبقات.</div>
+</div>
+<div class="rcl keep"><span class="rl">ثبّت الصفحة في 10 ثواني</span><div class="rc"><span>جدار حماية ← قواعد</span><i>·</i><span><bdi class="nw">VPN</bdi> ← نفق مشفّر</span><i>·</i><span><bdi class="nw">DMZ</bdi> ← الخوادم العامة</span></div></div>
+<div class="part p2"><span>الجزء الثاني</span></div>
+<hr class="rule">
+<h2 class="sec"><span class="num">4</span><span class="dot">·</span> الدفاع في العمق <bdi class="nw">(Defense in Depth)</bdi></h2>
+<span class="chip">الدفاع في العمق</span>
+<div class="banner kwn"><b>استخدام طبقات متعددة من الضوابط الأمنية</b>، بحيث <b>تساعد طبقات أخرى على تقليل الخطر والحد من أثر الاختراق إذا فشلت إحدى الطبقات</b>.</div>
+<figure class="bimg keep"><img src="assets/u2/l22_depth.jpg" alt=""><figcaption class="icap">إذا فشلت طبقة حماية، تبقى طبقات أخرى تقلل الخطر.</figcaption></figure>
+<div class="quote kwn">في أمان الشبكات، يتم <b>الجمع بين عدة إجراءات</b> على النحو التالي.</div>
+<table class="t lyt keep"><thead><tr><th style="width:150pt">الطبقة</th><th>أمثلة على الإجراءات</th></tr></thead><tbody><tr><td class="k">الطبقة 1: مدخل الشبكة</td><td>منع الاتصال غير المصرح به باستخدام جدار الحماية</td></tr><tr><td class="k">الطبقة 2: مسار الاتصال</td><td>تشفير الاتصال باستخدام الشبكة الافتراضية الخاصة</td></tr><tr><td class="k">الطبقة 3: وضع الخوادم</td><td>فصل الخوادم المواجهة للجمهور عن الشبكة الداخلية باستخدام المنطقة المعزولة <bdi>(DMZ)</bdi></td></tr><tr><td class="k">الطبقة 4: الأجهزة الطرفية</td><td>تثبيت برنامج مكافحة الفيروسات والحفاظ على تحديث نظام التشغيل</td></tr></tbody></table>
+<div class="fig flx keep fxr fxr1"><span class="fx abs gflag">للفهم</span><i class="gline"></i><i class="garr"></i><div class="dyh">طب لو حاجة فشلت؟ — الطبقات التانية لسه شغالة</div><div class="flc"><span>اللي حصل</span><span></span><span>اللي لسه بيقلل الخطر</span></div><div class="flr"><div class="f1"><svg viewBox="0 0 24 24" fill="none" stroke="#a33a30" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="16" rx="1.5"/><path d="M2.5 9.3h19M2.5 14.7h19M8 4v5.3M16 4v5.3M12 9.3v5.4M5 14.7V20M19 14.7V20M12 14.7V20"/></svg><p>المهاجم عدّى جدار الحماية ووصل لموقع البنك</p></div><i class="lar"><svg viewBox="0 0 44 12" fill="none" stroke="#e29433" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M42 6H5"/><path d="M10 1.5 4 6l6 4.5"/></svg></i><div class="f2"><svg viewBox="0 0 24 24" fill="none" stroke="#2e7d5b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="17" height="7" rx="1.6"/><circle cx="7.3" cy="7" r=".9" fill="#2e7d5b" stroke="none"/><circle cx="7.3" cy="17" r=".9" fill="#2e7d5b" stroke="none"/><path d="M11 7h6M11 17h6"/></svg><p><bdi class="nw">DMZ</bdi> بتقلل احتمال إنه يوصل منه للشبكة الداخلية</p></div></div><div class="flr"><div class="f1"><svg viewBox="0 0 24 24" fill="none" stroke="#a33a30" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7.5" y="8" width="9" height="12" rx="4.5"/><path d="M9.5 8a2.5 2.5 0 0 1 5 0M4 11h3.5M16.5 11H20M4 16h3.5M16.5 16H20M7 5.5 9 7.5M17 5.5l-2 2"/></svg><p>موظف فتح ملف مصاب على جهازه</p></div><i class="lar"><svg viewBox="0 0 44 12" fill="none" stroke="#e29433" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M42 6H5"/><path d="M10 1.5 4 6l6 4.5"/></svg></i><div class="f2"><svg viewBox="0 0 24 24" fill="none" stroke="#2e7d5b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8 19.5 6v5.5c0 4.6-3.2 8.3-7.5 9.7-4.3-1.4-7.5-5.1-7.5-9.7V6z"/><path d="m8.8 12 2.2 2.2 4.3-4.4"/></svg><p>مكافحة الفيروسات والتحديثات على الجهاز بتقلل الخطر</p></div></div><div class="flr"><div class="f1"><svg viewBox="0 0 24 24" fill="none" stroke="#a33a30" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 9a14 14 0 0 1 19 0M5.5 12.3a9.5 9.5 0 0 1 13 0M8.6 15.5a5 5 0 0 1 6.8 0"/><circle cx="12" cy="18.8" r="1" fill="#a33a30" stroke="none"/></svg><p>موظف اتوصل من <bdi class="nw">Wi-Fi</bdi> عامة وحد بيتنصت</p></div><i class="lar"><svg viewBox="0 0 44 12" fill="none" stroke="#e29433" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M42 6H5"/><path d="M10 1.5 4 6l6 4.5"/></svg></i><div class="f2"><svg viewBox="0 0 24 24" fill="none" stroke="#2e7d5b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10.5" rx="2.2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.7" r="1.3" fill="#2e7d5b" stroke="none"/></svg><p><bdi class="nw">VPN</bdi> بيشفّر المحتوى فتقل مخاطر التنصت</p></div></div><div class="cap">أمثلة للتوضيح على بنك — والكتاب بيقول «تقلل» مش «تمنع منعًا مطلقًا».</div></div>
+<div class="note-line fxr fxrN"><i class="gline"></i><i class="garr"></i><span class="lead">طب ليه؟</span>ليه الطبقات أحسن من حاجز واحد؟ دي <b>بالظبط</b> إجابة سؤال نمط الامتحان في الدرس. لو عندك <b>حاجز واحد</b> وفشل، <b>الطريق مفتوح</b>. لكن لو الإجراءات <b>مكدّسة</b>، فشل طبقة <b>مابيوصّلش المهاجم للهدف على طول</b>: الطبقات التانية بتساعد على <b>تقليل الخطر والحد من أثر الاختراق</b>.</div>
+<div class="rcl keep"><span class="rl">ثبّت الصفحة في 10 ثواني</span><div class="rc"><span>مدخل الشبكة</span><i>·</i><span>مسار الاتصال</span><i>·</i><span>وضع الخوادم</span><i>·</i><span>الأجهزة الطرفية</span></div></div>
+<div class="part p3"><span>الجزء الثالث</span></div>
+<hr class="rule">
+<h2 class="sec"><span class="num">5</span><span class="dot">·</span> مفهوم نهج انعدام الثقة</h2>
+<span class="chip">نهج انعدام الثقة <bdi class="nw">(Zero Trust)</bdi></span>
+<div class="banner kwn">نهج أمني <b>لا يمنح الثقة تلقائيًا لمستخدم أو جهاز لمجرد وجوده داخل الشبكة أو ملكيته للمؤسسة</b>. <b>تُفحص الهوية والصلاحيات والسياق</b> عند طلب الوصول إلى الموارد وفق سياسة المؤسسة.</div>
+<div class="quote"><span class="qmark">”</span>صُمم أمان الشبكات التقليدي بشكل أساسي حول <b>حماية المحيط الأمني</b>، بناءً على فرضية أن <b>"داخل شبكة المؤسسة آمن، وخارجها خطر"</b>. ومع ذلك، مع انتشار <b>الخدمات السحابية والعمل عن بُعد</b>، أصبحت الحدود بين "الداخل" و"الخارج" <b>غير واضحة</b>، وأصبحت التصاميم التي تحمي المحيط الأمني فقط <b>غير كافية</b>.</div>
+<div class="fig per keep fxr fxr1"><span class="fx abs gflag">للفهم</span><i class="gline"></i><i class="garr"></i><div class="dyh">ليه المحيط الأمني وحده مبقاش كفاية؟</div>
+  <div class="pr2">
+    <div class="pc"><h5>زمان — المحيط الأمني</h5>
+      <div class="pw"><span class="pt">سور = المحيط الأمني</span><div class="pm "><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c.8-4 3.6-6.3 7-6.3s6.2 2.3 7 6.3"/></svg><span>الموظفين</span></div><div class="pm "><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="5" width="15" height="10" rx="1.4"/><path d="M2.5 18.5h19"/></svg><span>الأجهزة</span></div><div class="pm "><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="7" ry="2.8"/><path d="M5 6v12c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8V6M5 12c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8"/></svg><span>البيانات</span></div></div>
+      <div class="po"><div class="pm out"><svg viewBox="0 0 24 24" fill="none" stroke="#a9670f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9M12 3c-2.6 2.6-3.8 5.6-3.8 9s1.2 6.4 3.8 9"/></svg><span>الإنترنت</span></div></div>
+      <p><b>جوّه السور = آمن</b> · <b>برّه = خطر</b> — والحماية كلها عند السور.</p></div>
+    <i class="lar"><svg viewBox="0 0 44 12" fill="none" stroke="#e29433" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M42 6H5"/><path d="M10 1.5 4 6l6 4.5"/></svg></i>
+    <div class="pc now"><h5>دلوقتي — السحابة والعمل عن بُعد</h5>
+      <div class="pw dash"><span class="pt">السور لسه موجود</span><div class="pm "><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c.8-4 3.6-6.3 7-6.3s6.2 2.3 7 6.3"/></svg><span>موظفين في المكتب</span></div><div class="pm "><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="5" width="15" height="10" rx="1.4"/><path d="M2.5 18.5h19"/></svg><span>أجهزة</span></div></div>
+      <div class="po"><div class="pm out"><svg viewBox="0 0 24 24" fill="none" stroke="#a9670f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18.5h10.5a4 4 0 0 0 .4-8 6 6 0 0 0-11.6 1.3A3.4 3.4 0 0 0 7 18.5z"/></svg><span>خدمات وبيانات على السحابة</span></div><div class="pm out"><svg viewBox="0 0 24 24" fill="none" stroke="#a9670f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 11 12 4l8.5 7"/><path d="M6 9.5V20h12V9.5"/><path d="M10 20v-5h4v5"/></svg><span>موظف من البيت</span></div></div>
+      <p>حاجات مهمة بقت <b>برّه السور</b> ← الحدود بين «الداخل» و«الخارج» <b>غير واضحة</b> ← حماية المحيط بس <b>غير كافية</b>.</p></div>
+  </div>
+  <div class="cap">تبسيط لكلام الكتاب: «مع انتشار الخدمات السحابية والعمل عن بُعد، أصبحت الحدود بين الداخل والخارج غير واضحة».</div>
+</div>
+<div class="note-line fxr fxrN"><i class="gline"></i><i class="garr"></i><span class="lead">ببساطة</span>زمان الثقة كانت بتتحدد بـ<b>مكانك</b>: لو إنت جوّه الشبكة يبقى إنت كويس. دلوقتي الثقة بتتحدد بـ<b>هويتك وصلاحياتك وسياق الطلب</b> — <b>كل مرة</b>. عشان كده: السحابة برّه، والموظف بيشتغل من بيته — فمبقاش فيه «جوّه» و«برّه» واضحين.</div>
+<div class="fig ztf keep">
+  <div class="dzh">المقارنة بين الثقة الصفرية و الأمان التقليدي</div>
+  <div class="zt2">
+    <div class="zs zero"><h5>الثقة الصفرية</h5>
+      <div class="zb"><div class="zl">لا يوجد حاجز داخلي / خارجي</div>
+        <div class="zr"><div class="zp"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="5" width="15" height="10" rx="1.4"/><path d="M2.5 18.5h19"/></svg><span>الجهاز</span><i><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10.5" rx="2.2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.7" r="1.3" fill="#fff" stroke="none"/></svg></i></div><div class="zp"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c.8-4 3.6-6.3 7-6.3s6.2 2.3 7 6.3"/></svg><span>المستخدم الخارجي</span><i><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10.5" rx="2.2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.7" r="1.3" fill="#fff" stroke="none"/></svg></i></div><div class="zp"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c.8-4 3.6-6.3 7-6.3s6.2 2.3 7 6.3"/></svg><span>المستخدم الداخلي</span><i><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10.5" rx="2.2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.7" r="1.3" fill="#fff" stroke="none"/></svg></i></div></div>
+        <div class="zv">▼ تحقق من كل وصول ▼</div>
+        <div class="zr"><div class="zp"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="3.5" width="15" height="17" rx="1.2"/><path d="M8 7.5h2M14 7.5h2M8 11h2M14 11h2M8 14.5h2M14 14.5h2M10.5 20.5v-3h3v3"/></svg><span>التطبيق</span></div><div class="zp"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="7" ry="2.8"/><path d="M5 6v12c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8V6M5 12c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8"/></svg><span>البيانات</span></div></div></div></div>
+    <div class="zs trad"><h5>الأمان التقليدي</h5>
+      <div class="zb o"><div class="zl">الخارجي<small>غير موثوق</small></div><div class="zr"><div class="zp"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="5" width="15" height="10" rx="1.4"/><path d="M2.5 18.5h19"/></svg><span>الجهاز</span></div><div class="zp"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c.8-4 3.6-6.3 7-6.3s6.2 2.3 7 6.3"/></svg><span>المستخدم الخارجي</span></div></div></div>
+      <div class="zfw">جدار الحماية</div>
+      <div class="zb i"><div class="zl">الداخلي<small>موثوق (بدون تحقق)</small></div><div class="zr"><div class="zp"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="7" ry="2.8"/><path d="M5 6v12c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8V6M5 12c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8"/></svg><span>البيانات</span></div><div class="zp"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="5" width="15" height="10" rx="1.4"/><path d="M2.5 18.5h19"/></svg><span>جهاز الكمبيوتر الشخصي</span></div><div class="zp"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c.8-4 3.6-6.3 7-6.3s6.2 2.3 7 6.3"/></svg><span>المستخدم</span></div></div></div></div>
+  </div>
+  <div class="dzf">مع تلاشي الخط الفاصل بين "الداخلي/الخارجي" بسبب الحوسبة السحابية والعمل عن بُعد، يتم التحقق من كل وصول.</div>
+  <div class="cap">الأمان التقليدي مقابل نهج انعدام الثقة</div>
+</div>
+<div class="fig ztc keep"><span class="fx abs">للفهم</span><div class="dyh">موظف قاعد <b>جوّه</b> مبنى البنك وعلى شبكته، وطلب يفتح حساب عميل — هل ده كفاية؟</div><div class="zc3"><div><span class="zi"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2"/><circle cx="8.5" cy="11" r="2.3"/><path d="M5 16c.6-1.6 1.9-2.4 3.5-2.4S11.4 14.4 12 16M14.5 10h4M14.5 13.5h3"/></svg></span><h5>الهوية</h5><small>مين اللي بيطلب؟</small><p><em>مثال للتبسيط:</em> موظف مسجّل في البنك بحسابه</p></div><div><span class="zi"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10.5" rx="2.2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><path d="m9.3 15.6 1.9 1.9 3.6-3.7"/></svg></span><h5>الصلاحيات</h5><small>مسموح له بإيه؟</small><p><em>مثال للتبسيط:</em> حسابات عملاء فرعه بس — مش كل الحسابات</p></div><div><span class="zi"><svg viewBox="0 0 24 24" fill="none" stroke="#22375c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.2V12l3.2 2"/></svg></span><h5>السياق</h5><small>من أي جهاز؟ إمتى؟ منين؟</small><p><em>مثال للتبسيط:</em> جهاز البنك المعروف، في وقت الشغل</p></div></div><div class="zcf"><b>الأمان التقليدي:</b> جوّه الشبكة ← موثوق من غير تحقق · <b>نهج انعدام الثقة:</b> مفيش ثقة تلقائية ← يتفحص كل وصول وفق سياسة المؤسسة</div></div>
+<div class="rcl keep"><span class="rl">ثبّت الصفحة في 10 ثواني</span><div class="rc"><span>الهوية</span><i>·</i><span>الصلاحيات</span><i>·</i><span>السياق</span></div></div>
+<div class="kidea keep"><div class="kh">الفكرة الرئيسة</div><p>يكون أمان الشبكة في أقوى حالاته عندما <b>تُكدَّس الإجراءات في طبقات متعددة (الدفاع في العمق)</b> ولا <b>يُمنح أي وصول ثقة تلقائيًا (نهج انعدام الثقة)</b>، بحيث يصبح <b>من غير المرجح</b> أن يؤدي خرق واحد إلى كشف النظام بأكمله.</p></div>
+<div class="big">سؤال على نمط الامتحان — ونموذج إجابته</div>
+<hr class="rule">
+<div class="exam keep">
+  <div class="hd"><span class="n">1</span><span class="t">سؤال على نمط الامتحان</span><span class="m">[<span class="num">6</span> درجات]</span></div>
+  <div class="qt">اشرح لماذا يحمي تكديس عدة إجراءات أمنية في طبقات (الدفاع في العمق) المؤسسة بشكل أفضل من الاعتماد على جدار الحماية وحده.</div>
+  <div class="hint"><b>استعن بـ:</b> ما يحدث إذا تم اختراق أحد الإجراءات.</div>
+</div>
+<h3 class="sub">سؤال على نمط الامتحان — إجابة نموذجية</h3>
+<div class="box white split"><h3>نموذج إجابة مقترح لسؤال الـ<span class="num">6</span> درجات</h3><ol style="counter-reset:n 0"><li><b>المشكلة في الحاجز الواحد:</b> لا تكفي وسيلة حماية واحدة؛ فإذا فشلت، قد تتعرض موارد أخرى للخطر – يعني اختراق جدار الحماية وحده ممكن يفتح الطريق للشبكة كلها.</li></ol><ol style="counter-reset:n 1"><li><b>الفكرة البديلة – الدفاع في العمق:</b> استخدام طبقات متعددة من الضوابط الأمنية.</li></ol><ol style="counter-reset:n 2"><li><b>الطبقات الأربع:</b> مدخل الشبكة (جدار الحماية) · مسار الاتصال <bdi>(VPN)</bdi> · وضع الخوادم <bdi>(DMZ)</bdi> · الأجهزة الطرفية (مكافحة الفيروسات وتحديث نظام التشغيل).</li></ol><ol style="counter-reset:n 3"><li><b>ماذا لو اختُرق أحد الإجراءات؟</b> تساعد طبقات أخرى على تقليل الخطر والحد من أثر الاختراق – مثال: لو اتهاجم خادم عام في <bdi>DMZ</bdi>، يقل احتمال امتداد الهجوم للشبكة الداخلية.</li></ol><ol style="counter-reset:n 4"><li><b>ومع الطبقات – نهج انعدام الثقة:</b> لا تُمنح الثقة تلقائيًا لمستخدم أو جهاز لمجرد وجوده داخل الشبكة، بل تُفحص الهوية والصلاحيات والسياق.</li></ol><ol style="counter-reset:n 5"><li><b>الخلاصة:</b> يصبح من غير المرجح أن يؤدي خرق واحد إلى كشف النظام بأكمله.</li></ol><div class="tip"><span class="l">ركّز:</span> التلميح سأل عن <b>ما يحدث إذا تم اختراق أحد الإجراءات</b> – فخلّي في إجابتك <b>مثال واضح لفشل إحدى وسائل الحماية</b>، مع توضيح <b>دور الطبقات الأخرى</b> في تقليل أثره. واذكر إن الطبقات <b>تقلل</b> الخطر ولا تمنعه منعًا مطلقًا.</div></div>
+<h2 class="sec"><span class="num"></span>إجابة السؤال الرئيسي</h2>
+<div class="mq">
+  <div class="lab">السؤال</div>
+  <div class="qq">كيف يمكن لمؤسسة أن تصمم شبكتها بحيث، حتى لو تم اختراق أحد الدفاعات، يظل النظام محميًا؟</div>
+</div>
+<div class="quote"><span class="qmark">”</span>تناول السؤال الرئيسي تصميم شبكة لا يؤدي فيها فشل وسيلة واحدة إلى كشف النظام كله. <b>يراقب جدار الحماية حركة الشبكة</b>، و<b>تحمي الشبكة الافتراضية الخاصة الاتصال البعيد</b>، و<b>تفصل المنطقة المعزولة الخوادم العامة عن الشبكة الداخلية</b>، و<b>تحمي ضوابط الأجهزة الطرفية كل جهاز</b>. ومع السحابة والعمل عن بُعد، أصبح <b>الاعتماد على موقع المستخدم داخل الشبكة أقل فاعلية دليلًا على الثقة</b>؛ لذلك <b>لا يمنح نهج انعدام الثقة ثقة تلقائية</b>، بل يطلب التحقق المناسب من الهوية والصلاحيات عند الوصول. تعمل هذه الطبقات معًا <b>لتقليل الخطر والحد من أثر الاختراق</b>.</div>
+<div class="note-line"><span class="tag">للفهم</span><span class="lead">طب ليه؟</span><b>لو السؤال ده جالك في الامتحان</b> الإجابة القوية بتعمل 3 حاجات: <b>(1)</b> تذكر <b>دور كل ضابط</b> من الأربعة · <b>(2)</b> توضّح ليه <b>المحيط الأمني وحده</b> مبقاش كفاية (السحابة والعمل عن بُعد) · <b>(3)</b> تقفل بإن الطبقات <b>بتقلل الخطر وبتحدّ من الأثر</b> — مش ضمان مطلق.</div>
+<div class="terms keep">
+  <div class="th"><h3>مصطلحات أساسية</h3></div>
+  <div class="t2">
+    <div><b>جدار الحماية</b> – يسمح بالاتصال أو يمنعه عند نقطة دخول/خروج الشبكة استنادًا إلى قواعد محددة مسبقًا.</div>
+    <div><b>المنطقة المعزولة (DMZ)</b> – منطقة للخوادم المواجهة للجمهور، منفصلة عن الشبكة الداخلية.</div>
+    <div><b>الدفاع في العمق</b> – تكديس الإجراءات الأمنية في طبقات متعددة.</div>
+    <div><b>نهج انعدام الثقة</b> – التحقق من كل عملية وصول.</div>
+    <div class="full"><b>المحيط الأمني</b> – الحدود التقليدية التي تفترض أن "الداخل آمن"، والتي طمستها الخدمات السحابية والعمل عن بُعد.</div>
+  </div>
+</div>
+<div class="box cream keep">
+  <h3>خلي بالك من العبارات دي</h3>
+  <ul>
+    <li>جدار الحماية <b>«قد يوجد عند حدود الشبكة أو بين أجزائها أو على جهاز مضيف»</b> – مش بس على الحدود.</li>
+    <li><bdi class="nw">VPN</bdi> <b>«تستخدم عادةً التشفير وتقنيات النفق»</b> – «عادةً».</li>
+    <li><bdi class="nw">DMZ</bdi> تساعد على <b>«تقليل احتمال»</b> وصول الهجوم للداخل – مش «تمنعه»، ومش نظام يعرّض <b>جميع</b> الخوادم.</li>
+    <li>الدفاع في العمق: <b>«تساعد طبقات أخرى على تقليل الخطر والحد من أثر الاختراق»</b>.</li>
+    <li>الفكرة الرئيسة: <b>«من غير المرجح»</b> أن يؤدي خرق واحد إلى كشف النظام بأكمله – مش «مستحيل».</li>
+    <li>انعدام الثقة: تُفحص <b>«الهوية والصلاحيات والسياق»</b> <b>«وفق سياسة المؤسسة»</b>.</li>
+  </ul>
+</div>
+<div class="box plain keep"><span class="fx abs">للفهم</span>
+  <h3>مثال من حياتنا</h3>
+  <p>تخيّل مدرسة عندها <b>موقع إلكتروني</b> الناس بتدخله من برّه، و<b>سيرفر درجات</b> فيه بيانات كل الطلبة، و<b>مدرسين بيشتغلوا من البيت</b>. لو حطّينا الموقع جوّه الشبكة الداخلية جنب سيرفر الدرجات – أي ثغرة في الموقع ممكن تبقى <b>باب مفتوح</b> على الدرجات.</p>
+  <p>التصميم الأحسن: الموقع في <b><bdi class="nw">DMZ</bdi></b>، وسيرفر الدرجات <b>جوّه</b>، و<b>جدار حماية</b> بينهم، والمدرسين بيدخلوا من البيت عبر <b><bdi class="nw">VPN</bdi></b>، وأجهزتهم عليها <b>مكافحة فيروسات ونظام محدّث</b>. وبعد كل ده: <b>كل طلب وصول للدرجات بيتفحص</b> – مش لأن الجهاز جوّه الشبكة يبقى ماشي.</p>
+  <p><b>وبرضه:</b> ده <b>بيقلل</b> الخطر. الكتاب بيقول <b>«من غير المرجح»</b> إن خرق واحد يكشف النظام كله – مش «مستحيل».</p>
+</div>
+<div class="dark keep">
+  <h3>الخلاصة في دقيقة</h3>
+  <p class="rem"><b>تذكّر:</b> كدّس دفاعاتك – جدار الحماية، والشبكة الافتراضية الخاصة، والمنطقة المعزولة، والأجهزة الطرفية – وتحقق من كل عملية وصول (نهج انعدام الثقة). عندها يصبح من غير المرجح أن يؤدي خرق واحد إلى كشف الشبكة بأكملها.</p>
+  <div class="g2">
+    <ul>
+      <li><b>جدار الحماية:</b> يراقب حركة المرور ويسمح بها أو يمنعها <b>وفق قواعد</b> – عند الحدود أو بين الأجزاء أو على جهاز.</li>
+      <li><b><bdi class="nw">DMZ</bdi>:</b> تفصل الخوادم المواجهة للجمهور عن الشبكة الداخلية، <b>فتقل احتمالية</b> انتقال الهجوم للداخل لو اتخترق خادم عام.</li>
+      <li><b>الدفاع في العمق:</b> لو فشلت طبقة، الباقي <b>يقلل الخطر ويحدّ من الأثر</b>.</li>
+    </ul>
+    <ul>
+      <li><b><bdi class="nw">VPN</bdi>:</b> اتصال خاص عبر شبكة عامة بالتشفير وتقنيات النفق – <b>العمل عن بُعد وربط الفروع</b>، وتقليل التنصت على <bdi class="nw">Wi-Fi</bdi> عامة.</li>
+      <li><b>الطبقات الأربع:</b> مدخل الشبكة · مسار الاتصال · وضع الخوادم · الأجهزة الطرفية.</li>
+      <li><b>انعدام الثقة:</b> لا ثقة تلقائية بسبب الموقع – <b>الهوية والصلاحيات والسياق</b> عند كل وصول.</li>
+    </ul>
+  </div>
+</div>
+<div class="check keep kwn">
+  <h3>اتأكد إنك قادر على</h3>
+  <div class="g2">
+    <ul>
+      <li><span>أعرف تعريف <b>جدار الحماية</b> و<b>أين قد يوجد</b>.</span></li>
+      <li><span>أعرف تعريف <b>DMZ</b> و<b>الفايدة</b> منها بالظبط.</span></li>
+      <li><span>أقدر أشرح <b>ليه الطبقات أقوى من حاجز واحد</b> بسيناريو فشل.</span></li>
+      <li><span>أعرف إن الطبقات <b>تقلل</b> الخطر – والكتاب قال «<b>من غير المرجح</b>» مش «مستحيل».</span></li>
+    </ul>
+    <ul>
+      <li><span>أعرف تعريف <b>VPN</b> و<b>استخدامَيها</b>، وليه بتقلل التنصت على شبكة عامة.</span></li>
+      <li><span>أقدر أذكر <b>الطبقات الأربع</b> و<b>مثال إجراء</b> في كل طبقة.</span></li>
+      <li><span>أعرف <b>نهج انعدام الثقة</b> وليه <b>المحيط الأمني</b> وحده مبقاش كافي.</span></li>
+    </ul>
+  </div>
+</div>
+<div class="endline">أكواد مع زياد — أ/ زياد السعدني · مذكرة البرمجة والذكاء الاصطناعي — تانية ثانوي <span class="num">2026/2027</span> · الوحدة الثانية — الدرس <span class="num">2-2</span></div>
+<div class="pb"></div>
+<div class="band" style="height:55pt;padding-right:12pt">
+  <div class="badge"><span class="n">2-2</span></div>
+  <h1 style="text-align:right;margin-right:12pt;font-size:14pt">لخّص الدرس بأسلوبك</h1>
+</div>
+<div class="instr"><span class="fx fl">للفهم</span>اقفل المذكرة وحاول تلخّص الدرس من غير ما تبصّ: اكتب أهم <b>المصطلحات</b>، و<b>الفكرة الأساسية</b>، و<b>النقطة اللي لسه محتاجة مراجعة</b>. بعد كده افتح المذكرة وقارن اللي كتبته.</div>
+<div class="lines"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+
+<!-- ===================== بنك الأسئلة ===================== -->
+<div class="pb"></div>
+<div class="band">
+  <div class="badge"><span class="l">الدرس</span><span class="n">2-2</span></div>
+  <h1>تصميم أمان الشبكات</h1>
+  <div class="who"><div class="t"><span class="u">الوحدة الثانية</span><span class="k">بنك الأسئلة</span></div><img src="assets/avatar.png" alt=""></div>
+</div>
+<div class="qstats"><div><b class="num">12</b><span>أسئلة الكتاب</span></div><div><b class="num">28</b><span>اختر</span></div><div><b class="num">12</b><span>أكمل</span></div><div><b class="num">12</b><span>صح وخطأ</span></div><div><b class="num">9</b><span>تصنيف وقارن</span></div><div><b class="num">8</b><span>علّل</span></div><div><b class="num">13</b><span>مقالي وأنشطة</span></div><div><b class="num">23</b><span class="tq">تقييمات</span></div></div>
+<h2 class="cat kwn">أسئلة الكتاب<span class="cnt">12</span></h2>
+<div class="qcard split "><h4><span class="n">01</span><span class="tt">·&nbsp;المثال المحلول — الجزء الأول</span></h4><p class="qi">ضع علامة ○ أمام كل عبارة (أ - د) إذا كانت صحيحة، أو علامة × إذا كانت خاطئة.</p><ul class="tf"><li><b>أ</b><span class="t">يسمح جدار الحماية بالاتصال أو يمنعه استنادًا إلى قواعد محددة مسبقًا.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><b>ب</b><span class="t">يمكن أن يقلل استخدام الشبكة الافتراضية الخاصة من مخاطر التنصت حتى على شبكة <bdi class="nw">Wi-Fi</bdi> عامة.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><b>ج</b><span class="t">المنطقة المعزولة نظام يعرّض جميع الخوادم للخارج.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><b>د</b><span class="t">الدفاع في العمق هو مفهوم تكديس عدة إجراءات أمنية في طبقات متعددة.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li></ul></div>
+<div class="qcard split "><h4><span class="n">02</span><span class="tt">·&nbsp;المثال المحلول — الجزء الثاني</span></h4><p class="qi">طابق كل وصف (أ - ج) بأنسب مصطلح من الخيارات التالية (أ - ج).</p><div class="match"><div class="mb"><h5>الوصف</h5><ol class="la"><li><b>أ</b><span>تقنية تنشئ خطًا خاصًا افتراضيًا مشفرًا عبر الإنترنت للاتصال الآمن من موقع بعيد</span><span class="ab"></span></li><li><b>ب</b><span>منطقة تُوضع فيها الخوادم المعرَّضة للخارج بشكل منفصل عن الشبكة الداخلية</span><span class="ab"></span></li><li><b>ج</b><span>نظام يسمح بالاتصال أو يمنعه استنادًا إلى قواعد محددة مسبقًا</span><span class="ab"></span></li></ol></div><div class="mb"><h5>الخيارات</h5><ul class="op c1"><li><b>أ‌</b>جدار الحماية</li><li><b>ب‌</b>الشبكة الافتراضية الخاصة</li><li><b>ج‌</b>المنطقة المعزولة</li></ul></div></div></div>
+<div class="qcard sol keep"><h4><span class="ck">✓</span> الحل — المثال المحلول</h4><div class="sg"><div><div class="sp">(1)</div><div class="sr"><b>أ</b><span>يتحكم جدار الحماية في الاتصال استنادًا إلى القواعد. لذلك، ○.</span></div><div class="sr"><b>ب</b><span>تشفّر الشبكة الافتراضية الخاصة الاتصال، مما يقلل من مخاطر التنصت على شبكة <bdi class="nw">Wi-Fi</bdi> العامة. لذلك، ○.</span></div><div class="sr"><b>ج</b><span>المنطقة المعزولة هي منطقة توضع فيها الخوادم المواجهة للجمهور بشكل منفصل عن الشبكة الداخلية، وليست نظامًا يعرّض جميع الخوادم. لذلك، ×.</span></div><div class="sr"><b>د</b><span>تعريف صحيح للدفاع في العمق. لذلك، ○.</span></div></div><div><div class="sp">(2)</div><div class="sr"><b>أ:</b><span>الخط الخاص الافتراضي المشفر هو الشبكة الافتراضية الخاصة. <i>ب</i></span></div><div class="sr"><b>ب:</b><span>منطقة تُعزل فيها الخوادم المواجهة للجمهور هي المنطقة المعزولة. <i>ج</i></span></div><div class="sr"><b>ج:</b><span>نظام يسمح بالاتصال أو يمنعه هو جدار الحماية. <i>أ</i></span></div></div></div></div>
+<div class="qcard split "><h4><span class="n">03</span><span class="tt">·&nbsp;تدرّب — أجب عن الأسئلة التالية</span></h4><div class="qq"><span class="k">1</span><p>ما المصطلح الذي يصف نظامًا أو برنامجًا يراقب حركة مرور الشبكة ويسمح بها أو يمنعها وفق قواعد أمنية؟ <span class="bl" style="width:110pt"></span></p></div><div class="qq"><span class="k">2</span><p>ما الاختصار الذي يصف اتصالًا منطقيًا خاصًا يحمي البيانات عبر شبكة عامة؟ <span class="bl" style="width:90pt"></span></p></div><div class="qq"><span class="k">3</span><p>ما الاختصار المكوّن من ثلاثة أحرف للمنطقة التي تُوضع فيها الخوادم المعرَّضة للخارج بشكل منفصل عن الشبكة الداخلية؟ <span class="bl" style="width:90pt"></span></p></div><div class="qq"><span class="k">4</span><p>ما المصطلح الذي يُطلق على مفهوم تكديس عدة إجراءات أمنية؟ <span class="bl" style="width:110pt"></span></p></div></div>
+<div class="qcard split "><h4><span class="n">04</span><span class="tt">·&nbsp;تدرّب — اختيار · والطبقات</span></h4><div class="qq"><span class="k">1</span><p>من بين الخيارات التالية (أ - د)، اختر الخيار الذي <b>لا يمثل استخدامًا مناسبًا</b> للشبكة الافتراضية الخاصة.</p></div><ul class="op c1"><li><b>أ‌</b>الاتصال بأمان من المنزل بشبكة المؤسسة</li><li><b>ب‌</b>ربط المكاتب في مواقع مختلفة بأمان</li><li><b>ج‌</b>الحذف التلقائي للملفات المصابة بالفيروسات</li><li><b>د‌</b><span>تشفير محتوى الاتصال على شبكة <bdi class="nw">Wi-Fi</bdi> العامة</span></li></ul><div class="qq"><span class="k">2</span><p>لكل إجراء أمني (أ - د)، بيّن أي طبقة من طبقات الدفاع المتعدد (أ - د) ينتمي إليها: <b>أ</b> مدخل الشبكة، <b>ب</b> مسار الاتصال، <b>ج</b> وضع الخوادم، <b>د</b> الأجهزة الطرفية.</p></div><ul class="cl"><li><span class="k">أ</span><span class="t">منع الاتصال غير المصرح به باستخدام جدار الحماية</span><span class="ab"></span></li><li><span class="k">ب</span><span class="t">تشفير الاتصال باستخدام الشبكة الافتراضية الخاصة</span><span class="ab"></span></li><li><span class="k">ج</span><span class="t">تثبيت برنامج مكافحة الفيروسات</span><span class="ab"></span></li><li><span class="k">د</span><span class="t">فصل الخوادم المواجهة للجمهور عن الشبكة الداخلية باستخدام المنطقة المعزولة <bdi>(DMZ)</bdi></span><span class="ab"></span></li></ul></div>
+<div class="qcard split "><h4><span class="n">05</span><span class="tt">·&nbsp;سؤال على نمط الامتحان</span><span class="mk">[<span class="num">6</span> درجات]</span><span class="tq">تقييمات</span></h4><p class="qs">اشرح لماذا يحمي تكديس عدة إجراءات أمنية في طبقات (الدفاع في العمق) المؤسسة بشكل أفضل من الاعتماد على جدار الحماية وحده.</p><div class="hint"><b>عناصر الإجابة</b> <b>استعن بـ:</b> ما يحدث إذا تم اختراق أحد الإجراءات.</div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="qcard split "><h4><span class="n">06</span><span class="tt">·&nbsp;تمارين — اقرأ الفقرة ثم املأ الفراغات</span></h4><p class="qi">اقرأ الفقرة التالية وأجب عن السؤال.</p><p class="qs rd">لحماية شبكة مؤسسة، تُستخدم طبقات متعددة. يراقب ( <b>أ</b> ) حركة الشبكة ويسمح بها أو يمنعها وفق قواعد. وتوضع الخوادم العامة في ( <b>ب</b> ) منفصلة عن الشبكة الداخلية. ويُحمى الاتصال البعيد عبر ( <b>ج</b> ). ويسمى استخدام طبقات متعددة من الضوابط الأمنية ( <b>د</b> ).</p><div class="qq"><span class="k">1</span><p>املأ الفراغات (أ) - (د).</p></div><ul class="cl"><li><span class="k">أ</span><span class="t"></span><span class="ab w"></span></li><li><span class="k">ب</span><span class="t"></span><span class="ab w"></span></li><li><span class="k">ج</span><span class="t"></span><span class="ab w"></span></li><li><span class="k">د</span><span class="t"></span><span class="ab w"></span></li></ul></div>
+<div class="qcard split "><h4><span class="n">07</span><span class="tt">·&nbsp;تمارين — اختيار</span></h4><div class="qq"><span class="k">1</span><p>من بين الخيارات التالية (أ - د)، اختر السبب الأنسب لاستخدام منطقة معزولة <bdi>(DMZ)</bdi>.</p></div><ul class="op c1"><li><b>أ‌</b>لتحسين سرعة الاتصال.</li><li><b>ب‌</b>لتعريض جميع الخوادم للخارج.</li><li><b>ج‌</b>لمنع الضرر عن الشبكة الداخلية حتى لو تعرض خادم مواجه للجمهور للهجوم.</li><li><b>د‌</b>للكشف عن الفيروسات وإزالتها تلقائيًا.</li></ul><div class="qq"><span class="k">2</span><p>من بين الخيارات التالية (أ - د)، اختر الخيار الذي يصف مفهوم نهج انعدام الثقة بأنسب طريقة.</p></div><ul class="op c1"><li><b>أ‌</b>الوصول من داخل شبكة المؤسسة آمن، لذا فإن التحقق غير ضروري.</li><li><b>ب‌</b>جدار الحماية وحده كافٍ لحماية الشبكة.</li><li><b>ج‌</b>لا تُمنح الثقة تلقائيًا بناءً على موقع المستخدم أو الجهاز، ويُتحقق من كل طلب وصول وفق الهوية والصلاحيات والسياق.</li><li><b>د‌</b>يحتاج فقط الوصول من الخارج إلى المراقبة.</li></ul></div>
+<h2 class="cat kwn">اختر الإجابة الصحيحة<span class="cnt">28</span></h2>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">1</span><span class="tq">تقييمات</span><p>«نظام أو برنامج يراقب حركة مرور الشبكة ويسمح بها أو يمنعها وفق قواعد أمنية» هو:</p></div><ul class="op c2"><li><b>أ‌</b>نهج انعدام الثقة</li><li><b>ب‌</b>الشبكة الافتراضية الخاصة</li><li><b>ج‌</b>المنطقة المعزولة</li><li><b>د‌</b>جدار الحماية</li></ul></div><div class="mq"><div class="qq"><span class="k">2</span><p>حسب الكتاب، قد يوجد جدار الحماية:</p></div><ul class="op c2"><li><b>أ‌</b>داخل قاعدة البيانات فقط</li><li><b>ب‌</b>عند حدود الشبكة فقط ولا يوجد في أي مكان آخر داخلها</li><li><b>ج‌</b>عند حدود الشبكة أو بين أجزائها أو على جهاز مضيف</li><li><b>د‌</b>على الخادم العام فقط</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">3</span><p>مثال الكتاب على قاعدة في جدار الحماية:</p></div><ul class="op c1"><li><b>أ‌</b>حذف الملفات المصابة بالفيروسات تلقائيًا من جميع أجهزة الموظفين والخوادم داخل الشبكة الداخلية</li><li><b>ب‌</b>السماح بالوصول إلى خادم الويب مع منع الوصول الخارجي المباشر إلى قاعدة البيانات</li><li><b>ج‌</b>تشفير كلمات المرور المخزنة</li><li><b>د‌</b>ربط الفروع ببعضها</li></ul></div><div class="mq"><div class="qq"><span class="k">4</span><span class="tq">تقييمات</span><p>«اتصال أو شبكة منطقية خاصة عبر شبكة عامة مثل الإنترنت» هو:</p></div><ul class="op c2"><li><b>أ‌</b>المنطقة المعزولة</li><li><b>ب‌</b>جدار الحماية</li><li><b>ج‌</b>الشبكة الافتراضية الخاصة</li><li><b>د‌</b>المحيط الأمني حول شبكة المؤسسة</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">5</span><p>تستخدم الشبكة الافتراضية الخاصة <b>عادةً</b>:</p></div><ul class="op c2"><li><b>أ‌</b>التشفير وتقنيات النفق</li><li><b>ب‌</b>مكافحة الفيروسات</li><li><b>ج‌</b>بصمة الإصبع</li><li><b>د‌</b>قواعد جدار الحماية المحددة مسبقًا</li></ul></div><div class="mq"><div class="qq"><span class="k">6</span><span class="tq">تقييمات</span><p>الاستخدامان الرئيسيان للشبكة الافتراضية الخاصة هما:</p></div><ul class="op c2"><li><b>أ‌</b>إدارة كلمات المرور وتوليدها</li><li><b>ب‌</b>حذف الفيروسات وتحديث النظام</li><li><b>ج‌</b>فصل الخوادم وتسريع التصفح</li><li><b>د‌</b>العمل عن بُعد وربط الفروع</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">7</span><p>لماذا تقل مخاطر التنصت عند استخدام <bdi class="nw">VPN</bdi> على <bdi class="nw">Wi-Fi</bdi> عامة؟</p></div><ul class="op c2"><li><b>أ‌</b>لأن الشبكة تُغلق</li><li><b>ب‌</b>لأن سرعة الاتصال بالإنترنت تزيد كثيرًا</li><li><b>ج‌</b>لأن محتوى الاتصال يُشفَّر</li><li><b>د‌</b>لأن الجهاز يُحدَّث</li></ul></div><div class="mq"><div class="qq"><span class="k">8</span><span class="tq">تقييمات</span><p>«منطقة تُوضع فيها الخوادم المعرَّضة للشبكة الخارجية بشكل منفصل عن الشبكة الداخلية» هي:</p></div><ul class="op c2"><li><b>أ‌</b>المحيط الأمني</li><li><b>ب‌</b>المنطقة المعزولة</li><li><b>ج‌</b>الشبكة الافتراضية الخاصة</li><li><b>د‌</b>الدفاع في العمق</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">9</span><p>من أمثلة الخوادم التي تُوضع في <bdi class="nw">DMZ</bdi>:</p></div><ul class="op c2"><li><b>أ‌</b>خوادم الويب وخوادم البريد</li><li><b>ب‌</b>خادم قاعدة بيانات الموظفين</li><li><b>ج‌</b>أجهزة الموظفين</li><li><b>د‌</b>جدار الحماية</li></ul></div><div class="mq"><div class="qq"><span class="k">10</span><p>في شكل تكوين <bdi class="nw">DMZ</bdi>، يقع <b>خادم قاعدة البيانات</b> في:</p></div><ul class="op c2"><li><b>أ‌</b>خارج جداري الحماية</li><li><b>ب‌</b>المنطقة المعزولة</li><li><b>ج‌</b>الشبكة الخارجية</li><li><b>د‌</b>الشبكة الداخلية</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">11</span><span class="tq">تقييمات</span><p>«استخدام طبقات متعددة من الضوابط الأمنية» هو:</p></div><ul class="op c2"><li><b>أ‌</b>المحيط الأمني</li><li><b>ب‌</b>نهج انعدام الثقة</li><li><b>ج‌</b>الدفاع في العمق</li><li><b>د‌</b>المنطقة المعزولة</li></ul></div><div class="mq"><div class="qq"><span class="k">12</span><p>إذا فشلت إحدى طبقات الحماية، فإن الطبقات الأخرى:</p></div><ul class="op c2"><li><b>أ‌</b>تتوقف عن العمل</li><li><b>ب‌</b>تساعد على تقليل الخطر والحد من أثر الاختراق</li><li><b>ج‌</b>تمنع أي اختراق آخر منعًا مطلقًا ولا يبقى أي خطر على الشبكة</li><li><b>د‌</b>تحذف البيانات</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">13</span><span class="tq">تقييمات</span><p>الطبقة الأولى «مدخل الشبكة» يمثّلها إجراء:</p></div><ul class="op c2"><li><b>أ‌</b>منع الاتصال غير المصرح به بجدار الحماية</li><li><b>ب‌</b><span>تشفير الاتصال بـ<bdi class="nw">VPN</bdi></span></li><li><b>ج‌</b><span>فصل الخوادم بـ<bdi class="nw">DMZ</bdi></span></li><li><b>د‌</b>تثبيت برنامج مكافحة الفيروسات على جميع أجهزة الموظفين</li></ul></div><div class="mq"><div class="qq"><span class="k">14</span><p>طبقة «مسار الاتصال» يمثّلها إجراء:</p></div><ul class="op c2"><li><b>أ‌</b>تثبيت مكافحة الفيروسات على أجهزة الموظفين</li><li><b>ب‌</b><span>تشفير الاتصال باستخدام <bdi class="nw">VPN</bdi></span></li><li><b>ج‌</b>فصل الخوادم العامة</li><li><b>د‌</b>تحديث نظام التشغيل</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">15</span><p>طبقة «وضع الخوادم» يمثّلها إجراء:</p></div><ul class="op c1"><li><b>أ‌</b>تشفير الاتصال</li><li><b>ب‌</b>منع الاتصال غير المصرح به من الإنترنت إلى الشبكة باستخدام جدار الحماية</li><li><b>ج‌</b>تحديث نظام التشغيل</li><li><b>د‌</b><span>فصل الخوادم المواجهة للجمهور عن الشبكة الداخلية بـ<bdi class="nw">DMZ</bdi></span></li></ul></div><div class="mq"><div class="qq"><span class="k">16</span><span class="tq">تقييمات</span><p>طبقة «الأجهزة الطرفية» يمثّلها إجراء:</p></div><ul class="op c2"><li><b>أ‌</b>فصل الخوادم</li><li><b>ب‌</b>تثبيت مكافحة الفيروسات وتحديث نظام التشغيل</li><li><b>ج‌</b>ربط الفروع</li><li><b>د‌</b>إنشاء قواعد جدار الحماية على حدود الشبكة ومراقبة حركة المرور</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">17</span><span class="tq">تقييمات</span><p>«نهج أمني لا يمنح الثقة تلقائيًا لمستخدم أو جهاز لمجرد وجوده داخل الشبكة» هو:</p></div><ul class="op c2"><li><b>أ‌</b>الدفاع في العمق</li><li><b>ب‌</b>المحيط الأمني للمؤسسة</li><li><b>ج‌</b>نهج انعدام الثقة</li><li><b>د‌</b>جدار الحماية</li></ul></div><div class="mq"><div class="qq"><span class="k">18</span><p>في نهج انعدام الثقة، ما الذي يُفحص عند طلب الوصول؟</p></div><ul class="op c2"><li><b>أ‌</b>عدد المستخدمين</li><li><b>ب‌</b>سرعة الشبكة</li><li><b>ج‌</b>نوع المتصفح ونظام التشغيل المستخدم فقط</li><li><b>د‌</b>الهوية والصلاحيات والسياق</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">19</span><p>الفرضية التي بُني عليها الأمان التقليدي هي:</p></div><ul class="op c2"><li><b>أ‌</b>«الخوادم العامة تُعزل»</li><li><b>ب‌</b>«كل وصول يجب التحقق منه»</li><li><b>ج‌</b>«الطبقات المتعددة أفضل دائمًا من الحاجز الواحد»</li><li><b>د‌</b>«داخل شبكة المؤسسة آمن، وخارجها خطر»</li></ul></div><div class="mq"><div class="qq"><span class="k">20</span><p>ما الذي جعل حدود «الداخل» و«الخارج» غير واضحة؟</p></div><ul class="op c2"><li><b>أ‌</b>الخدمات السحابية والعمل عن بُعد</li><li><b>ب‌</b>زيادة سرعة الإنترنت وانخفاض أسعار الأجهزة</li><li><b>ج‌</b>انتشار كلمات المرور</li><li><b>د‌</b><span>استخدام <bdi class="nw">DMZ</bdi></span></li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">21</span><span class="tq">تقييمات</span><p>«الحدود التقليدية التي تفترض أن الداخل آمن» تسمى:</p></div><ul class="op c2"><li><b>أ‌</b>المنطقة المعزولة</li><li><b>ب‌</b>المحيط الأمني</li><li><b>ج‌</b>النفق</li><li><b>د‌</b>الطبقة الرابعة</li></ul></div><div class="mq"><div class="qq"><span class="k">22</span><p>مع انتشار الخدمات السحابية والعمل عن بُعد، أصبحت التصاميم التي تحمي المحيط الأمني فقط:</p></div><ul class="op c2"><li><b>أ‌</b>غير كافية</li><li><b>ب‌</b>كافية تمامًا</li><li><b>ج‌</b>أسرع من غيرها</li><li><b>د‌</b>بديلًا عن جدار الحماية</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">23</span><p>حسب الفكرة الرئيسة، أمان الشبكة يكون في أقوى حالاته عندما:</p></div><ul class="op c1"><li><b>أ‌</b>تُغلق الشبكة عن الإنترنت</li><li><b>ب‌</b>يُستخدم جدار حماية واحد قوي جدًا عند حدود الشبكة يمنع كل الهجمات</li><li><b>ج‌</b>تُكدَّس الإجراءات في طبقات ولا يُمنح أي وصول ثقة تلقائيًا</li><li><b>د‌</b>تُشفَّر كلمات المرور فقط</li></ul></div><div class="mq"><div class="qq"><span class="k">24</span><p>الفكرة الرئيسة تقول إن الخرق الواحد يصبح:</p></div><ul class="op c2"><li><b>أ‌</b>مستحيلًا تمامًا مهما كانت قوة المهاجم وأدواته</li><li><b>ب‌</b>من غير المرجح أن يكشف النظام بأكمله</li><li><b>ج‌</b>أسرع في الانتشار</li><li><b>د‌</b>بلا أثر إطلاقًا</li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">25</span><p>وضع خادم ويب عام داخل الشبكة الداخلية بدل <bdi class="nw">DMZ</bdi> يزيد خطر:</p></div><ul class="op c2"><li><b>أ‌</b>وصول الهجوم من الخادم إلى الشبكة الداخلية</li><li><b>ب‌</b>بطء تحميل صفحات الموقع على الأجهزة المحمولة للمستخدمين</li><li><b>ج‌</b>نسيان كلمات المرور</li><li><b>د‌</b>انقطاع الكهرباء</li></ul></div><div class="mq"><div class="qq"><span class="k">26</span><p>حسب الكتاب، الاعتماد على موقع المستخدم داخل الشبكة أصبح:</p></div><ul class="op c2"><li><b>أ‌</b>أقل فاعلية دليلًا على الثقة</li><li><b>ب‌</b>الدليل الوحيد على الثقة</li><li><b>ج‌</b>بديلًا عن جدار الحماية</li><li><b>د‌</b><span>شرطًا لاستخدام <bdi class="nw">VPN</bdi></span></li></ul></div></div>
+<div class="mrow"><div class="mq"><div class="qq"><span class="k">27</span><p>سبب عدم كفاية وسيلة حماية واحدة – حسب الكتاب – هو أنه:</p></div><ul class="op c2"><li><b>أ‌</b>تبطئ الشبكة</li><li><b>ب‌</b>تكلفتها عالية</li><li><b>ج‌</b>إذا فشلت، قد تتعرض موارد أخرى للخطر</li><li><b>د‌</b>تحتاج تدريبًا طويلًا ومكلفًا لكل الموظفين في المؤسسة</li></ul></div><div class="mq"><div class="qq"><span class="k">28</span><span class="tq">تقييمات</span><p>الفرضية التي يعتمد عليها نهج انعدام الثقة في تأمين موارد المؤسسة هي:</p></div><ul class="op c1"><li><b>أ‌</b>تشفير رسائل البريد الإلكتروني فقط دون الاهتمام بصلاحيات الوصول للبيانات</li><li><b>ب‌</b>اعتبار كل جهاز أو مستخدم داخل شبكة المؤسسة موثوقًا تمامًا بشكل تلقائي</li><li><b>ج‌</b>الاعتماد المطلق على المحيط الأمني الخارجي وعدم فحص التطبيقات الداخلية</li><li><b>د‌</b>عدم منح الثقة تلقائيًا لمستخدم أو جهاز لمجرد وجوده داخل الشبكة أو ملكيته للمؤسسة، وفحص الهوية والسياق</li></ul></div></div>
+<h2 class="cat kwn">أكمل<span class="cnt">12</span></h2>
+<div class="hint kwn"><b>ملحوظة</b> اكتب المصطلح كامل وصحيح الإملاء. ولو المصطلح ليه اختصار إنجليزي، اكتبه جنبه كطريقة تساعدك تثبّت المصطلح.</div>
+<div class="frow"><div><span class="k">1</span><p>النظام الذي يراقب حركة مرور الشبكة ويسمح بها أو يمنعها وفق قواعد أمنية هو <span class="bl" style="width:70pt"></span></p></div><div><span class="k">2</span><p>الاتصال أو الشبكة المنطقية الخاصة عبر شبكة عامة هي <span class="bl" style="width:70pt"></span></p></div></div>
+<div class="frow"><div><span class="k">3</span><p>المنطقة التي تُوضع فيها الخوادم المعرَّضة للخارج منفصلة عن الشبكة الداخلية هي <span class="bl" style="width:70pt"></span></p></div><div><span class="k">4</span><p>تكديس الإجراءات الأمنية في طبقات متعددة يسمى <span class="bl" style="width:70pt"></span></p></div></div>
+<div class="frow"><div><span class="k">5</span><p>النهج الذي لا يمنح الثقة تلقائيًا لمستخدم أو جهاز داخل الشبكة هو <span class="bl" style="width:70pt"></span></p></div><div><span class="k">6</span><p>الحدود التقليدية التي تفترض أن «الداخل آمن» تسمى <span class="bl" style="width:70pt"></span></p></div></div>
+<div class="frow"><div><span class="k">7</span><p>تستخدم الشبكة الافتراضية الخاصة عادةً التشفير و<span class="bl" style="width:70pt"></span></p></div><div><span class="k">8</span><p>الاستخدامان الرئيسيان للشبكة الافتراضية الخاصة هما <span class="bl" style="width:60pt"></span> و<span class="bl" style="width:60pt"></span></p></div></div>
+<div class="frow"><div><span class="k">9</span><p>الطبقة الأولى في الدفاع في العمق هي <span class="bl" style="width:70pt"></span></p></div><div><span class="k">10</span><p>الطبقة الرابعة في الدفاع في العمق هي <span class="bl" style="width:70pt"></span></p></div></div>
+<div class="frow"><div><span class="k">11</span><p>في نهج انعدام الثقة تُفحص الهوية و<span class="bl" style="width:55pt"></span> و<span class="bl" style="width:55pt"></span> عند طلب الوصول</p></div><div><span class="k">12</span><p>ما جعل الحدود بين «الداخل» و«الخارج» غير واضحة هو انتشار <span class="bl" style="width:60pt"></span> و<span class="bl" style="width:60pt"></span></p></div></div>
+<h2 class="cat kwn">صح وخطأ<span class="cnt">12</span></h2>
+<ul class="tfb"><li><span class="k">1</span><span class="t">جدار الحماية يوجد عند حدود الشبكة فقط.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">2</span><span class="t">تستخدم الشبكة الافتراضية الخاصة عادةً التشفير وتقنيات النفق لحماية البيانات بين الطرفين.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">3</span><span class="t">من استخدامات الشبكة الافتراضية الخاصة الحذف التلقائي للملفات المصابة.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li></ul>
+<ul class="tfb"><li><span class="k">4</span><span class="t">يساعد فصل الخوادم العامة في منطقة معزولة على تقليل احتمال وصول الهجوم إلى الشبكة الداخلية.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">5</span><span class="t">تثبيت مكافحة الفيروسات وتحديث نظام التشغيل ينتميان إلى طبقة مدخل الشبكة.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">6</span><span class="t">في نهج انعدام الثقة تُفحص الهوية والصلاحيات والسياق عند طلب الوصول إلى الموارد.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li></ul>
+<ul class="tfb"><li><span class="k">7</span><span class="t">الوصول من داخل شبكة المؤسسة آمن، لذا فإن التحقق غير ضروري.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">8</span><span class="t">مع انتشار السحابة والعمل عن بُعد، أصبحت التصاميم التي تحمي المحيط الأمني فقط غير كافية.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">9</span><span class="t">في الأمان التقليدي، يُعد خارج شبكة المؤسسة آمنًا وداخلها خطرًا.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li></ul>
+<ul class="tfb"><li><span class="k">10</span><span class="t">من أمثلة قواعد جدار الحماية السماح بالوصول إلى خادم الويب مع منع الوصول الخارجي المباشر إلى قاعدة البيانات.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">11</span><span class="t">تكديس الطبقات يمنع الاختراق منعًا مطلقًا.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li><li><span class="k">12</span><span class="t">لا تكفي وسيلة حماية واحدة؛ فإذا فشلت قد تتعرض موارد أخرى للخطر.</span><span class="pr">(&nbsp;&nbsp;&nbsp;&nbsp;)</span></li></ul>
+<h2 class="cat kwn">تصنيف وقارن<span class="cnt">9</span></h2>
+<div class="qcard split "><h4><span class="n">01</span><span class="tt">·&nbsp;الإجراء ده في أنهي طبقة؟</span></h4><p class="qi">اكتب رقم الطبقة: <b><span class="num">1</span></b> مدخل الشبكة · <b><span class="num">2</span></b> مسار الاتصال · <b><span class="num">3</span></b> وضع الخوادم · <b><span class="num">4</span></b> الأجهزة الطرفية.</p><ul class="cl"><li><span class="k">1</span><span class="t">قاعدة تمنع الوصول الخارجي المباشر لقاعدة البيانات</span><span class="ab"></span></li><li><span class="k">2</span><span class="t">تحديث نظام التشغيل على أجهزة الموظفين</span><span class="ab"></span></li><li><span class="k">3</span><span class="t">ربط فرعين بأمان عبر الإنترنت</span><span class="ab"></span></li><li><span class="k">4</span><span class="t">وضع خادم البريد في منطقة منفصلة</span><span class="ab"></span></li><li><span class="k">5</span><span class="t">تشفير اتصال موظف يعمل من المنزل</span><span class="ab"></span></li></ul></div>
+<div class="qcard split "><h4><span class="n">02</span><span class="tt">·&nbsp;طابق كل تعريف بالمصطلح</span></h4><div class="match"><div class="mb"><h5>التعريف</h5><ol><li><span>منطقة للخوادم المواجهة للجمهور منفصلة عن الداخل</span><span class="ab"></span></li><li><span>التحقق من كل عملية وصول دون ثقة تلقائية</span><span class="ab"></span></li><li><span>يسمح بالاتصال أو يمنعه وفق قواعد محددة مسبقًا</span><span class="ab"></span></li><li><span>تكديس الإجراءات الأمنية في طبقات متعددة</span><span class="ab"></span></li><li><span>اتصال خاص مشفّر عبر شبكة عامة</span><span class="ab"></span></li></ol></div><div class="mb"><h5>المصطلح</h5><ul class="op c1"><li><b>أ‌</b>جدار الحماية</li><li><b>ب‌</b>الشبكة الافتراضية الخاصة</li><li><b>ج‌</b>المنطقة المعزولة</li><li><b>د‌</b>الدفاع في العمق</li><li><b>هـ‌</b>نهج انعدام الثقة</li></ul></div></div></div>
+<div class="qcard split "><h4><span class="n">03</span><span class="tt">·&nbsp;الخادم ده مكانه فين؟</span></h4><p class="qi">اكتب <b>د</b> لو مكانه <b>الشبكة الداخلية</b>، و<b>ع</b> لو مكانه <b>المنطقة المعزولة</b>.</p><ul class="cl"><li><span class="k">1</span><span class="t">خادم الويب العام للمدرسة</span><span class="ab"></span></li><li><span class="k">2</span><span class="t">قاعدة بيانات درجات الطلاب</span><span class="ab"></span></li><li><span class="k">3</span><span class="t">خادم البريد الإلكتروني المواجه للجمهور</span><span class="ab"></span></li><li><span class="k">4</span><span class="t">ملفات شؤون الموظفين السرية</span><span class="ab"></span></li></ul></div>
+<div class="qcard split "><h4><span class="n">04</span><span class="tt">·&nbsp;التهديد والإجراء</span></h4><p class="qi">اكتب الإجراء الأنسب: <b>جدار الحماية</b> · <b><bdi class="nw">VPN</bdi></b> · <b><bdi class="nw">DMZ</bdi></b> · <b>ضوابط الأجهزة الطرفية</b>.</p><ul class="cl"><li><span class="k">1</span><span class="t">موظف يتصل بشبكة المؤسسة من كافيه على <bdi class="nw">Wi-Fi</bdi> عامة</span><span class="ab w"></span></li><li><span class="k">2</span><span class="t">محاولة اتصال غير مصرح به من الخارج بقاعدة البيانات</span><span class="ab w"></span></li><li><span class="k">3</span><span class="t">اختراق خادم الويب العام قد يمتد للشبكة الداخلية</span><span class="ab w"></span></li><li><span class="k">4</span><span class="t">ملف مصاب فُتح على جهاز موظف</span><span class="ab w"></span></li></ul></div>
+<div class="qcard split "><h4><span class="n">05</span><span class="tt">·&nbsp;الدفاع في العمق ولا انعدام الثقة؟</span></h4><p class="qi">اكتب <b>ع</b> لو الوصف عن <b>الدفاع في العمق</b>، و<b>ث</b> لو عن <b>نهج انعدام الثقة</b>.</p><ul class="cl"><li><span class="k">1</span><span class="t">لو فشلت طبقة، الباقي يقلل الخطر</span><span class="ab"></span></li><li><span class="k">2</span><span class="t">لا ثقة بسبب الموقع داخل الشبكة</span><span class="ab"></span></li><li><span class="k">3</span><span class="t">تُفحص الهوية والصلاحيات والسياق</span><span class="ab"></span></li><li><span class="k">4</span><span class="t">تكديس الإجراءات في أربع طبقات</span><span class="ab"></span></li></ul></div>
+<div class="qcard split "><h4><span class="n">06</span><span class="tt">·&nbsp;قارن بين جدار الحماية والمنطقة المعزولة <bdi>(DMZ)</bdi></span></h4><table class="cmp tall"><thead><tr><th>وجه المقارنة</th><th>جدار الحماية</th><th>المنطقة المعزولة <bdi>(DMZ)</bdi></th></tr></thead><tbody><tr><td class="k">النوع</td><td></td><td></td></tr><tr><td class="k">الوظيفة</td><td></td><td></td></tr></tbody></table></div>
+<div class="qcard split "><h4><span class="n">07</span><span class="tt">·&nbsp;قارن بين الشبكة الافتراضية الخاصة وضوابط الأجهزة الطرفية</span></h4><table class="cmp tall"><thead><tr><th>وجه المقارنة</th><th>الشبكة الافتراضية الخاصة</th><th>ضوابط الأجهزة الطرفية</th></tr></thead><tbody><tr><td class="k">الطبقة</td><td></td><td></td></tr><tr><td class="k">ما الذي تحميه</td><td></td><td></td></tr></tbody></table></div>
+<div class="qcard split "><h4><span class="n">08</span><span class="tt">·&nbsp;قارن بين الدفاع في العمق ونهج انعدام الثقة</span></h4><table class="cmp tall"><thead><tr><th>وجه المقارنة</th><th>الدفاع في العمق</th><th>نهج انعدام الثقة</th></tr></thead><tbody><tr><td class="k">الفكرة</td><td></td><td></td></tr><tr><td class="k">المشكلة التي يعالجها</td><td></td><td></td></tr></tbody></table></div>
+<div class="qcard split "><h4><span class="n">09</span><span class="tt">·&nbsp;قارن بين الأمان التقليدي ونهج انعدام الثقة</span><span class="tq">تقييمات</span></h4><table class="cmp tall"><thead><tr><th>وجه المقارنة</th><th>الأمان التقليدي (المحيط)</th><th>نهج انعدام الثقة</th></tr></thead><tbody><tr><td class="k">أساس منح الثقة</td><td></td><td></td></tr><tr><td class="k">لماذا تغيّر</td><td></td><td></td></tr></tbody></table></div>
+<h2 class="cat kwn">علّل<span class="cnt">8</span></h2>
+<div class="why split"><div class="qq"><span class="k">1</span><span class="tq">تقييمات</span><p>لا تكفي وسيلة حماية واحدة لحماية شبكة مؤسسة.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">2</span><span class="tq">تقييمات</span><p>يُنصح باستخدام الشبكة الافتراضية الخاصة عند العمل من شبكة <bdi class="nw">Wi-Fi</bdi> عامة.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">3</span><span class="tq">تقييمات</span><p>لم تعد التصاميم التي تحمي المحيط الأمني وحده كافية.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">4</span><p>لا تُمنح الثقة لجهاز لمجرد أنه مملوك للمؤسسة أو موجود داخل الشبكة.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">5</span><p>تظل طبقة الأجهزة الطرفية ضرورية رغم وجود جدار الحماية و<bdi class="nw">VPN</bdi> و<bdi class="nw">DMZ</bdi>.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">6</span><p>يقول الكتاب إن <bdi class="nw">DMZ</bdi> «تساعد على تقليل احتمال» وصول الهجوم للداخل ولا يقول «تمنعه».</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">7</span><p>تُعد قاعدة «السماح بالوصول إلى خادم الويب مع منع الوصول الخارجي المباشر إلى قاعدة البيانات» قاعدة جيدة.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">8</span><p>يجمع الكتاب بين الدفاع في العمق ونهج انعدام الثقة في الفكرة الرئيسة بدل الاكتفاء بواحد منهما.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="qcard split "><h4><span class="n">01</span><span class="tt">·&nbsp;طبّق ما تعلمته — سجلات المستشفى على السحابة</span></h4><p class="qs">ينقل مستشفى سجلات مرضاه إلى خدمة سحابية ويسمح للأطباء بالوصول إليها من المنزل. باستخدام نهج انعدام الثقة والدفاع في العمق، <b>اقترح إجراءين</b> ينبغي تطبيقهما <b>وبيّن أين يساعد كل منهما</b>، ثم <b>حدّد خطرًا واحدًا قد يظل قائمًا</b>.</p><div class="hint"><b>عناصر الإجابة</b> <b>إجراءان بالاسم</b> · <b>أين</b> يساعد كل واحد بالتحديد · <b>خطر يظل قائمًا</b> – لأن الطبقات <b>تقلل</b> الخطر ولا تمنعه منعًا مطلقًا.</div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="qcard split "><h4><span class="n">02</span><span class="tt">·&nbsp;فكّر كمهندس — ابحث ثم قرر</span></h4><p class="qs">تقوم شركة في مدينتك بإعداد شبكة مكتبها. لديها <b>موقع إلكتروني عام</b>، و<b>موظفون يعملون من المنزل</b>، و<b>بيانات عملاء سرية</b>. أنت تقدم المشورة بشأن تصميم الأمان.</p><p class="qs"><b>(1) اجمع البيانات.</b> اذكر أصول الشركة الثلاثة (الموقع الإلكتروني العام، الموظفون عن بُعد، قاعدة بيانات العملاء) والتهديد الرئيسي لكل منها.</p><table class="cmp"><thead><tr><th>الأصل</th><th>التهديد الرئيسي</th></tr></thead><tbody><tr><td class="k">الموقع الإلكتروني العام</td><td></td></tr><tr><td class="k">الموظفون عن بُعد</td><td></td></tr><tr><td class="k">قاعدة بيانات العملاء</td><td></td></tr></tbody></table><p class="qs"><b>(2) اربط وحلّل.</b> اربط كل أصل أو تهديد في هذه الشركة بطبقة الحماية الأكثر ارتباطًا به (مدخل الشبكة، مسار الاتصال، وضع الخوادم، الأجهزة الطرفية). ثم اختر طبقة واحدة يكون فشلها شديد الأثر في هذا السيناريو، وفسّر لماذا لا تكفي وحدها.</p><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="qcard split cont"><p class="qs"><b>(3) قرّر.</b> أوصِ بتصميم وقدّم سببين يوضحان لماذا يكون التكديس أكثر أمانًا من جدار حماية واحد. <b>في أزواج</b>، قارنا تصميماتكما واتفقا معًا على أقوى سبب قبل تدوينه.</p><p class="chx"><span>☐ جدار حماية فقط</span><span>☐ تصميم متعدد الطبقات (جدار حماية + شبكة افتراضية خاصة + المنطقة المعزولة <bdi>(DMZ)</bdi> + أجهزة طرفية) يتحقق أيضًا من كل عملية وصول (نهج انعدام الثقة)</span></p><p class="qs"><b>قدّم دليلًا على إجابتك.</b></p><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="hint"><b>عناصر الإجابة</b> تلميح الكتاب: <b>ضع الخادم العام في المنطقة المعزولة لتقليل احتمال وصول المهاجم إلى الشبكة الداخلية إذا اختُرق الخادم، ولا تعتمد على العزل وحده.</b> ولاحظ إن السؤال طالب <b>بدليل</b> على إجابتك.</div></div>
+<div class="why ess split"><div class="qq"><span class="k">3</span><span class="tq">تقييمات</span><p>اذكر <b>الطبقات الأربع</b> للدفاع في العمق، ومثال إجراء واحد في كل طبقة، وما الذي تحميه.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why ess split"><div class="qq"><span class="k">4</span><span class="tq">تقييمات</span><p>وضّح الفرق بين <b>الأمان التقليدي القائم على المحيط الأمني</b> و<b>نهج انعدام الثقة</b>، ولماذا تغيّر النهج.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why ess split"><div class="qq"><span class="k">5</span><p>مدرسة عندها موقع إلكتروني عام وسيرفر درجات ومدرسون يعملون من المنزل. اقترح <b>تصميمًا أمنيًا</b> يوضّح مكان كل خادم والإجراء المستخدم في كل طبقة، ثم حدّد <b>خطرًا واحدًا</b> يظل قائمًا.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">6</span><span class="tq">تقييمات</span><p>وضّح الدور الأساسي لجدار الحماية <bdi>(Firewall)</bdi> في أمان الشبكات، واذكر مثالًا على كيفية تحكمه في حركة المرور وحماية قواعد البيانات.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">7</span><span class="tq">تقييمات</span><p>اذكر المقصود بـ«الشبكة الافتراضية الخاصة <bdi>(VPN)</bdi>» واثنين من استخداماتها الرئيسية، وبيّن كيف تحمي البيانات المنقولة عبر شبكات <bdi class="nw">Wi-Fi</bdi> العامة من التنصت.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">8</span><span class="tq">تقييمات</span><p>اشرح كيف تحمي «المنطقة المعزولة <bdi>(DMZ)</bdi>» شبكة المؤسسة الداخلية عند تعرض أحد خوادم الويب العامة للاختراق الهجومي الخارجي.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">9</span><span class="tq">تقييمات</span><p>وضّح كيف يساهم تطبيق «نهج انعدام الثقة <bdi>(Zero Trust)</bdi>» في التحقق من كل عملية وصول بناءً على الهوية والصلاحيات والسياق.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">10</span><span class="tq">تقييمات</span><p>اشرح كيف يتكامل كل من جدار الحماية، والشبكة الافتراضية الخاصة، والمنطقة المعزولة، وضوابط الأجهزة الطرفية لتشكيل استراتيجية «دفاع في العمق» متكاملة.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">11</span><span class="tq">تقييمات</span><p><b>توقّف وفكّر:</b> لماذا يكون وضع خادم ويب عام في المنطقة المعزولة <bdi>(DMZ)</bdi> أكثر أمانًا من وضعه داخل الشبكة الداخلية؟</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">12</span><p><b>فكّر وتحدَّ – تأمّل:</b> ما الطبقة الدفاعية التي تعتقد أنها الأسهل على المهاجم لتجاوزها، ولماذا؟ · <b>وتحدَّ:</b> اقترح إجراءً واحدًا يمكن لشركة صغيرة إضافته بجانب جدار الحماية، وتهديدًا واحدًا سيظل غير مزال.</p></div><div class="wl"><i></i></div><div class="wl"><i></i></div><div class="wl"><i></i></div></div>
+<div class="why split"><div class="qq"><span class="k">13</span><p><b>اختبر فهمك:</b> أجب عن أسئلة هذا البنك <b>دون الرجوع</b> إلى الشرح، ثم راجع إجاباتك.</p></div><div class="wl"><i></i></div></div>
+</main>
+</body>
+</html>
