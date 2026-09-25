@@ -220,11 +220,11 @@ A(recall(["مراقبة بالوجه", "جمع جماعي للبيانات"]))
 # ---- القسم 4
 A(f'<h2 class="sec"><span class="num">4</span><span class="dot">·</span> الذكاء الاصطناعي القابل للتفسير {nw("(XAI)")} والمسؤولية</h2>')
 A('<figure class="bimg keep"><img src="assets/u1/l14_xai.jpg" alt=""><figcaption class="icap">يساعد الذكاء الاصطناعي القابل للتفسير على توضيح العوامل التي أسهمت في المخرج.</figcaption></figure>')
-A(f'<span class="chip">الذكاء الاصطناعي القابل للتفسير {nw("(Explainable AI - XAI)")}</span>')
+A(f'<div class="chrow kwn"><span class="chip">الذكاء الاصطناعي القابل للتفسير {nw("(Explainable AI - XAI)")}</span><span class="chint">{FX}«ليه النظام وصل للقرار ده؟»</span></div>')
 A('<div class="banner kwn"><b>أساليب تساعد البشر على فهم العوامل التي أسهمت في وصول النظام إلى مخرج أو قرار معين.</b> وعندما تكون <b>آلية الوصول إلى النتيجة غير واضحة</b>، يصعب <b>تقييمها واكتشاف الأخطاء أو التحيز</b>.</div>')
 A(f'<div class="exs">{FXA}<span class="eh">مثال للتبسيط:</span>نظام بيحلّل أشعة الصدر في مستشفى: بدل ما يقول «في التهاب» وبس، <b>بيعلّم على الجزء من الأشعة</b> اللي خلّاه يقول كده — فالدكتور يفهم السبب ويراجعه.</div>')
 A('<div class="note-line"><span class="tag">للفهم</span><span class="lead">افتكر</span>في الدرس اللي فات عرفنا <b>مشكلة الصندوق الأسود</b>: النظام يطلع نتيجة ومش واضح وصل لها إزاي. أساليب <b>XAI</b> بتساعد في معالجة المشكلة دي، لأنها بتوضّح للبشر العوامل اللي أسهمت في النتيجة.</div>')
-A(f'<span class="chip" style="margin-top:8pt">المسؤولية {nw("(Responsibility)")}</span>')
+A(f'<div class="chrow kwn" style="margin-top:8pt"><span class="chip">المسؤولية {nw("(Responsibility)")}</span><span class="chint">{FX}«مين له دور في النظام ده أصلًا، وإيه واجبه؟»</span></div>')
 A('<div class="banner kwn">تحديد <b>أدوار وواجبات الأطراف</b> المرتبطة بتطوير النظام وتشغيله واستخدامه، مثل <b>المطوّر</b> و<b>الجهة المشغِّلة</b> و<b>المستخدم</b>. و<b>لا يوجد توزيع واحد للمسؤولية يصلح لكل السياقات</b>؛ إذ يختلف باختلاف النظام والاستخدام والقواعد المعمول بها.</div>')
 A(f'<div class="exs">{FXA}<span class="eh">مثال للتبسيط:</span>نفس نظام الأشعة: <b>الشركة المطوّرة</b> تختبره كويس · <b>المستشفى</b> تستخدمه في الحالات المناسبة · <b>الدكتور</b> يراجع النتيجة قبل القرار.</div>')
 PART3 = [("code", "المطوّر", "بيبني النظام"), ("building", "الجهة المشغِّلة", "بتشغّله وتستخدمه في شغلها"), ("user", "المستخدم", "بيتعامل مع النظام ونتايجه")]
@@ -233,10 +233,10 @@ A(f'<div class="fig p3f keep">{FXA}<div class="p3r">' + f'<i class="la">{ARR}</i
   + '</div><div class="cap">المطوّر والجهة المشغِّلة والمستخدم — وتوزيع المسؤولية بينهم <b>بيختلف حسب السياق</b>.</div></div>')
 
 # المساءلة والشفافية
-A(f'<span class="chip">المساءلة {nw("(Accountability)")}</span>')
+A(f'<div class="chrow kwn"><span class="chip">المساءلة {nw("(Accountability)")}</span><span class="chint">{FX}«لو حصل خطأ أو ضرر، مين نقدر نحاسبه؟»</span></div>')
 A('<div class="banner kwn">تحديد <b>الجهات المسؤولة عن النظام وقراراته وآثاره</b>، و<b>إمكان محاسبتها وفق أدوارها</b>. <b>ملاحظة:</b> المساءلة <b>ليست القدرة على شرح القرار</b> – تلك وظيفة الذكاء الاصطناعي القابل للتفسير <bdi>(XAI)</bdi> – <b>بل تحديد من يُحاسَب على النتيجة</b>.</div>')
 A(f'<div class="exs">{FXA}<span class="eh">مثال للتبسيط:</span>لو حصل ضرر بسبب قرار خاطئ، ممكن يكون لأكثر من طرف دور: <b>الشركة المطوّرة</b>، و<b>الجهة المشغّلة</b>، و<b>المستخدم</b>. ويتحدد ما يتحمله كل طرف وإمكان محاسبته <b>حسب دوره والسياق</b>.</div>')
-A(f'<span class="chip" style="margin-top:8pt">الشفافية {nw("(Transparency)")}</span>')
+A(f'<div class="chrow kwn" style="margin-top:8pt"><span class="chip">الشفافية {nw("(Transparency)")}</span><span class="chint">{FX}«إيه المعلومات الواضحة اللي نعرفها عن النظام، استخدامه، وطريقة اتخاذ القرار وحدوده؟»</span></div>')
 A('<div class="banner kwn"><b>إتاحة معلومات واضحة ومناسبة</b> عن النظام واستخدامه وعملية اتخاذ القرار <b>وحدوده</b>.</div>')
 A(f'<div class="exs">{FXA}<span class="eh">مثال للتبسيط:</span>المستشفى <b>تعرّف المرضى</b> إن في نظام بيساعد في قراءة الأشعة، وبيشارك في القرار إزاي، <b>وإيه حدوده</b> (نتيجته لازم دكتور يراجعها).</div>')
 A(f'''<div class="fig wh keep">{FXA}
@@ -635,6 +635,11 @@ A(f'<div class="why split"><div class="qq"><span class="k">{T1 + 2}</span><p><b>
 assert T1 + 2 == N_ESS
 
 EXTRA_CSS = """
+/* تلميح صغير «للفهم» جنب عنوان المصطلح (XAI · المسؤولية · المساءلة · الشفافية) */
+.chrow{display:flex;align-items:center;flex-wrap:wrap;gap:4pt 8pt;margin-bottom:5pt}
+.chrow .chip{margin-bottom:0}
+.chint{display:inline-flex;align-items:center;gap:5pt;background:var(--cream2);border:.75pt dashed #e29433;border-radius:6pt;padding:1pt 9pt;font-size:9.6pt;line-height:16pt;font-weight:700;color:var(--navy2)}
+.chint .fx{position:static;transform:none}
 /* ---------- إضافات الدرس 1-4 ---------- */
 .banner,.quote,.box p,.box li,.note-line,.pnl p,p.lead,.qcard .qs,.qq p,.why p,.terms .t2 div,.rule0 p,.simply p{text-wrap:pretty}
 .intro .body p+p{margin-top:4pt}
