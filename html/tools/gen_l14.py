@@ -204,7 +204,9 @@ PRV = [("camera", "المراقبة عبر تقنية التعرف على الو
 A('<div class="sf pv"><div class="pv2">' + "".join(
     f'<div class="pc"><span class="pn">{k + 1}</span><span class="pi">{ic(i, "#22375c", 1.7)}</span><h4>{t}</h4><p>{d}</p><p class="px">{FX}<em>مثال للتبسيط:</em> {x}</p></div>' for k, (i, t, d, x) in enumerate(PRV))
   + '</div><div class="im"><img src="assets/u1/l14_privacy.jpg" alt=""><div class="icap">الخصوصية: التحكم في البيانات الشخصية التي تتم مشاركتها.</div></div></div>')
-A('''<div class="simply"><span class="fx abs">للفهم</span><span class="lab">''' + BULB + '''ببساطة</span><p><b>الخصوصية</b> معناها: <b>التحكم في البيانات الشخصية التي تتم مشاركتها</b> · و<b>التعامل المناسب مع البيانات الشخصية وحمايتها</b>. يعني السؤال مش بس «بياناتي اتجمعت؟» — لكن كمان: <b>مين شايفها؟ وبتتستخدم في إيه؟</b></p></div>''')
+A('<span class="chip">الخصوصية</span>')
+A('<div class="banner kwn"><b>التعامل المناسب مع البيانات الشخصية وحمايتها</b>. <span class="bx">الخصوصية: التحكم في البيانات الشخصية التي تتم مشاركتها.</span></div>')
+A('''<div class="simply"><span class="fx abs">للفهم</span><span class="lab">''' + BULB + '''ببساطة</span><p>الخصوصية مش بس إن بياناتك تتحمى؛ كمان إنك <b>تتحكم</b> في اللي بتشاركه منها. يعني السؤال مش بس «بياناتي اتجمعت؟» — لكن كمان: <b>مين شايفها؟ وبتتستخدم في إيه؟</b></p></div>''')
 A('<div class="note-line"><span class="tag">للفهم</span><span class="lead">النقطة المهمة</span>دول <b>المثالان اللي بيركز عليهم الكتاب في الدرس</b>. وفي نفس الوقت، «الذكاء الاصطناعي ينشئ أعمالًا إبداعية» أو «تتحسن سرعة الحوسبة» <b>مش</b> قضايا خصوصية أصلًا.</div>')
 A(f'<div class="fig pvq keep">{FXA}<div class="dyh">بياناتك في القضيتين — وإيه السؤال اللي لازم يتسأل؟</div>'
   + '<div class="pvc"><span></span><span>إيه اللي بيتجمع؟</span><span>فين؟</span><span>السؤال المهم</span></div>'
