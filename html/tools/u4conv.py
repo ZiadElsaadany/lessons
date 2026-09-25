@@ -101,9 +101,14 @@ def sim(a, b):
 
 
 class Lesson:
-    def __init__(self, src, lid):
+    def __init__(self, src, lid, subs=()):
         self.lid = lid
-        self.soup = BeautifulSoup(open(src, encoding="utf-8").read(), "html.parser")
+        raw = open(src, encoding="utf-8").read()
+        for a, b in subs:        # تعديلات صياغة على نص المصدر — كل واحدة لازم تلاقي مكانها مرة واحدة بالظبط
+            n = raw.count(a)
+            if n != 1: raise SystemExit(f"subs: {n}× «{a[:70]}»")
+            raw = raw.replace(a, b)
+        self.soup = BeautifulSoup(raw, "html.parser")
         self.css = conv_css(self.soup.find("style").string)
         self.defs = self.soup.find("svg")                     # الـ<symbol> بتاعة الأيقونات
         self.defs.extract()
@@ -284,6 +289,21 @@ class Lesson:
                     if not b.find(class_="fx"): b.insert(0, self.new(FXA))
             for s in b.select("span.lab"):
                 if "للفهم — مش للحفظ" in s.get_text(): s.string = "مش للحفظ:"
+        # شرح بالعامية مش من الكتاب: صندوق «ببساطة» ← علم · التعليق الرمادي جوه فقرة من الكتاب ← بادج صغير «للفهم»
+        for b in self.exp:
+            if not isinstance(b, Tag): continue
+            for t in ([b] if has(b, "simple") else b.select(".simple")):
+                if any("الكتاب" in l.get_text() for l in t.select("span.lab")): continue   # «مصطلحات الكتاب» = نص الكتاب
+                anc, x = [t], t
+                while x is not b and x.parent is not None: x = x.parent; anc.append(x)
+                if not any(x.find(class_="fx", recursive=False) for x in anc): t.insert(0, self.new(FXA))
+            for g in b.select("span.gl"):
+                if not g.find(class_="fx"): g.insert(0, self.new('<span class="fx">للفهم</span> '))
+        # سطر الشرح اللي تحت «خريطة الدرس» يفضل مع الخريطة نفسها (مايتفصلش عنها في آخر الصفحة)
+        ex = [x for x in self.exp if isinstance(x, Tag)]
+        for k, x in enumerate(ex[:-1]):
+            if has(x, "sec") and "خريطة الدرس" in txt(x) and has(ex[k + 1], "lead") and "kwn" not in cls(ex[k + 1]):
+                ex[k + 1]["class"] = cls(ex[k + 1]) + ["kwn"]
         # «مثال من حياتنا» ← علم على الصندوق اللي بعد العنوان
         for k, b in enumerate(self.exp):
             if has(b, "sec") and "مثال من حياتنا" in txt(b) and k + 1 < len(self.exp):
@@ -368,7 +388,7 @@ class Lesson:
                 del b["data-raw"]; html.append(str(b)); continue
             for e in [b] + b.find_all(True):
                 c = cls(e)
-                keep = [x for x in c if x in ("fx", "abs", "pb", "rcl", "rl", "rc", "exs", "eh", "tq")]
+                keep = [x for x in c if x in ("fx", "abs", "pb", "rcl", "rl", "rc", "exs", "eh", "tq", "kwn")]
                 c2 = [x if x in keep or x.startswith(P) else P + x for x in c]
                 if c2: e["class"] = c2
                 if e.get("style"): e["style"] = scale_decl(e["style"])
@@ -383,8 +403,8 @@ class Lesson:
         return "\n".join(html)
 
 
-def build(src, lid, title, start, total, out, extra_css="", hook=None, tf_drop=(), ov=None):
-    L = Lesson(src, lid)
+def build(src, lid, title, start, total, out, extra_css="", hook=None, tf_drop=(), ov=None, subs=()):
+    L = Lesson(src, lid, subs)
     L.merge_tq(ov); L.fix_counts(); L.fix_tf(tf_drop); L.flags(); L.logo(); L.summary_page()
     if hook: hook(L)
     body_html = L.render(L.prep(L.exp)) + "\n\n<!-- ===================== بنك الأسئلة ===================== -->\n" \
