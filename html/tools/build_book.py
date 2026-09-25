@@ -163,8 +163,7 @@ def cover_page(lessons):
   <div class="cv-title"><h1>البرمجة والذكاء الاصطناعي</h1><div class="cv-line"></div>
     <p class="cv-grade">الصف الثاني الثانوي — <b>الترم الأول</b></p></div>
   <div class="cv-units">{units}</div>
-  <div class="cv-feat"><span>شرح بالعامية المصرية ونص الكتاب زي ما هو</span><i></i><span>أمثلة ورسومات «للفهم»</span><i></i><span>بنك أسئلة بعد كل درس + أسئلة التقييمات</span></div>
-  <div class="cv-flow"><small>جوه كل درس:</small><span>الشرح</span><i>←</i><span>الخلاصة</span><i>←</i><span>اتأكد إنك قادر على</span><i>←</i><span>لخّص بأسلوبك</span><i>←</i><span>بنك الأسئلة</span></div>
+  <div class="cv-quote"><span class="q">”</span><p>الكود مجرد أداة… <b>القوة الحقيقية في طريقة تفكيرك.</b></p></div>
   <div class="cv-foot"><div class="cv-t"><b>أ/ زياد السعدني</b><span>أكواد مع زياد</span></div>
     <div class="cv-c"><div class="cv-qr"><img src="assets/qr_fb.svg" alt=""></div><div class="cv-qt"><b>صفحتنا على فيسبوك</b><span>امسح الكود بكاميرا الموبايل</span><span class="wa">واتساب {num("01124840835")}</span></div></div></div>
 </div></section>'''
@@ -246,12 +245,10 @@ BOOK_PAGES_CSS = r"""
 .cu small{display:block;font-size:8.6pt;color:#9fb3da;font-weight:600;line-height:1.2}
 .cu b{display:block;font-size:12pt;color:#fff;font-weight:800;line-height:1.35}
 .cu em{display:block;font-style:normal;font-size:8.8pt;color:#f1c88b;font-weight:700;line-height:1.3}
-.cv-feat{position:absolute;top:612pt;left:40pt;right:40pt;display:flex;justify-content:center;align-items:center;gap:9pt;font-size:9.8pt;font-weight:700;color:#dbe4f7}
-.cv-flow{position:absolute;top:650pt;left:40pt;right:40pt;display:flex;justify-content:center;align-items:center;gap:6pt;flex-wrap:wrap}
-.cv-flow small{font-size:9pt;color:#9fb3da;font-weight:700;margin-left:4pt}
-.cv-flow span{background:rgba(255,255,255,.07);border:.8pt solid rgba(255,255,255,.2);border-radius:14pt;padding:2pt 10pt;font-size:9.2pt;font-weight:700;color:#fff}
-.cv-flow i{font-style:normal;color:#e29433;font-weight:800}
-.cv-feat i{width:5pt;height:5pt;border-radius:50%;background:#e29433;flex:none}
+.cv-quote{position:absolute;top:614pt;left:70pt;right:70pt;text-align:center;padding:14pt 24pt 12pt 24pt;border-top:.8pt solid rgba(226,148,51,.45);border-bottom:.8pt solid rgba(226,148,51,.45)}
+.cv-quote .q{position:absolute;top:-17pt;left:50%;transform:translateX(-50%);background:#041140;padding:0 10pt;font-size:34pt;line-height:1;color:#e29433;font-weight:800}
+.cv-quote p{margin:0;font-size:17pt;line-height:1.5;font-weight:700;color:#dbe4f7}
+.cv-quote p b{color:#f1c88b;font-weight:800}
 .cv-foot{position:absolute;bottom:34pt;left:44pt;right:44pt;display:flex;justify-content:space-between;align-items:center;border-top:.8pt solid rgba(255,255,255,.18);padding-top:12pt}
 .cv-t b{display:block;font-size:17pt;font-weight:800;color:#fff;line-height:1.2}
 .cv-t span{font-size:10.5pt;color:#f1c88b;font-weight:700}
