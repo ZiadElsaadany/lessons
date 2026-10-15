@@ -5,70 +5,64 @@
 <title>الغلاف الخارجي — البرمجة والذكاء الاصطناعي — الترم الأول | أكواد مع زياد</title>
 <style>
 @font-face{font-family:'Baloo Bhaijaan 2';font-weight:400 800;src:url(fonts/BalooBhaijaan2.ttf) format('truetype')}
+@font-face{font-family:'CodeMono';src:url(fonts/DejaVuSansMono-Bold.ttf) format('truetype');unicode-range:U+0000-024F}
 @page{size:216mm 303mm;margin:0}
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
-body{background:#c9c9c9;padding:14pt 0;font-family:'Baloo Bhaijaan 2';direction:rtl}
+body{background:#bdbdbd;padding:14pt 0;font-family:'Baloo Bhaijaan 2';direction:rtl}
 @media print{body{background:#fff;padding:0}}
-.cv{position:relative;width:216mm;height:303mm;margin:0 auto 14pt auto;overflow:hidden;color:#1d1a17;background:#fff;break-after:page;page-break-after:always}
+.cv{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:space-evenly;padding:12mm 15mm;width:216mm;height:303mm;margin:0 auto 14pt auto;overflow:hidden;color:#1d1a17;break-after:page;page-break-after:always;
+  background:#f2f1ee}
 .cv:last-child{break-after:auto;page-break-after:auto}
 @media print{.cv{margin:0}}
 .n{direction:ltr;unicode-bidi:isolate}
-.dots,.brk{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-/* شريطين (برتقالي + أسود رفيع) قاطعين الركن بزاوية 45° — زي شريط لاصق */
-.corner{position:absolute;top:16mm;left:-34mm;width:120mm;height:13mm;background:#f98e03;transform:rotate(-45deg)}
-.corner::after{content:"";position:absolute;left:0;right:0;top:17mm;height:3.2mm;background:#1d1a17}
-.back .corner{top:auto;left:auto;bottom:16mm;right:-34mm}
-.back .corner::after{top:auto;bottom:17mm}
-/* هايلايتر: شريط برتقالي ورا الكلام، مايل سنة */
-.hl,.ttl h2 span,.quote b span{position:relative;z-index:0;display:inline-block}
-.ttl h2 span::before,.quote b span::before{content:"";position:absolute;z-index:-1;left:-3mm;right:-3mm;top:38%;bottom:4%;background:#f98e03;border-radius:1.5mm;transform:rotate(-1.4deg)}
+/* ---- شباك المحرر ---- */
+.win{position:relative;flex:none;width:100%;background:#fff;border:2.2pt solid #1d1a17;border-radius:5mm;overflow:hidden}
+.tb{height:13mm;display:flex;align-items:stretch;justify-content:space-between;background:#ecebe8;border-bottom:2.2pt solid #1d1a17}
+.tab{display:flex;align-items:center;gap:7pt;padding:0 16pt;background:#fff;border-left:2.2pt solid #1d1a17;font-family:'CodeMono','Baloo Bhaijaan 2';font-size:15pt;font-weight:800;margin-bottom:-2.2pt}
+.tab i{width:9pt;height:9pt;border-radius:2pt;background:#f98e03}
+.dt{display:flex;align-items:center;gap:6pt;padding:0 14pt;direction:ltr}
+.dt b{width:11pt;height:11pt;border-radius:50%;border:1.2pt solid rgba(0,0,0,.25)}
+.dt b:nth-child(1){background:#ff5f57}.dt b:nth-child(2){background:#febc2e}.dt b:nth-child(3){background:#28c840}
+.ed{display:grid;grid-template-columns:15mm minmax(0,1fr);align-items:baseline;padding:9mm 0 11mm 0}
+.ln{font-family:'CodeMono';font-size:12pt;color:#b5b0a8;text-align:center;direction:ltr;line-height:1}
+.cd{padding-left:8mm;min-height:8mm;line-height:1.25;font-weight:800;white-space:nowrap}
+.cm{font-size:21pt;color:#9a948b;font-weight:700}
+.big{font-size:112pt;line-height:1.1;color:#1d1a17;letter-spacing:-1pt}
+.big2{font-size:55pt;line-height:1.2;color:#f98e03}
+.kv{font-size:28pt;color:#1d1a17;line-height:1.6}
+.kv o{color:#f98e03;margin:0 3pt}
+.kv s{text-decoration:none;color:#2f8f46}
+u{display:inline-block;width:3.2mm;height:9mm;background:#f98e03;vertical-align:-1.5mm;margin-right:2pt;text-decoration:none}
 /* ---- الوش ---- */
-.logo{position:absolute;top:36mm;left:50%;transform:translateX(-50%);width:76mm;height:76mm;border-radius:50%;overflow:hidden;background:#2e271e;
-  box-shadow:0 0 0 1.8mm #fff,0 0 0 2.6mm #1d1a17}
-.logo img{width:100%;height:100%;display:block}
-.ttl{position:absolute;top:128mm;left:0;right:0;text-align:center;line-height:1}
-.ttl h1{margin:0;font-size:104pt;font-weight:800;line-height:1;color:#1d1a17;letter-spacing:-1pt}
-.ttl h2{margin:10pt 0 0 0;font-size:48pt;font-weight:800;line-height:1.2;color:#1d1a17}
-.sub{position:absolute;top:210mm;left:50%;transform:translateX(-50%);white-space:nowrap;background:#1d1a17;color:#fff;border-radius:40pt;
-  padding:9pt 26pt 11pt 26pt;font-size:24pt;font-weight:800;line-height:1}
-.sub i{display:inline-block;width:8pt;height:8pt;border-radius:50%;background:#f98e03;margin:0 12pt;vertical-align:middle}
-.who{position:absolute;bottom:22mm;left:0;right:0;text-align:center;line-height:1.2}
-.who b{display:block;font-size:36pt;font-weight:800;color:#1d1a17}
-.who span{font-size:17pt;font-weight:800;color:#c86a00;letter-spacing:.5pt}
+.front .logo{flex:none;width:62mm;height:62mm;border-radius:50%;overflow:hidden;background:#2e271e;
+  border:2.2pt solid #1d1a17}
+.front .logo img{width:100%;height:100%;display:block}
+.yr{text-align:center;font-family:'CodeMono';font-size:17pt;color:#1d1a17;letter-spacing:1pt}
 /* ---- الضهر ---- */
-.quote{position:absolute;top:58mm;left:16mm;right:16mm;text-align:center}
-.quote .qmk{display:block;font-size:70pt;line-height:1;color:#f98e03;font-weight:800;direction:ltr;margin-bottom:6pt}
-.quote p{margin:0;font-size:38pt;line-height:1.6;font-weight:800;color:#1d1a17}
-.qrs{position:absolute;top:165mm;left:0;right:0;display:flex;justify-content:center;gap:24mm}
-.qb{display:flex;flex-direction:column;align-items:center;gap:7pt}
-.qb .qr{width:42mm;height:42mm;background:#fff;border-radius:10pt;padding:3mm;border:1.6pt solid #1d1a17}
+.sh{font-family:'CodeMono','Baloo Bhaijaan 2';font-size:17pt;color:#77716a;direction:ltr;text-align:left;padding-right:8mm}
+.sh .pr{color:#2f8f46;margin-right:6pt}
+.out{font-size:33pt;line-height:1.45;color:#1d1a17}
+.out.o{color:#f98e03}
+.qrrow{display:flex;gap:16mm;padding:3mm 0 0 0}
+.qb{display:flex;flex-direction:column;align-items:center;gap:6pt}
+.qb .qr{width:44mm;height:44mm;background:#fff;border-radius:3mm;padding:2.6mm;border:2pt solid #1d1a17}
 .qb .qr img{width:100%;height:100%;display:block}
-.qb b{font-size:19pt;font-weight:800;color:#1d1a17;line-height:1}
-.foot{position:absolute;bottom:22mm;left:0;right:0;text-align:center;line-height:1.3}
-.foot b{display:block;font-size:30pt;font-weight:800;color:#1d1a17}
-.foot span{font-size:20pt;font-weight:800;color:#c86a00}
+.qb b{font-size:20pt;font-weight:800;color:#1d1a17;line-height:1}
+.brand{display:flex;align-items:center;justify-content:center;gap:10pt}
+.brand img{width:30mm;height:30mm;border-radius:50%;border:2pt solid #1d1a17}
+.brand b{font-size:34pt;font-weight:800;color:#1d1a17}
 </style>
 </head>
 <body>
 <section class="cv front">
-  <svg class="dots" viewBox="0 0 216 303" preserveAspectRatio="none"><defs><pattern id="dp" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r=".42" fill="#c9c4bc"/></pattern></defs><rect width="216" height="303" fill="url(#dp)"/></svg>
-  <div class="corner"></div>
-  <svg class="brk" viewBox="0 0 216 303" preserveAspectRatio="none"><g fill="none" stroke="#f98e03" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"><path d="M58.0 47.0 L36.9 74.0 L58.0 101.0"/><path d="M158.0 47.0 L179.1 74.0 L158.0 101.0"/></g></svg>
   <div class="logo"><img src="assets/logo_warm.jpg" alt=""></div>
-  <div class="ttl"><h1>البرمجة</h1><h2><span>والذكاء الاصطناعي</span></h2></div>
-  <div class="sub">الصف الثاني الثانوي <i></i> الترم الأول</div>
-  <div class="who"><b>أ/ زياد السعدني</b><span><span class="n">2026 / 2027</span></span></div>
+  <div class="win "><div class="tb"><span class="tab"><i></i><bdi>البرمجة.py</bdi></span><span class="dt"><b></b><b></b><b></b></span></div><div class="ed"><div class="ln">1</div><div class="cd cm"># مذكرة شرح + بنك أسئلة</div><div class="ln">2</div><div class="cd "></div><div class="ln">3</div><div class="cd big">البرمجة</div><div class="ln">4</div><div class="cd big2">والذكاء الاصطناعي</div><div class="ln">5</div><div class="cd "></div><div class="ln">6</div><div class="cd kv">الصف <o>=</o> <s>"الثاني الثانوي"</s></div><div class="ln">7</div><div class="cd kv">الترم <o>=</o> <s>"الأول"</s></div><div class="ln">8</div><div class="cd kv">المدرس <o>=</o> <s>"أ/ زياد السعدني"</s><u></u></div></div></div>
+  <div class="yr"><span class="n">2026 / 2027</span></div>
 </section>
 <section class="cv back">
-  <svg class="dots" viewBox="0 0 216 303" preserveAspectRatio="none"><defs><pattern id="dp" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r=".42" fill="#c9c4bc"/></pattern></defs><rect width="216" height="303" fill="url(#dp)"/></svg>
-  <div class="corner"></div>
-  <div class="quote"><span class="qmk">{ }</span><p>الكود مجرد أداة…<br><b><span>القوة الحقيقية في طريقة تفكيرك.</span></b></p></div>
-  <div class="qrs">
-    <div class="qb"><div class="qr"><img src="assets/qr_fb_warm.svg" alt=""></div><b>فيسبوك</b></div>
-    <div class="qb"><div class="qr"><img src="assets/qr_yt_warm.svg" alt=""></div><b>يوتيوب</b></div>
-  </div>
-  <div class="foot"><b>أكواد مع زياد</b><span>واتساب <span class="n">01124840835</span></span></div>
+  <div class="win term"><div class="tb"><span class="tab"><i></i>terminal</span><span class="dt"><b></b><b></b><b></b></span></div><div class="ed"><div class="ln">1</div><div class="cd sh"><span class="pr">$</span> python3 think.py</div><div class="ln">2</div><div class="cd out">الكود مجرد أداة…</div><div class="ln">3</div><div class="cd out o">القوة الحقيقية في طريقة تفكيرك.</div><div class="ln">4</div><div class="cd "></div><div class="ln">5</div><div class="cd cm"># تابعنا — امسح الكود بكاميرا الموبايل</div><div class="ln">6</div><div class="cd qrrow"><div class="qb"><div class="qr"><img src="assets/qr_fb_warm.svg" alt=""></div><b>فيسبوك</b></div><div class="qb"><div class="qr"><img src="assets/qr_yt_warm.svg" alt=""></div><b>يوتيوب</b></div></div><div class="ln">7</div><div class="cd "></div><div class="ln">8</div><div class="cd kv">واتساب <o>=</o> <s>"<span class="n">01124840835</span>"</s><u></u></div></div></div>
+  <div class="brand"><img src="assets/logo_warm.jpg" alt=""><b>أكواد مع زياد</b></div>
 </section>
 <script>document.fonts.ready.then(() => document.body.dataset.ready = "1")</script>
 </body>
