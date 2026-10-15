@@ -13,54 +13,60 @@
 html,body{margin:0;padding:0}
 body{background:#bdbdbd;padding:14pt 0;font-family:'CairoX','Baloo Bhaijaan 2';direction:rtl}
 @media print{body{background:#fff;padding:0}}
-.cv{position:relative;width:216mm;height:303mm;margin:0 auto 14pt auto;overflow:hidden;color:#1d1a17;background:#ffe3bf;break-after:page;page-break-after:always}
+.cv{position:relative;width:216mm;height:303mm;margin:0 auto 14pt auto;overflow:hidden;color:#1d1a17;break-after:page;page-break-after:always;
+  background:radial-gradient(70% 45% at 50% 62%,#ffe9cc 0%,#ffe3bf 70%)}
 .cv:last-child{break-after:auto;page-break-after:auto}
 @media print{.cv{margin:0}}
 .n{direction:ltr;unicode-bidi:isolate}
-/* علامة مائية: أقواس كود ضخمة باهتة ورا كل حاجة */
-.wm{position:absolute;left:-12mm;top:96mm;font-family:'CodeMono';font-size:360pt;line-height:1;color:#fbd29f;direction:ltr;letter-spacing:-20pt;white-space:nowrap}
+/* علامة مائية هادية: مابتنافسش المحتوى */
+.wm{position:absolute;left:-10mm;top:104mm;font-family:'CodeMono';font-size:330pt;line-height:1;color:#fdd8a9;direction:ltr;letter-spacing:-20pt;white-space:nowrap}
 .back .wm{left:auto;right:-20mm;top:150mm;font-size:300pt}
 /* ---- الوش ---- */
-.top{position:absolute;top:13mm;left:14mm;right:14mm;display:flex;align-items:center;justify-content:space-between;direction:ltr}
-.mini{width:22mm;height:22mm;border-radius:50%;border:2pt solid #1d1a17}
-.yr{font-family:'CodeMono';font-size:15pt;color:#fff;background:#1d1a17;border-radius:20pt;padding:5pt 14pt}
-.ttl{position:absolute;top:33mm;left:0;right:0;text-align:center}
-.ttl h1{margin:0;font-weight:900;font-size:108pt;line-height:1.05;color:#1d1a17}
-.ttl h2{margin:6pt 0 0 0;font-weight:900;font-size:48pt;line-height:1.15;color:#c86a00}
-.grade{display:inline-block;margin-top:9pt;background:#1d1a17;color:#fff;border-radius:30pt;padding:5pt 20pt 7pt 20pt;font-weight:700;font-size:19pt;line-height:1.3}
-.grade i{display:inline-block;width:7pt;height:7pt;border-radius:50%;background:#f98e03;margin:0 9pt;vertical-align:middle}
-.disc{position:absolute;left:58mm;top:130mm;width:136mm;height:136mm;border-radius:50%;background:#f98e03}
-.disc::after{content:"";position:absolute;inset:7mm;border-radius:50%;border:1.6pt dashed rgba(29,26,23,.45)}
-.me{position:absolute;left:68mm;bottom:40mm;height:148mm}
-.robot{position:absolute;left:162mm;top:124mm;width:36mm;transform:rotate(10deg)}
-.brk{position:absolute;left:16mm;top:138mm;width:36mm;transform:rotate(-8deg)}
-.chip{position:absolute;left:176mm;top:206mm;width:24mm;transform:rotate(-10deg)}
-.robot svg,.brk svg,.chip svg{width:100%;display:block}
-.card{position:absolute;left:12mm;top:180mm;width:58mm;background:#fff;border:2.2pt solid #1d1a17;border-radius:4mm;overflow:hidden;transform:rotate(-4deg);direction:ltr}
-.cbar{height:6.5mm;background:#1d1a17;display:flex;align-items:center;gap:4pt;padding:0 7pt}
-.cbar b{width:7pt;height:7pt;border-radius:50%;background:#fff}.cbar b:first-child{background:#f98e03}
-.card pre{margin:0;padding:4mm 4mm 4.5mm 4mm;font-family:'CodeMono';font-size:13pt;line-height:1.5;color:#1d1a17}
+.top{position:absolute;top:14mm;left:15mm;right:15mm;height:21mm;display:flex;align-items:center;justify-content:space-between;direction:ltr}
+.mini{width:21mm;height:21mm;border-radius:50%;border:1.1mm solid #fff;outline:0.9mm solid #1d1a17;display:block}
+.yr{font-family:'CodeMono';font-size:13.5pt;color:#fff;background:#1d1a17;border-radius:5mm;height:9mm;padding:0 5mm;display:flex;align-items:center;letter-spacing:.5pt}
+.ttl{position:absolute;top:34mm;left:0;right:0;text-align:center}
+.ttl h1{margin:0;font-weight:900;font-size:108pt;line-height:1;color:#1d1a17}
+.ttl h2{margin:12pt 0 0 0;font-weight:900;font-size:46pt;line-height:1.1;color:#c86a00}
+.grade{display:inline-flex;align-items:center;height:11mm;margin-top:15pt;background:#1d1a17;color:#fff;border-radius:5.5mm;padding:0 7mm 1.2mm 7mm;font-weight:700;font-size:18pt}
+.grade i{display:inline-block;width:2.2mm;height:2.2mm;border-radius:50%;background:#f98e03;margin:1.2mm 3.5mm 0 3.5mm}
+/* الدايرة: تدرّج برتقالي خفيف + نور هادي ورا الراس + خط متقطّع منتظم */
+.disc{position:absolute;left:61mm;top:132mm;width:136mm;height:136mm;border-radius:50%;
+  background:radial-gradient(circle at 38% 30%,#ffa83d 0%,#f98e03 52%,#ea7d00 100%)}
+.disc .amb{position:absolute;left:22%;top:4%;width:60%;height:50%;border-radius:50%;background:radial-gradient(closest-side,rgba(255,236,200,.45),rgba(255,236,200,0))}
+.disc .ring{position:absolute;inset:0;width:100%;height:100%}
+.ph .me,.ph .sh{position:absolute;display:block}
+.ph .me{left:0;top:0;width:100%;height:100%}
+.pf{position:absolute;left:74mm;bottom:47mm;width:96.69mm;height:140mm}.pf .sh{left:-7.00mm;top:-7.40mm;width:115.89mm;height:159.07mm}.pb{position:absolute;right:-14mm;bottom:0mm;width:109.12mm;height:158mm}.pb .sh{left:-8.23mm;top:-8.63mm;width:130.79mm;height:179.53mm}
+/* الرسومات: نفس سُمك الخط ونفس الأركان، ومسافة حوالين كل واحدة */
+.ill svg{width:100%;height:100%;display:block}
+.robot{position:absolute;left:167mm;top:127mm;width:31mm;height:33mm;transform:rotate(8deg)}
+.brk{position:absolute;left:19mm;top:140mm;width:25mm;height:25mm;transform:rotate(-7deg)}
+.chip{position:absolute;left:177mm;top:217mm;width:22mm;height:22mm;transform:rotate(-8deg)}
+.card{position:absolute;left:13mm;top:181mm;width:57mm;background:#fff;border:0.9mm solid #1d1a17;border-radius:3mm;overflow:hidden;transform:rotate(-4deg);direction:ltr}
+.cbar{height:6mm;background:#1d1a17;display:flex;align-items:center;gap:1.6mm;padding:0 2.6mm}
+.cbar b{width:2.2mm;height:2.2mm;border-radius:50%;background:#fff}.cbar b:first-child{background:#f98e03}
+.card pre{margin:0;padding:3.6mm 4mm 4mm 4mm;font-family:'CodeMono';font-size:12.5pt;line-height:1.5;color:#1d1a17}
 .card k{color:#c86a00}.card v{color:#2f8f46}
-.name{position:absolute;left:0;right:0;bottom:12mm;text-align:center;line-height:1}
-.name b{display:block;font-weight:900;font-size:66pt;line-height:1.1;color:#1d1a17;text-shadow:2.60pt 0.00pt 0 #ffe3bf,2.40pt 0.99pt 0 #ffe3bf,1.84pt 1.84pt 0 #ffe3bf,0.99pt 2.40pt 0 #ffe3bf,0.00pt 2.60pt 0 #ffe3bf,-0.99pt 2.40pt 0 #ffe3bf,-1.84pt 1.84pt 0 #ffe3bf,-2.40pt 0.99pt 0 #ffe3bf,-2.60pt 0.00pt 0 #ffe3bf,-2.40pt -0.99pt 0 #ffe3bf,-1.84pt -1.84pt 0 #ffe3bf,-0.99pt -2.40pt 0 #ffe3bf,-0.00pt -2.60pt 0 #ffe3bf,0.99pt -2.40pt 0 #ffe3bf,1.84pt -1.84pt 0 #ffe3bf,2.40pt -0.99pt 0 #ffe3bf}
-.name span{display:inline-block;margin-top:2pt;font-weight:700;font-size:17pt;color:#fff;background:#c86a00;border-radius:20pt;padding:4pt 16pt 6pt 16pt;line-height:1.3}
+.name{position:absolute;left:0;right:0;bottom:14mm;text-align:center;line-height:1}
+.name b{display:block;font-weight:900;font-size:54pt;line-height:1.15;color:#1d1a17}
+.name span{display:inline-flex;align-items:center;height:10mm;margin-top:3.5mm;padding:0 6mm 1mm 6mm;font-weight:700;font-size:16pt;color:#fff;background:#c86a00;border-radius:5mm}
 /* ---- الضهر ---- */
-.quote{position:absolute;top:24mm;left:14mm;right:14mm;text-align:center;line-height:1.15}
-.quote p{margin:0;font-weight:900;font-size:44pt;color:#1d1a17}
-.quote .q2{margin-top:8pt;font-size:50pt;color:#c86a00}
+.quote{position:absolute;top:26mm;left:15mm;right:15mm;text-align:center;line-height:1.15}
+.quote p{margin:0;font-weight:900;font-size:42pt;color:#1d1a17}
+.quote .q2{margin-top:10pt;font-size:50pt;color:#c86a00}
 .disc.d2{left:auto;right:-30mm;top:150mm;width:150mm;height:150mm}
-.me.m2{left:auto;right:-6mm;bottom:0;height:150mm}
-.qrs{position:absolute;left:14mm;top:128mm;width:70mm;display:flex;flex-direction:column;align-items:center;gap:7mm}
-.qc{display:flex;flex-direction:column;align-items:center;gap:4pt;background:#fff;border:2.2pt solid #1d1a17;border-radius:5mm;padding:3mm 3mm 3.5mm 3mm}
+.qrs{position:absolute;left:15mm;top:128mm;width:70mm;display:flex;flex-direction:column;align-items:center;gap:7mm}
+.qc{display:flex;flex-direction:column;align-items:center;gap:1.5mm;background:#fff;border:0.9mm solid #1d1a17;border-radius:4mm;padding:3mm 3mm 3.5mm 3mm}
 .qc .qr{width:40mm;height:40mm}
 .qc .qr img{width:100%;height:100%;display:block}
-.qc b{font-weight:900;font-size:18pt;color:#1d1a17;line-height:1.2}
-.wa{background:#1d1a17;color:#fff;border-radius:5mm;padding:3mm 6mm;text-align:center;line-height:1.2}
+.qc b{font-weight:900;font-size:17pt;color:#1d1a17;line-height:1.2}
+.wa{background:#1d1a17;color:#fff;border-radius:4mm;padding:3mm 6mm;text-align:center;line-height:1.2}
 .wa small{display:block;font-weight:700;font-size:13pt;color:#f98e03}
-.wa b{font-family:'CodeMono';font-size:17pt}
-.bname{position:absolute;left:14mm;bottom:12mm;display:flex;align-items:center;gap:8pt}
-.bname img{width:18mm;height:18mm;border-radius:50%;border:2pt solid #1d1a17}
-.bname b{font-weight:900;font-size:24pt;color:#1d1a17}
+.wa b{font-family:'CodeMono';font-size:16pt}
+.bname{position:absolute;left:15mm;bottom:14mm;display:flex;align-items:center;gap:3mm}
+.bname img{width:17mm;height:17mm;border-radius:50%;border:.9mm solid #fff;outline:0.9mm solid #1d1a17}
+.bname b{font-weight:900;font-size:23pt;color:#1d1a17}
 </style>
 </head>
 <body>
@@ -68,21 +74,11 @@ body{background:#bdbdbd;padding:14pt 0;font-family:'CairoX','Baloo Bhaijaan 2';d
   <div class="wm">{ }</div>
   <div class="top"><span class="yr"><span class="n">2026 / 2027</span></span><img class="mini" src="assets/logo_warm.jpg" alt=""></div>
   <div class="ttl"><h1>البرمجة</h1><h2>والذكاء الاصطناعي</h2><div class="grade">الصف الثاني الثانوي <i></i> الترم الأول</div></div>
-  <div class="disc"></div>
-  <div class="robot"><svg viewBox="0 0 120 120"><line x1="60" y1="8" x2="60" y2="24" stroke="#1d1a17" stroke-width="5" stroke-linecap="round"/>
-  <circle cx="60" cy="8" r="7" fill="#f98e03" stroke="#1d1a17" stroke-width="4"/>
-  <rect x="10" y="50" width="12" height="28" rx="6" fill="#1d1a17"/><rect x="98" y="50" width="12" height="28" rx="6" fill="#1d1a17"/>
-  <rect x="18" y="24" width="84" height="80" rx="22" fill="#fff" stroke="#1d1a17" stroke-width="5"/>
-  <rect x="30" y="40" width="60" height="38" rx="14" fill="#1d1a17"/>
-  <circle cx="47" cy="59" r="8" fill="#f98e03"/><circle cx="73" cy="59" r="8" fill="#f98e03"/>
-  <path d="M46 90 Q60 98 74 90" fill="none" stroke="#1d1a17" stroke-width="5" stroke-linecap="round"/></svg></div>
-  <div class="brk"><svg viewBox="0 0 120 80"><g fill="none" stroke="#1d1a17" stroke-width="11" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M38 14 L12 40 L38 66"/><path d="M82 14 L108 40 L82 66"/></g><path d="M68 10 L52 70" stroke="#f98e03" stroke-width="11" stroke-linecap="round"/></svg></div>
-  <div class="chip"><svg viewBox="0 0 100 100"><g stroke="#1d1a17" stroke-width="5" stroke-linecap="round">
-  <path d="M32 8v14M50 8v14M68 8v14M32 78v14M50 78v14M68 78v14M8 32h14M8 50h14M8 68h14M78 32h14M78 50h14M78 68h14"/></g>
-  <rect x="20" y="20" width="60" height="60" rx="10" fill="#f98e03" stroke="#1d1a17" stroke-width="5"/>
-  <text x="50" y="62" text-anchor="middle" font-family="CodeMono" font-size="28" font-weight="700" fill="#1d1a17">AI</text></svg></div>
-  <img class="me" src="assets/teacher_cut.png" alt="">
+  <div class="disc"><div class="amb"></div><svg class="ring" viewBox="0 0 136 136"><circle cx="68" cy="68" r="61" fill="none" stroke="rgba(29,26,23,.38)" stroke-width=".55" stroke-linecap="round" stroke-dasharray="2.2 2.6"/></svg></div>
+  <div class="ill robot"><svg viewBox="0 0 34 36"><g stroke="#1d1a17" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"><line x1="17" y1="3.6" x2="17" y2="8.5"/><circle cx="17" cy="2.6" r="1.9" fill="#f98e03"/><rect x="1.2" y="16" width="3.4" height="9" rx="1.7" fill="#1d1a17"/><rect x="29.4" y="16" width="3.4" height="9" rx="1.7" fill="#1d1a17"/><rect x="4.6" y="8.5" width="24.8" height="24" rx="6.5" fill="#fff"/><rect x="8.2" y="13" width="17.6" height="11" rx="3.8" fill="#1d1a17"/><path d="M13 28.2 Q17 30.6 21 28.2" fill="none"/></g><circle cx="13.2" cy="18.5" r="2.2" fill="#f98e03"/><circle cx="20.8" cy="18.5" r="2.2" fill="#f98e03"/></svg></div>
+  <div class="ill brk"><svg viewBox="0 0 26 26"><rect x="0.45" y="0.45" width="25.1" height="25.1" rx="5" fill="#fff" stroke="#1d1a17" stroke-width="0.9"/><g fill="none" stroke="#1d1a17" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 8.5 L4.8 13 L9 17.5"/><path d="M17 8.5 L21.2 13 L17 17.5"/></g><path d="M14.6 7.6 L11.4 18.4" stroke="#f98e03" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+  <div class="ill chip"><svg viewBox="0 0 25 25"><path d="M8 1.2v3M8 20.8v3M1.2 8h3M20.8 8h3M12.5 1.2v3M12.5 20.8v3M1.2 12.5h3M20.8 12.5h3M17 1.2v3M17 20.8v3M1.2 17h3M20.8 17h3" stroke="#1d1a17" stroke-width="0.9" stroke-linecap="round"/><rect x="4.4" y="4.4" width="16.2" height="16.2" rx="3" fill="#f98e03" stroke="#1d1a17" stroke-width="0.9"/><text x="12.5" y="15.4" text-anchor="middle" font-family="CodeMono" font-size="7.2" fill="#1d1a17">AI</text></svg></div>
+  <div class="ph pf"><img class="sh" src="assets/teacher_shadow.png" alt=""><img class="me" src="assets/teacher_cut.png" alt=""></div>
   <div class="card"><div class="cbar"><b></b><b></b><b></b></div><pre><k>if</k> study:
     success = <v>True</v></pre></div>
   <div class="name"><b>زياد السعدني</b><span>أستاذ البرمجة والذكاء الاصطناعي</span></div>
@@ -90,8 +86,8 @@ body{background:#bdbdbd;padding:14pt 0;font-family:'CairoX','Baloo Bhaijaan 2';d
 <section class="cv back">
   <div class="wm">&lt;/&gt;</div>
   <div class="quote"><p>الكود مجرد أداة…</p><p class="q2">القوة الحقيقية<br>في طريقة تفكيرك.</p></div>
-  <div class="disc d2"></div>
-  <img class="me m2" src="assets/teacher_cut.png" alt="">
+  <div class="disc d2"><div class="amb"></div><svg class="ring" viewBox="0 0 136 136"><circle cx="68" cy="68" r="61" fill="none" stroke="rgba(29,26,23,.38)" stroke-width=".55" stroke-linecap="round" stroke-dasharray="2.2 2.6"/></svg></div>
+  <div class="ph pb"><img class="sh" src="assets/teacher_shadow.png" alt=""><img class="me" src="assets/teacher_cut.png" alt=""></div>
   <div class="qrs">
     <div class="qc"><div class="qr"><img src="assets/qr_fb_warm.svg" alt=""></div><b>فيسبوك</b></div>
     <div class="qc"><div class="qr"><img src="assets/qr_yt_warm.svg" alt=""></div><b>يوتيوب</b></div>
