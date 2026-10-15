@@ -25,7 +25,8 @@ AMBER = (249, 142, 3)
 REF_W = 1612
 PRINT_CENTER = (1160, 1110)
 PRINT_WIDTH = 330
-PRINT_ANGLE = -4          # درجات — ميلة الصدر في الصورة
+PRINT_ANGLE = -4
+TEETH_BOX = (680, 565, 865, 630)   # السنان بس          # درجات — ميلة الصدر في الصورة
 
 
 def cut_from_source(src):
@@ -77,15 +78,38 @@ def chest_print(rgb, alpha, scale):
     rgb[y0:y0 + tmp.height, x0:x0 + tmp.width] = reg * (1 - k) + ink * k
 
 
+def warm_up(img, scale):
+    """الوش كان باهت: دفا + تشبّع + نور في درجات النص + clarity خفيفة. مفيش أي تغيير في الملامح."""
+    img = ImageEnhance.Color(img).enhance(1.12)
+    a = np.asarray(img).astype(np.float32) / 255
+    a = a ** 0.86                                                     # يرفع درجات النص (الوش)
+    lum = a.mean(-1, keepdims=True)
+    mid = np.clip(1 - np.abs(lum - 0.55) / 0.45, 0, 1)                # الدفا في درجات البشرة بس، مش في الأسود/الأبيض
+    a = a * (1 + mid * np.array([0.025, 0.012, -0.035]))
+    a = 0.5 + (np.clip(a, 0, 1) - 0.5) * 1.07                         # تباين
+    img = Image.fromarray((np.clip(a, 0, 1) * 255).astype(np.uint8))
+    img = img.filter(ImageFilter.UnsharpMask(radius=14 * scale, percent=16, threshold=0))   # clarity (عمق)
+    img = img.filter(ImageFilter.UnsharpMask(radius=2.2 * scale, percent=50, threshold=2))  # حدة
+    a = np.asarray(img).astype(np.float32) / 255
+    # السنان: نشيل الاصفرار سنة (نفس الشكل، لون أنضف)
+    x0, y0, x1, y1 = (int(v * scale) for v in TEETH_BOX)
+    t = a[y0:y1, x0:x1]
+    v = t.max(-1); mn = t.min(-1); sat = (v - mn) / np.maximum(v, 1e-6)
+    m = np.clip((v - 0.55) / 0.12, 0, 1) * np.clip((0.68 - sat) / 0.18, 0, 1) * (t[..., 1] > 0.84 * t[..., 0])   # أصفر فاتح (السنان)، مش الشفايف ولا البشرة
+    m = np.asarray(Image.fromarray((m * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(1.5 * scale))).astype(np.float32)[..., None] / 255
+    g = t.mean(-1, keepdims=True)
+    whiter = np.clip(g + (t - g) * 0.35 + 0.06, 0, 1)
+    a[y0:y1, x0:x1] = t * (1 - 0.8 * m) + whiter * 0.8 * m
+    return a
+
+
 def main():
     args = sys.argv[1:]
     if not args: sys.exit(__doc__)
     im = cut_from_source(args[1]) if args[0] == "--src" else Image.open(args[0]).convert("RGBA")
     scale = im.width / REF_W
     # تحسين عام خفيف: تباين + حدة (من غير ما نغيّر ألوان البشرة)
-    rgbim = ImageEnhance.Contrast(im.convert("RGB")).enhance(1.06)
-    rgbim = rgbim.filter(ImageFilter.UnsharpMask(radius=2.2 * scale, percent=55, threshold=2))
-    rgb = np.asarray(rgbim).astype(np.float32) / 255
+    rgb = warm_up(im.convert("RGB"), scale)
     alpha = clean_alpha(np.asarray(im)[..., 3].astype(np.float32) / 255)
     chest_print(rgb, alpha, scale)
     H = alpha.shape[0]

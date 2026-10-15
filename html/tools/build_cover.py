@@ -90,12 +90,15 @@ def dots(cols, rows, gap=3.4):
 
 
 def deco(side):
-    """أشكال الخلفية الباهتة (دواير ومستطيلات مدوّرة) + مجموعات النقط."""
+    """أشكال الخلفية زي المرجع: بلوكات بأركان مدوّرة متداخلة على الشمال، ومستطيل مفرّغ + بارات على اليمين،
+    دواير مفرّغة، ومجموعات نقط — كلها برتقالي شفاف ومن الأطراف بس."""
     if side == "front":
-        return (f'<div class="dc c1"></div><div class="dc c2"></div><div class="dc r1"></div><div class="dc r2"></div><div class="dc r3"></div>'
-                f'<div class="dt t1">{dots(6, 5)}</div><div class="dt t2">{dots(5, 4)}</div><div class="dt t3">{dots(6, 5)}</div>')
-    return (f'<div class="dc c1"></div><div class="dc r2"></div><div class="dc r3"></div>'
-            f'<div class="dt t1">{dots(6, 5)}</div><div class="dt t2">{dots(5, 4)}</div>')
+        shapes = "c1 b1 b2 b3 b4 o1 o2 p1 p2 r1 r2 r3"
+        dts = f'<div class="dt t1">{dots(6, 5)}</div><div class="dt t2">{dots(5, 4)}</div><div class="dt t3">{dots(6, 5)}</div>'
+    else:
+        shapes = "c1 b1 b2 o1 p1 r1 r3"
+        dts = f'<div class="dt t1">{dots(6, 5)}</div><div class="dt t2">{dots(5, 4)}</div>'
+    return "".join(f'<div class="dc {k}"></div>' for k in shapes.split()) + dts
 
 
 def chip():
@@ -178,16 +181,28 @@ body{background:#bdbdbd;padding:14pt 0;font-family:'CairoX','Baloo Bhaijaan 2';d
 .cv:last-child{break-after:auto;page-break-after:auto}
 @media print{.cv{margin:0}}
 .n{direction:ltr;unicode-bidi:isolate}
-/* أشكال الخلفية: باهتة جدًا ومن الأطراف بس عشان ماتنافسش المحتوى */
+/* أشكال الخلفية (زي المرجع): بلوكات مدوّرة بتدرّج خفيف + خطوط مفرّغة — من الأطراف بس */
 .dc{position:absolute;pointer-events:none}
-.front .c1{left:-46mm;top:30mm;width:78mm;height:78mm;border-radius:50%;background:rgba(249,142,3,.08)}
-.front .c2{right:-34mm;top:84mm;width:70mm;height:70mm;border-radius:50%;border:.5mm solid rgba(200,106,0,.16)}
-.front .r1{left:-20mm;top:112mm;width:62mm;height:88mm;border-radius:16mm;background:rgba(249,142,3,.07)}
-.front .r2{right:-16mm;top:156mm;width:44mm;height:60mm;border-radius:13mm;background:rgba(249,142,3,.07)}
-.front .r3{left:-14mm;bottom:-18mm;width:58mm;height:62mm;border-radius:14mm;background:rgba(249,142,3,.07)}
-.back .c1{right:-40mm;top:-30mm;width:90mm;height:90mm;border-radius:50%;background:rgba(249,142,3,.08)}
-.back .r2{left:-18mm;top:96mm;width:46mm;height:64mm;border-radius:13mm;background:rgba(249,142,3,.07)}
-.back .r3{left:-12mm;bottom:-22mm;width:70mm;height:60mm;border-radius:14mm;background:rgba(249,142,3,.06)}
+.dc.b1,.dc.b2,.dc.b3,.dc.b4,.dc.r1,.dc.r2,.dc.r3,.dc.p1,.dc.p2{background:linear-gradient(135deg,rgba(249,142,3,.16),rgba(249,142,3,.07))}
+.front .c1{left:-38mm;top:32mm;width:72mm;height:72mm;border-radius:50%;background:radial-gradient(circle at 65% 40%,rgba(249,142,3,.13),rgba(249,142,3,.05))}
+.front .b1{left:-14mm;top:110mm;width:66mm;height:40mm;border-radius:13mm}
+.front .b2{left:-26mm;top:140mm;width:52mm;height:58mm;border-radius:15mm;opacity:.85}
+.front .b3{left:-8mm;top:204mm;width:44mm;height:30mm;border-radius:11mm;opacity:.8}
+.front .b4{left:-30mm;bottom:-22mm;width:76mm;height:62mm;border-radius:16mm}
+.front .o1{left:-34mm;top:228mm;width:70mm;height:70mm;border-radius:50%;border:.45mm solid rgba(200,106,0,.22)}
+.front .o2{right:-26mm;top:86mm;width:62mm;height:128mm;border-radius:30mm;border:.45mm solid rgba(200,106,0,.22)}
+.front .p1{left:30mm;top:246mm;width:24mm;height:6.5mm;border-radius:3.25mm}
+.front .p2{right:16mm;top:200mm;width:22mm;height:6mm;border-radius:3mm;opacity:.8}
+.front .r1{right:-22mm;top:108mm;width:58mm;height:24mm;border-radius:12mm}
+.front .r2{right:-14mm;top:150mm;width:40mm;height:52mm;border-radius:13mm;opacity:.8}
+.front .r3{right:-20mm;bottom:-16mm;width:68mm;height:52mm;border-radius:15mm}
+.back .c1{right:-40mm;top:-30mm;width:90mm;height:90mm;border-radius:50%;background:radial-gradient(circle at 40% 60%,rgba(249,142,3,.13),rgba(249,142,3,.05))}
+.back .b1{left:-16mm;top:92mm;width:54mm;height:34mm;border-radius:12mm}
+.back .b2{left:-24mm;top:118mm;width:40mm;height:60mm;border-radius:13mm;opacity:.8}
+.back .o1{left:-30mm;top:200mm;width:64mm;height:64mm;border-radius:50%;border:.45mm solid rgba(200,106,0,.22)}
+.back .p1{left:22mm;top:268mm;width:22mm;height:6mm;border-radius:3mm}
+.back .r1{right:-18mm;top:70mm;width:56mm;height:22mm;border-radius:11mm}
+.back .r3{left:-14mm;bottom:-24mm;width:70mm;height:56mm;border-radius:15mm}
 .dt{position:absolute}.dt svg{width:100%;height:100%;display:block}
 .front .t1{right:9mm;top:58mm;width:19mm;height:15.6mm}
 .front .t2{left:7mm;top:104mm;width:15.6mm;height:12.2mm}
