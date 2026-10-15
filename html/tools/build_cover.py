@@ -141,7 +141,7 @@ body{background:#bdbdbd;padding:14pt 0;font-family:'CairoX','Baloo Bhaijaan 2';d
 .card pre{margin:0;padding:4mm 4mm 4.5mm 4mm;font-family:'CodeMono';font-size:13pt;line-height:1.5;color:INK}
 .card k{color:DEEP}.card v{color:GREEN}
 .name{position:absolute;left:0;right:0;bottom:12mm;text-align:center;line-height:1}
-.name b{display:block;font-weight:900;font-size:66pt;line-height:1.1;color:INK;-webkit-text-stroke:5pt PAPER;paint-order:stroke fill}
+.name b{display:block;font-weight:900;font-size:66pt;line-height:1.1;color:INK;text-shadow:2.60pt 0.00pt 0 PAPER,2.40pt 0.99pt 0 PAPER,1.84pt 1.84pt 0 PAPER,0.99pt 2.40pt 0 PAPER,0.00pt 2.60pt 0 PAPER,-0.99pt 2.40pt 0 PAPER,-1.84pt 1.84pt 0 PAPER,-2.40pt 0.99pt 0 PAPER,-2.60pt 0.00pt 0 PAPER,-2.40pt -0.99pt 0 PAPER,-1.84pt -1.84pt 0 PAPER,-0.99pt -2.40pt 0 PAPER,-0.00pt -2.60pt 0 PAPER,0.99pt -2.40pt 0 PAPER,1.84pt -1.84pt 0 PAPER,2.40pt -0.99pt 0 PAPER}
 .name span{display:inline-block;margin-top:2pt;font-weight:700;font-size:17pt;color:#fff;background:DEEP;border-radius:20pt;padding:4pt 16pt 6pt 16pt;line-height:1.3}
 /* ---- الضهر ---- */
 .quote{position:absolute;top:24mm;left:14mm;right:14mm;text-align:center;line-height:1.15}
