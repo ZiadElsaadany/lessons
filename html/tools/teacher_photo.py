@@ -18,13 +18,13 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont, ImageOps, ImageEnhance
 TOOLS = os.path.dirname(os.path.abspath(__file__))
 BASE = os.path.dirname(TOOLS)
 ASSETS = os.path.join(BASE, "assets")
-MONO = os.path.join(BASE, "fonts", "DejaVuSansMono-Bold.ttf")
+PRINT_FONT = os.path.join(BASE, "fonts", "Cairo-Black.ttf")
 AMBER = (249, 142, 3)
 
 # مكان الطبعة على الصدر (إحداثيات الصورة المقصوصة 1612×2334؛ بتتظبط بالنسبة لو المقاس اتغيّر)
 REF_W = 1612
-PRINT_CENTER = (1168, 1105)
-PRINT_WIDTH = 250
+PRINT_CENTER = (1160, 1110)
+PRINT_WIDTH = 330
 PRINT_ANGLE = -4          # درجات — ميلة الصدر في الصورة
 
 
@@ -48,11 +48,20 @@ def clean_alpha(a):
 def chest_print(rgb, alpha, scale):
     """<AI/> على الصدر: الحروف مضروبة في إضاءة القماش نفسه فبتاخد الطيّات والضل."""
     W = int(PRINT_WIDTH * scale)
-    f = ImageFont.truetype(MONO, 200)
-    parts = [("<", (255, 255, 255)), ("AI", AMBER), ("/>", (255, 255, 255))]
-    tmp = Image.new("RGBA", (1400, 320), (0, 0, 0, 0)); d = ImageDraw.Draw(tmp); x = 10
-    for t, c in parts:
-        d.text((x, 40), t, font=f, fill=c + (255,)); x += d.textlength(t, font=f) - 6
+    # الأقواس والشرطة خطوط مرسومة (نفس شكل أيقونة </> في الغلاف)، و AI بخط Cairo Black
+    f = ImageFont.truetype(PRINT_FONT, 230)
+    tmp = Image.new("RGBA", (1100, 360), (0, 0, 0, 0)); d = ImageDraw.Draw(tmp)
+    white, sw = (255, 255, 255, 255), 30
+    def pl(pts, c):
+        d.line(pts, fill=c, width=sw, joint="curve")
+        for x, y in (pts[0], pts[-1]): d.ellipse((x - sw / 2, y - sw / 2, x + sw / 2, y + sw / 2), fill=c)
+    pl([(130, 95), (40, 180), (130, 265)], white)
+    bb = d.textbbox((0, 0), "AI", font=f); tw = bb[2] - bb[0]
+    d.text((175 - bb[0], 180 - (bb[1] + bb[3]) / 2), "AI", font=f, fill=AMBER + (255,))
+    x1 = 175 + tw + 45
+    pl([(x1 + 70, 85), (x1, 275)], white)
+    x2 = x1 + 125
+    pl([(x2, 95), (x2 + 90, 180), (x2, 265)], white)
     tmp = tmp.crop(tmp.getbbox())
     tmp = tmp.resize((W, int(tmp.height * W / tmp.width)), Image.LANCZOS).rotate(PRINT_ANGLE, resample=Image.BICUBIC, expand=True)
     tmp = tmp.filter(ImageFilter.GaussianBlur(0.6 * scale))          # حرف حبر مش حرف ديجيتال حاد
@@ -62,8 +71,8 @@ def chest_print(rgb, alpha, scale):
     reg = rgb[y0:y0 + tmp.height, x0:x0 + tmp.width]
     lum = reg.mean(-1, keepdims=True)
     ref = np.median(lum)
-    shade = np.clip(0.80 + (lum - ref) * 4.0, 0.6, 1.15)                # طيّات القماش
-    ink = np.clip(p[..., :3] * shade * 0.94, 0, 1)                      # الحبر مش أبيض ناصع
+    shade = np.clip(0.86 + (lum - ref) * 3.5, 0.65, 1.15)                # طيّات القماش
+    ink = np.clip(p[..., :3] * shade * 0.97, 0, 1)                      # الحبر مش أبيض ناصع
     k = p[..., 3:4] * 0.95 * alpha[y0:y0 + tmp.height, x0:x0 + tmp.width, None]
     rgb[y0:y0 + tmp.height, x0:x0 + tmp.width] = reg * (1 - k) + ink * k
 

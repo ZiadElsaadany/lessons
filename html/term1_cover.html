@@ -14,23 +14,38 @@ html,body{margin:0;padding:0}
 body{background:#bdbdbd;padding:14pt 0;font-family:'CairoX','Baloo Bhaijaan 2';direction:rtl}
 @media print{body{background:#fff;padding:0}}
 .cv{position:relative;width:216mm;height:303mm;margin:0 auto 14pt auto;overflow:hidden;color:#1d1a17;break-after:page;page-break-after:always;
-  background:radial-gradient(70% 45% at 50% 62%,#ffe9cc 0%,#ffe3bf 70%)}
+  background:radial-gradient(65% 42% at 50% 60%,#fff2df 0%,rgba(255,242,223,0) 100%),linear-gradient(180deg,#ffe8cb 0%,#ffe3bf 60%,#ffdcb2 100%)}
 .cv:last-child{break-after:auto;page-break-after:auto}
 @media print{.cv{margin:0}}
 .n{direction:ltr;unicode-bidi:isolate}
-/* علامة مائية هادية: مابتنافسش المحتوى */
-.wm{position:absolute;left:-10mm;top:104mm;font-family:'CodeMono';font-size:330pt;line-height:1;color:#fdd8a9;direction:ltr;letter-spacing:-20pt;white-space:nowrap}
-.back .wm{left:auto;right:-20mm;top:150mm;font-size:300pt}
+/* أشكال الخلفية: باهتة جدًا ومن الأطراف بس عشان ماتنافسش المحتوى */
+.dc{position:absolute;pointer-events:none}
+.front .c1{left:-46mm;top:30mm;width:78mm;height:78mm;border-radius:50%;background:rgba(249,142,3,.08)}
+.front .c2{right:-34mm;top:84mm;width:70mm;height:70mm;border-radius:50%;border:.5mm solid rgba(200,106,0,.16)}
+.front .r1{left:-20mm;top:112mm;width:62mm;height:88mm;border-radius:16mm;background:rgba(249,142,3,.07)}
+.front .r2{right:-16mm;top:156mm;width:44mm;height:60mm;border-radius:13mm;background:rgba(249,142,3,.07)}
+.front .r3{left:-14mm;bottom:-18mm;width:58mm;height:62mm;border-radius:14mm;background:rgba(249,142,3,.07)}
+.back .c1{right:-40mm;top:-30mm;width:90mm;height:90mm;border-radius:50%;background:rgba(249,142,3,.08)}
+.back .r2{left:-18mm;top:96mm;width:46mm;height:64mm;border-radius:13mm;background:rgba(249,142,3,.07)}
+.back .r3{left:-12mm;bottom:-22mm;width:70mm;height:60mm;border-radius:14mm;background:rgba(249,142,3,.06)}
+.dt{position:absolute}.dt svg{width:100%;height:100%;display:block}
+.front .t1{right:9mm;top:58mm;width:19mm;height:15.6mm}
+.front .t2{left:7mm;top:104mm;width:15.6mm;height:12.2mm}
+.front .t3{right:9mm;top:246mm;width:19mm;height:15.6mm}
+.back .t1{right:12mm;top:110mm;width:19mm;height:15.6mm}
+.back .t2{left:9mm;top:20mm;width:15.6mm;height:12.2mm}
 /* ---- الوش ---- */
 .top{position:absolute;top:14mm;left:15mm;right:15mm;height:21mm;display:flex;align-items:center;justify-content:space-between;direction:ltr}
 .mini{width:21mm;height:21mm;border-radius:50%;border:1.1mm solid #fff;outline:0.9mm solid #1d1a17;display:block}
-.yr{font-family:'CodeMono';font-size:13.5pt;color:#fff;background:#1d1a17;border-radius:5mm;height:9mm;padding:0 5mm;display:flex;align-items:center;letter-spacing:.5pt}
+.yr{font-weight:700;font-size:15pt;color:#fff;background:#1d1a17;border-radius:5mm;height:9.5mm;padding:0 5.5mm 1mm 5.5mm;display:flex;align-items:center;word-spacing:2pt}
 .ttl{position:absolute;top:34mm;left:0;right:0;text-align:center}
-.ttl h1{margin:0;font-weight:900;font-size:108pt;line-height:1;color:#1d1a17}
-.ttl h2{margin:12pt 0 0 0;font-weight:900;font-size:46pt;line-height:1.1;color:#c86a00}
+.ttl h1{margin:0;font-weight:900;font-size:108pt;line-height:1;color:#1d1a17;text-shadow:0 .9mm 0 rgba(249,142,3,.22),0 1.8mm 0 rgba(249,142,3,.12)}
+.ttl h2{margin:12pt 0 0 0;font-weight:900;font-size:46pt;line-height:1.1;color:#c86a00;text-shadow:0 .7mm 0 rgba(130,60,0,.22),0 1.4mm 0 rgba(249,142,3,.15)}
 .grade{display:inline-flex;align-items:center;height:11mm;margin-top:15pt;background:#1d1a17;color:#fff;border-radius:5.5mm;padding:0 7mm 1.2mm 7mm;font-weight:700;font-size:18pt}
 .grade i{display:inline-block;width:2.2mm;height:2.2mm;border-radius:50%;background:#f98e03;margin:1.2mm 3.5mm 0 3.5mm}
 /* الدايرة: تدرّج برتقالي خفيف + نور هادي ورا الراس + خط متقطّع منتظم */
+.halo{position:absolute;left:49mm;top:120mm;width:160mm;height:160mm;border-radius:50%;background:radial-gradient(closest-side,rgba(255,170,60,.42) 0%,rgba(255,170,60,.42) 80%,rgba(255,170,60,0) 100%)}
+.halo.h2{left:auto;right:-42mm;top:138mm;width:174mm;height:174mm}
 .disc{position:absolute;left:61mm;top:132mm;width:136mm;height:136mm;border-radius:50%;
   background:radial-gradient(circle at 38% 30%,#ffa83d 0%,#f98e03 52%,#ea7d00 100%)}
 .disc .amb{position:absolute;left:22%;top:4%;width:60%;height:50%;border-radius:50%;background:radial-gradient(closest-side,rgba(255,236,200,.45),rgba(255,236,200,0))}
@@ -41,23 +56,27 @@ body{background:#bdbdbd;padding:14pt 0;font-family:'CairoX','Baloo Bhaijaan 2';d
 /* الرسومات: نفس سُمك الخط ونفس الأركان، ومسافة حوالين كل واحدة */
 .ill svg{width:100%;height:100%;display:block}
 .robot{position:absolute;left:167mm;top:127mm;width:31mm;height:33mm;transform:rotate(8deg)}
-.brk{position:absolute;left:19mm;top:140mm;width:25mm;height:25mm;transform:rotate(-7deg)}
+.brk{position:absolute;left:16mm;top:140mm;width:32mm;height:24.5mm;transform:rotate(-6deg)}
+.spk{position:absolute;width:10mm;height:10mm}.spk svg{width:100%;height:100%;display:block}
+.s1{left:196mm;top:122mm}.s2{left:44mm;top:169mm}.s3{left:194mm;top:208mm}
 .chip{position:absolute;left:177mm;top:217mm;width:22mm;height:22mm;transform:rotate(-8deg)}
-.card{position:absolute;left:13mm;top:181mm;width:57mm;background:#fff;border:0.9mm solid #1d1a17;border-radius:3mm;overflow:hidden;transform:rotate(-4deg);direction:ltr}
+.card{position:absolute;left:13mm;top:181mm;width:57mm;background:#fff;border:0.9mm solid #1d1a17;border-radius:3mm;overflow:hidden;transform:rotate(-4deg);direction:ltr;box-shadow:1.3mm 1.5mm 0 rgba(29,26,23,.16)}
 .cbar{height:6mm;background:#1d1a17;display:flex;align-items:center;gap:1.6mm;padding:0 2.6mm}
 .cbar b{width:2.2mm;height:2.2mm;border-radius:50%;background:#fff}.cbar b:first-child{background:#f98e03}
 .card pre{margin:0;padding:3.6mm 4mm 4mm 4mm;font-family:'CodeMono';font-size:12.5pt;line-height:1.5;color:#1d1a17}
 .card k{color:#c86a00}.card v{color:#2f8f46}
 .name{position:absolute;left:0;right:0;bottom:14mm;text-align:center;line-height:1}
-.name b{display:block;font-weight:900;font-size:54pt;line-height:1.15;color:#1d1a17}
-.name span{display:inline-flex;align-items:center;height:10mm;margin-top:3.5mm;padding:0 6mm 1mm 6mm;font-weight:700;font-size:16pt;color:#fff;background:#c86a00;border-radius:5mm}
+.name b{display:block;font-weight:900;font-size:54pt;line-height:1.15;color:#1d1a17;text-shadow:0 .8mm 0 rgba(249,142,3,.25)}
+.name .sub{display:flex;align-items:center;justify-content:center;gap:4mm;margin-top:3.5mm}
+.name .sub i{width:26mm;height:.7mm;border-radius:.35mm;background:#f98e03}
+.name span{display:inline-flex;align-items:center;height:10mm;padding:0 6mm 1mm 6mm;font-weight:700;font-size:16pt;color:#fff;background:#c86a00;border-radius:5mm}
 /* ---- الضهر ---- */
 .quote{position:absolute;top:26mm;left:15mm;right:15mm;text-align:center;line-height:1.15}
-.quote p{margin:0;font-weight:900;font-size:42pt;color:#1d1a17}
-.quote .q2{margin-top:10pt;font-size:50pt;color:#c86a00}
+.quote p{margin:0;font-weight:900;font-size:42pt;color:#1d1a17;text-shadow:0 .8mm 0 rgba(249,142,3,.22)}
+.quote .q2{margin-top:10pt;font-size:50pt;color:#c86a00;text-shadow:0 .7mm 0 rgba(130,60,0,.22),0 1.4mm 0 rgba(249,142,3,.15)}
 .disc.d2{left:auto;right:-30mm;top:150mm;width:150mm;height:150mm}
 .qrs{position:absolute;left:15mm;top:128mm;width:70mm;display:flex;flex-direction:column;align-items:center;gap:7mm}
-.qc{display:flex;flex-direction:column;align-items:center;gap:1.5mm;background:#fff;border:0.9mm solid #1d1a17;border-radius:4mm;padding:3mm 3mm 3.5mm 3mm}
+.qc{display:flex;flex-direction:column;align-items:center;gap:1.5mm;background:#fff;border:0.9mm solid #1d1a17;border-radius:4mm;padding:3mm 3mm 3.5mm 3mm;box-shadow:1.3mm 1.5mm 0 rgba(29,26,23,.14)}
 .qc .qr{width:40mm;height:40mm}
 .qc .qr img{width:100%;height:100%;display:block}
 .qc b{font-weight:900;font-size:17pt;color:#1d1a17;line-height:1.2}
@@ -71,21 +90,24 @@ body{background:#bdbdbd;padding:14pt 0;font-family:'CairoX','Baloo Bhaijaan 2';d
 </head>
 <body>
 <section class="cv front">
-  <div class="wm">{ }</div>
+  <div class="dc c1"></div><div class="dc c2"></div><div class="dc r1"></div><div class="dc r2"></div><div class="dc r3"></div><div class="dt t1"><svg viewBox="0 0 19.0 15.6" fill="rgba(200,106,0,.30)"><circle cx="1.0" cy="1.0" r=".55"/><circle cx="4.4" cy="1.0" r=".55"/><circle cx="7.8" cy="1.0" r=".55"/><circle cx="11.2" cy="1.0" r=".55"/><circle cx="14.6" cy="1.0" r=".55"/><circle cx="18.0" cy="1.0" r=".55"/><circle cx="1.0" cy="4.4" r=".55"/><circle cx="4.4" cy="4.4" r=".55"/><circle cx="7.8" cy="4.4" r=".55"/><circle cx="11.2" cy="4.4" r=".55"/><circle cx="14.6" cy="4.4" r=".55"/><circle cx="18.0" cy="4.4" r=".55"/><circle cx="1.0" cy="7.8" r=".55"/><circle cx="4.4" cy="7.8" r=".55"/><circle cx="7.8" cy="7.8" r=".55"/><circle cx="11.2" cy="7.8" r=".55"/><circle cx="14.6" cy="7.8" r=".55"/><circle cx="18.0" cy="7.8" r=".55"/><circle cx="1.0" cy="11.2" r=".55"/><circle cx="4.4" cy="11.2" r=".55"/><circle cx="7.8" cy="11.2" r=".55"/><circle cx="11.2" cy="11.2" r=".55"/><circle cx="14.6" cy="11.2" r=".55"/><circle cx="18.0" cy="11.2" r=".55"/><circle cx="1.0" cy="14.6" r=".55"/><circle cx="4.4" cy="14.6" r=".55"/><circle cx="7.8" cy="14.6" r=".55"/><circle cx="11.2" cy="14.6" r=".55"/><circle cx="14.6" cy="14.6" r=".55"/><circle cx="18.0" cy="14.6" r=".55"/></svg></div><div class="dt t2"><svg viewBox="0 0 15.6 12.2" fill="rgba(200,106,0,.30)"><circle cx="1.0" cy="1.0" r=".55"/><circle cx="4.4" cy="1.0" r=".55"/><circle cx="7.8" cy="1.0" r=".55"/><circle cx="11.2" cy="1.0" r=".55"/><circle cx="14.6" cy="1.0" r=".55"/><circle cx="1.0" cy="4.4" r=".55"/><circle cx="4.4" cy="4.4" r=".55"/><circle cx="7.8" cy="4.4" r=".55"/><circle cx="11.2" cy="4.4" r=".55"/><circle cx="14.6" cy="4.4" r=".55"/><circle cx="1.0" cy="7.8" r=".55"/><circle cx="4.4" cy="7.8" r=".55"/><circle cx="7.8" cy="7.8" r=".55"/><circle cx="11.2" cy="7.8" r=".55"/><circle cx="14.6" cy="7.8" r=".55"/><circle cx="1.0" cy="11.2" r=".55"/><circle cx="4.4" cy="11.2" r=".55"/><circle cx="7.8" cy="11.2" r=".55"/><circle cx="11.2" cy="11.2" r=".55"/><circle cx="14.6" cy="11.2" r=".55"/></svg></div><div class="dt t3"><svg viewBox="0 0 19.0 15.6" fill="rgba(200,106,0,.30)"><circle cx="1.0" cy="1.0" r=".55"/><circle cx="4.4" cy="1.0" r=".55"/><circle cx="7.8" cy="1.0" r=".55"/><circle cx="11.2" cy="1.0" r=".55"/><circle cx="14.6" cy="1.0" r=".55"/><circle cx="18.0" cy="1.0" r=".55"/><circle cx="1.0" cy="4.4" r=".55"/><circle cx="4.4" cy="4.4" r=".55"/><circle cx="7.8" cy="4.4" r=".55"/><circle cx="11.2" cy="4.4" r=".55"/><circle cx="14.6" cy="4.4" r=".55"/><circle cx="18.0" cy="4.4" r=".55"/><circle cx="1.0" cy="7.8" r=".55"/><circle cx="4.4" cy="7.8" r=".55"/><circle cx="7.8" cy="7.8" r=".55"/><circle cx="11.2" cy="7.8" r=".55"/><circle cx="14.6" cy="7.8" r=".55"/><circle cx="18.0" cy="7.8" r=".55"/><circle cx="1.0" cy="11.2" r=".55"/><circle cx="4.4" cy="11.2" r=".55"/><circle cx="7.8" cy="11.2" r=".55"/><circle cx="11.2" cy="11.2" r=".55"/><circle cx="14.6" cy="11.2" r=".55"/><circle cx="18.0" cy="11.2" r=".55"/><circle cx="1.0" cy="14.6" r=".55"/><circle cx="4.4" cy="14.6" r=".55"/><circle cx="7.8" cy="14.6" r=".55"/><circle cx="11.2" cy="14.6" r=".55"/><circle cx="14.6" cy="14.6" r=".55"/><circle cx="18.0" cy="14.6" r=".55"/></svg></div>
   <div class="top"><span class="yr"><span class="n">2026 / 2027</span></span><img class="mini" src="assets/logo_warm.jpg" alt=""></div>
   <div class="ttl"><h1>البرمجة</h1><h2>والذكاء الاصطناعي</h2><div class="grade">الصف الثاني الثانوي <i></i> الترم الأول</div></div>
+  <div class="halo"></div>
   <div class="disc"><div class="amb"></div><svg class="ring" viewBox="0 0 136 136"><circle cx="68" cy="68" r="61" fill="none" stroke="rgba(29,26,23,.38)" stroke-width=".55" stroke-linecap="round" stroke-dasharray="2.2 2.6"/></svg></div>
-  <div class="ill robot"><svg viewBox="0 0 34 36"><g stroke="#1d1a17" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"><line x1="17" y1="3.6" x2="17" y2="8.5"/><circle cx="17" cy="2.6" r="1.9" fill="#f98e03"/><rect x="1.2" y="16" width="3.4" height="9" rx="1.7" fill="#1d1a17"/><rect x="29.4" y="16" width="3.4" height="9" rx="1.7" fill="#1d1a17"/><rect x="4.6" y="8.5" width="24.8" height="24" rx="6.5" fill="#fff"/><rect x="8.2" y="13" width="17.6" height="11" rx="3.8" fill="#1d1a17"/><path d="M13 28.2 Q17 30.6 21 28.2" fill="none"/></g><circle cx="13.2" cy="18.5" r="2.2" fill="#f98e03"/><circle cx="20.8" cy="18.5" r="2.2" fill="#f98e03"/></svg></div>
-  <div class="ill brk"><svg viewBox="0 0 26 26"><rect x="0.45" y="0.45" width="25.1" height="25.1" rx="5" fill="#fff" stroke="#1d1a17" stroke-width="0.9"/><g fill="none" stroke="#1d1a17" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 8.5 L4.8 13 L9 17.5"/><path d="M17 8.5 L21.2 13 L17 17.5"/></g><path d="M14.6 7.6 L11.4 18.4" stroke="#f98e03" stroke-width="1.8" stroke-linecap="round"/></svg></div>
-  <div class="ill chip"><svg viewBox="0 0 25 25"><path d="M8 1.2v3M8 20.8v3M1.2 8h3M20.8 8h3M12.5 1.2v3M12.5 20.8v3M1.2 12.5h3M20.8 12.5h3M17 1.2v3M17 20.8v3M1.2 17h3M20.8 17h3" stroke="#1d1a17" stroke-width="0.9" stroke-linecap="round"/><rect x="4.4" y="4.4" width="16.2" height="16.2" rx="3" fill="#f98e03" stroke="#1d1a17" stroke-width="0.9"/><text x="12.5" y="15.4" text-anchor="middle" font-family="CodeMono" font-size="7.2" fill="#1d1a17">AI</text></svg></div>
+  <div class="ill robot"><svg viewBox="0 0 34 36"><g stroke="#1d1a17" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"><line x1="17" y1="3.6" x2="17" y2="8.5"/><circle cx="17" cy="2.6" r="1.9" fill="#f98e03"/><rect x="1.2" y="16" width="3.4" height="9" rx="1.7" fill="#1d1a17"/><rect x="29.4" y="16" width="3.4" height="9" rx="1.7" fill="#1d1a17"/><rect x="4.6" y="8.5" width="24.8" height="24" rx="6.5" fill="#fff"/><rect x="8.2" y="13" width="17.6" height="11" rx="3.8" fill="#1d1a17"/><path d="M13 28.2 Q17 30.6 21 28.2" fill="none"/></g><circle cx="13.2" cy="18.5" r="2.2" fill="#f98e03"/><circle cx="20.8" cy="18.5" r="2.2" fill="#f98e03"/></svg></div><div class="spk s1"><svg viewBox="0 0 12 12" style="transform:rotate(0deg)"><g stroke="#f98e03" stroke-width="1.1" stroke-linecap="round"><path d="M2 7.5 L4.6 6.4"/><path d="M5.2 3.4 L6.6 1"/><path d="M8.2 5.2 L10.8 3.8"/></g></svg></div>
+  <div class="ill brk"><svg viewBox="0 0 34 26"><g fill="none" stroke="#1d1a17" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5 L2.5 13 L10 21"/><path d="M24 5 L31.5 13 L24 21"/></g><path d="M19.6 3.6 L14.4 22.4" stroke="#f98e03" stroke-width="2.6" stroke-linecap="round"/></svg></div>
+  <div class="ill chip"><svg viewBox="0 0 25 25"><path d="M8 1.2v3M8 20.8v3M1.2 8h3M20.8 8h3M12.5 1.2v3M12.5 20.8v3M1.2 12.5h3M20.8 12.5h3M17 1.2v3M17 20.8v3M1.2 17h3M20.8 17h3" stroke="#1d1a17" stroke-width="0.9" stroke-linecap="round"/><rect x="4.4" y="4.4" width="16.2" height="16.2" rx="3" fill="#f98e03" stroke="#1d1a17" stroke-width="0.9"/><text x="12.5" y="15.4" text-anchor="middle" font-family="CodeMono" font-size="7.2" fill="#1d1a17">AI</text></svg></div><div class="spk s3"><svg viewBox="0 0 12 12" style="transform:rotate(10deg)"><g stroke="#f98e03" stroke-width="1.1" stroke-linecap="round"><path d="M2 7.5 L4.6 6.4"/><path d="M5.2 3.4 L6.6 1"/><path d="M8.2 5.2 L10.8 3.8"/></g></svg></div>
+  <div class="spk s2"><svg viewBox="0 0 12 12" style="transform:rotate(-60deg)"><g stroke="#f98e03" stroke-width="1.1" stroke-linecap="round"><path d="M2 7.5 L4.6 6.4"/><path d="M5.2 3.4 L6.6 1"/><path d="M8.2 5.2 L10.8 3.8"/></g></svg></div>
   <div class="ph pf"><img class="sh" src="assets/teacher_shadow.png" alt=""><img class="me" src="assets/teacher_cut.png" alt=""></div>
   <div class="card"><div class="cbar"><b></b><b></b><b></b></div><pre><k>if</k> study:
     success = <v>True</v></pre></div>
-  <div class="name"><b>زياد السعدني</b><span>أستاذ البرمجة والذكاء الاصطناعي</span></div>
+  <div class="name"><b>زياد السعدني</b><div class="sub"><i></i><span>أستاذ البرمجة والذكاء الاصطناعي</span><i></i></div></div>
 </section>
 <section class="cv back">
-  <div class="wm">&lt;/&gt;</div>
+  <div class="dc c1"></div><div class="dc r2"></div><div class="dc r3"></div><div class="dt t1"><svg viewBox="0 0 19.0 15.6" fill="rgba(200,106,0,.30)"><circle cx="1.0" cy="1.0" r=".55"/><circle cx="4.4" cy="1.0" r=".55"/><circle cx="7.8" cy="1.0" r=".55"/><circle cx="11.2" cy="1.0" r=".55"/><circle cx="14.6" cy="1.0" r=".55"/><circle cx="18.0" cy="1.0" r=".55"/><circle cx="1.0" cy="4.4" r=".55"/><circle cx="4.4" cy="4.4" r=".55"/><circle cx="7.8" cy="4.4" r=".55"/><circle cx="11.2" cy="4.4" r=".55"/><circle cx="14.6" cy="4.4" r=".55"/><circle cx="18.0" cy="4.4" r=".55"/><circle cx="1.0" cy="7.8" r=".55"/><circle cx="4.4" cy="7.8" r=".55"/><circle cx="7.8" cy="7.8" r=".55"/><circle cx="11.2" cy="7.8" r=".55"/><circle cx="14.6" cy="7.8" r=".55"/><circle cx="18.0" cy="7.8" r=".55"/><circle cx="1.0" cy="11.2" r=".55"/><circle cx="4.4" cy="11.2" r=".55"/><circle cx="7.8" cy="11.2" r=".55"/><circle cx="11.2" cy="11.2" r=".55"/><circle cx="14.6" cy="11.2" r=".55"/><circle cx="18.0" cy="11.2" r=".55"/><circle cx="1.0" cy="14.6" r=".55"/><circle cx="4.4" cy="14.6" r=".55"/><circle cx="7.8" cy="14.6" r=".55"/><circle cx="11.2" cy="14.6" r=".55"/><circle cx="14.6" cy="14.6" r=".55"/><circle cx="18.0" cy="14.6" r=".55"/></svg></div><div class="dt t2"><svg viewBox="0 0 15.6 12.2" fill="rgba(200,106,0,.30)"><circle cx="1.0" cy="1.0" r=".55"/><circle cx="4.4" cy="1.0" r=".55"/><circle cx="7.8" cy="1.0" r=".55"/><circle cx="11.2" cy="1.0" r=".55"/><circle cx="14.6" cy="1.0" r=".55"/><circle cx="1.0" cy="4.4" r=".55"/><circle cx="4.4" cy="4.4" r=".55"/><circle cx="7.8" cy="4.4" r=".55"/><circle cx="11.2" cy="4.4" r=".55"/><circle cx="14.6" cy="4.4" r=".55"/><circle cx="1.0" cy="7.8" r=".55"/><circle cx="4.4" cy="7.8" r=".55"/><circle cx="7.8" cy="7.8" r=".55"/><circle cx="11.2" cy="7.8" r=".55"/><circle cx="14.6" cy="7.8" r=".55"/><circle cx="1.0" cy="11.2" r=".55"/><circle cx="4.4" cy="11.2" r=".55"/><circle cx="7.8" cy="11.2" r=".55"/><circle cx="11.2" cy="11.2" r=".55"/><circle cx="14.6" cy="11.2" r=".55"/></svg></div>
   <div class="quote"><p>الكود مجرد أداة…</p><p class="q2">القوة الحقيقية<br>في طريقة تفكيرك.</p></div>
+  <div class="halo h2"></div>
   <div class="disc d2"><div class="amb"></div><svg class="ring" viewBox="0 0 136 136"><circle cx="68" cy="68" r="61" fill="none" stroke="rgba(29,26,23,.38)" stroke-width=".55" stroke-linecap="round" stroke-dasharray="2.2 2.6"/></svg></div>
   <div class="ph pb"><img class="sh" src="assets/teacher_shadow.png" alt=""><img class="me" src="assets/teacher_cut.png" alt=""></div>
   <div class="qrs">

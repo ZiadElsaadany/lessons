@@ -72,10 +72,30 @@ def robot():
 
 
 def brackets():
-    w = LW
-    return (f'<svg viewBox="0 0 26 26"><rect x="{w/2}" y="{w/2}" width="{26-w}" height="{26-w}" rx="5" fill="#fff" stroke="{INK}" stroke-width="{w}"/>'
-            f'<g fill="none" stroke="{INK}" stroke-width="{2*w}" stroke-linecap="round" stroke-linejoin="round"><path d="M9 8.5 L4.8 13 L9 17.5"/><path d="M17 8.5 L21.2 13 L17 17.5"/></g>'
-            f'<path d="M14.6 7.6 L11.4 18.4" stroke="{AMBER}" stroke-width="{2*w}" stroke-linecap="round"/></svg>')
+    w = 2.6
+    return (f'<svg viewBox="0 0 34 26"><g fill="none" stroke="{INK}" stroke-width="{w}" stroke-linecap="round" stroke-linejoin="round">'
+            f'<path d="M10 5 L2.5 13 L10 21"/><path d="M24 5 L31.5 13 L24 21"/></g>'
+            f'<path d="M19.6 3.6 L14.4 22.4" stroke="{AMBER}" stroke-width="{w}" stroke-linecap="round"/></svg>')
+
+
+def sparks(rot=0):
+    """3 شرطات «لمعة» صغيرة جنب الرسمة."""
+    return (f'<svg viewBox="0 0 12 12" style="transform:rotate({rot}deg)"><g stroke="{AMBER}" stroke-width="1.1" stroke-linecap="round">'
+            f'<path d="M2 7.5 L4.6 6.4"/><path d="M5.2 3.4 L6.6 1"/><path d="M8.2 5.2 L10.8 3.8"/></g></svg>')
+
+
+def dots(cols, rows, gap=3.4):
+    pts = "".join(f'<circle cx="{1 + c * gap:.1f}" cy="{1 + r * gap:.1f}" r=".55"/>' for r in range(rows) for c in range(cols))
+    return f'<svg viewBox="0 0 {2 + (cols - 1) * gap:.1f} {2 + (rows - 1) * gap:.1f}" fill="rgba(200,106,0,.30)">{pts}</svg>'
+
+
+def deco(side):
+    """أشكال الخلفية الباهتة (دواير ومستطيلات مدوّرة) + مجموعات النقط."""
+    if side == "front":
+        return (f'<div class="dc c1"></div><div class="dc c2"></div><div class="dc r1"></div><div class="dc r2"></div><div class="dc r3"></div>'
+                f'<div class="dt t1">{dots(6, 5)}</div><div class="dt t2">{dots(5, 4)}</div><div class="dt t3">{dots(6, 5)}</div>')
+    return (f'<div class="dc c1"></div><div class="dc r2"></div><div class="dc r3"></div>'
+            f'<div class="dt t1">{dots(6, 5)}</div><div class="dt t2">{dots(5, 4)}</div>')
 
 
 def chip():
@@ -103,24 +123,27 @@ def photo(cls):
 
 def front():
     return f'''<section class="cv front">
-  <div class="wm">{{ }}</div>
+  {deco("front")}
   <div class="top"><span class="yr">{n(YEAR)}</span><img class="mini" src="assets/logo_warm.jpg" alt=""></div>
   <div class="ttl"><h1>البرمجة</h1><h2>والذكاء الاصطناعي</h2><div class="grade">الصف الثاني الثانوي <i></i> الترم الأول</div></div>
+  <div class="halo"></div>
   <div class="disc"><div class="amb"></div>{ring()}</div>
-  <div class="ill robot">{robot()}</div>
+  <div class="ill robot">{robot()}</div><div class="spk s1">{sparks(0)}</div>
   <div class="ill brk">{brackets()}</div>
-  <div class="ill chip">{chip()}</div>
+  <div class="ill chip">{chip()}</div><div class="spk s3">{sparks(10)}</div>
+  <div class="spk s2">{sparks(-60)}</div>
   {photo("pf")}
   <div class="card"><div class="cbar"><b></b><b></b><b></b></div><pre><k>if</k> study:
     success = <v>True</v></pre></div>
-  <div class="name"><b>زياد السعدني</b><span>أستاذ البرمجة والذكاء الاصطناعي</span></div>
+  <div class="name"><b>زياد السعدني</b><div class="sub"><i></i><span>أستاذ البرمجة والذكاء الاصطناعي</span><i></i></div></div>
 </section>'''
 
 
 def back():
     return f'''<section class="cv back">
-  <div class="wm">&lt;/&gt;</div>
+  {deco("back")}
   <div class="quote"><p>الكود مجرد أداة…</p><p class="q2">القوة الحقيقية<br>في طريقة تفكيرك.</p></div>
+  <div class="halo h2"></div>
   <div class="disc d2"><div class="amb"></div>{ring()}</div>
   {photo("pb")}
   <div class="qrs">
@@ -151,23 +174,38 @@ html,body{margin:0;padding:0}
 body{background:#bdbdbd;padding:14pt 0;font-family:'CairoX','Baloo Bhaijaan 2';direction:rtl}
 @media print{body{background:#fff;padding:0}}
 .cv{position:relative;width:216mm;height:303mm;margin:0 auto 14pt auto;overflow:hidden;color:INK;break-after:page;page-break-after:always;
-  background:radial-gradient(70% 45% at 50% 62%,#ffe9cc 0%,PAPER 70%)}
+  background:radial-gradient(65% 42% at 50% 60%,#fff2df 0%,rgba(255,242,223,0) 100%),linear-gradient(180deg,#ffe8cb 0%,PAPER 60%,#ffdcb2 100%)}
 .cv:last-child{break-after:auto;page-break-after:auto}
 @media print{.cv{margin:0}}
 .n{direction:ltr;unicode-bidi:isolate}
-/* علامة مائية هادية: مابتنافسش المحتوى */
-.wm{position:absolute;left:-10mm;top:104mm;font-family:'CodeMono';font-size:330pt;line-height:1;color:WM;direction:ltr;letter-spacing:-20pt;white-space:nowrap}
-.back .wm{left:auto;right:-20mm;top:150mm;font-size:300pt}
+/* أشكال الخلفية: باهتة جدًا ومن الأطراف بس عشان ماتنافسش المحتوى */
+.dc{position:absolute;pointer-events:none}
+.front .c1{left:-46mm;top:30mm;width:78mm;height:78mm;border-radius:50%;background:rgba(249,142,3,.08)}
+.front .c2{right:-34mm;top:84mm;width:70mm;height:70mm;border-radius:50%;border:.5mm solid rgba(200,106,0,.16)}
+.front .r1{left:-20mm;top:112mm;width:62mm;height:88mm;border-radius:16mm;background:rgba(249,142,3,.07)}
+.front .r2{right:-16mm;top:156mm;width:44mm;height:60mm;border-radius:13mm;background:rgba(249,142,3,.07)}
+.front .r3{left:-14mm;bottom:-18mm;width:58mm;height:62mm;border-radius:14mm;background:rgba(249,142,3,.07)}
+.back .c1{right:-40mm;top:-30mm;width:90mm;height:90mm;border-radius:50%;background:rgba(249,142,3,.08)}
+.back .r2{left:-18mm;top:96mm;width:46mm;height:64mm;border-radius:13mm;background:rgba(249,142,3,.07)}
+.back .r3{left:-12mm;bottom:-22mm;width:70mm;height:60mm;border-radius:14mm;background:rgba(249,142,3,.06)}
+.dt{position:absolute}.dt svg{width:100%;height:100%;display:block}
+.front .t1{right:9mm;top:58mm;width:19mm;height:15.6mm}
+.front .t2{left:7mm;top:104mm;width:15.6mm;height:12.2mm}
+.front .t3{right:9mm;top:246mm;width:19mm;height:15.6mm}
+.back .t1{right:12mm;top:110mm;width:19mm;height:15.6mm}
+.back .t2{left:9mm;top:20mm;width:15.6mm;height:12.2mm}
 /* ---- الوش ---- */
 .top{position:absolute;top:14mm;left:15mm;right:15mm;height:21mm;display:flex;align-items:center;justify-content:space-between;direction:ltr}
 .mini{width:21mm;height:21mm;border-radius:50%;border:1.1mm solid #fff;outline:LWmm solid INK;display:block}
-.yr{font-family:'CodeMono';font-size:13.5pt;color:#fff;background:INK;border-radius:5mm;height:9mm;padding:0 5mm;display:flex;align-items:center;letter-spacing:.5pt}
+.yr{font-weight:700;font-size:15pt;color:#fff;background:INK;border-radius:5mm;height:9.5mm;padding:0 5.5mm 1mm 5.5mm;display:flex;align-items:center;word-spacing:2pt}
 .ttl{position:absolute;top:34mm;left:0;right:0;text-align:center}
-.ttl h1{margin:0;font-weight:900;font-size:108pt;line-height:1;color:INK}
-.ttl h2{margin:12pt 0 0 0;font-weight:900;font-size:46pt;line-height:1.1;color:DEEP}
+.ttl h1{margin:0;font-weight:900;font-size:108pt;line-height:1;color:INK;text-shadow:0 .9mm 0 rgba(249,142,3,.22),0 1.8mm 0 rgba(249,142,3,.12)}
+.ttl h2{margin:12pt 0 0 0;font-weight:900;font-size:46pt;line-height:1.1;color:DEEP;text-shadow:0 .7mm 0 rgba(130,60,0,.22),0 1.4mm 0 rgba(249,142,3,.15)}
 .grade{display:inline-flex;align-items:center;height:11mm;margin-top:15pt;background:INK;color:#fff;border-radius:5.5mm;padding:0 7mm 1.2mm 7mm;font-weight:700;font-size:18pt}
 .grade i{display:inline-block;width:2.2mm;height:2.2mm;border-radius:50%;background:AMBER;margin:1.2mm 3.5mm 0 3.5mm}
 /* الدايرة: تدرّج برتقالي خفيف + نور هادي ورا الراس + خط متقطّع منتظم */
+.halo{position:absolute;left:49mm;top:120mm;width:160mm;height:160mm;border-radius:50%;background:radial-gradient(closest-side,rgba(255,170,60,.42) 0%,rgba(255,170,60,.42) 80%,rgba(255,170,60,0) 100%)}
+.halo.h2{left:auto;right:-42mm;top:138mm;width:174mm;height:174mm}
 .disc{position:absolute;left:61mm;top:132mm;width:136mm;height:136mm;border-radius:50%;
   background:radial-gradient(circle at 38% 30%,#ffa83d 0%,AMBER 52%,#ea7d00 100%)}
 .disc .amb{position:absolute;left:22%;top:4%;width:60%;height:50%;border-radius:50%;background:radial-gradient(closest-side,rgba(255,236,200,.45),rgba(255,236,200,0))}
@@ -178,23 +216,27 @@ PHOTO_CSS
 /* الرسومات: نفس سُمك الخط ونفس الأركان، ومسافة حوالين كل واحدة */
 .ill svg{width:100%;height:100%;display:block}
 .robot{position:absolute;left:167mm;top:127mm;width:31mm;height:33mm;transform:rotate(8deg)}
-.brk{position:absolute;left:19mm;top:140mm;width:25mm;height:25mm;transform:rotate(-7deg)}
+.brk{position:absolute;left:16mm;top:140mm;width:32mm;height:24.5mm;transform:rotate(-6deg)}
+.spk{position:absolute;width:10mm;height:10mm}.spk svg{width:100%;height:100%;display:block}
+.s1{left:196mm;top:122mm}.s2{left:44mm;top:169mm}.s3{left:194mm;top:208mm}
 .chip{position:absolute;left:177mm;top:217mm;width:22mm;height:22mm;transform:rotate(-8deg)}
-.card{position:absolute;left:13mm;top:181mm;width:57mm;background:#fff;border:LWmm solid INK;border-radius:3mm;overflow:hidden;transform:rotate(-4deg);direction:ltr}
+.card{position:absolute;left:13mm;top:181mm;width:57mm;background:#fff;border:LWmm solid INK;border-radius:3mm;overflow:hidden;transform:rotate(-4deg);direction:ltr;box-shadow:1.3mm 1.5mm 0 rgba(29,26,23,.16)}
 .cbar{height:6mm;background:INK;display:flex;align-items:center;gap:1.6mm;padding:0 2.6mm}
 .cbar b{width:2.2mm;height:2.2mm;border-radius:50%;background:#fff}.cbar b:first-child{background:AMBER}
 .card pre{margin:0;padding:3.6mm 4mm 4mm 4mm;font-family:'CodeMono';font-size:12.5pt;line-height:1.5;color:INK}
 .card k{color:DEEP}.card v{color:GREEN}
 .name{position:absolute;left:0;right:0;bottom:14mm;text-align:center;line-height:1}
-.name b{display:block;font-weight:900;font-size:54pt;line-height:1.15;color:INK}
-.name span{display:inline-flex;align-items:center;height:10mm;margin-top:3.5mm;padding:0 6mm 1mm 6mm;font-weight:700;font-size:16pt;color:#fff;background:DEEP;border-radius:5mm}
+.name b{display:block;font-weight:900;font-size:54pt;line-height:1.15;color:INK;text-shadow:0 .8mm 0 rgba(249,142,3,.25)}
+.name .sub{display:flex;align-items:center;justify-content:center;gap:4mm;margin-top:3.5mm}
+.name .sub i{width:26mm;height:.7mm;border-radius:.35mm;background:AMBER}
+.name span{display:inline-flex;align-items:center;height:10mm;padding:0 6mm 1mm 6mm;font-weight:700;font-size:16pt;color:#fff;background:DEEP;border-radius:5mm}
 /* ---- الضهر ---- */
 .quote{position:absolute;top:26mm;left:15mm;right:15mm;text-align:center;line-height:1.15}
-.quote p{margin:0;font-weight:900;font-size:42pt;color:INK}
-.quote .q2{margin-top:10pt;font-size:50pt;color:DEEP}
+.quote p{margin:0;font-weight:900;font-size:42pt;color:INK;text-shadow:0 .8mm 0 rgba(249,142,3,.22)}
+.quote .q2{margin-top:10pt;font-size:50pt;color:DEEP;text-shadow:0 .7mm 0 rgba(130,60,0,.22),0 1.4mm 0 rgba(249,142,3,.15)}
 .disc.d2{left:auto;right:-30mm;top:150mm;width:150mm;height:150mm}
 .qrs{position:absolute;left:15mm;top:128mm;width:70mm;display:flex;flex-direction:column;align-items:center;gap:7mm}
-.qc{display:flex;flex-direction:column;align-items:center;gap:1.5mm;background:#fff;border:LWmm solid INK;border-radius:4mm;padding:3mm 3mm 3.5mm 3mm}
+.qc{display:flex;flex-direction:column;align-items:center;gap:1.5mm;background:#fff;border:LWmm solid INK;border-radius:4mm;padding:3mm 3mm 3.5mm 3mm;box-shadow:1.3mm 1.5mm 0 rgba(29,26,23,.14)}
 .qc .qr{width:40mm;height:40mm}
 .qc .qr img{width:100%;height:100%;display:block}
 .qc b{font-weight:900;font-size:17pt;color:INK;line-height:1.2}
