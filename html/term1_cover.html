@@ -8,47 +8,45 @@
 @page{size:216mm 303mm;margin:0}
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
-body{background:#d8d4cc;padding:14pt 0;font-family:'Baloo Bhaijaan 2';direction:rtl}
+body{background:#cfc8bc;padding:14pt 0;font-family:'Baloo Bhaijaan 2';direction:rtl}
 @media print{body{background:#fff;padding:0}}
-.cv{position:relative;width:216mm;height:303mm;margin:0 auto 14pt auto;overflow:hidden;color:#fbf3e4;
-  background:radial-gradient(85% 50% at 50% 34%,#3a3125 0%,#2e271e 55%,#231d16 100%);break-after:page;page-break-after:always}
+.cv{position:relative;width:216mm;height:303mm;margin:0 auto 14pt auto;overflow:hidden;color:#2b2117;
+  background:radial-gradient(90% 60% at 50% 30%,#fffdf8 0%,#fbf5ea 55%,#f3e8d6 100%);break-after:page;page-break-after:always}
 .cv:last-child{break-after:auto;page-break-after:auto}
 @media print{.cv{margin:0}}
 .n{direction:ltr;unicode-bidi:isolate}
 .circ{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.glow{position:absolute;left:50%;top:22mm;width:150mm;height:150mm;transform:translateX(-50%);border-radius:50%;
-  background:radial-gradient(closest-side,rgba(249,142,3,.13),rgba(249,142,3,0));pointer-events:none}
 /* ---- الوش ---- */
-.logo{position:absolute;top:30mm;left:50%;transform:translateX(-50%);width:120mm;height:120mm}
-.logo img{width:100%;height:100%;display:block;-webkit-mask-image:radial-gradient(closest-side,#000 82%,transparent 100%);mask-image:radial-gradient(closest-side,#000 82%,transparent 100%)}
-.ttl{position:absolute;top:160mm;left:0;right:0;text-align:center;line-height:1}
-.ttl h1{margin:0;font-size:68pt;font-weight:800;line-height:1.05;color:#fbf3e4}
-.ttl h2{margin:4pt 0 0 0;font-size:34pt;font-weight:800;line-height:1.2;color:#f98e03}
-.bar{position:absolute;top:211mm;left:50%;width:34mm;height:1.2mm;margin-left:-17mm;border-radius:1mm;background:#f98e03}
-.sub{position:absolute;top:219mm;left:0;right:0;text-align:center;font-size:17pt;font-weight:700;color:#e9dcc6;line-height:1}
-.sub i{display:inline-block;width:5pt;height:5pt;border-radius:50%;background:#f98e03;margin:0 9pt;vertical-align:middle}
-.who{position:absolute;bottom:22mm;left:0;right:0;text-align:center;line-height:1.25}
-.who b{display:block;font-size:24pt;font-weight:800;color:#fbf3e4}
-.who span{font-size:12pt;font-weight:700;color:#bfae92;letter-spacing:.5pt}
+.logo{position:absolute;top:22mm;left:50%;transform:translateX(-50%);width:98mm;height:98mm;border-radius:50%;overflow:hidden;
+  background:#2e271e;box-shadow:0 0 0 2.2mm #fff,0 0 0 3mm rgba(249,142,3,.55),0 4mm 10mm rgba(80,50,10,.25)}
+.logo img{width:100%;height:100%;display:block}
+.ttl{position:absolute;top:132mm;left:0;right:0;text-align:center;line-height:1}
+.ttl h1{margin:0;font-size:84pt;font-weight:800;line-height:1.05;color:#2b2117}
+.ttl h2{margin:6pt 0 0 0;font-size:46pt;font-weight:800;line-height:1.2;color:#c86a00}
+.bar{position:absolute;top:198mm;left:50%;width:40mm;height:1.6mm;margin-left:-20mm;border-radius:1mm;background:#f98e03}
+.sub{position:absolute;top:208mm;left:0;right:0;text-align:center;font-size:26pt;font-weight:800;color:#2b2117;line-height:1.1}
+.sub i{display:inline-block;width:8pt;height:8pt;border-radius:50%;background:#f98e03;margin:0 12pt;vertical-align:middle}
+.who{position:absolute;bottom:20mm;left:0;right:0;text-align:center;line-height:1.25}
+.who b{display:block;font-size:34pt;font-weight:800;color:#2b2117}
+.who span{font-size:17pt;font-weight:800;color:#c86a00;letter-spacing:.5pt}
 /* ---- الضهر ---- */
-.quote{position:absolute;top:92mm;left:26mm;right:26mm;text-align:center}
-.quote .qmk{display:block;font-size:64pt;line-height:.8;height:30pt;color:#f98e03;font-weight:800}
-.quote p{margin:0;font-size:26pt;line-height:1.5;font-weight:700;color:#fbf3e4}
-.quote b{color:#f98e03}
-.qrs{position:absolute;top:178mm;left:0;right:0;display:flex;justify-content:center;gap:22mm}
-.qb{display:flex;flex-direction:column;align-items:center;gap:5pt}
-.qb .qr{width:32mm;height:32mm;background:#fff;border-radius:8pt;padding:2.6mm}
+.quote{position:absolute;top:70mm;left:20mm;right:20mm;text-align:center}
+.quote .qmk{display:block;font-size:80pt;line-height:.8;height:38pt;color:#f98e03;font-weight:800}
+.quote p{margin:0;font-size:34pt;line-height:1.5;font-weight:800;color:#2b2117}
+.quote b{color:#c86a00}
+.qrs{position:absolute;top:160mm;left:0;right:0;display:flex;justify-content:center;gap:24mm}
+.qb{display:flex;flex-direction:column;align-items:center;gap:7pt}
+.qb .qr{width:42mm;height:42mm;background:#fff;border-radius:10pt;padding:3mm;border:1.2pt solid rgba(249,142,3,.6);box-shadow:0 2mm 6mm rgba(80,50,10,.12)}
 .qb .qr img{width:100%;height:100%;display:block}
-.qb b{font-size:12pt;font-weight:800;color:#f98e03;line-height:1}
-.foot{position:absolute;bottom:22mm;left:0;right:0;text-align:center;line-height:1.35}
-.foot b{display:block;font-size:17pt;font-weight:800;color:#fbf3e4}
-.foot span{font-size:12pt;font-weight:700;color:#bfae92}
+.qb b{font-size:18pt;font-weight:800;color:#c86a00;line-height:1}
+.foot{position:absolute;bottom:20mm;left:0;right:0;text-align:center;line-height:1.3}
+.foot b{display:block;font-size:28pt;font-weight:800;color:#2b2117}
+.foot span{font-size:19pt;font-weight:800;color:#c86a00}
 </style>
 </head>
 <body>
 <section class="cv front">
   <svg class="circ" viewBox="0 0 216 303" preserveAspectRatio="none"><path d="M197.6 0.0 L197.6 15.1 L190.6 22.0 L190.6 27.5" stroke="#f98e03" stroke-opacity="0.11" stroke-width=".35" fill="none"/><circle cx="190.6" cy="27.5" r=".9" fill="#f98e03" fill-opacity="0.26"/><path d="M216.0 18.8 L198.5 18.8 L190.1 10.4 L184.3 10.4" stroke="#f98e03" stroke-opacity="0.11" stroke-width=".35" fill="none"/><circle cx="184.3" cy="10.4" r=".9" fill="#f98e03" fill-opacity="0.26"/><path d="M0.0 279.9 L21.9 279.9 L30.5 271.3 L41.9 271.3" stroke="#f98e03" stroke-opacity="0.16" stroke-width=".35" fill="none"/><circle cx="41.9" cy="271.3" r=".9" fill="#f98e03" fill-opacity="0.31"/><path d="M216.0 21.4 L189.1 21.4 L180.8 13.0 L172.6 13.0" stroke="#f98e03" stroke-opacity="0.18" stroke-width=".35" fill="none"/><circle cx="172.6" cy="13.0" r=".9" fill="#f98e03" fill-opacity="0.33"/><path d="M216.0 37.6 L195.4 37.6 L187.1 29.2 L180.0 29.2" stroke="#f98e03" stroke-opacity="0.11" stroke-width=".35" fill="none"/><circle cx="180.0" cy="29.2" r=".9" fill="#f98e03" fill-opacity="0.26"/><path d="M0.0 185.7 L18.9 185.7 L26.6 193.4 L37.5 193.4" stroke="#f98e03" stroke-opacity="0.23" stroke-width=".35" fill="none"/><circle cx="37.5" cy="193.4" r=".9" fill="#f98e03" fill-opacity="0.38"/><path d="M68.0 0.0 L68.0 22.3 L63.3 27.0 L63.3 38.2" stroke="#f98e03" stroke-opacity="0.14" stroke-width=".35" fill="none"/><circle cx="63.3" cy="38.2" r=".9" fill="#f98e03" fill-opacity="0.29"/><path d="M183.0 303.0 L183.0 281.9 L178.1 276.9 L178.1 269.3" stroke="#f98e03" stroke-opacity="0.16" stroke-width=".35" fill="none"/><circle cx="178.1" cy="269.3" r=".9" fill="#f98e03" fill-opacity="0.31"/><path d="M38.4 0.0 L38.4 16.8 L28.3 26.9 L28.3 32.3" stroke="#f98e03" stroke-opacity="0.18" stroke-width=".35" fill="none"/><circle cx="28.3" cy="32.3" r=".9" fill="#f98e03" fill-opacity="0.33"/><path d="M76.0 0.0 L76.0 14.3 L80.6 18.9 L80.6 28.3" stroke="#f98e03" stroke-opacity="0.11" stroke-width=".35" fill="none"/><circle cx="80.6" cy="28.3" r=".9" fill="#f98e03" fill-opacity="0.26"/><path d="M102.8 0.0 L102.8 20.0 L112.0 29.1 L112.0 34.7" stroke="#f98e03" stroke-opacity="0.24" stroke-width=".35" fill="none"/><circle cx="112.0" cy="34.7" r=".9" fill="#f98e03" fill-opacity="0.39"/><path d="M64.9 303.0 L64.9 288.1 L53.4 276.5 L53.4 265.5" stroke="#f98e03" stroke-opacity="0.15" stroke-width=".35" fill="none"/><circle cx="53.4" cy="265.5" r=".9" fill="#f98e03" fill-opacity="0.30"/><path d="M0.0 149.7 L12.8 149.7 L20.0 142.5 L28.1 142.5" stroke="#f98e03" stroke-opacity="0.23" stroke-width=".35" fill="none"/><circle cx="28.1" cy="142.5" r=".9" fill="#f98e03" fill-opacity="0.38"/><path d="M24.1 303.0 L24.1 286.9 L13.6 276.4 L13.6 266.4" stroke="#f98e03" stroke-opacity="0.22" stroke-width=".35" fill="none"/><circle cx="13.6" cy="266.4" r=".9" fill="#f98e03" fill-opacity="0.37"/><path d="M149.3 0.0 L149.3 25.8 L160.9 37.4 L160.9 48.6" stroke="#f98e03" stroke-opacity="0.12" stroke-width=".35" fill="none"/><circle cx="160.9" cy="48.6" r=".9" fill="#f98e03" fill-opacity="0.27"/><path d="M216.0 51.4 L193.5 51.4 L187.4 45.3 L182.3 45.3" stroke="#f98e03" stroke-opacity="0.10" stroke-width=".35" fill="none"/><circle cx="182.3" cy="45.3" r=".9" fill="#f98e03" fill-opacity="0.25"/><path d="M114.9 303.0 L114.9 284.0 L105.4 274.5 L105.4 266.6" stroke="#f98e03" stroke-opacity="0.17" stroke-width=".35" fill="none"/><circle cx="105.4" cy="266.6" r=".9" fill="#f98e03" fill-opacity="0.32"/><path d="M0.0 139.1 L27.2 139.1 L34.3 146.2 L49.8 146.2" stroke="#f98e03" stroke-opacity="0.16" stroke-width=".35" fill="none"/><circle cx="49.8" cy="146.2" r=".9" fill="#f98e03" fill-opacity="0.31"/><path d="M134.9 303.0 L134.9 293.9 L127.3 286.4 L127.3 280.7" stroke="#f98e03" stroke-opacity="0.12" stroke-width=".35" fill="none"/><circle cx="127.3" cy="280.7" r=".9" fill="#f98e03" fill-opacity="0.27"/><path d="M0.0 37.4 L20.5 37.4 L29.4 46.3 L40.3 46.3" stroke="#f98e03" stroke-opacity="0.11" stroke-width=".35" fill="none"/><circle cx="40.3" cy="46.3" r=".9" fill="#f98e03" fill-opacity="0.26"/><path d="M216.0 184.2 L204.7 184.2 L195.9 193.1 L188.1 193.1" stroke="#f98e03" stroke-opacity="0.17" stroke-width=".35" fill="none"/><circle cx="188.1" cy="193.1" r=".9" fill="#f98e03" fill-opacity="0.32"/><path d="M0.0 251.6 L29.8 251.6 L36.3 258.1 L46.5 258.1" stroke="#f98e03" stroke-opacity="0.12" stroke-width=".35" fill="none"/><circle cx="46.5" cy="258.1" r=".9" fill="#f98e03" fill-opacity="0.27"/></svg>
-  <div class="glow"></div>
   <div class="logo"><img src="assets/logo_warm.jpg" alt=""></div>
   <div class="ttl"><h1>البرمجة</h1><h2>والذكاء الاصطناعي</h2></div>
   <div class="bar"></div>

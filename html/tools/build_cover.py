@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""الغلاف الخارجي لمذكرة الترم الأول (وش + ضهر) — بسيط: كلام قليل، أسود دافي + برتقالي (من غير أزرق).
+"""الغلاف الخارجي لمذكرة الترم الأول (وش + ضهر) — بسيط: خلفية فاتحة، كلام قليل وكبير، برتقالي (من غير أزرق).
 
     python3 tools/build_cover.py        ← يكتب html/term1_cover.html
 
@@ -15,8 +15,10 @@ ASSETS = os.path.join(os.path.dirname(TOOLS), "assets")
 OUT = os.path.join(os.path.dirname(TOOLS), "term1_cover.html")
 W, H = 216, 303                       # مم
 YEAR = "2026 / 2027"
-BG = "#2e271e"                         # نفس خلفية اللوجو بعد التلوين — اللوجو بيدوب في الغلاف من غير برواز
+BG = "#2e271e"                         # خلفية اللوجو بعد التلوين — اللوجو بيتحط في دايرة غامقة على الغلاف الفاتح
 AMBER = "#f98e03"
+INK = "#2b2117"                        # كلام الغلاف (بني غامق قريب من الأسود)
+DEEP = "#c86a00"                       # برتقالي أغمق للكلام على الخلفية الفاتحة (أوضح من AMBER)
 
 
 def warm_logo():
@@ -80,7 +82,6 @@ def n(t): return f'<span class="n">{t}</span>'
 def front():
     return f'''<section class="cv front">
   {circuits(7)}
-  <div class="glow"></div>
   <div class="logo"><img src="assets/logo_warm.jpg" alt=""></div>
   <div class="ttl"><h1>البرمجة</h1><h2>والذكاء الاصطناعي</h2></div>
   <div class="bar"></div>
@@ -106,42 +107,41 @@ CSS = r"""
 @page{size:216mm 303mm;margin:0}
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
-body{background:#d8d4cc;padding:14pt 0;font-family:'Baloo Bhaijaan 2';direction:rtl}
+body{background:#cfc8bc;padding:14pt 0;font-family:'Baloo Bhaijaan 2';direction:rtl}
 @media print{body{background:#fff;padding:0}}
-.cv{position:relative;width:216mm;height:303mm;margin:0 auto 14pt auto;overflow:hidden;color:#fbf3e4;
-  background:radial-gradient(85% 50% at 50% 34%,#3a3125 0%,BG 55%,#231d16 100%);break-after:page;page-break-after:always}
+.cv{position:relative;width:216mm;height:303mm;margin:0 auto 14pt auto;overflow:hidden;color:INK;
+  background:radial-gradient(90% 60% at 50% 30%,#fffdf8 0%,#fbf5ea 55%,#f3e8d6 100%);break-after:page;page-break-after:always}
 .cv:last-child{break-after:auto;page-break-after:auto}
 @media print{.cv{margin:0}}
 .n{direction:ltr;unicode-bidi:isolate}
 .circ{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.glow{position:absolute;left:50%;top:22mm;width:150mm;height:150mm;transform:translateX(-50%);border-radius:50%;
-  background:radial-gradient(closest-side,rgba(249,142,3,.13),rgba(249,142,3,0));pointer-events:none}
 /* ---- الوش ---- */
-.logo{position:absolute;top:30mm;left:50%;transform:translateX(-50%);width:120mm;height:120mm}
-.logo img{width:100%;height:100%;display:block;-webkit-mask-image:radial-gradient(closest-side,#000 82%,transparent 100%);mask-image:radial-gradient(closest-side,#000 82%,transparent 100%)}
-.ttl{position:absolute;top:160mm;left:0;right:0;text-align:center;line-height:1}
-.ttl h1{margin:0;font-size:68pt;font-weight:800;line-height:1.05;color:#fbf3e4}
-.ttl h2{margin:4pt 0 0 0;font-size:34pt;font-weight:800;line-height:1.2;color:AMBER}
-.bar{position:absolute;top:211mm;left:50%;width:34mm;height:1.2mm;margin-left:-17mm;border-radius:1mm;background:AMBER}
-.sub{position:absolute;top:219mm;left:0;right:0;text-align:center;font-size:17pt;font-weight:700;color:#e9dcc6;line-height:1}
-.sub i{display:inline-block;width:5pt;height:5pt;border-radius:50%;background:AMBER;margin:0 9pt;vertical-align:middle}
-.who{position:absolute;bottom:22mm;left:0;right:0;text-align:center;line-height:1.25}
-.who b{display:block;font-size:24pt;font-weight:800;color:#fbf3e4}
-.who span{font-size:12pt;font-weight:700;color:#bfae92;letter-spacing:.5pt}
+.logo{position:absolute;top:22mm;left:50%;transform:translateX(-50%);width:98mm;height:98mm;border-radius:50%;overflow:hidden;
+  background:BG;box-shadow:0 0 0 2.2mm #fff,0 0 0 3mm rgba(249,142,3,.55),0 4mm 10mm rgba(80,50,10,.25)}
+.logo img{width:100%;height:100%;display:block}
+.ttl{position:absolute;top:132mm;left:0;right:0;text-align:center;line-height:1}
+.ttl h1{margin:0;font-size:84pt;font-weight:800;line-height:1.05;color:INK}
+.ttl h2{margin:6pt 0 0 0;font-size:46pt;font-weight:800;line-height:1.2;color:DEEP}
+.bar{position:absolute;top:198mm;left:50%;width:40mm;height:1.6mm;margin-left:-20mm;border-radius:1mm;background:AMBER}
+.sub{position:absolute;top:208mm;left:0;right:0;text-align:center;font-size:26pt;font-weight:800;color:INK;line-height:1.1}
+.sub i{display:inline-block;width:8pt;height:8pt;border-radius:50%;background:AMBER;margin:0 12pt;vertical-align:middle}
+.who{position:absolute;bottom:20mm;left:0;right:0;text-align:center;line-height:1.25}
+.who b{display:block;font-size:34pt;font-weight:800;color:INK}
+.who span{font-size:17pt;font-weight:800;color:DEEP;letter-spacing:.5pt}
 /* ---- الضهر ---- */
-.quote{position:absolute;top:92mm;left:26mm;right:26mm;text-align:center}
-.quote .qmk{display:block;font-size:64pt;line-height:.8;height:30pt;color:AMBER;font-weight:800}
-.quote p{margin:0;font-size:26pt;line-height:1.5;font-weight:700;color:#fbf3e4}
-.quote b{color:AMBER}
-.qrs{position:absolute;top:178mm;left:0;right:0;display:flex;justify-content:center;gap:22mm}
-.qb{display:flex;flex-direction:column;align-items:center;gap:5pt}
-.qb .qr{width:32mm;height:32mm;background:#fff;border-radius:8pt;padding:2.6mm}
+.quote{position:absolute;top:70mm;left:20mm;right:20mm;text-align:center}
+.quote .qmk{display:block;font-size:80pt;line-height:.8;height:38pt;color:AMBER;font-weight:800}
+.quote p{margin:0;font-size:34pt;line-height:1.5;font-weight:800;color:INK}
+.quote b{color:DEEP}
+.qrs{position:absolute;top:160mm;left:0;right:0;display:flex;justify-content:center;gap:24mm}
+.qb{display:flex;flex-direction:column;align-items:center;gap:7pt}
+.qb .qr{width:42mm;height:42mm;background:#fff;border-radius:10pt;padding:3mm;border:1.2pt solid rgba(249,142,3,.6);box-shadow:0 2mm 6mm rgba(80,50,10,.12)}
 .qb .qr img{width:100%;height:100%;display:block}
-.qb b{font-size:12pt;font-weight:800;color:AMBER;line-height:1}
-.foot{position:absolute;bottom:22mm;left:0;right:0;text-align:center;line-height:1.35}
-.foot b{display:block;font-size:17pt;font-weight:800;color:#fbf3e4}
-.foot span{font-size:12pt;font-weight:700;color:#bfae92}
-""".replace("BG", BG).replace("AMBER", AMBER)
+.qb b{font-size:18pt;font-weight:800;color:DEEP;line-height:1}
+.foot{position:absolute;bottom:20mm;left:0;right:0;text-align:center;line-height:1.3}
+.foot b{display:block;font-size:28pt;font-weight:800;color:INK}
+.foot span{font-size:19pt;font-weight:800;color:DEEP}
+""".replace("BG", BG).replace("AMBER", AMBER).replace("INK", INK).replace("DEEP", DEEP)
 
 
 def main():
