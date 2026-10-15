@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """الغلاف الخارجي لمذكرة الترم الأول (وش + ضهر) — على ستايل أغلفة مذكرات المدرسين: صورة المدرس (assets/teacher_cut.png) قدام دايرة برتقالي، بيشاور على كارت كود، وحواليه روبوت/أقواس/شريحة AI؛ عنوان ضخم فوق واسم ضخم تحت. خلفية برتقالي فاتح، من غير أزرق.
-- صورة المدرس وضلّها: tools/teacher_photo.py (حواف نضيفة + طبعة <AI/> على التيشيرت + fade تحت).
+- صورة المدرس: assets/teacher_hero.png من tools/hero_photo.py (المدرس + الأيقونات التلاتية الأبعاد حواليه).
+  (tools/teacher_photo.py بيعمل نسخة الصورة الحقيقية teacher_cut.png لو احتجناها.)
 - خط Cairo: نسخ ثابتة fonts/Cairo-Black.ttf و Cairo-Bold.ttf (من Cairo.ttf المتغيّر) عشان يتطبع TrueType.
 
     python3 tools/build_cover.py        ← يكتب html/term1_cover.html
@@ -60,30 +61,6 @@ def n(t): return f'<span class="n">{t}</span>'
 LW = 0.9                               # سُمك الخط الموحّد لكل الرسومات (مم) — كل الـSVG هنا وحدتها مم
 
 
-def robot():
-    w = LW
-    return (f'<svg viewBox="0 0 34 36"><g stroke="{INK}" stroke-width="{w}" stroke-linecap="round" stroke-linejoin="round">'
-            f'<line x1="17" y1="3.6" x2="17" y2="8.5"/><circle cx="17" cy="2.6" r="1.9" fill="{AMBER}"/>'
-            f'<rect x="1.2" y="16" width="3.4" height="9" rx="1.7" fill="{INK}"/><rect x="29.4" y="16" width="3.4" height="9" rx="1.7" fill="{INK}"/>'
-            f'<rect x="4.6" y="8.5" width="24.8" height="24" rx="6.5" fill="#fff"/>'
-            f'<rect x="8.2" y="13" width="17.6" height="11" rx="3.8" fill="{INK}"/>'
-            f'<path d="M13 28.2 Q17 30.6 21 28.2" fill="none"/></g>'
-            f'<circle cx="13.2" cy="18.5" r="2.2" fill="{AMBER}"/><circle cx="20.8" cy="18.5" r="2.2" fill="{AMBER}"/></svg>')
-
-
-def brackets():
-    w = 2.6
-    return (f'<svg viewBox="0 0 34 26"><g fill="none" stroke="{INK}" stroke-width="{w}" stroke-linecap="round" stroke-linejoin="round">'
-            f'<path d="M10 5 L2.5 13 L10 21"/><path d="M24 5 L31.5 13 L24 21"/></g>'
-            f'<path d="M19.6 3.6 L14.4 22.4" stroke="{AMBER}" stroke-width="{w}" stroke-linecap="round"/></svg>')
-
-
-def sparks(rot=0):
-    """3 شرطات «لمعة» صغيرة جنب الرسمة."""
-    return (f'<svg viewBox="0 0 12 12" style="transform:rotate({rot}deg)"><g stroke="{AMBER}" stroke-width="1.1" stroke-linecap="round">'
-            f'<path d="M2 7.5 L4.6 6.4"/><path d="M5.2 3.4 L6.6 1"/><path d="M8.2 5.2 L10.8 3.8"/></g></svg>')
-
-
 def dots(cols, rows, gap=3.4):
     pts = "".join(f'<circle cx="{1 + c * gap:.1f}" cy="{1 + r * gap:.1f}" r=".55"/>' for r in range(rows) for c in range(cols))
     return f'<svg viewBox="0 0 {2 + (cols - 1) * gap:.1f} {2 + (rows - 1) * gap:.1f}" fill="rgba(200,106,0,.30)">{pts}</svg>'
@@ -101,27 +78,19 @@ def deco(side):
     return "".join(f'<div class="dc {k}"></div>' for k in shapes.split()) + dts
 
 
-def chip():
-    w = LW
-    pins = "".join(f'M{x} 1.2v3M{x} 20.8v3M1.2 {x}h3M20.8 {x}h3' for x in (8, 12.5, 17))
-    return (f'<svg viewBox="0 0 25 25"><path d="{pins}" stroke="{INK}" stroke-width="{w}" stroke-linecap="round"/>'
-            f'<rect x="4.4" y="4.4" width="16.2" height="16.2" rx="3" fill="{AMBER}" stroke="{INK}" stroke-width="{w}"/>'
-            f'<text x="12.5" y="15.4" text-anchor="middle" font-family="CodeMono" font-size="7.2" fill="{INK}">AI</text></svg>')
-
-
 def ring():
     """الخط المتقطّع حوالين الدايرة: SVG بشَرط منتظمة ونهايات مدوّرة (الـborder dashed بيطلع مش منتظم)."""
     return ('<svg class="ring" viewBox="0 0 136 136"><circle cx="68" cy="68" r="61" fill="none" stroke="rgba(29,26,23,.38)" '
             'stroke-width=".55" stroke-linecap="round" stroke-dasharray="2.2 2.6"/></svg>')
 
 
-# صورة المدرس + ضلّها (teacher_photo.py): الضل متعمل بربع الدقة وحواليه pad=160px من مقاس الصورة الكاملة
-PH_W, PH_H, SH_W, SH_H, SH_PAD = 1612, 2334, 1932, 2652, 160
+# صورة المدرس بالأيقونات (hero_photo.py) + ضلّها: الضل بربع الدقة وحواليه pad=160px من مقاس الصورة الكاملة
+PH_W, PH_H, SH_W, SH_H, SH_PAD = 1482, 1969, 1800, 2288, 160
 
 
 def photo(cls):
-    return (f'<div class="ph {cls}"><img class="sh" src="assets/teacher_shadow.png" alt="">'
-            f'<img class="me" src="assets/teacher_cut.png" alt=""></div>')
+    return (f'<div class="ph {cls}"><img class="sh" src="assets/teacher_hero_shadow.png" alt="">'
+            f'<img class="me" src="assets/teacher_hero.png" alt=""></div>')
 
 
 def front():
@@ -131,13 +100,7 @@ def front():
   <div class="ttl"><h1>البرمجة</h1><h2>والذكاء الاصطناعي</h2><div class="grade">الصف الثاني الثانوي <i></i> الترم الأول</div></div>
   <div class="halo"></div>
   <div class="disc"><div class="amb"></div>{ring()}</div>
-  <div class="ill robot">{robot()}</div><div class="spk s1">{sparks(0)}</div>
-  <div class="ill brk">{brackets()}</div>
-  <div class="ill chip">{chip()}</div><div class="spk s3">{sparks(10)}</div>
-  <div class="spk s2">{sparks(-60)}</div>
   {photo("pf")}
-  <div class="card"><div class="cbar"><b></b><b></b><b></b></div><pre><k>if</k> study:
-    success = <v>True</v></pre></div>
   <div class="name"><b>زياد السعدني</b><div class="sub"><i></i><span>أستاذ البرمجة والذكاء الاصطناعي</span><i></i></div></div>
 </section>'''
 
@@ -219,27 +182,15 @@ body{background:#bdbdbd;padding:14pt 0;font-family:'CairoX','Baloo Bhaijaan 2';d
 .grade{display:inline-flex;align-items:center;height:11mm;margin-top:15pt;background:INK;color:#fff;border-radius:5.5mm;padding:0 7mm 1.2mm 7mm;font-weight:700;font-size:18pt}
 .grade i{display:inline-block;width:2.2mm;height:2.2mm;border-radius:50%;background:AMBER;margin:1.2mm 3.5mm 0 3.5mm}
 /* الدايرة: تدرّج برتقالي خفيف + نور هادي ورا الراس + خط متقطّع منتظم */
-.halo{position:absolute;left:49mm;top:120mm;width:160mm;height:160mm;border-radius:50%;background:radial-gradient(closest-side,rgba(255,170,60,.42) 0%,rgba(255,170,60,.42) 80%,rgba(255,170,60,0) 100%)}
+.halo{position:absolute;left:28mm;top:122mm;width:164mm;height:164mm;border-radius:50%;background:radial-gradient(closest-side,rgba(255,170,60,.42) 0%,rgba(255,170,60,.42) 80%,rgba(255,170,60,0) 100%)}
 .halo.h2{left:auto;right:-42mm;top:138mm;width:174mm;height:174mm}
-.disc{position:absolute;left:61mm;top:132mm;width:136mm;height:136mm;border-radius:50%;
+.disc{position:absolute;left:40mm;top:134mm;width:140mm;height:140mm;border-radius:50%;
   background:radial-gradient(circle at 38% 30%,#ffa83d 0%,AMBER 52%,#ea7d00 100%)}
 .disc .amb{position:absolute;left:22%;top:4%;width:60%;height:50%;border-radius:50%;background:radial-gradient(closest-side,rgba(255,236,200,.45),rgba(255,236,200,0))}
 .disc .ring{position:absolute;inset:0;width:100%;height:100%}
 .ph .me,.ph .sh{position:absolute;display:block}
 .ph .me{left:0;top:0;width:100%;height:100%}
 PHOTO_CSS
-/* الرسومات: نفس سُمك الخط ونفس الأركان، ومسافة حوالين كل واحدة */
-.ill svg{width:100%;height:100%;display:block}
-.robot{position:absolute;left:167mm;top:127mm;width:31mm;height:33mm;transform:rotate(8deg)}
-.brk{position:absolute;left:16mm;top:140mm;width:32mm;height:24.5mm;transform:rotate(-6deg)}
-.spk{position:absolute;width:10mm;height:10mm}.spk svg{width:100%;height:100%;display:block}
-.s1{left:196mm;top:122mm}.s2{left:44mm;top:169mm}.s3{left:194mm;top:208mm}
-.chip{position:absolute;left:177mm;top:217mm;width:22mm;height:22mm;transform:rotate(-8deg)}
-.card{position:absolute;left:13mm;top:181mm;width:57mm;background:#fff;border:LWmm solid INK;border-radius:3mm;overflow:hidden;transform:rotate(-4deg);direction:ltr;box-shadow:1.3mm 1.5mm 0 rgba(29,26,23,.16)}
-.cbar{height:6mm;background:INK;display:flex;align-items:center;gap:1.6mm;padding:0 2.6mm}
-.cbar b{width:2.2mm;height:2.2mm;border-radius:50%;background:#fff}.cbar b:first-child{background:AMBER}
-.card pre{margin:0;padding:3.6mm 4mm 4mm 4mm;font-family:'CodeMono';font-size:12.5pt;line-height:1.5;color:INK}
-.card k{color:DEEP}.card v{color:GREEN}
 .name{position:absolute;left:0;right:0;bottom:14mm;text-align:center;line-height:1}
 .name b{display:block;font-weight:900;font-size:54pt;line-height:1.15;color:INK;text-shadow:0 .8mm 0 rgba(249,142,3,.25)}
 .name .sub{display:flex;align-items:center;justify-content:center;gap:4mm;margin-top:3.5mm}
@@ -261,9 +212,29 @@ PHOTO_CSS
 .bname{position:absolute;left:15mm;bottom:14mm;display:flex;align-items:center;gap:3mm}
 .bname img{width:17mm;height:17mm;border-radius:50%;border:.9mm solid #fff;outline:LWmm solid INK}
 .bname b{font-weight:900;font-size:23pt;color:INK}
-""".replace("PHOTO_CSS", photo_css("pf", 74, 47, 140) + photo_css("pb", None, 0, 158, right=-14)) \
+""".replace("PHOTO_CSS", photo_css("pf", 52.3, 41, 149) + photo_css("pb", None, 0, 160, right=-8)) \
    .replace("BG", BG).replace("AMBER", AMBER).replace("INK", INK).replace("DEEP", DEEP).replace("GREEN", GREEN) \
    .replace("PAPER", PAPER).replace("WM", WMC).replace("LWmm", f"{LW}mm")
+
+
+def spread(bleed):
+    """الوش والضهر في صفحة A3 واحدة بالعرض. كتاب عربي بيتقفل من اليمين، فلما يتفرد: الوش على الشمال والضهر على اليمين.
+    bleed=True ← 426×303 مم (A3 + 3 مم قص من بره)؛ False ← A3 بالظبط 420×297 (للطباعة العادية من غير قص).
+    كل وش متعمل 216×303 بهامش 3 مم من كل ناحية، فبنقص الهامش اللي في النص (والهامش الخارجي كمان لو من غير bleed)."""
+    o = 3 if bleed else 0                          # الهامش اللي بيفضل بره
+    W, H = 420 + 2 * o, 297 + 2 * o
+    css = CSS.replace("@page{size:216mm 303mm;margin:0}", f"@page{{size:{W}mm {H}mm;margin:0}}") + f"""
+body{{padding:0}}
+.spread{{position:relative;width:{W}mm;height:{H}mm;overflow:hidden;margin:0 auto;direction:ltr}}
+.half{{position:absolute;top:0;width:{210 + o}mm;height:{H}mm;overflow:hidden}}
+.half.l{{left:0}}.half.r{{right:0}}
+.half .cv{{position:absolute;top:{o - 3}mm;margin:0;direction:rtl}}
+.half.l .cv{{left:{o - 3}mm}}.half.r .cv{{left:-3mm}}
+"""
+    return ('<!DOCTYPE html>\n<html lang="ar" dir="rtl">\n<head>\n<meta charset="utf-8">\n'
+            f'<title>الغلاف الخارجي A3 — البرمجة والذكاء الاصطناعي | أكواد مع زياد</title>\n'
+            f'<style>{css}</style>\n</head>\n<body>\n<div class="spread"><div class="half l">{front()}</div><div class="half r">{back()}</div></div>\n'
+            '<script>document.fonts.ready.then(() => document.body.dataset.ready = "1")</script>\n</body>\n</html>\n')
 
 
 def main():
@@ -274,6 +245,9 @@ def main():
            '<script>document.fonts.ready.then(() => document.body.dataset.ready = "1")</script>\n</body>\n</html>\n')
     open(OUT, "w", encoding="utf-8").write(doc)
     print("written", OUT, len(doc) // 1024, "KB")
+    for bleed, name in ((True, "term1_cover_a3.html"), (False, "term1_cover_a3_nobleed.html")):
+        path = os.path.join(os.path.dirname(OUT), name)
+        open(path, "w", encoding="utf-8").write(spread(bleed)); print("written", path)
 
 
 if __name__ == "__main__":

@@ -17,7 +17,9 @@ TOOLS = os.path.dirname(os.path.abspath(__file__))
 BASE = os.path.dirname(TOOLS)
 OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(BASE, "print")
 JOBS = [("term1_book.html", "مذكرة_البرمجة_والذكاء_الاصطناعي_الترم_الأول_2026-2027.pdf"),
-        ("term1_cover.html", "غلاف_خارجي_وش_وضهر_216x303mm_بهامش_قص.pdf")]
+        ("term1_cover.html", "غلاف_خارجي_وش_وضهر_216x303mm_بهامش_قص.pdf"),
+        ("term1_cover_a3.html", "غلاف_خارجي_A3_صفحة_واحدة_426x303mm_بهامش_قص.pdf"),
+        ("term1_cover_a3_nobleed.html", "غلاف_خارجي_A3_صفحة_واحدة_420x297mm.pdf")]
 FACE = re.compile(r"@font-face\{font-family:'Baloo Bhaijaan 2';font-weight:400 800;src:url\(fonts/BalooBhaijaan2\.ttf\) format\('truetype'\)\}")
 
 
