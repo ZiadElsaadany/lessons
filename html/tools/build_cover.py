@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""الغلاف الخارجي لمذكرة الترم الأول (وش + ضهر) — بسيط: خلفية فاتحة، كلام قليل وكبير، برتقالي (من غير أزرق).
+"""الغلاف الخارجي لمذكرة الترم الأول (وش + ضهر) — أبيض منقّط (ورق كشكول) + برتقالي وأسود، كلام قليل وكبير، اللوجو بين قوسين كود ‹ ›.
 
     python3 tools/build_cover.py        ← يكتب html/term1_cover.html
 
@@ -17,7 +17,7 @@ W, H = 216, 303                       # مم
 YEAR = "2026 / 2027"
 BG = "#2e271e"                         # خلفية اللوجو بعد التلوين — اللوجو بيتحط في دايرة غامقة على الغلاف الفاتح
 AMBER = "#f98e03"
-INK = "#2b2117"                        # كلام الغلاف (بني غامق قريب من الأسود)
+INK = "#1d1a17"                        # كلام الغلاف (أسود دافي)
 DEEP = "#c86a00"                       # برتقالي أغمق للكلام على الخلفية الفاتحة (أوضح من AMBER)
 
 
@@ -49,31 +49,19 @@ def warm_qr():
         open(os.path.join(ASSETS, f"qr_{k}_warm.svg"), "w", encoding="utf-8").write(q.replace("#0b1230", "#1e1912"))
 
 
-def circuits(seed, count=22):
-    """خطوط دواير خفيفة على الأطراف بس — النص فاضي."""
-    rnd = random.Random(seed)
-    out = []
-    for k in range(count):
-        side = rnd.choice("LRTB")
-        if side in "LR":
-            y = rnd.uniform(8, H - 8)
-            x0 = 0 if side == "L" else W
-            d = 1 if side == "L" else -1
-            l1, l2 = rnd.uniform(8, 30), rnd.uniform(5, 16)
-            dy = rnd.choice([-1, 1]) * rnd.uniform(4, 12)
-            pts = [(x0, y), (x0 + d * l1, y), (x0 + d * (l1 + abs(dy)), y + dy), (x0 + d * (l1 + abs(dy) + l2), y + dy)]
-        else:
-            x = rnd.uniform(8, W - 8)
-            y0 = 0 if side == "T" else H
-            d = 1 if side == "T" else -1
-            l1, l2 = rnd.uniform(8, 26), rnd.uniform(5, 14)
-            dx = rnd.choice([-1, 1]) * rnd.uniform(4, 12)
-            pts = [(x, y0), (x, y0 + d * l1), (x + dx, y0 + d * (l1 + abs(dx))), (x + dx, y0 + d * (l1 + abs(dx) + l2))]
-        path = "M" + " L".join(f"{a:.1f} {b:.1f}" for a, b in pts)
-        op = rnd.uniform(.10, .24)
-        out.append(f'<path d="{path}" stroke="{AMBER}" stroke-opacity="{op:.2f}" stroke-width=".35" fill="none"/>'
-                   f'<circle cx="{pts[-1][0]:.1f}" cy="{pts[-1][1]:.1f}" r=".9" fill="{AMBER}" fill-opacity="{op + .15:.2f}"/>')
-    return f'<svg class="circ" viewBox="0 0 {W} {H}" preserveAspectRatio="none">{"".join(out)}</svg>'
+def dots():
+    """ورقة كشكول منقّطة (نقط رمادي خفيف كل 6 مم) — SVG pattern عشان تفضل vector في الطباعة."""
+    return (f'<svg class="dots" viewBox="0 0 {W} {H}" preserveAspectRatio="none"><defs><pattern id="dp" width="6" height="6" patternUnits="userSpaceOnUse">'
+            f'<circle cx="3" cy="3" r=".42" fill="#c9c4bc"/></pattern></defs><rect width="{W}" height="{H}" fill="url(#dp)"/></svg>')
+
+
+def brackets(cy, half=27, gap=46, sw=8.5):
+    """قوسين كود كبار ‹ › حوالين اللوجو: كل قوس خطين بنهايات مدوّرة."""
+    cx = W / 2; w = half * .78
+    l, r = cx - gap, cx + gap
+    return (f'<svg class="brk" viewBox="0 0 {W} {H}" preserveAspectRatio="none"><g fill="none" stroke="{AMBER}" stroke-width="{sw}" stroke-linecap="round" stroke-linejoin="round">'
+            f'<path d="M{l - 4:.1f} {cy - half:.1f} L{l - 4 - w:.1f} {cy:.1f} L{l - 4:.1f} {cy + half:.1f}"/>'
+            f'<path d="M{r + 4:.1f} {cy - half:.1f} L{r + 4 + w:.1f} {cy:.1f} L{r + 4:.1f} {cy + half:.1f}"/></g></svg>')
 
 
 def n(t): return f'<span class="n">{t}</span>'
@@ -81,10 +69,11 @@ def n(t): return f'<span class="n">{t}</span>'
 
 def front():
     return f'''<section class="cv front">
-  {circuits(7)}
+  {dots()}
+  <div class="corner"></div>
+  {brackets(74)}
   <div class="logo"><img src="assets/logo_warm.jpg" alt=""></div>
-  <div class="ttl"><h1>البرمجة</h1><h2>والذكاء الاصطناعي</h2></div>
-  <div class="bar"></div>
+  <div class="ttl"><h1>البرمجة</h1><h2><span>والذكاء الاصطناعي</span></h2></div>
   <div class="sub">الصف الثاني الثانوي <i></i> الترم الأول</div>
   <div class="who"><b>أ/ زياد السعدني</b><span>{n(YEAR)}</span></div>
 </section>'''
@@ -92,8 +81,9 @@ def front():
 
 def back():
     return f'''<section class="cv back">
-  {circuits(11)}
-  <div class="quote"><span class="qmk">”</span><p>الكود مجرد أداة…<br><b>القوة الحقيقية في طريقة تفكيرك.</b></p></div>
+  {dots()}
+  <div class="corner"></div>
+  <div class="quote"><span class="qmk">{{ }}</span><p>الكود مجرد أداة…<br><b><span>القوة الحقيقية في طريقة تفكيرك.</span></b></p></div>
   <div class="qrs">
     <div class="qb"><div class="qr"><img src="assets/qr_fb_warm.svg" alt=""></div><b>فيسبوك</b></div>
     <div class="qb"><div class="qr"><img src="assets/qr_yt_warm.svg" alt=""></div><b>يوتيوب</b></div>
@@ -107,40 +97,46 @@ CSS = r"""
 @page{size:216mm 303mm;margin:0}
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
-body{background:#cfc8bc;padding:14pt 0;font-family:'Baloo Bhaijaan 2';direction:rtl}
+body{background:#c9c9c9;padding:14pt 0;font-family:'Baloo Bhaijaan 2';direction:rtl}
 @media print{body{background:#fff;padding:0}}
-.cv{position:relative;width:216mm;height:303mm;margin:0 auto 14pt auto;overflow:hidden;color:INK;
-  background:radial-gradient(90% 60% at 50% 30%,#fffdf8 0%,#fbf5ea 55%,#f3e8d6 100%);break-after:page;page-break-after:always}
+.cv{position:relative;width:216mm;height:303mm;margin:0 auto 14pt auto;overflow:hidden;color:INK;background:#fff;break-after:page;page-break-after:always}
 .cv:last-child{break-after:auto;page-break-after:auto}
 @media print{.cv{margin:0}}
 .n{direction:ltr;unicode-bidi:isolate}
-.circ{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.dots,.brk{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+/* شريطين (برتقالي + أسود رفيع) قاطعين الركن بزاوية 45° — زي شريط لاصق */
+.corner{position:absolute;top:16mm;left:-34mm;width:120mm;height:13mm;background:AMBER;transform:rotate(-45deg)}
+.corner::after{content:"";position:absolute;left:0;right:0;top:17mm;height:3.2mm;background:INK}
+.back .corner{top:auto;left:auto;bottom:16mm;right:-34mm}
+.back .corner::after{top:auto;bottom:17mm}
+/* هايلايتر: شريط برتقالي ورا الكلام، مايل سنة */
+.hl,.ttl h2 span,.quote b span{position:relative;z-index:0;display:inline-block}
+.ttl h2 span::before,.quote b span::before{content:"";position:absolute;z-index:-1;left:-3mm;right:-3mm;top:38%;bottom:4%;background:AMBER;border-radius:1.5mm;transform:rotate(-1.4deg)}
 /* ---- الوش ---- */
-.logo{position:absolute;top:22mm;left:50%;transform:translateX(-50%);width:98mm;height:98mm;border-radius:50%;overflow:hidden;
-  background:BG;box-shadow:0 0 0 2.2mm #fff,0 0 0 3mm rgba(249,142,3,.55),0 4mm 10mm rgba(80,50,10,.25)}
+.logo{position:absolute;top:36mm;left:50%;transform:translateX(-50%);width:76mm;height:76mm;border-radius:50%;overflow:hidden;background:BG;
+  box-shadow:0 0 0 1.8mm #fff,0 0 0 2.6mm INK}
 .logo img{width:100%;height:100%;display:block}
-.ttl{position:absolute;top:132mm;left:0;right:0;text-align:center;line-height:1}
-.ttl h1{margin:0;font-size:84pt;font-weight:800;line-height:1.05;color:INK}
-.ttl h2{margin:6pt 0 0 0;font-size:46pt;font-weight:800;line-height:1.2;color:DEEP}
-.bar{position:absolute;top:198mm;left:50%;width:40mm;height:1.6mm;margin-left:-20mm;border-radius:1mm;background:AMBER}
-.sub{position:absolute;top:208mm;left:0;right:0;text-align:center;font-size:26pt;font-weight:800;color:INK;line-height:1.1}
+.ttl{position:absolute;top:128mm;left:0;right:0;text-align:center;line-height:1}
+.ttl h1{margin:0;font-size:104pt;font-weight:800;line-height:1;color:INK;letter-spacing:-1pt}
+.ttl h2{margin:10pt 0 0 0;font-size:48pt;font-weight:800;line-height:1.2;color:INK}
+.sub{position:absolute;top:210mm;left:50%;transform:translateX(-50%);white-space:nowrap;background:INK;color:#fff;border-radius:40pt;
+  padding:9pt 26pt 11pt 26pt;font-size:24pt;font-weight:800;line-height:1}
 .sub i{display:inline-block;width:8pt;height:8pt;border-radius:50%;background:AMBER;margin:0 12pt;vertical-align:middle}
-.who{position:absolute;bottom:20mm;left:0;right:0;text-align:center;line-height:1.25}
-.who b{display:block;font-size:34pt;font-weight:800;color:INK}
+.who{position:absolute;bottom:22mm;left:0;right:0;text-align:center;line-height:1.2}
+.who b{display:block;font-size:36pt;font-weight:800;color:INK}
 .who span{font-size:17pt;font-weight:800;color:DEEP;letter-spacing:.5pt}
 /* ---- الضهر ---- */
-.quote{position:absolute;top:70mm;left:20mm;right:20mm;text-align:center}
-.quote .qmk{display:block;font-size:80pt;line-height:.8;height:38pt;color:AMBER;font-weight:800}
-.quote p{margin:0;font-size:34pt;line-height:1.5;font-weight:800;color:INK}
-.quote b{color:DEEP}
-.qrs{position:absolute;top:160mm;left:0;right:0;display:flex;justify-content:center;gap:24mm}
+.quote{position:absolute;top:58mm;left:16mm;right:16mm;text-align:center}
+.quote .qmk{display:block;font-size:70pt;line-height:1;color:AMBER;font-weight:800;direction:ltr;margin-bottom:6pt}
+.quote p{margin:0;font-size:38pt;line-height:1.6;font-weight:800;color:INK}
+.qrs{position:absolute;top:165mm;left:0;right:0;display:flex;justify-content:center;gap:24mm}
 .qb{display:flex;flex-direction:column;align-items:center;gap:7pt}
-.qb .qr{width:42mm;height:42mm;background:#fff;border-radius:10pt;padding:3mm;border:1.2pt solid rgba(249,142,3,.6);box-shadow:0 2mm 6mm rgba(80,50,10,.12)}
+.qb .qr{width:42mm;height:42mm;background:#fff;border-radius:10pt;padding:3mm;border:1.6pt solid INK}
 .qb .qr img{width:100%;height:100%;display:block}
-.qb b{font-size:18pt;font-weight:800;color:DEEP;line-height:1}
-.foot{position:absolute;bottom:20mm;left:0;right:0;text-align:center;line-height:1.3}
-.foot b{display:block;font-size:28pt;font-weight:800;color:INK}
-.foot span{font-size:19pt;font-weight:800;color:DEEP}
+.qb b{font-size:19pt;font-weight:800;color:INK;line-height:1}
+.foot{position:absolute;bottom:22mm;left:0;right:0;text-align:center;line-height:1.3}
+.foot b{display:block;font-size:30pt;font-weight:800;color:INK}
+.foot span{font-size:20pt;font-weight:800;color:DEEP}
 """.replace("BG", BG).replace("AMBER", AMBER).replace("INK", INK).replace("DEEP", DEEP)
 
 
