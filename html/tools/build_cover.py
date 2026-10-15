@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-"""الغلاف الخارجي لمذكرة الترم الأول (وش + ضهر) — الوش شباك محرر أكواد (البرمجة.py) والعنوان سطور كود؛ الضهر terminal بيطبع الجملة. فاتح، كلام كبير، من غير أزرق.
+"""الغلاف الخارجي لمذكرة الترم الأول (وش + ضهر) — على ستايل أغلفة مذكرات المدرسين: صورة المدرس (assets/teacher_cut.png) قدام دايرة برتقالي، بيشاور على كارت كود، وحواليه روبوت/أقواس/شريحة AI؛ عنوان ضخم فوق واسم ضخم تحت. خلفية برتقالي فاتح، من غير أزرق.
+- خط Cairo: نسخ ثابتة fonts/Cairo-Black.ttf و Cairo-Bold.ttf (من Cairo.ttf المتغيّر) عشان يتطبع TrueType.
 
     python3 tools/build_cover.py        ← يكتب html/term1_cover.html
 
@@ -19,7 +20,8 @@ BG = "#2e271e"                         # خلفية اللوجو بعد التل
 AMBER = "#f98e03"
 INK = "#1d1a17"                        # كلام الغلاف (أسود دافي)
 GREEN = "#2f8f46"                       # لون النصوص (strings) في المحرر
-PAPER = "#f2f1ee"                       # الصفحة رمادي فاتح جدًا والشباك أبيض
+PAPER = "#ffe3bf"                       # خلفية برتقالي فاتح
+WMC = "#fbd29f"                         # لون العلامة المائية (أغمق سنة من الخلفية)
 DEEP = "#c86a00"                       # برتقالي أغمق للكلام على الخلفية الفاتحة (أوضح من AMBER)
 
 
@@ -54,99 +56,111 @@ def warm_qr():
 def n(t): return f'<span class="n">{t}</span>'
 
 
-def win(tab, body, cls=""):
-    """شباك محرر أكواد: شريط العنوان (3 نقط + تاب الملف) وتحته السطور مترقّمة."""
-    rows = "".join(f'<div class="ln">{k}</div><div class="cd {c}">{t}</div>' for k, (c, t) in enumerate(body, 1))
-    return (f'<div class="win {cls}"><div class="tb"><span class="tab"><i></i>{tab}</span><span class="dt"><b></b><b></b><b></b></span></div>'
-            f'<div class="ed">{rows}</div></div>')
+ROBOT = f'''<svg viewBox="0 0 120 120"><line x1="60" y1="8" x2="60" y2="24" stroke="{INK}" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="60" cy="8" r="7" fill="{AMBER}" stroke="{INK}" stroke-width="4"/>
+  <rect x="10" y="50" width="12" height="28" rx="6" fill="{INK}"/><rect x="98" y="50" width="12" height="28" rx="6" fill="{INK}"/>
+  <rect x="18" y="24" width="84" height="80" rx="22" fill="#fff" stroke="{INK}" stroke-width="5"/>
+  <rect x="30" y="40" width="60" height="38" rx="14" fill="{INK}"/>
+  <circle cx="47" cy="59" r="8" fill="{AMBER}"/><circle cx="73" cy="59" r="8" fill="{AMBER}"/>
+  <path d="M46 90 Q60 98 74 90" fill="none" stroke="{INK}" stroke-width="5" stroke-linecap="round"/></svg>'''
+BRK = f'''<svg viewBox="0 0 120 80"><g fill="none" stroke="{INK}" stroke-width="11" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M38 14 L12 40 L38 66"/><path d="M82 14 L108 40 L82 66"/></g><path d="M68 10 L52 70" stroke="{AMBER}" stroke-width="11" stroke-linecap="round"/></svg>'''
+CHIP = f'''<svg viewBox="0 0 100 100"><g stroke="{INK}" stroke-width="5" stroke-linecap="round">
+  <path d="M32 8v14M50 8v14M68 8v14M32 78v14M50 78v14M68 78v14M8 32h14M8 50h14M8 68h14M78 32h14M78 50h14M78 68h14"/></g>
+  <rect x="20" y="20" width="60" height="60" rx="10" fill="{AMBER}" stroke="{INK}" stroke-width="5"/>
+  <text x="50" y="62" text-anchor="middle" font-family="CodeMono" font-size="28" font-weight="700" fill="{INK}">AI</text></svg>'''
 
 
 def front():
-    body = [
-        ("cm", "# مذكرة شرح + بنك أسئلة"),
-        ("", ""),
-        ("big", "البرمجة"),
-        ("big2", "والذكاء الاصطناعي"),
-        ("", ""),
-        ("kv", 'الصف <o>=</o> <s>"الثاني الثانوي"</s>'),
-        ("kv", 'الترم <o>=</o> <s>"الأول"</s>'),
-        ("kv", 'المدرس <o>=</o> <s>"أ/ زياد السعدني"</s><u></u>'),
-    ]
     return f'''<section class="cv front">
-  <div class="logo"><img src="assets/logo_warm.jpg" alt=""></div>
-  {win('<bdi>البرمجة.py</bdi>', body)}
-  <div class="yr">{n(YEAR)}</div>
+  <div class="wm">{{ }}</div>
+  <div class="top"><span class="yr">{n(YEAR)}</span><img class="mini" src="assets/logo_warm.jpg" alt=""></div>
+  <div class="ttl"><h1>البرمجة</h1><h2>والذكاء الاصطناعي</h2><div class="grade">الصف الثاني الثانوي <i></i> الترم الأول</div></div>
+  <div class="disc"></div>
+  <div class="robot">{ROBOT}</div>
+  <div class="brk">{BRK}</div>
+  <div class="chip">{CHIP}</div>
+  <img class="me" src="assets/teacher_cut.png" alt="">
+  <div class="card"><div class="cbar"><b></b><b></b><b></b></div><pre><k>if</k> study:
+    success = <v>True</v></pre></div>
+  <div class="name"><b>زياد السعدني</b><span>أستاذ البرمجة والذكاء الاصطناعي</span></div>
 </section>'''
 
 
 def back():
-    body = [
-        ("sh", '<span class="pr">$</span> python3 think.py'),
-        ("out", "الكود مجرد أداة…"),
-        ("out o", "القوة الحقيقية في طريقة تفكيرك."),
-        ("", ""),
-        ("cm", "# تابعنا — امسح الكود بكاميرا الموبايل"),
-        ("qrrow", '<div class="qb"><div class="qr"><img src="assets/qr_fb_warm.svg" alt=""></div><b>فيسبوك</b></div>'
-                  '<div class="qb"><div class="qr"><img src="assets/qr_yt_warm.svg" alt=""></div><b>يوتيوب</b></div>'),
-        ("", ""),
-        ("kv", 'واتساب <o>=</o> <s>"<span class="n">01124840835</span>"</s><u></u>'),
-    ]
     return f'''<section class="cv back">
-  {win("terminal", body, "term")}
-  <div class="brand"><img src="assets/logo_warm.jpg" alt=""><b>أكواد مع زياد</b></div>
+  <div class="wm">&lt;/&gt;</div>
+  <div class="quote"><p>الكود مجرد أداة…</p><p class="q2">القوة الحقيقية<br>في طريقة تفكيرك.</p></div>
+  <div class="disc d2"></div>
+  <img class="me m2" src="assets/teacher_cut.png" alt="">
+  <div class="qrs">
+    <div class="qc"><div class="qr"><img src="assets/qr_fb_warm.svg" alt=""></div><b>فيسبوك</b></div>
+    <div class="qc"><div class="qr"><img src="assets/qr_yt_warm.svg" alt=""></div><b>يوتيوب</b></div>
+    <div class="wa"><small>واتساب</small><b>{n("01124840835")}</b></div>
+  </div>
+  <div class="bname"><img src="assets/logo_warm.jpg" alt=""><b>أكواد مع زياد</b></div>
 </section>'''
 
 
 CSS = r"""
 @font-face{font-family:'Baloo Bhaijaan 2';font-weight:400 800;src:url(fonts/BalooBhaijaan2.ttf) format('truetype')}
+@font-face{font-family:'CairoX';font-weight:900;src:url(fonts/Cairo-Black.ttf) format('truetype')}
+@font-face{font-family:'CairoX';font-weight:700;src:url(fonts/Cairo-Bold.ttf) format('truetype')}
 @font-face{font-family:'CodeMono';src:url(fonts/DejaVuSansMono-Bold.ttf) format('truetype');unicode-range:U+0000-024F}
 @page{size:216mm 303mm;margin:0}
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
-body{background:#bdbdbd;padding:14pt 0;font-family:'Baloo Bhaijaan 2';direction:rtl}
+body{background:#bdbdbd;padding:14pt 0;font-family:'CairoX','Baloo Bhaijaan 2';direction:rtl}
 @media print{body{background:#fff;padding:0}}
-.cv{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:space-evenly;padding:12mm 15mm;width:216mm;height:303mm;margin:0 auto 14pt auto;overflow:hidden;color:INK;break-after:page;page-break-after:always;
-  background:PAPER}
+.cv{position:relative;width:216mm;height:303mm;margin:0 auto 14pt auto;overflow:hidden;color:INK;background:PAPER;break-after:page;page-break-after:always}
 .cv:last-child{break-after:auto;page-break-after:auto}
 @media print{.cv{margin:0}}
 .n{direction:ltr;unicode-bidi:isolate}
-/* ---- شباك المحرر ---- */
-.win{position:relative;flex:none;width:100%;background:#fff;border:2.2pt solid INK;border-radius:5mm;overflow:hidden}
-.tb{height:13mm;display:flex;align-items:stretch;justify-content:space-between;background:#ecebe8;border-bottom:2.2pt solid INK}
-.tab{display:flex;align-items:center;gap:7pt;padding:0 16pt;background:#fff;border-left:2.2pt solid INK;font-family:'CodeMono','Baloo Bhaijaan 2';font-size:15pt;font-weight:800;margin-bottom:-2.2pt}
-.tab i{width:9pt;height:9pt;border-radius:2pt;background:AMBER}
-.dt{display:flex;align-items:center;gap:6pt;padding:0 14pt;direction:ltr}
-.dt b{width:11pt;height:11pt;border-radius:50%;border:1.2pt solid rgba(0,0,0,.25)}
-.dt b:nth-child(1){background:#ff5f57}.dt b:nth-child(2){background:#febc2e}.dt b:nth-child(3){background:#28c840}
-.ed{display:grid;grid-template-columns:15mm minmax(0,1fr);align-items:baseline;padding:9mm 0 11mm 0}
-.ln{font-family:'CodeMono';font-size:12pt;color:#b5b0a8;text-align:center;direction:ltr;line-height:1}
-.cd{padding-left:8mm;min-height:8mm;line-height:1.25;font-weight:800;white-space:nowrap}
-.cm{font-size:21pt;color:#9a948b;font-weight:700}
-.big{font-size:112pt;line-height:1.1;color:INK;letter-spacing:-1pt}
-.big2{font-size:55pt;line-height:1.2;color:AMBER}
-.kv{font-size:28pt;color:INK;line-height:1.6}
-.kv o{color:AMBER;margin:0 3pt}
-.kv s{text-decoration:none;color:GREEN}
-u{display:inline-block;width:3.2mm;height:9mm;background:AMBER;vertical-align:-1.5mm;margin-right:2pt;text-decoration:none}
+/* علامة مائية: أقواس كود ضخمة باهتة ورا كل حاجة */
+.wm{position:absolute;left:-12mm;top:96mm;font-family:'CodeMono';font-size:360pt;line-height:1;color:WM;direction:ltr;letter-spacing:-20pt;white-space:nowrap}
+.back .wm{left:auto;right:-20mm;top:150mm;font-size:300pt}
 /* ---- الوش ---- */
-.front .logo{flex:none;width:62mm;height:62mm;border-radius:50%;overflow:hidden;background:BG;
-  border:2.2pt solid INK}
-.front .logo img{width:100%;height:100%;display:block}
-.yr{text-align:center;font-family:'CodeMono';font-size:17pt;color:INK;letter-spacing:1pt}
+.top{position:absolute;top:13mm;left:14mm;right:14mm;display:flex;align-items:center;justify-content:space-between;direction:ltr}
+.mini{width:22mm;height:22mm;border-radius:50%;border:2pt solid INK}
+.yr{font-family:'CodeMono';font-size:15pt;color:#fff;background:INK;border-radius:20pt;padding:5pt 14pt}
+.ttl{position:absolute;top:33mm;left:0;right:0;text-align:center}
+.ttl h1{margin:0;font-weight:900;font-size:108pt;line-height:1.05;color:INK}
+.ttl h2{margin:6pt 0 0 0;font-weight:900;font-size:48pt;line-height:1.15;color:DEEP}
+.grade{display:inline-block;margin-top:9pt;background:INK;color:#fff;border-radius:30pt;padding:5pt 20pt 7pt 20pt;font-weight:700;font-size:19pt;line-height:1.3}
+.grade i{display:inline-block;width:7pt;height:7pt;border-radius:50%;background:AMBER;margin:0 9pt;vertical-align:middle}
+.disc{position:absolute;left:58mm;top:130mm;width:136mm;height:136mm;border-radius:50%;background:AMBER}
+.disc::after{content:"";position:absolute;inset:7mm;border-radius:50%;border:1.6pt dashed rgba(29,26,23,.45)}
+.me{position:absolute;left:68mm;bottom:40mm;height:148mm}
+.robot{position:absolute;left:162mm;top:124mm;width:36mm;transform:rotate(10deg)}
+.brk{position:absolute;left:16mm;top:138mm;width:36mm;transform:rotate(-8deg)}
+.chip{position:absolute;left:176mm;top:206mm;width:24mm;transform:rotate(-10deg)}
+.robot svg,.brk svg,.chip svg{width:100%;display:block}
+.card{position:absolute;left:12mm;top:180mm;width:58mm;background:#fff;border:2.2pt solid INK;border-radius:4mm;overflow:hidden;transform:rotate(-4deg);direction:ltr}
+.cbar{height:6.5mm;background:INK;display:flex;align-items:center;gap:4pt;padding:0 7pt}
+.cbar b{width:7pt;height:7pt;border-radius:50%;background:#fff}.cbar b:first-child{background:AMBER}
+.card pre{margin:0;padding:4mm 4mm 4.5mm 4mm;font-family:'CodeMono';font-size:13pt;line-height:1.5;color:INK}
+.card k{color:DEEP}.card v{color:GREEN}
+.name{position:absolute;left:0;right:0;bottom:12mm;text-align:center;line-height:1}
+.name b{display:block;font-weight:900;font-size:66pt;line-height:1.1;color:INK;-webkit-text-stroke:5pt PAPER;paint-order:stroke fill}
+.name span{display:inline-block;margin-top:2pt;font-weight:700;font-size:17pt;color:#fff;background:DEEP;border-radius:20pt;padding:4pt 16pt 6pt 16pt;line-height:1.3}
 /* ---- الضهر ---- */
-.sh{font-family:'CodeMono','Baloo Bhaijaan 2';font-size:17pt;color:#77716a;direction:ltr;text-align:left;padding-right:8mm}
-.sh .pr{color:GREEN;margin-right:6pt}
-.out{font-size:33pt;line-height:1.45;color:INK}
-.out.o{color:AMBER}
-.qrrow{display:flex;gap:16mm;padding:3mm 0 0 0}
-.qb{display:flex;flex-direction:column;align-items:center;gap:6pt}
-.qb .qr{width:44mm;height:44mm;background:#fff;border-radius:3mm;padding:2.6mm;border:2pt solid INK}
-.qb .qr img{width:100%;height:100%;display:block}
-.qb b{font-size:20pt;font-weight:800;color:INK;line-height:1}
-.brand{display:flex;align-items:center;justify-content:center;gap:10pt}
-.brand img{width:30mm;height:30mm;border-radius:50%;border:2pt solid INK}
-.brand b{font-size:34pt;font-weight:800;color:INK}
-""".replace("BG", BG).replace("AMBER", AMBER).replace("INK", INK).replace("DEEP", DEEP).replace("GREEN", GREEN).replace("PAPER", PAPER)
+.quote{position:absolute;top:24mm;left:14mm;right:14mm;text-align:center;line-height:1.15}
+.quote p{margin:0;font-weight:900;font-size:44pt;color:INK}
+.quote .q2{margin-top:8pt;font-size:50pt;color:DEEP}
+.disc.d2{left:auto;right:-30mm;top:150mm;width:150mm;height:150mm}
+.me.m2{left:auto;right:-6mm;bottom:0;height:150mm}
+.qrs{position:absolute;left:14mm;top:128mm;width:70mm;display:flex;flex-direction:column;align-items:center;gap:7mm}
+.qc{display:flex;flex-direction:column;align-items:center;gap:4pt;background:#fff;border:2.2pt solid INK;border-radius:5mm;padding:3mm 3mm 3.5mm 3mm}
+.qc .qr{width:40mm;height:40mm}
+.qc .qr img{width:100%;height:100%;display:block}
+.qc b{font-weight:900;font-size:18pt;color:INK;line-height:1.2}
+.wa{background:INK;color:#fff;border-radius:5mm;padding:3mm 6mm;text-align:center;line-height:1.2}
+.wa small{display:block;font-weight:700;font-size:13pt;color:AMBER}
+.wa b{font-family:'CodeMono';font-size:17pt}
+.bname{position:absolute;left:14mm;bottom:12mm;display:flex;align-items:center;gap:8pt}
+.bname img{width:18mm;height:18mm;border-radius:50%;border:2pt solid INK}
+.bname b{font-weight:900;font-size:24pt;color:INK}
+""".replace("BG", BG).replace("AMBER", AMBER).replace("INK", INK).replace("DEEP", DEEP).replace("GREEN", GREEN).replace("PAPER", PAPER).replace("WM", WMC)
 
 
 def main():
